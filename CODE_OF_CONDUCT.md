@@ -1,4 +1,4 @@
-# Code of Conduct - Excelsia Game Engine
+# Code of Conduct - Schood-API
 
 ## Our Pledge
 
