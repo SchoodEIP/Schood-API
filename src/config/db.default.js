@@ -8,17 +8,84 @@ async function initDefaultUsers () {
   // We check if the db is empty and if it needs to be initialized
   if (tmp === undefined || tmp === null || tmp.length === 0) {
     console.log('INFO: Init defaultUsers')
+    const student = Roles.findOne({name: 'student'})
+    const teacher = Roles.findOne({name: 'teacher'})
+    const adm = Roles.findOne({name: 'administration'})
+    const admin = Roles.findOne({name: 'admin'})
 
     await bcrypt.hash('admin123', 10).then(async (hash) => {
       // We create a default admin user
-      const admin = new Users({
+      const adminU = new Users({
         mail: 'admin@schood.fr',
-        password: hash
+        password: hash,
+        role: admin._id
       })
 
       // Save the user admin
-      await admin.save()
+      await adminU.save()
     })
+
+    if (process.env.PROD === 'true') {
+      await bcrypt.hash('teacher123', 10).then(async (hash) => {
+        // We create a default teacher1 user
+        const teacher1 = new Users({
+          mail: 'teacher1@schood.fr',
+          password: hash,
+          role: teacher._id
+        })
+
+        // Save the user teacher1
+        await teacher1.save()
+      })
+
+      await bcrypt.hash('teacher123', 10).then(async (hash) => {
+        // We create a default teacher2 user
+        const teacher2 = new Users({
+          mail: 'teacher2@schood.fr',
+          password: hash,
+          role: teacher._id
+        })
+
+        // Save the user teacher2
+        await teacher2.save()
+      })
+
+      await bcrypt.hash('student123', 10).then(async (hash) => {
+        // We create a default student1 user
+        const student1 = new Users({
+          mail: 'student1@schood.fr',
+          password: hash,
+          role: student._id
+        })
+
+        // Save the user student1
+        await student1.save()
+      })
+
+      await bcrypt.hash('student123', 10).then(async (hash) => {
+        // We create a default student2 user
+        const student2 = new Users({
+          mail: 'student2@schood.fr',
+          password: hash,
+          role: student._id
+        })
+
+        // Save the user student2
+        await student2.save()
+      })
+
+      await bcrypt.hash('adm123', 10).then(async (hash) => {
+        // We create a default adm user
+        const admU = new Users({
+          mail: 'adm@schood.fr',
+          password: hash,
+          role: adm._id
+        })
+
+        // Save the user adm
+        await admU.save()
+      })
+    }
   }
 }
 
@@ -57,6 +124,6 @@ async function initDefaultRoles () {
 }
 
 module.exports = async () => {
-  await initDefaultUsers()
   await initDefaultRoles()
+  await initDefaultUsers()
 }

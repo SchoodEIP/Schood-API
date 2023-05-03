@@ -50,7 +50,7 @@ describe('Config tests', () => {
       await mongoose.connection.dropDatabase()
       await mongoose.connection.close()
     })
-
+    
     it('admin exist', async () => {
       const user = await Users.findOne({ username: 'admin' })
 
@@ -59,6 +59,41 @@ describe('Config tests', () => {
       expect(user.length).not.toEqual(0)
     })
 
+    describe('Check default user prod', () => {
+
+      it('teacher1 exist', async () => {
+        const user = await Users.findOne({ username: 'teacher1' })
+
+        expect(user).toBeTruthy()
+        expect(user).not.toBeNull()
+        expect(user.length).not.toEqual(0)
+      })
+
+      it('teacher2 exist', async () => {
+        const user = await Users.findOne({ username: 'teacher2' })
+
+        expect(user).toBeTruthy()
+        expect(user).not.toBeNull()
+        expect(user.length).not.toEqual(0)
+      })
+
+      it('student1 exist', async () => {
+        const user = await Users.findOne({ username: 'student1' })
+
+        expect(user).toBeTruthy()
+        expect(user).not.toBeNull()
+        expect(user.length).not.toEqual(0)
+      })
+
+      it('student2 exist', async () => {
+        const user = await Users.findOne({ username: 'student2' })
+
+        expect(user).toBeTruthy()
+        expect(user).not.toBeNull()
+        expect(user.length).not.toEqual(0)
+      })
+
+    })
     it('Random user not exist', async () => {
       const user = await Users.findOne({ username: 'Nope' })
 

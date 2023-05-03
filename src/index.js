@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const port = process.env.EXPRESS_PORT
 const router = require('./routes/router.js')
+const sanitizer = require('./middleware/sanitize')
 const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./swagger.yaml')
@@ -21,7 +22,7 @@ async function startServer () {
     // Init swagger
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
     // Init router
-    app.use('/', router)
+    app.use('/', sanitizer, router)
 
     // Start server
     app.listen(port, () => {

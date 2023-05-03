@@ -21,6 +21,11 @@ const usersSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  role: {
+    type: mongoose.Types.ObjectId,
+    ref: 'roles',
+    required: true
   }
 })
 

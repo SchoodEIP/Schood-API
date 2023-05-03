@@ -24,7 +24,7 @@ const rolesSchema = new Schema({
 })
 
 // We create roles collection from rolesSchema
-const Users = mongoose.model('roles', rolesSchema)
+const Roles = mongoose.model('roles', rolesSchema)
 
 // We check if all required variables are here
 
@@ -37,4 +37,4 @@ const validateRole = (role) => {
   )
 }
 
-module.exports = { Users, validateRole }
+module.exports = { Roles, validateRole }
