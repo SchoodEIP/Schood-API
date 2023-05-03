@@ -16,6 +16,10 @@ const rolesSchema = new Schema({
   name: {
     type: String,
     required: true
+  },
+  levelOfAccess: {
+    type: Number,
+    required: true
   }
 })
 

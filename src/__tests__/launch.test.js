@@ -54,7 +54,6 @@ describe('Config tests', () => {
     it('admin exist', async () => {
       const user = await Users.findOne({ username: 'admin' })
 
-      console.log(user)
       expect(user).toBeTruthy()
       expect(user).not.toBeNull()
       expect(user.length).not.toEqual(0)
@@ -63,9 +62,58 @@ describe('Config tests', () => {
     it('Random user not exist', async () => {
       const user = await Users.findOne({ username: 'Nope' })
 
-      console.log(user)
       expect(user).toBeFalsy()
       expect(user).toBeNull()
+    })
+  })
+
+  describe('Check database default roles', () => {
+    beforeAll(async () => {
+      await dbConnection('test')
+    })
+
+    afterAll(async () => {
+      await mongoose.connection.dropDatabase()
+      await mongoose.connection.close()
+    })
+
+    it('student role exist', async () => {
+      const role = await Roles.findOne({ name: 'student' })
+
+      expect(role).toBeTruthy()
+      expect(role).not.toBeNull()
+      expect(role.length).not.toEqual(0)
+    })
+
+    it('teacher role exist', async () => {
+      const role = await Roles.findOne({ name: 'teacher' })
+
+      expect(role).toBeTruthy()
+      expect(role).not.toBeNull()
+      expect(role.length).not.toEqual(0)
+    })
+
+    it('administration role exist', async () => {
+      const role = await Roles.findOne({ name: 'administration' })
+
+      expect(role).toBeTruthy()
+      expect(role).not.toBeNull()
+      expect(role.length).not.toEqual(0)
+    })
+
+    it('admin role exist', async () => {
+      const role = await Roles.findOne({ name: 'admin' })
+
+      expect(role).toBeTruthy()
+      expect(role).not.toBeNull()
+      expect(role.length).not.toEqual(0)
+    })
+
+    it('Random role not exist', async () => {
+      const role = await Roles.findOne({ name: 'Nope' })
+
+      expect(role).toBeFalsy()
+      expect(role).toBeNull()
     })
   })
 })
