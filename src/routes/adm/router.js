@@ -1,16 +1,17 @@
 const express = require('express')
 const router = express.Router()
 
-const login = require('./login')
+const register = require('./register')
 
 /**
- * User router connection
+ * Adm router connection
  * @memberof module:router~mainRouter
  * @inner
- * @namespace userRouter
+ * @namespace admRouter
  */
 
 // Created router routes connection
-router.post('/login', login)
+
+router.post('/register', register)
 
 module.exports = router

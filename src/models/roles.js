@@ -9,7 +9,7 @@ const Joi = require('joi')
 // We create the Schema for roles and we setup the required variables
 
 /**
- * Roles schema, containing username and password
+ * Roles schema, containing name and levelOfAccess
  * @constructor Roles
  */
 const rolesSchema = new Schema({
@@ -30,7 +30,8 @@ const Roles = mongoose.model('roles', rolesSchema)
 
 const validateRole = (role) => {
   const schema = Joi.object({
-    name: Joi.string().required()
+    name: Joi.string().required(),
+    levelOfAccess: Joi.number().required()
   })
   return schema.validate(
     role

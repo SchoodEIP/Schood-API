@@ -6,11 +6,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const jwt = require('jsonwebtoken')
 const Joi = require('joi')
+Joi.objectId = require('joi-objectid')(Joi)
 
 // We create the Schema for users and we setup the required variables
 
 /**
- * Users schema, containing username and password
+ * Users schema, containing email, password, firstname, lastname, role and classes
  * @constructor Users
  */
 const usersSchema = new Schema({
@@ -22,11 +23,23 @@ const usersSchema = new Schema({
     type: String,
     required: true
   },
+  firstname: {
+    type: String,
+    required: true
+  },
+  lastname: {
+    type: String,
+    required: true
+  },
   role: {
     type: mongoose.Types.ObjectId,
     ref: 'roles',
     required: true
-  }
+  },
+  classes: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'classes'
+  }]
 })
 
 // We generate an auth token for user
@@ -43,7 +56,10 @@ const Users = mongoose.model('users', usersSchema)
 const validateUser = (user) => {
   const schema = Joi.object({
     email: Joi.string().required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
+    firstname: Joi.string().required(),
+    lastname: Joi.string().required(),
+    role: Joi.objectId().required()
   })
   return schema.validate(user)
 }
