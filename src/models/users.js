@@ -56,12 +56,20 @@ const Users = mongoose.model('users', usersSchema)
 const validateUser = (user) => {
   const schema = Joi.object({
     email: Joi.string().required(),
-    password: Joi.string().required(),
-    firstname: Joi.string().required(),
-    lastname: Joi.string().required(),
-    role: Joi.objectId().required()
+    password: Joi.string().required()
   })
   return schema.validate(user)
 }
 
-module.exports = { Users, validateUser }
+const validateRegister = (user) => {
+    const schema = Joi.object({
+      email: Joi.string().required(),
+      firstname: Joi.string().required(),
+      lastname: Joi.string().required(),
+      role: Joi.objectId().required(),
+      classes: Joi.array()
+    })
+    return schema.validate(user)
+  }
+
+module.exports = { Users, validateUser, validateRegister }

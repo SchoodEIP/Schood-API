@@ -5,8 +5,12 @@
  */
 const { Classes } = require('../../models/classes');
 const { Roles } = require('../../models/roles');
-const { Users, validateUser } = require('../../models/users')
+const { Users, validateRegister } = require('../../models/users')
+
+const { sendMail } = require('../../services/mailer')
+
 const bcrypt = require('bcryptjs');
+const random = require('random-string-generator');
 
 /**
  * Main register function
@@ -25,7 +29,7 @@ const bcrypt = require('bcryptjs');
 module.exports = async (req, res) => {
   try {
     // Verif received data
-    const { error } = validateUser(req.body)
+    const { error } = validateRegister(req.body)
     if (error) {
       return res.status(400).json({ message: 'Invalid request' })
     }
@@ -51,7 +55,8 @@ module.exports = async (req, res) => {
     });
 
     // Generating the hash for the password
-    await bcrypt.hash(req.body.password, 10)
+    const password = random(10, 'alphanumeric');
+    await bcrypt.hash(password, 10)
     .then(async (hash) => {
         // We create the user
         const user = new Users({
@@ -65,6 +70,9 @@ module.exports = async (req, res) => {
   
         // Save the user
         await user.save()
+
+        const message = "email: " + req.body.email + " | password: ";
+        sendMail(req.body.email, "Schood Account Created", message)
     })
     
     return res.status(200).json({ message: 'OK' })
