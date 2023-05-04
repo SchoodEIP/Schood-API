@@ -1,0 +1,25 @@
+{
+  "name": "schood-api",
+  "version": "1.0.0",
+  "description": "Schood API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "joi": "^17.9.2",
+    "joi-objectid": "^4.0.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongo-sanitize": "^1.1.0",
+    "mongoose": "^7.1.0",
+    "nodemailer": "^6.9.1",
+    "random-string-generator": "^1.0.1",
+    "supertest": "^6.3.3",
+    "swagger-ui-express": "^4.6.2",
+    "yamljs": "^0.3.0"
+  }
+}
