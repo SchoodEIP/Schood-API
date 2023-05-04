@@ -1,8 +1,8 @@
 const request = require('supertest')
 const mongoose = require('mongoose')
 
-const server = require('../../serverUtils/testServer')
-const dbDefault = require('../../../config/db.default')
+const server = require('../serverUtils/testServer')
+const dbDefault = require('../../config/db.default')
 
 describe('User route tests', () => {
   let app
@@ -29,7 +29,7 @@ describe('User route tests', () => {
       return await request(app)
         .post('/user/login')
         .send({
-          username: 'admin',
+          email: 'admin@schood.fr',
           password: 'admin123'
         })
         .expect('Content-Type', /json/)
@@ -40,29 +40,29 @@ describe('User route tests', () => {
       return await request(app)
         .post('/user/login')
         .send({
-          username: 'test',
+          email: 'test',
           password: 'admin123'
         })
-        .expect(401)
+        .expect(400)
     })
 
     it('POST /user/login => Try bad password', async () => {
       return await request(app)
         .post('/user/login')
         .send({
-          username: 'admin',
+          email: 'admin',
           password: 'test'
         })
-        .expect(401)
+        .expect(400)
     })
 
     it('POST /user/login => Try bad form', async () => {
       return await request(app)
         .post('/user/login')
         .send({
-          username: 'test'
+          email: 'test'
         })
-        .expect(401)
+        .expect(400)
     })
   })
 })

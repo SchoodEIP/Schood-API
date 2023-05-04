@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
     if (error) {
       return res.status(400).json({ message: 'Invalid request' })
     }
-    const user = await Users.findOne({ username: req.body.username })
+    const user = await Users.findOne({ email: req.body.email })
     if (!user) {
       return res.status(400).json({ message: 'Invalid request' })
     }

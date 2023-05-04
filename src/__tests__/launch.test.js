@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 
 const server = require('./serverUtils/testServer')
 const { dbConnection } = require('../config/db')
-const { Users } = require('../models/user')
+const { Users } = require('../models/users')
+const { Roles } = require('../models/roles')
 
 describe('Config tests', () => {
   describe('Check if lauched', () => {
@@ -52,7 +53,7 @@ describe('Config tests', () => {
     })
     
     it('admin exist', async () => {
-      const user = await Users.findOne({ username: 'admin' })
+      const user = await Users.findOne({ email: 'admin@schood.fr' })
 
       expect(user).toBeTruthy()
       expect(user).not.toBeNull()
@@ -62,7 +63,7 @@ describe('Config tests', () => {
     describe('Check default user prod', () => {
 
       it('teacher1 exist', async () => {
-        const user = await Users.findOne({ username: 'teacher1' })
+        const user = await Users.findOne({ email: 'teacher1@schood.fr' })
 
         expect(user).toBeTruthy()
         expect(user).not.toBeNull()
@@ -70,7 +71,7 @@ describe('Config tests', () => {
       })
 
       it('teacher2 exist', async () => {
-        const user = await Users.findOne({ username: 'teacher2' })
+        const user = await Users.findOne({ email: 'teacher2@schood.fr' })
 
         expect(user).toBeTruthy()
         expect(user).not.toBeNull()
@@ -78,7 +79,7 @@ describe('Config tests', () => {
       })
 
       it('student1 exist', async () => {
-        const user = await Users.findOne({ username: 'student1' })
+        const user = await Users.findOne({ email: 'student1@schood.fr' })
 
         expect(user).toBeTruthy()
         expect(user).not.toBeNull()
@@ -86,7 +87,7 @@ describe('Config tests', () => {
       })
 
       it('student2 exist', async () => {
-        const user = await Users.findOne({ username: 'student2' })
+        const user = await Users.findOne({ email: 'student2@schood.fr' })
 
         expect(user).toBeTruthy()
         expect(user).not.toBeNull()
@@ -95,7 +96,7 @@ describe('Config tests', () => {
 
     })
     it('Random user not exist', async () => {
-      const user = await Users.findOne({ username: 'Nope' })
+      const user = await Users.findOne({ email: 'Nope@schood.fr' })
 
       expect(user).toBeFalsy()
       expect(user).toBeNull()
