@@ -15,7 +15,7 @@ const Joi = require('joi')
 const classesSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
 })
 

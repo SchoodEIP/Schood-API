@@ -18,6 +18,7 @@
     }
   },
   "scripts": {
+    "start": "node .",
     "test": "jest --runInBand --testTimeout=15000"
   },
   "author": "",
