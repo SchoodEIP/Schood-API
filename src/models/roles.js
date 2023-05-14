@@ -4,7 +4,6 @@
 
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const Joi = require('joi')
 
 // We create the Schema for roles and we setup the required variables
 
