@@ -1,4 +1,4 @@
-name: 'Coverage'
+name: 'Tests and Coverage'
 on:
   schedule:
     - cron: '0 0 * * *'
@@ -14,13 +14,13 @@ env:
   JWT_SECRET: ${{secrets.JWT_SECRET}}
 
 jobs:
-  Coverage:
+  Tests_and_Coverage:
     permissions:
       checks: write
       pull-requests: write
       contents: write
     runs-on: ubuntu-latest
-    name: Coverage report
+    name: Tests and Coverage report
     steps:
       - uses: actions/checkout@v3
 
