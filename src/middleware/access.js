@@ -8,14 +8,14 @@ const { Users } = require('../models/users')
  * @memberof module:middlewares
  * @inner
  * @async
- * @param {String} perm - The role name
+ * @param {String} levelOfAccess - The levelOfAccess
  * @param {Object} req
  * @param {Object} res
  * @param {Object} next
  * @returns 403 if the user is not found or the user have no access
  * @returns 500 Internal Server Error
  */
-module.exports = (perm) => {
+module.exports = (levelOfAccess) => {
   return async (req, res, next) => {
     try {
       // Check if the user exist
@@ -31,7 +31,7 @@ module.exports = (perm) => {
       }
 
       // Check if the user has a good role
-      if (userRole.levelOfAccess < perm) {
+      if (userRole.levelOfAccess < levelOfAccess) {
         return res.status(403).json({ message: 'Access Forbidden' })
       }
       next()
