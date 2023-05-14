@@ -7,7 +7,6 @@ const { Users } = require('../models/users')
 const { Roles } = require('../models/roles')
 
 describe('Config tests', () => {
-
   describe('Check if lauched', () => {
     let app
 
