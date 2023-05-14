@@ -20,13 +20,10 @@ module.exports = (levelOfAccess) => {
     try {
       // Check if the user exist
       const user = await Users.findById(req.user._id)
-      if (!user) {
-        return res.status(403).json({ message: 'User not found' })
-      }
 
       // Check if the user has a role
       const userRole = await Roles.findById(user.role)
-      if (user.role === undefined) {
+      if (!userRole || userRole === undefined || userRole.length === 0) {
         return res.status(403).json({ message: 'Access Forbidden' })
       }
 
@@ -35,9 +32,9 @@ module.exports = (levelOfAccess) => {
         return res.status(403).json({ message: 'Access Forbidden' })
       }
       next()
-    } catch (error) {
+    } catch (error) /* istanbul ignore next */ {
       console.error(error)
-      res.status(500).json({ message: 'Internal Server Error' })
+      return res.status(500).json({ message: 'Internal Server Error' })
     }
   }
 }

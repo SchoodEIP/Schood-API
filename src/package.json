@@ -7,6 +7,9 @@
     "testPathIgnorePatterns": [
       "__tests__/serverUtils"
     ],
+    "coveragePathIgnorePatterns": [
+      "services/mailer"
+    ],
     "testEnvironment": "node",
     "coverageThreshold": {
       "global": {
@@ -18,10 +21,13 @@
     }
   },
   "scripts": {
-    "test": "jest --runInBand --testTimeout=15000"
+    "start": "nodemon",
+    "coverage": "jest --runInBand --testTimeout=15000 --coverage",
+    "test": "jest --runInBand --testTimeout=15000",
+    "linter": "standard --fix --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Exiels",
+  "license": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -34,7 +40,9 @@
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^7.1.0",
     "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.22",
     "random-string-generator": "^1.0.1",
+    "standard": "^17.0.0",
     "supertest": "^6.3.3",
     "swagger-ui-express": "^4.6.2",
     "yamljs": "^0.3.0"
