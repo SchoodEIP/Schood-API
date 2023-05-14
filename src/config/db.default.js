@@ -1,17 +1,18 @@
 const { Users } = require('../models/users')
 const { Roles } = require('../models/roles')
 const bcrypt = require('bcryptjs')
+const { Classes } = require('../models/classes')
 
 async function initDefaultUsers () {
-  const tmp = await Users.find({ username: 'admin' })
+  const tmp = await Users.find({ firstname: 'admin' })
 
   // We check if the db is empty and if it needs to be initialized
   if (tmp === undefined || tmp === null || tmp.length === 0) {
     console.log('INFO: Init defaultUsers')
-    const student = Roles.findOne({ name: 'student' })
-    const teacher = Roles.findOne({ name: 'teacher' })
-    const adm = Roles.findOne({ name: 'administration' })
-    const admin = Roles.findOne({ name: 'admin' })
+    const student = await Roles.findOne({ name: 'student' })
+    const teacher = await Roles.findOne({ name: 'teacher' })
+    const adm = await Roles.findOne({ name: 'administration' })
+    const admin = await Roles.findOne({ name: 'admin' })
 
     await bcrypt.hash('admin123', 10).then(async (hash) => {
       // We create a default admin user
@@ -135,7 +136,30 @@ async function initDefaultRoles () {
   }
 }
 
+async function initDefaultClasses () {
+  const tmp = await Classes.find()
+
+  // We check if the db is empty and if it needs to be initialized
+  if (tmp === undefined || tmp === null || tmp.length === 0) {
+    console.log('INFO: Init defaultClasses')
+
+    const class1 = new Classes({
+      name: '200'
+    })
+
+    const class2 = new Classes({
+      name: '201'
+    })
+
+    await class1.save()
+    await class2.save()
+  }
+}
+
 module.exports = async () => {
   await initDefaultRoles()
   await initDefaultUsers()
+  if (process.env.PROD === 'true') {
+    await initDefaultClasses()
+  }
 }

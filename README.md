@@ -17,8 +17,13 @@ To run this project, you will need to add the following environment variables to
 
 `EXPRESS_PORT` example: `EXPRESS_PORT=8080` 
 
-`JWT_SECRET` example: `JWT_SECRET=Eg5i4189H0Y6` 
+`JWT_SECRET` example: `JWT_SECRET=Eg5i4189H0Y6`
 
+`MAIL` example: `MAIL=test@gmail.com`
+
+`MAIL_PASSWORD` example: `MAIL_PASSWORD=test`
+
+`PROD` example: `PROD=false`
 
 ## Run Locally
 

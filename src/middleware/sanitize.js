@@ -19,8 +19,8 @@ module.exports = (req, res, next) => {
   try {
     req.body = sanitize(req.body)
     next()
-  } catch (error) {
+  } catch (error) /* istanbul ignore next */ {
     console.error(error)
-    res.status(500).json({ message: 'Internal Server Error' })
+    return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

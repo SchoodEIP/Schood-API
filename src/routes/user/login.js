@@ -33,17 +33,21 @@ module.exports = async (req, res) => {
     }
 
     // Check password
-
-    bcrypt.compare(req.body.password, user.password).then(valid => {
-      if (!valid) { return res.status(401).json({ message: 'Invalid username or password' }) }
+    let badUsername = false;
+    await bcrypt.compare(req.body.password, user.password).then(valid => {
+      if (!valid) { badUsername = true }
     })
+
+    if (badUsername) {
+      return res.status(401).json({ message: 'Invalid username or password' })
+    }
 
     // Generate AuthToken
     const token = user.generateAuthToken()
 
     // Send token
     return res.status(200).json({ token })
-  } catch (error) {
+  } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }

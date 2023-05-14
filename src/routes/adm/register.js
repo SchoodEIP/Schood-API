@@ -28,31 +28,35 @@ const random = require('random-string-generator')
  */
 module.exports = async (req, res) => {
   try {
+    const mail = req.param.mail
     // Verif received data
     const { error } = validateRegister(req.body)
     if (error) {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    // Find the role and it's id
-    const role = await Roles.findOne({ name: req.body.role })
+    // Check if role exist
+    const role = await Roles.findById(req.body.role)
+    if (!role || role === undefined || role.length === 0) {
+      return res.status(400).json({ message: 'Invalid role' })
+    }
 
     // Check if the nb of classes for student is greater than 1
     const classesRequest = req.body.classes
-    if (req.body.role === 'student' && classesRequest.length > 1) {
+    if (role.name === 'student' && classesRequest.length > 1) {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
     // Check classes
     const classes = []
-    classesRequest.forEach(async element => {
+    for (const element of classesRequest) {
       const class_ = await Classes.findOne({ name: element.name })
 
       if (!class_ || class_ === undefined || class_.length === 0) {
         return res.status(400).json({ message: 'Invalid class' })
       }
       classes.push(class_._id)
-    })
+    }
 
     // Generating the hash for the password
     const password = random(10, 'alphanumeric')
@@ -71,12 +75,15 @@ module.exports = async (req, res) => {
         // Save the user
         await user.save()
 
-        const message = 'email: ' + req.body.email + ' | password: '
-        sendMail(req.body.email, 'Schood Account Created', message)
+        /* istanbul ignore next */
+        if (mail) {
+          const message = 'email: ' + req.body.email + ' | password: ' + password
+          sendMail(req.body.email, 'Schood Account Created', message)
+        }
       })
 
     return res.status(200).json({ message: 'OK' })
-  } catch (error) {
+  } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }

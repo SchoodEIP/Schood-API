@@ -12,6 +12,6 @@ const register = require('./register')
 
 // Created router routes connection
 
-router.post('/register', register)
+router.post('/register/:mail', register)
 
 module.exports = router

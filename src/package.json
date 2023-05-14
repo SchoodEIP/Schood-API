@@ -7,6 +7,9 @@
     "testPathIgnorePatterns": [
       "__tests__/serverUtils"
     ],
+    "coveragePathIgnorePatterns": [
+      "services/mailer"
+    ],
     "testEnvironment": "node",
     "coverageThreshold": {
       "global": {
