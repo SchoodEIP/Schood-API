@@ -10,6 +10,7 @@ describe('User route tests', () => {
   let app
 
   beforeAll(async () => {
+    process.env.PROD = true
     app = await server.testServer()
   })
 
