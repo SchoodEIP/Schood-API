@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: Schood API
+  description: |-
+    The API server for the Schood EIP Project
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Main backend server
+tags:
+  - name: user
+    description: User operations
+paths:
+  /user/login:
+    post:
+      tags:
+        - user
+      summary: Login a User
+      description: >
+        Login a User, given a valid email and a valid password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token'
+        '401':
+          description: Invalid inputs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidLogin'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+components:
+  schemas:
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'admin@schood.fr'
+        password:
+          type: string
+          example: 'admin123'
+    token:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJiOTg4NTE0ZDMwNjA5MDYxZGQ3MmIiLCJpYXQiOjE2ODExOTcwMDIsImV4cCI6MTY4MTI4MzQwMn0.IbO1jwqRt4sgNlNWlReZ5aj-D6C5zwSnMlz2eaLsf_s"
+    invalidLogin:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid username or password"
+    internalServerError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Internal Server Error"
+  securitySchemes:
+      x-auth-token:
+        type: apiKey
+        name: x-auth-token
+        in: header
+      server-code:
+        type: apiKey
+        name: server-code
+        in: header

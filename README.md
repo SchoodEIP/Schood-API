@@ -9,7 +9,15 @@ To run this project, you will need to add the following environment variables to
 
 `DB_PORT` example: `DB_PORT=27017`
 
+`DB_USER` example: `DB_USER=root`
+
+`DB_PASS` example: `DB_PASS=2Dk6T9R3Xe4E`
+
+`DB_HOST` example: `DB_HOST=0.0.0.0`
+
 `EXPRESS_PORT` example: `EXPRESS_PORT=8080` 
+
+`JWT_SECRET` example: `JWT_SECRET=Eg5i4189H0Y6` 
 
 
 ## Run Locally
