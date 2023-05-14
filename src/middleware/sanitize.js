@@ -1,7 +1,7 @@
 /**
  * @module middlewares
  */
-var sanitize = require('mongo-sanitize');
+const sanitize = require('mongo-sanitize')
 
 /**
  * Main sanitize middleware function
@@ -16,11 +16,11 @@ var sanitize = require('mongo-sanitize');
  */
 
 module.exports = (req, res, next) => {
-    try {
-        req.body = sanitize(req.body)
-        next()
-    } catch (error) {
-        console.error(error)
-        res.status(500).json({ message: "Internal Server Error"})
-    }
+  try {
+    req.body = sanitize(req.body)
+    next()
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Internal Server Error' })
+  }
 }

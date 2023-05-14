@@ -51,7 +51,7 @@ describe('Config tests', () => {
       await mongoose.connection.dropDatabase()
       await mongoose.connection.close()
     })
-    
+
     it('admin exist', async () => {
       const user = await Users.findOne({ email: 'admin@schood.fr' })
 
@@ -61,7 +61,6 @@ describe('Config tests', () => {
     })
 
     describe('Check default user prod', () => {
-
       it('teacher1 exist', async () => {
         const user = await Users.findOne({ email: 'teacher1@schood.fr' })
 
@@ -93,7 +92,6 @@ describe('Config tests', () => {
         expect(user).not.toBeNull()
         expect(user.length).not.toEqual(0)
       })
-
     })
     it('Random user not exist', async () => {
       const user = await Users.findOne({ email: 'Nope@schood.fr' })

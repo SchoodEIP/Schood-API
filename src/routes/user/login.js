@@ -4,7 +4,7 @@
  * @namespace login
  */
 const { Users, validateUser } = require('../../models/users')
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs')
 
 /**
  * Main login function
@@ -35,15 +35,14 @@ module.exports = async (req, res) => {
     // Check password
 
     bcrypt.compare(req.body.password, user.password).then(valid => {
-      if (!valid)
-        return res.status(401).json({ message: 'Invalid username or password' })
+      if (!valid) { return res.status(401).json({ message: 'Invalid username or password' }) }
     })
 
     // Generate AuthToken
     const token = user.generateAuthToken()
 
     // Send token
-    return res.status(200).json({token})
+    return res.status(200).json({ token })
   } catch (error) {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })

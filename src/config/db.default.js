@@ -8,17 +8,17 @@ async function initDefaultUsers () {
   // We check if the db is empty and if it needs to be initialized
   if (tmp === undefined || tmp === null || tmp.length === 0) {
     console.log('INFO: Init defaultUsers')
-    const student = Roles.findOne({name: 'student'})
-    const teacher = Roles.findOne({name: 'teacher'})
-    const adm = Roles.findOne({name: 'administration'})
-    const admin = Roles.findOne({name: 'admin'})
+    const student = Roles.findOne({ name: 'student' })
+    const teacher = Roles.findOne({ name: 'teacher' })
+    const adm = Roles.findOne({ name: 'administration' })
+    const admin = Roles.findOne({ name: 'admin' })
 
     await bcrypt.hash('admin123', 10).then(async (hash) => {
       // We create a default admin user
       const adminU = new Users({
         email: 'admin@schood.fr',
-        firstname: "admin",
-        lastname: "admin",
+        firstname: 'admin',
+        lastname: 'admin',
         password: hash,
         role: admin._id
       })
@@ -32,8 +32,8 @@ async function initDefaultUsers () {
         // We create a default teacher1 user
         const teacher1 = new Users({
           email: 'teacher1@schood.fr',
-          firstname: "teacher1",
-          lastname: "teacher1",
+          firstname: 'teacher1',
+          lastname: 'teacher1',
           password: hash,
           role: teacher._id
         })
@@ -46,8 +46,8 @@ async function initDefaultUsers () {
         // We create a default teacher2 user
         const teacher2 = new Users({
           email: 'teacher2@schood.fr',
-          firstname: "teacher2",
-          lastname: "teacher2",
+          firstname: 'teacher2',
+          lastname: 'teacher2',
           password: hash,
           role: teacher._id
         })
@@ -60,8 +60,8 @@ async function initDefaultUsers () {
         // We create a default student1 user
         const student1 = new Users({
           email: 'student1@schood.fr',
-          firstname: "student1",
-          lastname: "student1",
+          firstname: 'student1',
+          lastname: 'student1',
           password: hash,
           role: student._id
         })
@@ -74,8 +74,8 @@ async function initDefaultUsers () {
         // We create a default student2 user
         const student2 = new Users({
           email: 'student2@schood.fr',
-          firstname: "student2",
-          lastname: "student2",
+          firstname: 'student2',
+          lastname: 'student2',
           password: hash,
           role: student._id
         })
@@ -88,8 +88,8 @@ async function initDefaultUsers () {
         // We create a default adm user
         const admU = new Users({
           email: 'adm@schood.fr',
-          firstname: "adm",
-          lastname: "adm",
+          firstname: 'adm',
+          lastname: 'adm',
           password: hash,
           role: adm._id
         })
