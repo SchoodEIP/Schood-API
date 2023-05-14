@@ -1,0 +1,38 @@
+name: 'Coverage'
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  pull_request:
+    branches:
+      - main
+
+env:
+  DB_USER: ${{secrets.DB_USER}}
+  DB_PASS: ${{secrets.DB_PASS}}
+  DB_PORT: ${{vars.DB_PORT}}
+  DB_HOST: ${{vars.DB_HOST}}
+  JWT_SECRET: ${{secrets.JWT_SECRET}}
+
+jobs:
+  Coverage:
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+    runs-on: ubuntu-latest
+    name: Coverage report
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-username: ${{secrets.DB_USER}}
+          mongodb-password: ${{secrets.DB_PASS}}
+          mongodb-db: test
+          mongodb-port: ${{vars.DB_PORT}}
+
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          test-script: npm test
+          working-directory: src/

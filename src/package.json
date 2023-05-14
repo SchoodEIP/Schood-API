@@ -18,10 +18,12 @@
     }
   },
   "scripts": {
+    "start": "nodemon",
+    "coverage": "jest --runInBand --testTimeout=15000 --coverage",
     "test": "jest --runInBand --testTimeout=15000"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Exiels",
+  "license": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -34,6 +36,7 @@
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^7.1.0",
     "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.22",
     "random-string-generator": "^1.0.1",
     "supertest": "^6.3.3",
     "swagger-ui-express": "^4.6.2",
