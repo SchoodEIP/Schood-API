@@ -15,7 +15,7 @@ const swaggerDocument = YAML.load('./swagger.yaml')
  * Start the Node.Js server
  */
 async function startServer () {
-  const dbCo = await dbConnection('randivity')
+  const dbCo = await dbConnection('schood')
   if (dbCo) {
     try {
       app.use(express.json())

@@ -15,12 +15,13 @@ describe('User route tests', () => {
     const collections = mongoose.connection.collections
     for (const key in collections) {
       const collection = collections[key]
-      collection.deleteMany()
+      await collection.deleteMany()
     }
     await dbDefault()
   })
 
   afterAll(async () => {
+    await mongoose.connection.dropDatabase()
     await mongoose.connection.close()
   })
 

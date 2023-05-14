@@ -4,7 +4,7 @@ const app = express()
 const router = require('../../routes/router')
 const { dbConnection } = require('../../config/db')
 const sanitizer = require('../../middleware/sanitize')
-require('dotenv').config()
+require('dotenv').config({ path: '../.env' })
 
 async function testServer () {
   await dbConnection('test')
