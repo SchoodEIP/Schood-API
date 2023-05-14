@@ -29,7 +29,7 @@ describe('Adm route tests', () => {
   describe('Register route', () => {
     it('POST /adm/register => Try register good student', async () => {
       let key
-      let role = await Roles.findOne({ name: 'student'})
+      const role = await Roles.findOne({ name: 'student' })
 
       await request(app)
         .post('/user/login')
@@ -48,13 +48,13 @@ describe('Adm route tests', () => {
           'x-auth-token': key
         })
         .send({
-          email: "schood.eip@gmail.com",
-          firstname: "studentTest",
-          lastname: "studentTest",
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
           role: role._id,
           classes: [
             {
-              name: "200"
+              name: '200'
             }
           ]
         })
@@ -64,7 +64,7 @@ describe('Adm route tests', () => {
 
     it('POST /adm/register => Try register bad body', async () => {
       let key
-      let role = await Roles.findOne({ name: 'student'})
+      const role = await Roles.findOne({ name: 'student' })
 
       await request(app)
         .post('/user/login')
@@ -83,12 +83,12 @@ describe('Adm route tests', () => {
           'x-auth-token': key
         })
         .send({
-          email: "schood.eip@gmail.com",
-          lastname: "studentTest",
+          email: 'schood.eip@gmail.com',
+          lastname: 'studentTest',
           role: role._id,
           classes: [
             {
-              name: "200"
+              name: '200'
             }
           ]
         })
@@ -116,13 +116,13 @@ describe('Adm route tests', () => {
           'x-auth-token': key
         })
         .send({
-          email: "schood.eip@gmail.com",
-          firstname: "studentTest",
-          lastname: "studentTest",
-          role: "6460a74d0f190e2de1d22800",
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: '6460a74d0f190e2de1d22800',
           classes: [
             {
-              name: "200"
+              name: '200'
             }
           ]
         })
@@ -132,7 +132,7 @@ describe('Adm route tests', () => {
 
     it('POST /adm/register => Try register bad number of classes', async () => {
       let key
-      let role = await Roles.findOne({ name: 'student'})
+      const role = await Roles.findOne({ name: 'student' })
 
       await request(app)
         .post('/user/login')
@@ -151,16 +151,16 @@ describe('Adm route tests', () => {
           'x-auth-token': key
         })
         .send({
-          email: "schood.eip@gmail.com",
-          firstname: "studentTest",
-          lastname: "studentTest",
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
           role: role._id,
           classes: [
             {
-              name: "200"
+              name: '200'
             },
             {
-              name: "201"
+              name: '201'
             }
           ]
         })
@@ -170,7 +170,7 @@ describe('Adm route tests', () => {
 
     it('POST /adm/register => Try register bad class', async () => {
       let key
-      let role = await Roles.findOne({ name: 'student'})
+      const role = await Roles.findOne({ name: 'student' })
 
       await request(app)
         .post('/user/login')
@@ -189,13 +189,13 @@ describe('Adm route tests', () => {
           'x-auth-token': key
         })
         .send({
-          email: "schood.eip@gmail.com",
-          firstname: "studentTest",
-          lastname: "studentTest",
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
           role: role._id,
           classes: [
             {
-              name: "nope"
+              name: 'nope'
             }
           ]
         })
@@ -205,7 +205,7 @@ describe('Adm route tests', () => {
 
     it('POST /adm/register => Try register bad access level', async () => {
       let key
-      let role = await Roles.findOne({ name: 'student'})
+      const role = await Roles.findOne({ name: 'student' })
 
       await request(app)
         .post('/user/login')
@@ -224,13 +224,13 @@ describe('Adm route tests', () => {
           'x-auth-token': key
         })
         .send({
-          email: "schood.eip@gmail.com",
-          firstname: "studentTest",
-          lastname: "studentTest",
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
           role: role._id,
           classes: [
             {
-              name: "200"
+              name: '200'
             }
           ]
         })

@@ -69,20 +69,20 @@ describe('User route tests', () => {
     })
 
     it('POST /adm/register => Try bad token', async () => {
-      let key = 'nope'
+      const key = 'nope'
       return await request(app)
         .post('/adm/register/mail=false')
         .set({
           'x-auth-token': key
         })
         .send({
-          email: "schood.eip@gmail.com",
-          firstname: "studentTest",
-          lastname: "studentTest",
-          role: "nope",
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: 'nope',
           classes: [
             {
-              name: "200"
+              name: '200'
             }
           ]
         })
@@ -94,13 +94,13 @@ describe('User route tests', () => {
       return await request(app)
         .post('/adm/register/mail=false')
         .send({
-          email: "schood.eip@gmail.com",
-          firstname: "studentTest",
-          lastname: "studentTest",
-          role: "nope",
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: 'nope',
           classes: [
             {
-              name: "200"
+              name: '200'
             }
           ]
         })
@@ -123,7 +123,7 @@ describe('User route tests', () => {
           key = response.body.token
         })
 
-      await Users.findOneAndRemove({ firstname: "admin" })
+      await Users.findOneAndRemove({ firstname: 'admin' })
 
       return await request(app)
         .post('/adm/register/mail=false')
@@ -131,13 +131,13 @@ describe('User route tests', () => {
           'x-auth-token': key
         })
         .send({
-          email: "schood.eip@gmail.com",
-          firstname: "studentTest",
-          lastname: "studentTest",
-          role: "nope",
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: 'nope',
           classes: [
             {
-              name: "200"
+              name: '200'
             }
           ]
         })
@@ -160,7 +160,7 @@ describe('User route tests', () => {
           key = response.body.token
         })
 
-      await Roles.findOneAndRemove({ name: "admin" })
+      await Roles.findOneAndRemove({ name: 'admin' })
 
       return await request(app)
         .post('/adm/register/mail=false')
@@ -168,13 +168,13 @@ describe('User route tests', () => {
           'x-auth-token': key
         })
         .send({
-          email: "schood.eip@gmail.com",
-          firstname: "studentTest",
-          lastname: "studentTest",
-          role: "nope",
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: 'nope',
           classes: [
             {
-              name: "200"
+              name: '200'
             }
           ]
         })

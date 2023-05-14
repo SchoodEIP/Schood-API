@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
     }
 
     // Check password
-    let badUsername = false;
+    let badUsername = false
     await bcrypt.compare(req.body.password, user.password).then(valid => {
       if (!valid) { badUsername = true }
     })
