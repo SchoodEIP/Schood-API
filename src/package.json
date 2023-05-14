@@ -20,7 +20,8 @@
   "scripts": {
     "start": "nodemon",
     "coverage": "jest --runInBand --testTimeout=15000 --coverage",
-    "test": "jest --runInBand --testTimeout=15000"
+    "test": "jest --runInBand --testTimeout=15000",
+    "linter": "standard --fix --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll"
   },
   "author": "Exiels",
   "license": "",
@@ -38,6 +39,7 @@
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.22",
     "random-string-generator": "^1.0.1",
+    "standard": "^17.0.0",
     "supertest": "^6.3.3",
     "swagger-ui-express": "^4.6.2",
     "yamljs": "^0.3.0"
