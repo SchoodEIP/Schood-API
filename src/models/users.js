@@ -33,7 +33,7 @@ const usersSchema = new Schema({
   },
   role: {
     type: mongoose.Types.ObjectId,
-    ref: 'roles',
+    ref: 'roles'
   },
   classes: [{
     type: mongoose.Types.ObjectId,
@@ -43,7 +43,7 @@ const usersSchema = new Schema({
 
 // We generate an auth token for user
 usersSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET,{ expiresIn: '24h' })
+  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
   return token
 }
 
@@ -61,14 +61,14 @@ const validateUser = (user) => {
 }
 
 const validateRegister = (user) => {
-    const schema = Joi.object({
-      email: Joi.string().required(),
-      firstname: Joi.string().required(),
-      lastname: Joi.string().required(),
-      role: Joi.objectId().required(),
-      classes: Joi.array()
-    })
-    return schema.validate(user)
-  }
+  const schema = Joi.object({
+    email: Joi.string().required(),
+    firstname: Joi.string().required(),
+    lastname: Joi.string().required(),
+    role: Joi.objectId().required(),
+    classes: Joi.array()
+  })
+  return schema.validate(user)
+}
 
 module.exports = { Users, validateUser, validateRegister }

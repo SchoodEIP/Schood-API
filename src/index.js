@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-require('dotenv').config({ path: '../.env'})
+require('dotenv').config({ path: '../.env' })
 
 const app = express()
 const port = process.env.EXPRESS_PORT
@@ -15,7 +15,6 @@ const swaggerDocument = YAML.load('./swagger.yaml')
  * Start the Node.Js server
  */
 async function startServer () {
-
   const dbCo = await dbConnection('randivity')
   if (dbCo) {
     try {

@@ -16,7 +16,7 @@ const classesSchema = new Schema({
   name: {
     type: String,
     required: true
-  },
+  }
 })
 
 // We create classes collection from classesSchema
