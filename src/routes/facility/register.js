@@ -4,7 +4,6 @@
  * @namespace register
  */
 const { Facilities, validateFacilities } = require('../../models/facilities')
-const bcrypt = require('bcryptjs');
 
 /**
  * Main register function
@@ -17,7 +16,7 @@ const bcrypt = require('bcryptjs');
  * @param {Object} res
  * @returns 400 if invalid requests
  * @returns 401 if invalid username or password
- * @returns 200 if OK and return access token and role name
+ * @returns 200 if ok and return access token and role name
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {
