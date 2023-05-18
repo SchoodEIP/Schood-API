@@ -17,7 +17,8 @@ Joi.objectId = require('joi-objectid')(Joi)
 const usersSchema = new Schema({
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
@@ -33,7 +34,7 @@ const usersSchema = new Schema({
   },
   role: {
     type: mongoose.Types.ObjectId,
-    ref: 'roles',
+    ref: 'roles'
   },
   classes: [{
     type: mongoose.Types.ObjectId,

@@ -2,6 +2,7 @@
  * @module middlewares
  */
 const jwt = require('jsonwebtoken')
+const { Users } = require('../models/users')
 
 /**
  * Main auth middleware function
@@ -16,7 +17,7 @@ const jwt = require('jsonwebtoken')
  * @returns 403 if there is no token sent
  * @returns 400 if the token is invalid
  */
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   try {
     // Get the auth token from the header
     const token = req.header('x-auth-token') || req.header('X-Auth-Token')
@@ -26,11 +27,15 @@ module.exports = (req, res, next) => {
 
     // Verify the auth token with jwt
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    const user = await Users.findById(decoded._id)
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid token' })
+    }
     req.user = decoded
 
     next()
   } catch (error) {
     console.error(error)
-    res.status(400).json({ message: 'Invalid token' })
+    return res.status(400).json({ message: 'Invalid token' })
   }
 }
