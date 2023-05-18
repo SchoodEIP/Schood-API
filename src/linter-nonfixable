@@ -1,0 +1,4 @@
+Non fixable linter problems:
+
+  /home/runner/work/Schood-API/Schood-API/src/__tests__/launch.test.js:8:9: 'Facility' is assigned a value but never used. (no-unused-vars)
+  /home/runner/work/Schood-API/Schood-API/src/models/facilities.js:52:51: Use a regular expression literal instead of the 'RegExp' constructor. (prefer-regex-literals)
