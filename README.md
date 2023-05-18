@@ -48,6 +48,7 @@ Install dependences
 Start the server
 
 ```bash
+  cd src
   npm run start
 ```
 
