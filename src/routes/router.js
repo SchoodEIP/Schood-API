@@ -17,6 +17,6 @@ const adminRouter = require('./admin/router')
  */
 router.use('/user', userRouter)
 router.use('/adm', auth, access(2), admRouter)
-router.use('/admin', adminRouter)
+router.use('/admin', auth, access(3), adminRouter)
 
 module.exports = router
