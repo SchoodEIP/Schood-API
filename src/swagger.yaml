@@ -10,6 +10,8 @@ servers:
 tags:
   - name: user
     description: User operations
+  - name: admin
+    description: Admin operations
 paths:
   /user/login:
     post:
@@ -43,6 +45,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+  /admin/facility/register:
+    post:
+      tags:
+        - admin
+      summary: Register a Facility
+      description: >
+        Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacilityRegister'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ok'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
 components:
   schemas:
     UserLogin:
@@ -54,6 +88,21 @@ components:
         password:
           type: string
           example: 'admin123'
+    FacilityRegister:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Example school'
+        address:
+          type: string
+          example: '3 rue test'
+        telephone:
+          type: string
+          example: '0102030405'
+        level:
+          type: integer
+          example: 1
     token:
       type: object
       properties:
@@ -66,6 +115,18 @@ components:
         message:
           type: string
           example: "Invalid username or password"
+    invalidRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid request"
+    ok:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'ok'
     internalServerError:
       type: object
       properties:
