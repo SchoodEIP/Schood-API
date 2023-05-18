@@ -13,7 +13,6 @@ async function dbConnection (databaseName) {
     console.log('INFO: Connection to database...')
     // Set connection parameters
     mongoose.set('strictQuery', true)
-    console.log("host", host)
     const connectionParams = dbConfig.getConfig(databaseName)
 
     await mongoose.connect(host, connectionParams)
