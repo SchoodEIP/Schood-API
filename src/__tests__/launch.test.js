@@ -5,6 +5,7 @@ const server = require('./serverUtils/testServer')
 const { dbConnection } = require('../config/db')
 const { Users } = require('../models/users')
 const { Roles } = require('../models/roles')
+const { Facility } = require("../models/facilities")
 
 describe('Config tests', () => {
   describe('Check if lauched', () => {

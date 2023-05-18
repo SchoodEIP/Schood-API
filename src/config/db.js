@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const dbConfig = require('./db.config')
 const dbDefault = require('./db.default')
+require('dotenv').config()
 
 // Database Connection
 

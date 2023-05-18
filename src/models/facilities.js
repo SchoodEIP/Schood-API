@@ -6,12 +6,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Joi = require('joi')
 
-enum Level {
-    "PRIMAIRE" = 0,
-    "COLLEGE" = 1,
-    "LYCEE" = 2,
-    "SUPERIEUR" = 3,
-    "AUTRE" = 4
+const Level = {
+    "PRIMAIRE": 0,
+    "COLLEGE": 1,
+    "LYCEE": 2,
+    "SUPERIEUR": 3,
+    "AUTRE": 4
 }
 
 // We create the Schema for facilities, and we set up the required variables.
@@ -49,7 +49,7 @@ const validateFacilities = (facilities) => {
     const schema = Joi.object({
         name: Joi.string().required(),
         address: Joi.string().required(),
-        telephone: Joi.string().required(),
+        telephone: Joi.string().min(10).max(10).regex(RegExp("^[0-9]+$")).required(),
         level: Joi.number().integer().min(0).max(4).required(),
     })
     return schema.validate(

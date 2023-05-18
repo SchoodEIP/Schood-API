@@ -34,8 +34,9 @@ module.exports = async (req, res) => {
             telephone: req.body.telephone,
             level: req.body.level,
         })
-        console.log(facility)
-        res.status(200).json({ message: "OKOKOKOKOKOK" })
+
+        facility.save()
+        res.status(200).json({ message: "ok" })
     } catch (error) {
         console.error(error)
         return res.status(500).json({ message: 'Internal Server Error' })

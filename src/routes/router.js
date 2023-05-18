@@ -17,6 +17,6 @@ const facilityRouter = require('./facility/router')
  */
 router.use('/user', userRouter)
 router.use('/adm', auth, access(2), admRouter)
-router.use('/facility', auth, access(2), facilityRouter)
+router.use('/facility', facilityRouter)
 
 module.exports = router
