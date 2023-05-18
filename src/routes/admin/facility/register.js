@@ -3,7 +3,7 @@
  * @inner
  * @namespace register
  */
-const { Facilities, validateFacilities } = require('../../models/facilities')
+const { Facilities, validateFacilities } = require('../../../models/facilities')
 
 /**
  * Main register function

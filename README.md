@@ -83,3 +83,4 @@ Please adhere to this project's `code of conduct`.
 ## Authors
 
 [@Exiels](https://www.github.com/Exiels)
+[@quentinmananes](https://github.com/quentinmananes)

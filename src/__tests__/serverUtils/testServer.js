@@ -1,7 +1,7 @@
 const express = require('express')
 
 const app = express()
-const router = require('../../routes/router')
+const router = require('../../routes/admin/router')
 const { dbConnection } = require('../../config/db')
 const sanitizer = require('../../middleware/sanitize')
 require('dotenv').config({ path: '../.env' })

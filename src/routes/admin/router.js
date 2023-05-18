@@ -5,11 +5,11 @@
 const express = require('express')
 const router = express.Router()
 
-const auth = require('../middleware/auth')
-const access = require('../middleware/access')
+const auth = require('../../middleware/auth')
+const access = require('../../middleware/access')
 
-const userRouter = require('./user/router')
-const admRouter = require('./adm/router')
+const userRouter = require('../user/router')
+const admRouter = require('../adm/router')
 const facilityRouter = require('./facility/router')
 /**
  * Main router connection
