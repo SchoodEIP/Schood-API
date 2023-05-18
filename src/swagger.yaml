@@ -10,8 +10,8 @@ servers:
 tags:
   - name: user
     description: User operations
-  - name: facility
-    description: Facility operations
+  - name: admin
+    description: Admin operations
 paths:
   /user/login:
     post:
@@ -45,10 +45,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
-  /facility/register:
+  /admin/facility/register:
     post:
       tags:
-        - facility
+        - admin
       summary: Register a Facility
       description: >
         Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.

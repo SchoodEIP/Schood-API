@@ -5,7 +5,7 @@ const register = require('./register')
 
 /**
  * Facility router connection
- * @memberof module:router~mainRouter
+ * @memberof module:router~mainRouter~adminRouter
  * @inner
  * @namespace facilityRouter
  */

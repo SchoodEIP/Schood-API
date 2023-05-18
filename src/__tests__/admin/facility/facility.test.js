@@ -1,8 +1,8 @@
 const request = require('supertest')
 const mongoose = require('mongoose')
 
-const server = require('../serverUtils/testServer')
-const dbDefault = require('../../config/db.default')
+const server = require('../../serverUtils/testServer')
+const dbDefault = require('../../../config/db.default')
 
 describe('Facility route tests', () => {
   let app
@@ -25,9 +25,9 @@ describe('Facility route tests', () => {
   })
 
   describe('Register route', () => {
-    it('POST /facility/register => Try good register', async () => {
+    it('POST /admin/facility/register => Try good register', async () => {
       return await request(app)
-        .post('/facility/register')
+        .post('/admin/facility/register')
         .send({
           name: 'Test',
           telephone: '0102030405',
@@ -38,9 +38,9 @@ describe('Facility route tests', () => {
         .expect(200)
     })
 
-    it('POST /facility/register => Try empty name', async () => {
+    it('POST /admin/facility/register => Try empty name', async () => {
       return await request(app)
-        .post('/facility/register')
+        .post('/admin/facility/register')
         .send({
           name: '',
           telephone: '0102030405',
@@ -50,9 +50,9 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /facility/register => Try too short telephone', async () => {
+    it('POST /admin/facility/register => Try too short telephone', async () => {
       return await request(app)
-        .post('/facility/register')
+        .post('/admin/facility/register')
         .send({
           name: 'Test',
           telephone: '010203040',
@@ -62,9 +62,9 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /facility/register => Try too long telephone', async () => {
+    it('POST /admin/facility/register => Try too long telephone', async () => {
       return await request(app)
-        .post('/facility/register')
+        .post('/admin/facility/register')
         .send({
           name: 'Test',
           telephone: '01020304050',
@@ -74,9 +74,9 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /facility/register => Try telephone with letter', async () => {
+    it('POST /admin/facility/register => Try telephone with letter', async () => {
       return await request(app)
-        .post('/facility/register')
+        .post('/admin/facility/register')
         .send({
           name: 'Test',
           telephone: '010203040a',
@@ -86,9 +86,9 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /facility/register => Try empty address', async () => {
+    it('POST /admin/facility/register => Try empty address', async () => {
       return await request(app)
-        .post('/facility/register')
+        .post('/admin/facility/register')
         .send({
           name: 'Test',
           telephone: '0102030405',
@@ -98,9 +98,9 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /facility/register => Try level < 0', async () => {
+    it('POST /admin/facility/register => Try level < 0', async () => {
       return await request(app)
-        .post('/facility/register')
+        .post('/admin/facility/register')
         .send({
           name: 'Test',
           telephone: '0102030405',
@@ -110,9 +110,9 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /facility/register => Try level > 4', async () => {
+    it('POST /admin/facility/register => Try level > 4', async () => {
       return await request(app)
-        .post('/facility/register')
+        .post('/admin/facility/register')
         .send({
           name: 'Test',
           telephone: '0102030405',
@@ -122,9 +122,9 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /facility/register => Try bad form', async () => {
+    it('POST /admin/facility/register => Try bad form', async () => {
       return await request(app)
-        .post('/facility/register')
+        .post('/admin/facility/register')
         .send({
           name: 'Test',
           address: '3 rue test',

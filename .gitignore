@@ -105,4 +105,4 @@ dist
 
 setup.sh
 .idea
-/src/__tests__/.test_env
+linter-nonfixable

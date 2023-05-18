@@ -49,8 +49,8 @@ const validateFacilities = (facilities) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     address: Joi.string().required(),
-    telephone: Joi.string().min(10).max(10).regex(RegExp('^[0-9]+$')).required(),
-    level: Joi.number().integer().min(0).max(4).required()
+    telephone: Joi.string().min(10).max(10).regex(/^[0-9]+$/).required(),
+    level: Joi.number().integer().valid(...Object.values((Level))).required()
   })
   return schema.validate(
     facilities
