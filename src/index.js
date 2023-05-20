@@ -28,7 +28,9 @@ async function startServer () {
   if (dbCo) {
     try {
       app.use(express.json())
-      app.use(limiter)
+      if (!process.env.PROD) {
+        app.use(limiter)
+      }
       app.use(cors({
         credentials: true,
         origin: '*',
