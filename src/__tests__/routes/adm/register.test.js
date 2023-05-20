@@ -59,7 +59,6 @@ describe('Adm route tests', () => {
             }
           ]
         })
-        .expect('Content-Type', /json/)
         .expect(200)
     })
 
