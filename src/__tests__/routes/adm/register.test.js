@@ -44,7 +44,7 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .set({
           'x-auth-token': key
         })
@@ -79,7 +79,7 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .set({
           'x-auth-token': key
         })
@@ -112,7 +112,7 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .set({
           'x-auth-token': key
         })
@@ -147,7 +147,7 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .set({
           'x-auth-token': key
         })
@@ -185,7 +185,7 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .set({
           'x-auth-token': key
         })
@@ -220,7 +220,7 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .set({
           'x-auth-token': key
         })

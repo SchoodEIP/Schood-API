@@ -28,7 +28,9 @@ const random = require('random-string-generator')
  */
 module.exports = async (req, res) => {
   try {
-    const mail = req.param.mail
+    /* istanbul ignore next */
+    const mail = req.query.mail ? req.query.mail : true
+
     // Verif received data
     const { error } = validateRegister(req.body)
     if (error) {
@@ -82,7 +84,7 @@ module.exports = async (req, res) => {
         }
       })
 
-    return res.status(200).json({ message: 'OK' })
+    return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
