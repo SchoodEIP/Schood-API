@@ -18,15 +18,14 @@ const random = require('random-string-generator')
  * @param {Object} req
  * @param {Object} res
  * @returns 400 if invalid requests
- * @returns 401 if invalid username or password
- * @returns 200 if OK and return access token and role name
+ * @returns 200 if OK or user not found
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {
   try {
     /* istanbul ignore next */
     const mail = req.query.mail ? req.query.mail : true
-    
+
     const email = req.body.email
     
     if (!email) {

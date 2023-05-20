@@ -22,7 +22,6 @@ const random = require('random-string-generator')
  * @param {Object} req
  * @param {Object} res
  * @returns 400 if invalid requests
- * @returns 401 if invalid username or password
  * @returns 200 if OK and return access token and role name
  * @returns 500 if Internal Server Error
  */
