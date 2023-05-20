@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 require('dotenv').config({ path: '../.env' })
+const RateLimit = require('express-rate-limit')
 
 const app = express()
 const port = process.env.EXPRESS_PORT
@@ -12,6 +13,14 @@ const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./swagger.yaml')
 
 /**
+ * Set limiter
+ */
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20
+})
+
+/**
  * Start the Node.Js server
  */
 async function startServer () {
@@ -19,6 +28,7 @@ async function startServer () {
   if (dbCo) {
     try {
       app.use(express.json())
+      app.use(limiter)
       app.use(cors({
         credentials: true,
         origin: '*',
