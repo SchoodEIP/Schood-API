@@ -37,18 +37,18 @@ describe('User route tests', () => {
     })
 
     it('POST /user/forgottenPassword => Try bad email', async () => {
-        return await request(app)
-          .post('/user/forgottenPassword/?mail=false')
-          .send({
-            email: 'test@test.fr'
-          })
-          .expect(200)
+      return await request(app)
+        .post('/user/forgottenPassword/?mail=false')
+        .send({
+          email: 'test@test.fr'
+        })
+        .expect(200)
     })
 
     it('POST /user/forgottenPassword => Try no email', async () => {
-        return await request(app)
-          .post('/user/forgottenPassword/?mail=false')
-          .expect(400)
+      return await request(app)
+        .post('/user/forgottenPassword/?mail=false')
+        .expect(400)
     })
   })
 })

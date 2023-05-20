@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
     const mail = req.query.mail ? req.query.mail : true
 
     const email = req.body.email
-    
+
     if (!email) {
       return res.status(400).json({ message: 'Invalid request' })
     }
