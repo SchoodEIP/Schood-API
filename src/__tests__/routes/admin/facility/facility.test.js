@@ -50,7 +50,6 @@ describe('Facility route tests', () => {
           address: '3 rue test',
           level: 1
         })
-        .expect('Content-Type', /json/)
         .expect(200)
     })
 

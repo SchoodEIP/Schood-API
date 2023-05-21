@@ -72,7 +72,7 @@ describe('User route tests', () => {
     it('POST /adm/register => Try bad token', async () => {
       const key = 'nope'
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .set({
           'x-auth-token': key
         })
@@ -93,7 +93,7 @@ describe('User route tests', () => {
 
     it('POST /adm/register => Try no token', async () => {
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .send({
           email: 'schood.eip@gmail.com',
           firstname: 'studentTest',
@@ -127,7 +127,7 @@ describe('User route tests', () => {
       await Users.findOneAndRemove({ firstname: 'admin' })
 
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .set({
           'x-auth-token': key
         })
@@ -164,7 +164,7 @@ describe('User route tests', () => {
       await Roles.findOneAndRemove({ name: 'admin' })
 
       return await request(app)
-        .post('/adm/register/mail=false')
+        .post('/adm/register/?mail=false')
         .set({
           'x-auth-token': key
         })
