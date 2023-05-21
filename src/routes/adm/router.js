@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const register = require('./register')
+const csvRegisterUser = require('./csvRegisterUser')
 
 /**
  * Adm router connection
@@ -13,5 +14,6 @@ const register = require('./register')
 // Created router routes connection
 
 router.post('/register/:mail', register)
+router.post('/csvRegisterUser', csvRegisterUser)
 
 module.exports = router
