@@ -22,13 +22,13 @@ const random = require('random-string-generator')
  * @param {Object} req
  * @param {Object} res
  * @returns 400 if invalid requests
- * @returns 200 if OK and return access token and role name
+ * @returns 200 if OK
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {
   try {
     /* istanbul ignore next */
-    const mail = req.query.mail ? req.query.mail : true
+    const mail = req.query.mail || true
 
     // Verif received data
     const { error } = validateRegister(req.body)

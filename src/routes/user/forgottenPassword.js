@@ -24,7 +24,7 @@ const random = require('random-string-generator')
 module.exports = async (req, res) => {
   try {
     /* istanbul ignore next */
-    const mail = req.query.mail ? req.query.mail : true
+    const mail = req.query.mail || true
 
     const email = req.body.email
 
