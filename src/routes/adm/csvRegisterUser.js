@@ -31,7 +31,6 @@ module.exports = async (req, res) => {
       return res.status(422).json({ message: "The file is empty" })
 
     const csv = await convertCsv(req.file.path)
-    console.log(csv)
     if (!csv || csv.length === 0)
       return res.status(422).json({ message: "Invalid request" })
 
@@ -45,7 +44,6 @@ module.exports = async (req, res) => {
 
     const [err, line, row] = await processImport(csv)
     if (err) {
-      console.log(line, row)
       return res.status(422).json({
         line,
         row
