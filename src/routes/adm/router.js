@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const register = require('./register')
 const csvRegisterUser = require('./csvRegisterUser')
-const multer = require('multer');
-const upload = multer({ dest:  "/tmp" })
+const multer = require('multer')
+const upload = multer({ dest: '/tmp' })
 
 /**
  * Adm router connection
@@ -15,6 +15,6 @@ const upload = multer({ dest:  "/tmp" })
 // Created router routes connection
 
 router.post('/register/', register)
-router.post('/csvRegisterUser', upload.single("csv"), csvRegisterUser)
+router.post('/csvRegisterUser', upload.single('csv'), csvRegisterUser)
 
 module.exports = router
