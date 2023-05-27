@@ -14,7 +14,7 @@ const upload = multer({ dest:  "/tmp" })
 
 // Created router routes connection
 
-router.post('/register/:mail', register)
+router.post('/register/', register)
 router.post('/csvRegisterUser', upload.single("csv"), csvRegisterUser)
 
 module.exports = router
