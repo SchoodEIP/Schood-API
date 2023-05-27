@@ -20,27 +20,27 @@ const { Classes } = require('../../models/classes')
  * @async
  * @param {Object} req
  * @param {Object} res
- * @returns 400 if invalid requests
- * @returns 401 if invalid csv format
  * @returns 200 if ok
+ * @returns 422 if invalid csv
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {
   try {
     // Verify received data
     if (req.file.size === 0)
-      return res.status(401).json({ message: "The file is empty" })
+      return res.status(422).json({ message: "The file is empty" })
 
     const csv = await convertCsv(req.file.path)
-    if (!csv)
-      return res.status(400).json({ message: "Invalid request" })
+    console.log(csv)
+    if (!csv || csv.length === 0)
+      return res.status(422).json({ message: "Invalid request" })
 
     if (checkCsvHeader(csv[0]))
-      return res.status(401).json({ message: "Csv header is not valid" })
+      return res.status(422).json({ message: "Csv header is not valid" })
 
     const error = await checkCsvBody(csv)
     if (error.length !== 0) {
-      return res.status(401).json(error)
+      return res.status(422).json(error)
     }
 
     const [err, line, row] = await processImport(csv)
@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
 const convertCsv = async (filepath) => {
   const csv = []
 
-  const promise = new Promise((resolve, reject) => {
+  const promise = new Promise((resolve, _) => {
     try {
       fs.createReadStream(filepath)
         .pipe(csvParser())
@@ -81,11 +81,6 @@ const convertCsv = async (filepath) => {
 const checkCsvHeader = (row) => {
   const keys = ["firstname", "lastname", "email", "role", "class"]
 
-  for (const key of keys) {
-    if (Object.keys(row).filter(headerName => headerName === key).length !== 1) {
-      return true
-    }
-  }
   for (const key of Object.keys(row)) {
     if (!keys.includes(key))
       return true
