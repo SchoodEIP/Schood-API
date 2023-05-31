@@ -2,3 +2,4 @@ firstname,lastname,email,role,class
 John_John,Doe,johndoe@gmail.com,3,2a
 Michel,Doe,micheldoe@gmail.com,,2a
 Paulo,Doe,paulodoe@gmail.com,test,2a
+Paulo,Doe,paulodoe@gmail.com,admin,2a

@@ -27,6 +27,7 @@ const { sendMail } = require('../../services/mailer')
  */
 module.exports = async (req, res) => {
   try {
+    const mail = req.query.mail || true
     // Verify received data
     if (req.file.size === 0) { return res.status(422).json({ message: 'The file is empty' }) }
 
@@ -40,7 +41,7 @@ module.exports = async (req, res) => {
       return res.status(422).json(error)
     }
 
-    const [err, line, row] = await processImport(csv)
+    const [err, line, row] = await processImport(csv, mail)
     if (err) {
       return res.status(422).json({
         line,
@@ -138,7 +139,7 @@ const checkCsvBody = async (csv) => {
  * @param csv
  * @returns {Promise<(boolean|string|number)[]|(boolean|*)[]>}
  */
-const processImport = async (csv) => {
+const processImport = async (csv, mail) => {
   let line
   let row
   try {
@@ -158,8 +159,10 @@ const processImport = async (csv) => {
       })
       await user.save()
 
-      const message = 'email: ' + val.email + ' | password: ' + password
-      sendMail(val.email, 'Schood Account Created', message)
+      if (mail) {
+        const message = 'email: ' + val.email + ' | password: ' + password
+        sendMail(val.email, 'Schood Account Created', message)
+      }
     }
   } catch (e) {
     console.log(e)
