@@ -116,8 +116,7 @@ const checkCsvBody = async (csv) => {
     if (row.role.length === 0 || !['student', 'teacher', 'adm'].includes(row.role.toLowerCase())) addError('Role is not valid', index)
     if (row.classes.length === 0) addError('Class is not valid', index)
     row.classes.forEach((className) => {
-      if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className))
-        addError('Class is not valid', index)
+      if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className)) { addError('Class is not valid', index) }
     })
     if (row.role === 'student' && row.classes.length > 1) addError('Student can only have one class', index)
 
