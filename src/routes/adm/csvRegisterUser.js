@@ -10,12 +10,13 @@ const { Roles } = require('../../models/roles')
 const bcrypt = require('bcryptjs')
 const random = require('random-string-generator')
 const { Classes } = require('../../models/classes')
+const { sendMail } = require('../../services/mailer')
 
 /**
  * Main csvRegisterUser function
  * @name POST /adm/csvRegisterUser
  * @function
- * @memberof module:router~mainRouter~userRouter~csvRegisterUser
+ * @memberof module:router~mainRouter~admRouter~csvRegisterUser
  * @inner
  * @async
  * @param {Object} req
@@ -57,10 +58,15 @@ module.exports = async (req, res) => {
   }
 }
 
+/**
+ * Convert the csv file past as parameter to an array of objects
+ * @param {String} filepath
+ * @returns {Promise<Object>} Returns the csv as an array of Objects, on error returns null
+ */
 const convertCsv = async (filepath) => {
   const csv = []
 
-  const promise = new Promise((resolve, _) => {
+  return new Promise((resolve, _) => {
     try {
       fs.createReadStream(filepath)
         .pipe(csvParser())
@@ -72,10 +78,13 @@ const convertCsv = async (filepath) => {
       resolve(null)
     }
   })
-
-  return await promise
 }
 
+/**
+ * Check if the names of the columns in the csv file are correct
+ * @param {Object} row
+ * @returns {boolean} Returns True if there is an error, False otherwise
+ */
 const checkCsvHeader = (row) => {
   const keys = ["firstname", "lastname", "email", "role", "class"]
 
@@ -86,9 +95,19 @@ const checkCsvHeader = (row) => {
   return false
 }
 
+/**
+ * Check if the values of the columns are correct
+ * @param {Array<Object>} csv
+ * @returns {Promise<Array>} Returns an empty array if there is no errors, otherwise returns an array filled with objects containing row of error, type of error and which User the error is coming from
+ */
 const checkCsvBody = async (csv) => {
   let error = []
 
+  /**
+   * Add an error to the error array
+   * @param errorType
+   * @param index
+   */
   const addError = (errorType, index) => {
     const idx = error.findIndex((e) => e.rowCSV === index + 2)
     if (idx === -1)
@@ -117,6 +136,11 @@ const checkCsvBody = async (csv) => {
   return error
 }
 
+/**
+ * Import users from csv
+ * @param csv
+ * @returns {Promise<(boolean|string|number)[]|(boolean|*)[]>}
+ */
 const processImport = async (csv) => {
   let line
   let row
@@ -125,7 +149,7 @@ const processImport = async (csv) => {
       line = index
       row = val
 
-      const hash = await bcrypt.hash(random(10, 'alphanumeric'), 10)
+      const password = random(10, 'alphanumeric')
       const user= new Users({
         ...val,
         firstname: val.firstname,
@@ -133,9 +157,12 @@ const processImport = async (csv) => {
         email: val.email,
         classes: [Classes.findOne({ name: val['class'] })._id],
         role: await Roles.findOne({ name: val.role })._id,
-        password: hash
+        password: await bcrypt.hash(password, 10)
       })
       await user.save()
+
+      const message = 'email: ' + val.email + ' | password: ' + password
+      sendMail(val.email, 'Schood Account Created', message)
     }
   } catch (e) {
     console.log(e)
