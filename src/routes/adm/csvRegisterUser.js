@@ -69,7 +69,7 @@ const convertCsv = async (filepath) => {
         .pipe(csvParser())
         .on('data', (data) => csv.push(data))
         .on('end', () => {
-          resolve(csv)
+          resolve(csv?.map(row => { return { ...row, classes: row.class.split(':') } }))
         })
     } catch (e) {
       resolve(null)
@@ -83,7 +83,7 @@ const convertCsv = async (filepath) => {
  * @returns {boolean} Returns True if there is an error, False otherwise
  */
 const checkCsvHeader = (row) => {
-  const keys = ['firstname', 'lastname', 'email', 'role', 'class']
+  const keys = ['firstname', 'lastname', 'email', 'role', 'class', 'classes']
 
   for (const key of Object.keys(row)) {
     if (!keys.includes(key)) { return true }
@@ -114,15 +114,20 @@ const checkCsvBody = async (csv) => {
     if (row.lastname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.lastname)) addError('Lastname is not valid', index)
     if (row.email.length === 0 || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(row.email)) addError('Email is not valid', index)
     if (row.role.length === 0 || !['student', 'teacher', 'adm'].includes(row.role.toLowerCase())) addError('Role is not valid', index)
-    if (row.class.length === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(row.class)) addError('Class is not valid', index)
+    if (row.classes.length === 0) addError('Class is not valid', index)
+    row.classes.forEach((className) => {
+      if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className))
+        addError('Class is not valid', index)
+    })
+    if (row.role === 'student' && row.classes.length > 1) addError('Student can only have one class', index)
 
     if (await Users.findOne({ email: row.email })) {
       addError('User already exists', index)
     }
 
-    const class_ = Classes.findOne({ name: row.class })
+    const classes_ = row.classes.filter(className => Classes.findOne({ name: className }))
 
-    if (!class_ || class_.length === 0) {
+    if (!classes_ || classes_.length === 0) {
       addError('Invalid class', index)
     }
   }
