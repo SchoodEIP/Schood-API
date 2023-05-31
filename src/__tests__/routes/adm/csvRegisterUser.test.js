@@ -46,7 +46,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/correct.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/correct.csv')
         .expect('Content-Type', /json/)
         .expect(200)
     })
@@ -70,7 +70,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/empty.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/empty.csv')
         .expect('Content-Type', /json/)
         .expect(422)
     })
@@ -94,7 +94,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/wrongHeaderNotInList.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongHeaderNotInList.csv')
         .expect('Content-Type', /json/)
         .expect(422)
     })
@@ -118,7 +118,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/wrongBodyEmpty.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyEmpty.csv')
         .expect('Content-Type', /json/)
         .expect(422)
     })
@@ -142,7 +142,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/wrongBodyUserAlreadyExist.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyUserAlreadyExist.csv')
         .expect('Content-Type', /json/)
         .expect(422)
     })
@@ -166,7 +166,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongClass.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongClass.csv')
         .expect('Content-Type', /json/)
         .expect(422)
     })
@@ -190,7 +190,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongEmail.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongEmail.csv')
         .expect('Content-Type', /json/)
         .expect(422)
     })
@@ -214,7 +214,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongFirstname.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongFirstname.csv')
         .expect('Content-Type', /json/)
         .expect(422)
     })
@@ -238,7 +238,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongLastname.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongLastname.csv')
         .expect('Content-Type', /json/)
         .expect(422)
     })
@@ -262,7 +262,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongRole.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyWrongRole.csv')
         .expect('Content-Type', /json/)
         .expect(422)
     })
@@ -286,7 +286,7 @@ describe('Adm route tests', () => {
         .set({
           'x-auth-token': key
         })
-        .attach('csv', "__tests__/fixtures/adm/csvRegisterUser/correct.csv")
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/correct.csv')
         .expect('Content-Type', /json/)
         .expect(403)
     })
