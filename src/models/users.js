@@ -39,7 +39,11 @@ const usersSchema = new Schema({
   classes: [{
     type: mongoose.Types.ObjectId,
     ref: 'classes'
-  }]
+  }],
+  firstConnexion: {
+    type: Boolean,
+    default: true
+  }
 })
 
 // We generate an auth token for user
