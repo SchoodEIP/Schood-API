@@ -44,9 +44,10 @@ module.exports = async (req, res) => {
 
     // Generate AuthToken
     const token = user.generateAuthToken()
+    const firstConnexion = user.firstConnexion
 
     // Send token
-    return res.status(200).json({ token })
+    return res.status(200).json({ token, firstConnexion })
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })

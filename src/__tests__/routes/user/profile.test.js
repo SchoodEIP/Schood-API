@@ -26,29 +26,28 @@ describe('User route tests', () => {
     await mongoose.connection.close()
   })
 
-  describe('forgottenPassword route', () => {
-    it('POST /user/forgottenPassword => Try good email', async () => {
-      return await request(app)
-        .post('/user/forgottenPassword/?mail=false')
-        .send({
-          email: 'student1@schood.fr'
-        })
-        .expect(200)
-    })
+  describe('Profile route', () => {
+    it('GET /user/profile => Try good email', async () => {
+      let key
 
-    it('POST /user/forgottenPassword => Try bad email', async () => {
-      return await request(app)
-        .post('/user/forgottenPassword/?mail=false')
+      await request(app)
+        .post('/user/login')
         .send({
-          email: 'test@test.fr'
+          email: 'student1@schood.fr',
+          password: 'student123'
         })
+        .expect('Content-Type', /json/)
         .expect(200)
-    })
-
-    it('POST /user/forgottenPassword => Try no email', async () => {
+        .then((response) => {
+          key = response.body.token
+        })
       return await request(app)
-        .post('/user/forgottenPassword/?mail=false')
-        .expect(400)
+        .get('/user/profile')
+        .set({
+          'x-auth-token': key
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
     })
   })
 })

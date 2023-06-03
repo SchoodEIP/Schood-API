@@ -1,10 +1,10 @@
 const request = require('supertest')
 const mongoose = require('mongoose')
 
-const server = require('../../../serverUtils/testServer')
-const dbDefault = require('../../../../config/db.default')
+const server = require('../../serverUtils/testServer')
+const dbDefault = require('../../../config/db.default')
 
-describe('Facility route tests', () => {
+describe('User route tests', () => {
   let app
 
   beforeAll(async () => {
@@ -26,9 +26,10 @@ describe('Facility route tests', () => {
     await mongoose.connection.close()
   })
 
-  describe('Register route', () => {
-    it('POST /admin/facility/register => Try good register', async () => {
+  describe('changePassword route', () => {
+    it('PATCH /user/changePassword => Try no old password', async () => {
       let key
+
       await request(app)
         .post('/user/login')
         .send({
@@ -42,49 +43,20 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .patch('/user/changePassword')
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'Test',
-          telephone: '0102030405',
-          address: '3 rue test',
-          level: 1
-        })
-        .expect(200)
-    })
-
-    it('POST /admin/facility/register => Try empty name', async () => {
-      let key
-      await request(app)
-        .post('/user/login')
-        .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
-        })
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then((response) => {
-          key = response.body.token
-        })
-
-      return await request(app)
-        .post('/admin/facility/register')
-        .set({
-          'x-auth-token': key
-        })
-        .send({
-          name: '',
-          telephone: '0102030405',
-          address: '3 rue test',
-          level: 1
+          oldPassword: '',
+          newPassword: 'Test123'
         })
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try too short telephone', async () => {
+    it('PATCH /user/changePassword => Try no new password', async () => {
       let key
+
       await request(app)
         .post('/user/login')
         .send({
@@ -98,21 +70,20 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .patch('/user/changePassword')
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'Test',
-          telephone: '010203040',
-          address: '3 rue test',
-          level: 1
+          oldPassword: 'Test123',
+          newPassword: ''
         })
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try too long telephone', async () => {
+    it('PATCH /user/changePassword => Try same old password and new password', async () => {
       let key
+
       await request(app)
         .post('/user/login')
         .send({
@@ -126,21 +97,47 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .patch('/user/changePassword')
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'Test',
-          telephone: '01020304050',
-          address: '3 rue test',
-          level: 1
+          oldPassword: 'Test123',
+          newPassword: 'Test123'
+        })
+        .expect(422)
+    })
+
+    it('PATCH /user/changePassword => Try new password missing uppercase letter', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin@schood.fr',
+          password: 'admin123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .patch('/user/changePassword')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          oldPassword: 'Test000',
+          newPassword: 'test123'
         })
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try telephone with letter', async () => {
+    it('PATCH /user/changePassword => Try new password missing lowercase letter', async () => {
       let key
+
       await request(app)
         .post('/user/login')
         .send({
@@ -154,21 +151,20 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .patch('/user/changePassword')
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'Test',
-          telephone: '010203040a',
-          address: '3 rue test',
-          level: 1
+          oldPassword: 'Test000',
+          newPassword: 'TEST123'
         })
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try empty address', async () => {
+    it('PATCH /user/changePassword => Try new password missing digit', async () => {
       let key
+
       await request(app)
         .post('/user/login')
         .send({
@@ -182,21 +178,20 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .patch('/user/changePassword')
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'Test',
-          telephone: '0102030405',
-          address: '',
-          level: 1
+          oldPassword: 'Test000',
+          newPassword: 'Testtest'
         })
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try level < 0', async () => {
+    it('PATCH /user/changePassword => Try not long enough new password', async () => {
       let key
+
       await request(app)
         .post('/user/login')
         .send({
@@ -210,21 +205,20 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .patch('/user/changePassword')
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'Test',
-          telephone: '0102030405',
-          address: '3 rue test',
-          level: -1
+          oldPassword: 'Test000',
+          newPassword: 'Tes123'
         })
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try level > 4', async () => {
+    it('PATCH /user/changePassword => Try bad old password', async () => {
       let key
+
       await request(app)
         .post('/user/login')
         .send({
@@ -238,21 +232,20 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .patch('/user/changePassword')
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'Test',
-          telephone: '0102030405',
-          address: '3 rue test',
-          level: 5
+          oldPassword: 'Test000',
+          newPassword: 'Test123'
         })
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try bad form', async () => {
+    it('PATCH /user/changePassword => Try good requests', async () => {
       let key
+
       await request(app)
         .post('/user/login')
         .send({
@@ -265,17 +258,72 @@ describe('Facility route tests', () => {
           key = response.body.token
         })
 
-      return await request(app)
-        .post('/admin/facility/register')
+      await request(app)
+        .patch('/user/changePassword')
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'Test',
-          address: '3 rue test',
-          level: 5
+          oldPassword: 'admin123',
+          newPassword: 'Test123'
         })
-        .expect(400)
+        .expect(200)
+
+      return await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin@schood.fr',
+          password: 'Test123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+    })
+
+    it('PATCH /user/changePassword => Try good request 2nd connection', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin@schood.fr',
+          password: 'admin123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await request(app)
+        .patch('/user/changePassword')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          oldPassword: 'admin123',
+          newPassword: 'Test123'
+        })
+        .expect(200)
+
+      await request(app)
+        .patch('/user/changePassword')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          oldPassword: 'Test123',
+          newPassword: 'Test321'
+        })
+        .expect(200)
+
+      return await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin@schood.fr',
+          password: 'Test321'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
     })
   })
 })

@@ -75,6 +75,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+  /user/changePassword:
+    patch:
+      tags:
+        - user
+      summary: Change a user's password
+      description: >
+        Change a user's password, given the current password and a valid new password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserChangePassword'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ok'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Invalid password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidNewPassword'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
   /adm/register:
     post:
       tags:
@@ -159,7 +197,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
-  
+
 components:
   schemas:
     UserLogin:
@@ -171,6 +209,15 @@ components:
         password:
           type: string
           example: 'admin123'
+    UserChangePassword:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          example: 'Pass123'
+        newPassword:
+          type: string
+          example: 'Test123'
     RetrievePassword:
       type: object
       properties:
@@ -233,6 +280,12 @@ components:
         message:
           type: string
           example: "Invalid username or password"
+    invalidNewPassword:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid new password"
     invalidRequest:
       type: object
       properties:
@@ -245,6 +298,12 @@ components:
         message:
           type: string
           example: "Csv header is not valid"
+    ok:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'ok'
     internalServerError:
       type: object
       properties:
