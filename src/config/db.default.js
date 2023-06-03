@@ -14,8 +14,8 @@ async function initDefaultUsers () {
     const adm = await Roles.findOne({ name: 'administration' })
     const admin = await Roles.findOne({ name: 'admin' })
 
-    const class200 = await Classes.findOne({ name: '200'})
-    const class201 = await Classes.findOne({ name: '201'})
+    const class200 = await Classes.findOne({ name: '200' })
+    const class201 = await Classes.findOne({ name: '201' })
 
     await bcrypt.hash('admin123', 10).then(async (hash) => {
       // We create a default admin user
