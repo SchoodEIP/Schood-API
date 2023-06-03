@@ -110,6 +110,7 @@ const checkCsvBody = async (csv) => {
     if (idx === -1) { error.push({ rowCSV: index + 2, errors: [errorType], ...csv[index] }) } else { error[idx].errors.push(errorType) }
   }
 
+  const emails = []
   for (const [index, row] of csv.entries()) {
     if (row.firstname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.firstname)) addError('Firstname is not valid', index)
     if (row.lastname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.lastname)) addError('Lastname is not valid', index)
@@ -125,10 +126,17 @@ const checkCsvBody = async (csv) => {
       addError('User already exists', index)
     }
 
-    const classes_ = row.classes.filter(async className => await Classes.findOne({ name: className }))
+    if (emails.includes(row.email)) {
+      addError('A different user in the csv already have this email', index)
+    } else {
+      emails.push(row.email)
+    }
 
-    if (!classes_ || classes_.length === 0) {
-      addError('Invalid class', index)
+    for (const class_ of row.classes) {
+      const foundClass = await Classes.findOne({ name: class_ })
+      if (!foundClass) {
+        addError(`${class_} class does not exist`, index)
+      }
     }
   }
   return error
@@ -137,6 +145,7 @@ const checkCsvBody = async (csv) => {
 /**
  * Import users from csv
  * @param csv
+ * @param mail
  * @returns {Promise<(boolean|string|number)[]|(boolean|*)[]>}
  */
 const processImport = async (csv, mail) => {
