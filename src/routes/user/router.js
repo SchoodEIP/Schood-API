@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 
 const auth = require('../../middleware/auth')
-const access = require('../../middleware/access')
 
 const login = require('./login')
 const forgottenPassword = require('./forgottenPassword')
