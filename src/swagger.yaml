@@ -104,7 +104,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalServerError'
   /adm/csvRegisterUser:
-    patch:
+    post:
       tags:
         - adm
       summary: Register users passing a csv file
