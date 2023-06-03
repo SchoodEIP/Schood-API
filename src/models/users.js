@@ -75,4 +75,13 @@ const validateRegister = (user) => {
   return schema.validate(user)
 }
 
-module.exports = { Users, validateUser, validateRegister }
+const validatePassword = (password) => {
+  const schema = Joi.string()
+    .min(7)
+    .regex(/\d/)
+    .regex(/[A-Z]+/)
+    .regex(/[a-z]+/)
+  return schema.validate(password)
+}
+
+module.exports = { Users, validateUser, validateRegister, validatePassword }
