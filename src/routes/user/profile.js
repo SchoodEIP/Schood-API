@@ -26,17 +26,17 @@ module.exports = async (req, res) => {
     const classes = []
 
     for (const _class of user.classes) {
-        console.log(_class)
-        const className = await Classes.findById(_class)
-        classes.push(className.name)
+      console.log(_class)
+      const className = await Classes.findById(_class)
+      classes.push(className.name)
     }
 
     const response = {
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        role: userRole.name,
-        classes
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      role: userRole.name,
+      classes
     }
     // Send profile
     return res.status(200).json(response)

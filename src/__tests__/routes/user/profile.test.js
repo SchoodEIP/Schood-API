@@ -28,23 +28,23 @@ describe('User route tests', () => {
 
   describe('Profile route', () => {
     it('GET /user/profile => Try good email', async () => {
-        let key
-  
-        await request(app)
-          .post('/user/login')
-          .send({
-            email: 'student1@schood.fr',
-            password: 'student123'
-          })
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .then((response) => {
-            key = response.body.token
-          })
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'student1@schood.fr',
+          password: 'student123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
       return await request(app)
         .get('/user/profile')
         .set({
-            'x-auth-token': key
+          'x-auth-token': key
         })
         .expect('Content-Type', /json/)
         .expect(200)
