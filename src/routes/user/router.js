@@ -18,6 +18,6 @@ const profile = require('./profile')
 // Created router routes connection
 router.post('/login', login)
 router.post('/forgottenPassword', forgottenPassword)
-router.get('/profile', auth, access(0), profile)
+router.get('/profile', auth, profile)
 
 module.exports = router

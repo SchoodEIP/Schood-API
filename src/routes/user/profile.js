@@ -26,7 +26,6 @@ module.exports = async (req, res) => {
     const classes = []
 
     for (const _class of user.classes) {
-        console.log(_class)
         const className = await Classes.findById(_class)
         classes.push(className.name)
     }
