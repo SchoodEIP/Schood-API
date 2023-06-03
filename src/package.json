@@ -8,7 +8,11 @@
       "__tests__/serverUtils"
     ],
     "coveragePathIgnorePatterns": [
-      "services/mailer"
+      "services/mailer",
+      "config/db.default"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules\/(?!my-package)(.*)"
     ],
     "testEnvironment": "node",
     "coverageThreshold": {
