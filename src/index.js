@@ -28,6 +28,7 @@ async function startServer () {
   if (dbCo) {
     try {
       app.use(express.json())
+      app.use(express.urlencoded({ extended: true }))
       if (!process.env.PROD) {
         app.use(limiter)
       }

@@ -30,6 +30,9 @@ services:
       - MAIL=${MAIL}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - PROD=${PROD}
+    volumes:
+      - ./src:/app
+      - /app/
 
 volumes:
   db:
