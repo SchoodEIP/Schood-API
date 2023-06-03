@@ -27,6 +27,9 @@ services:
       - DB_PASS=${DB_PASS}
       - JWT_SECRET=${JWT_SECRET}
       - EXPRESS_PORT=${EXPRESS_PORT}
+      - MAIL=${MAIL}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - PROD=${PROD}
 
 volumes:
   db:
