@@ -8,6 +8,7 @@ describe('Facility route tests', () => {
   let app
 
   beforeAll(async () => {
+    process.env.PROD = true
     app = await server.testServer()
   })
 
@@ -15,12 +16,13 @@ describe('Facility route tests', () => {
     const collections = mongoose.connection.collections
     for (const key in collections) {
       const collection = collections[key]
-      if (collection) { collection.deleteMany() }
+      await collection.deleteMany()
     }
     await dbDefault()
   })
 
   afterAll(async () => {
+    await mongoose.connection.dropDatabase()
     await mongoose.connection.close()
   })
 

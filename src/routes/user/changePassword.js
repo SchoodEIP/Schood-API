@@ -36,7 +36,6 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid new password' })
     }
     const currentUser = await Users.findOne({ id: req.user._id })
-    if (!currentUser) { return res.status(400).json({ message: 'User not found' }) }
 
     const valid = await bcrypt.compare(req.body.oldPassword, currentUser.password)
     if (!valid) {

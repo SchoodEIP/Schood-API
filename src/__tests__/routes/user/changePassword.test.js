@@ -278,5 +278,52 @@ describe('User route tests', () => {
         .expect('Content-Type', /json/)
         .expect(200)
     })
+
+    it('PATCH /user/changePassword => Try good request 2nd connection', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin@schood.fr',
+          password: 'admin123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await request(app)
+        .patch('/user/changePassword')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          oldPassword: 'admin123',
+          newPassword: 'Test123'
+        })
+        .expect(200)
+
+      await request(app)
+        .patch('/user/changePassword')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          oldPassword: 'Test123',
+          newPassword: 'Test321'
+        })
+        .expect(200)
+
+      return await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin@schood.fr',
+          password: 'Test321'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+    })
   })
 })

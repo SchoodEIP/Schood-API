@@ -42,6 +42,7 @@ const usersSchema = new Schema({
   }],
   firstConnexion: {
     type: Boolean,
+    required: true,
     default: true
   }
 })
