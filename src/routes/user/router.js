@@ -1,8 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
+const auth = require('../../middleware/auth')
+const access = require('../../middleware/access')
+
 const login = require('./login')
 const forgottenPassword = require('./forgottenPassword')
+const profile = require('./profile')
 
 /**
  * User router connection
@@ -14,5 +18,6 @@ const forgottenPassword = require('./forgottenPassword')
 // Created router routes connection
 router.post('/login', login)
 router.post('/forgottenPassword', forgottenPassword)
+router.get('/profile', auth, access(0), profile)
 
 module.exports = router
