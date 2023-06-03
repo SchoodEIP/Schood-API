@@ -103,6 +103,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+  /adm/csvRegisterUser:
+    patch:
+      tags:
+        - adm
+      summary: Register users passing a csv file
+      description: >
+        Register users, given non empty firstnames, non empty lastnames, valid emails, valid roles and valid classes (separated by ':').
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CsvRegisterUser'
+      responses:
+        '200':
+          description: Successful operation
+        '422':
+          description: Invalid csv
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidCsv'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
   /admin/facility/register:
     post:
       tags:
@@ -164,6 +192,12 @@ components:
         level:
           type: integer
           example: 1
+    CsvRegisterUser:
+      type: object
+      properties:
+        filename:
+          type: string
+          format: binary
     Register:
       type: object
       properties:
@@ -205,6 +239,12 @@ components:
         message:
           type: string
           example: "Invalid request"
+    invalidCsv:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Csv header is not valid"
     internalServerError:
       type: object
       properties:
