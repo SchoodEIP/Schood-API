@@ -290,5 +290,32 @@ describe('Adm route tests', () => {
         .expect('Content-Type', /json/)
         .expect(403)
     })
+    
+    it('POST /adm/csvRegisterUser => Try register bad body (multiple same email)', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'adm@schood.fr',
+          password: 'adm123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+      return await request(app)
+        .post('/adm/csvRegisterUser/?mail=false')
+        .set({
+          'x-auth-token': key
+        })
+        .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyMultipleSameEmail.csv')
+        .expect('Content-Type', /json/)
+        .expect(422)
+        .then((response) => {
+          console.log(response.body)
+        })
+    })
   })
 })

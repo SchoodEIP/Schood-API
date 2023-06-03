@@ -27,7 +27,7 @@ const { sendMail } = require('../../services/mailer')
  */
 module.exports = async (req, res) => {
   try {
-    const mail = req.query.mail || true
+    const mail = Boolean((req.query.mail || "").replace(/\s*(false|null|undefined|0)\s*/i, ""))
     // Verify received data
     if (req.file.size === 0) { return res.status(422).json({ message: 'The file is empty' }) }
 
@@ -72,7 +72,7 @@ const convertCsv = async (filepath) => {
         .on('end', () => {
           resolve(csv?.map(row => { return { ...row, classes: row.class.split(':') } }))
         })
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       resolve(null)
     }
   })
@@ -125,7 +125,7 @@ const checkCsvBody = async (csv) => {
       addError('User already exists', index)
     }
 
-    const classes_ = row.classes.filter(className => Classes.findOne({ name: className }))
+    const classes_ = row.classes.filter(async className => await Classes.findOne({ name: className }))
 
     if (!classes_ || classes_.length === 0) {
       addError('Invalid class', index)
@@ -159,6 +159,7 @@ const processImport = async (csv, mail) => {
       })
       await user.save()
 
+      /* istanbul ignore next */
       if (mail) {
         const message = 'email: ' + val.email + ' | password: ' + password
         sendMail(val.email, 'Schood Account Created', message)

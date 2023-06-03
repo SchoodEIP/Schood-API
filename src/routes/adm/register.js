@@ -28,7 +28,7 @@ const random = require('random-string-generator')
 module.exports = async (req, res) => {
   try {
     /* istanbul ignore next */
-    const mail = req.query.mail || true
+    const mail = Boolean((req.query.mail || "").replace(/\s*(false|null|undefined|0)\s*/i, ""))
 
     // Verif received data
     const { error } = validateRegister(req.body)
