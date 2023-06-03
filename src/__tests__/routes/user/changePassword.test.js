@@ -245,7 +245,7 @@ describe('User route tests', () => {
         .expect(400)
     })
 
-    it('PATCH /user/changePassword => Try good request', async () => {
+    it('PATCH /user/changePassword => Try good requests', async () => {
       let key
 
       await request(app)
@@ -260,7 +260,7 @@ describe('User route tests', () => {
           key = response.body.token
         })
 
-      return await request(app)
+      await request(app)
         .patch('/user/changePassword')
         .set({
           'x-auth-token': key
@@ -271,17 +271,14 @@ describe('User route tests', () => {
         })
         .expect(200)
 
-      // return await request(app)
-      //   .post('/user/login')
-      //   .send({
-      //     email: 'admin@schood.fr',
-      //     password: 'Test123'
-      //   })
-      //   .expect('Content-Type', /json/)
-      //   .expect(200)
-      //   .then((response) => {
-      //     key = response.body.token
-      //   })
+      return await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin@schood.fr',
+          password: 'Test123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
     })
   })
 })

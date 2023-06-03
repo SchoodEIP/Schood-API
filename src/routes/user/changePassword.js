@@ -51,17 +51,15 @@ module.exports = async (req, res) => {
       currentUser.firstConnexion = false
     }
 
-    console.log("la")
-    bcrypt.hash(req.body.newPassword, 10).then(async (hash) => {
-      currentUser.password = hash
-      console.log("before")
-      await currentUser.save()
-      // console.log("updated", await Users.findOne({ id: req.user._id}))
-    })
+    currentUser.password = await bcrypt.hash(req.body.newPassword, 10)
+    console.log("before")
+    await currentUser.save()
+    console.log("updated", await Users.findOne({ id: req.user._id}))
 
     return res.status(200).json({ message: 'ok'})
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
+    console.log(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }
