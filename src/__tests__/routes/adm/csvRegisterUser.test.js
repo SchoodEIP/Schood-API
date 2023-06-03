@@ -290,7 +290,7 @@ describe('Adm route tests', () => {
         .expect('Content-Type', /json/)
         .expect(403)
     })
-    
+
     it('POST /adm/csvRegisterUser => Try register bad body (multiple same email)', async () => {
       let key
 
