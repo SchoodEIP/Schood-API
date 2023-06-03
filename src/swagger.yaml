@@ -10,6 +10,8 @@ servers:
 tags:
   - name: user
     description: User operations
+  - name: adm
+    description: School Administration operations
   - name: admin
     description: Admin operations
 paths:
@@ -39,6 +41,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/invalidLogin'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+  /user/forgottenPassword:
+    post:
+      tags:
+        - user
+      summary: Retrieve forgotten password
+      description: >
+        Send an email to the user to get another password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetrievePassword'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid inputs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
         '500':
           description: Internal Server Error
           content:
@@ -83,10 +113,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
-  /admin/facility/register:
+  /adm/register:
     post:
       tags:
-        - admin
+        - adm
       summary: Register a Facility
       description: >
         Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
@@ -95,14 +125,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FacilityRegister'
+              $ref: '#/components/schemas/Register'
       responses:
         '200':
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ok'
         '400':
           description: Invalid request
           content:
@@ -115,6 +141,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+  /admin/facility/register:
+    post:
+      tags:
+        - admin
+      summary: Register a user
+      description: >
+        Register a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacilityRegister'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+
 components:
   schemas:
     UserLogin:
@@ -135,6 +190,12 @@ components:
         newPassword:
           type: string
           example: 'Test123'
+    RetrievePassword:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'admin@schood.fr'
     FacilityRegister:
       type: object
       properties:
@@ -150,6 +211,29 @@ components:
         level:
           type: integer
           example: 1
+    Register:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'test.schood@gmail.com'
+        firstname:
+          type: string
+          example: 'test'
+        lastname:
+          type: string
+          example: 'test'
+        role:
+          type: string
+          example: "64692acf1874cb0532aa619d"
+        classes:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "200"
     token:
       type: object
       properties:

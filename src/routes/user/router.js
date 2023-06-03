@@ -5,6 +5,7 @@ const auth = require('../../middleware/auth')
 
 const login = require('./login')
 const changePassword = require('./changePassword')
+const forgottenPassword = require('./forgottenPassword')
 
 /**
  * User router connection
@@ -16,5 +17,6 @@ const changePassword = require('./changePassword')
 // Created router routes connection
 router.post('/login', login)
 router.patch('/changePassword', auth, changePassword)
+router.post('/forgottenPassword', forgottenPassword)
 
 module.exports = router
