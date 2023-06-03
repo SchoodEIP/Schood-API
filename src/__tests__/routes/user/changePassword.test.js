@@ -3,8 +3,6 @@ const mongoose = require('mongoose')
 
 const server = require('../../serverUtils/testServer')
 const dbDefault = require('../../../config/db.default')
-const { Users } = require('../../../models/users')
-const { Roles } = require('../../../models/roles')
 
 describe('User route tests', () => {
   let app
@@ -51,7 +49,7 @@ describe('User route tests', () => {
         })
         .send({
           oldPassword: '',
-          newPassword: 'Test123',
+          newPassword: 'Test123'
         })
         .expect(400)
     })
@@ -78,7 +76,7 @@ describe('User route tests', () => {
         })
         .send({
           oldPassword: 'Test123',
-          newPassword: '',
+          newPassword: ''
         })
         .expect(400)
     })
@@ -105,7 +103,7 @@ describe('User route tests', () => {
         })
         .send({
           oldPassword: 'Test123',
-          newPassword: 'Test123',
+          newPassword: 'Test123'
         })
         .expect(422)
     })
@@ -132,7 +130,7 @@ describe('User route tests', () => {
         })
         .send({
           oldPassword: 'Test000',
-          newPassword: 'test123',
+          newPassword: 'test123'
         })
         .expect(400)
     })
@@ -159,7 +157,7 @@ describe('User route tests', () => {
         })
         .send({
           oldPassword: 'Test000',
-          newPassword: 'TEST123',
+          newPassword: 'TEST123'
         })
         .expect(400)
     })
@@ -186,7 +184,7 @@ describe('User route tests', () => {
         })
         .send({
           oldPassword: 'Test000',
-          newPassword: 'Testtest',
+          newPassword: 'Testtest'
         })
         .expect(400)
     })
@@ -213,7 +211,7 @@ describe('User route tests', () => {
         })
         .send({
           oldPassword: 'Test000',
-          newPassword: 'Tes123',
+          newPassword: 'Tes123'
         })
         .expect(400)
     })
@@ -240,7 +238,7 @@ describe('User route tests', () => {
         })
         .send({
           oldPassword: 'Test000',
-          newPassword: 'Test123',
+          newPassword: 'Test123'
         })
         .expect(400)
     })
@@ -267,7 +265,7 @@ describe('User route tests', () => {
         })
         .send({
           oldPassword: 'admin123',
-          newPassword: 'Test123',
+          newPassword: 'Test123'
         })
         .expect(200)
 
