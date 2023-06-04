@@ -113,6 +113,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
+  /user/profile:
+    get:
+      tags:
+        - user
+      summary: Get the user informations
+      description: >
+        Send a json containing the user informations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
   /adm/register:
     post:
       tags:
@@ -141,6 +165,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
   /adm/csvRegisterUser:
     post:
       tags:
@@ -169,6 +195,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
   /admin/facility/register:
     post:
       tags:
@@ -197,6 +225,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
 
 components:
   schemas:
@@ -268,6 +298,29 @@ components:
               name:
                 type: string
                 example: "200"
+    Profile:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'test.schood@gmail.com'
+        firstname:
+          type: string
+          example: 'test'
+        lastname:
+          type: string
+          example: 'test'
+        role:
+          type: string
+          example: "student"
+        classes:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "200"
     token:
       type: object
       properties:
@@ -314,8 +367,4 @@ components:
       x-auth-token:
         type: apiKey
         name: x-auth-token
-        in: header
-      server-code:
-        type: apiKey
-        name: server-code
         in: header
