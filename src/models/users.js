@@ -39,13 +39,17 @@ const usersSchema = new Schema({
   classes: [{
     type: mongoose.Types.ObjectId,
     ref: 'classes'
-  }]
+  }],
+  firstConnexion: {
+    type: Boolean,
+    required: true,
+    default: true
+  }
 })
 
 // We generate an auth token for user
 usersSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
-  return token
+  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
 }
 
 // We create users collection from usersSchema
@@ -72,4 +76,13 @@ const validateRegister = (user) => {
   return schema.validate(user)
 }
 
-module.exports = { Users, validateUser, validateRegister }
+const validatePassword = (password) => {
+  const schema = Joi.string()
+    .min(7)
+    .regex(/\d/)
+    .regex(/[A-Z]+/)
+    .regex(/[a-z]+/)
+  return schema.validate(password)
+}
+
+module.exports = { Users, validateUser, validateRegister, validatePassword }

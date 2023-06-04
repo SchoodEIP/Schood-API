@@ -10,6 +10,10 @@ servers:
 tags:
   - name: user
     description: User operations
+  - name: adm
+    description: School Administration operations
+  - name: admin
+    description: Admin operations
 paths:
   /user/login:
     post:
@@ -43,6 +47,187 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+  /user/forgottenPassword:
+    post:
+      tags:
+        - user
+      summary: Retrieve forgotten password
+      description: >
+        Send an email to the user to get another password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetrievePassword'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid inputs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+  /user/changePassword:
+    patch:
+      tags:
+        - user
+      summary: Change a user's password
+      description: >
+        Change a user's password, given the current password and a valid new password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserChangePassword'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ok'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Invalid password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidNewPassword'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
+  /user/profile:
+    get:
+      tags:
+        - user
+      summary: Get the user informations
+      description: >
+        Send a json containing the user informations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
+  /adm/register:
+    post:
+      tags:
+        - adm
+      summary: Register a Facility
+      description: >
+        Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
+  /adm/csvRegisterUser:
+    post:
+      tags:
+        - adm
+      summary: Register users passing a csv file
+      description: >
+        Register users, given non empty firstnames, non empty lastnames, valid emails, valid roles and valid classes (separated by ':').
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CsvRegisterUser'
+      responses:
+        '200':
+          description: Successful operation
+        '422':
+          description: Invalid csv
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidCsv'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
+  /admin/facility/register:
+    post:
+      tags:
+        - admin
+      summary: Register a user
+      description: >
+        Register a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacilityRegister'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
+
 components:
   schemas:
     UserLogin:
@@ -54,6 +239,88 @@ components:
         password:
           type: string
           example: 'admin123'
+    UserChangePassword:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          example: 'Pass123'
+        newPassword:
+          type: string
+          example: 'Test123'
+    RetrievePassword:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'admin@schood.fr'
+    FacilityRegister:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Example school'
+        address:
+          type: string
+          example: '3 rue test'
+        telephone:
+          type: string
+          example: '0102030405'
+        level:
+          type: integer
+          example: 1
+    CsvRegisterUser:
+      type: object
+      properties:
+        filename:
+          type: string
+          format: binary
+    Register:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'test.schood@gmail.com'
+        firstname:
+          type: string
+          example: 'test'
+        lastname:
+          type: string
+          example: 'test'
+        role:
+          type: string
+          example: "64692acf1874cb0532aa619d"
+        classes:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "200"
+    Profile:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'test.schood@gmail.com'
+        firstname:
+          type: string
+          example: 'test'
+        lastname:
+          type: string
+          example: 'test'
+        role:
+          type: string
+          example: "student"
+        classes:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "200"
     token:
       type: object
       properties:
@@ -66,6 +333,30 @@ components:
         message:
           type: string
           example: "Invalid username or password"
+    invalidNewPassword:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid new password"
+    invalidRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid request"
+    invalidCsv:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Csv header is not valid"
+    ok:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'ok'
     internalServerError:
       type: object
       properties:
@@ -76,8 +367,4 @@ components:
       x-auth-token:
         type: apiKey
         name: x-auth-token
-        in: header
-      server-code:
-        type: apiKey
-        name: server-code
         in: header

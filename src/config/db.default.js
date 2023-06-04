@@ -14,6 +14,9 @@ async function initDefaultUsers () {
     const adm = await Roles.findOne({ name: 'administration' })
     const admin = await Roles.findOne({ name: 'admin' })
 
+    const class200 = await Classes.findOne({ name: '200' })
+    const class201 = await Classes.findOne({ name: '201' })
+
     await bcrypt.hash('admin123', 10).then(async (hash) => {
       // We create a default admin user
       const adminU = new Users({
@@ -36,7 +39,8 @@ async function initDefaultUsers () {
           firstname: 'teacher1',
           lastname: 'teacher1',
           password: hash,
-          role: teacher._id
+          role: teacher._id,
+          classes: [class200._id, class201._id]
         })
 
         // Save the user teacher1
@@ -50,7 +54,8 @@ async function initDefaultUsers () {
           firstname: 'teacher2',
           lastname: 'teacher2',
           password: hash,
-          role: teacher._id
+          role: teacher._id,
+          classes: [class200._id]
         })
 
         // Save the user teacher2
@@ -64,7 +69,8 @@ async function initDefaultUsers () {
           firstname: 'student1',
           lastname: 'student1',
           password: hash,
-          role: student._id
+          role: student._id,
+          classes: [class200._id]
         })
 
         // Save the user student1
@@ -78,7 +84,8 @@ async function initDefaultUsers () {
           firstname: 'student2',
           lastname: 'student2',
           password: hash,
-          role: student._id
+          role: student._id,
+          classes: [class201._id]
         })
 
         // Save the user student2
@@ -158,8 +165,8 @@ async function initDefaultClasses () {
 
 module.exports = async () => {
   await initDefaultRoles()
-  await initDefaultUsers()
   if (process.env.PROD === 'true') {
     await initDefaultClasses()
   }
+  await initDefaultUsers()
 }
