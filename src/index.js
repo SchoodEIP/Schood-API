@@ -30,6 +30,7 @@ const limiter = RateLimit({
 const options = {
   key: fs.readFileSync('./key.pem'),
   cert: fs.readFileSync('./cert.pem'),
+  ca: fs.readFileSync('./ca.pem'),
 }
 
 /**
@@ -57,7 +58,7 @@ async function startServer () {
       // Start server
       console.log("START HTTP SERVER")
       http.createServer(app).listen(http_port);
-      
+
       if (process.env.HTTPS) {
         console.log("START HTTPS SERVER")
         https.createServer(options, app).listen(https_port);
