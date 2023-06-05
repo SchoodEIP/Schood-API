@@ -7,7 +7,8 @@ require('dotenv').config({ path: '../.env' })
 const RateLimit = require('express-rate-limit')
 
 const app = express()
-const port = process.env.EXPRESS_PORT
+const http_port = process.env.HTTP_EXPRESS_PORT
+const https_port = process.env.HTTPS_EXPRESS_PORT
 const router = require('./routes/router.js')
 const { dbConnection } = require('./config/db')
 const sanitizer = require('./middleware/sanitize')
@@ -55,10 +56,10 @@ async function startServer () {
 
       // Start server
       if (!process.env.HTTPS) {
-        http.createServer(app).listen(80);
+        http.createServer(app).listen(http_port);
       }
       if (process.env.HTTPS) {
-        https.createServer(options, app).listen(443);
+        https.createServer(options, app).listen(https_port);
       }
     } catch (error) {
       console.error('ERROR: index.js error : ', error)
