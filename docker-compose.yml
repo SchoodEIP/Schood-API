@@ -15,7 +15,8 @@ services:
     build: src
     restart: always
     ports:
-      - '${EXPRESS_PORT}:${EXPRESS_PORT}'
+      - '${HTTP_EXPRESS_PORT}:${HTTP_EXPRESS_PORT}'
+      - '${HTTPS_EXPRESS_PORT}:${HTTPS_EXPRESS_PORT}'
     depends_on:
       - mongodb
     links:
@@ -26,7 +27,8 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
       - JWT_SECRET=${JWT_SECRET}
-      - EXPRESS_PORT=${EXPRESS_PORT}
+      - HTTP_EXPRESS_PORT=${HTTP_EXPRESS_PORT}
+      - HTTPS_EXPRESS_PORT=${HTTPS_EXPRESS_PORT}
       - MAIL=${MAIL}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - PROD=${PROD}
