@@ -1,5 +1,8 @@
 const express = require('express')
 const cors = require('cors')
+const https = require('https');
+const http = require('http');
+const fs = require('fs');
 require('dotenv').config({ path: '../.env' })
 const RateLimit = require('express-rate-limit')
 
@@ -19,6 +22,15 @@ const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 20
 })
+
+/**
+ * Set keys files
+ */
+const options = {
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./cert.pem'),
+  ca: fs.readFileSync('./ca.pem')
+}
 
 /**
  * Start the Node.Js server
@@ -43,9 +55,10 @@ async function startServer () {
       app.use('/', sanitizer, router)
 
       // Start server
-      app.listen(port, () => {
-        console.log(`INFO: API listening at http://localhost:${port}`)
-      })
+      http.createServer(app).listen(80);
+      if (!process.env.PROD) {
+        https.createServer(options, app).listen(443);
+      }
     } catch (error) {
       console.error('ERROR: index.js error : ', error)
     }
