@@ -55,8 +55,10 @@ async function startServer () {
       app.use('/', sanitizer, router)
 
       // Start server
-      http.createServer(app).listen(80);
-      if (!process.env.PROD) {
+      if (!process.env.HTTPS) {
+        http.createServer(app).listen(80);
+      }
+      if (process.env.HTTPS) {
         https.createServer(options, app).listen(443);
       }
     } catch (error) {
