@@ -55,10 +55,9 @@ async function startServer () {
       app.use('/', sanitizer, router)
 
       // Start server
-      if (!process.env.HTTPS) {
-        console.log("START HTTP SERVER")
-        http.createServer(app).listen(http_port);
-      }
+      console.log("START HTTP SERVER")
+      http.createServer(app).listen(http_port);
+      
       if (process.env.HTTPS) {
         console.log("START HTTPS SERVER")
         https.createServer(options, app).listen(https_port);
