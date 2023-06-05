@@ -32,6 +32,7 @@ services:
       - MAIL=${MAIL}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - PROD=${PROD}
+      - HTTPS=${HTTPS}
     volumes:
       - ./src:/app
       - /app/
