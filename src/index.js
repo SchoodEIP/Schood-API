@@ -1,14 +1,14 @@
 const express = require('express')
 const cors = require('cors')
-const https = require('https');
-const http = require('http');
-const fs = require('fs');
+const https = require('https')
+const http = require('http')
+const fs = require('fs')
 require('dotenv').config({ path: '../.env' })
 const RateLimit = require('express-rate-limit')
 
 const app = express()
-const http_port = process.env.HTTP_EXPRESS_PORT
-const https_port = process.env.HTTPS_EXPRESS_PORT
+const httpPort = process.env.HTTP_EXPRESS_PORT
+const httpsPort = process.env.HTTPS_EXPRESS_PORT
 const router = require('./routes/router.js')
 const { dbConnection } = require('./config/db')
 const sanitizer = require('./middleware/sanitize')
@@ -30,7 +30,7 @@ const limiter = RateLimit({
 const options = {
   key: fs.readFileSync('./key.pem'),
   cert: fs.readFileSync('./cert.pem'),
-  ca: fs.readFileSync('./ca.pem'),
+  ca: fs.readFileSync('./ca.pem')
 }
 
 /**
@@ -56,12 +56,12 @@ async function startServer () {
       app.use('/', sanitizer, router)
 
       // Start server
-      console.log("START HTTP SERVER")
-      http.createServer(app).listen(http_port);
+      console.log('START HTTP SERVER')
+      http.createServer(app).listen(httpPort)
 
       if (process.env.HTTPS) {
-        console.log("START HTTPS SERVER")
-        https.createServer(options, app).listen(https_port);
+        console.log('START HTTPS SERVER')
+        https.createServer(options, app).listen(httpsPort)
       }
     } catch (error) {
       console.error('ERROR: index.js error : ', error)
