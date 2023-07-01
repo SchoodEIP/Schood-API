@@ -63,6 +63,7 @@ async function startServer () {
         console.log('INFO: START HTTPS SERVER')
         https.createServer(options, app).listen(httpsPort)
       }
+      console.log('=============================================')
     } catch (error) {
       console.error('ERROR: index.js error : ', error)
     }
