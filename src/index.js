@@ -25,15 +25,6 @@ const limiter = RateLimit({
 })
 
 /**
- * Set keys files
- */
-const options = {
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./cert.pem'),
-  ca: fs.readFileSync('./ca.pem')
-}
-
-/**
  * Start the Node.Js server
  */
 async function startServer () {
@@ -42,7 +33,7 @@ async function startServer () {
     try {
       app.use(express.json())
       app.use(express.urlencoded({ extended: true }))
-      if (!process.env.PROD) {
+      if (process.env.PROD === 'false') {
         app.use(limiter)
       }
       app.use(cors({
@@ -56,11 +47,20 @@ async function startServer () {
       app.use('/', sanitizer, router)
 
       // Start server
-      console.log('START HTTP SERVER')
+      console.log('INFO: START HTTP SERVER')
       http.createServer(app).listen(httpPort)
 
-      if (process.env.HTTPS) {
-        console.log('START HTTPS SERVER')
+      if (process.env.HTTPS === 'true') {
+        /**
+         * Set keys files
+         */
+        const options = {
+          key: fs.readFileSync('./key.pem'),
+          cert: fs.readFileSync('./cert.pem'),
+          ca: fs.readFileSync('./ca.pem')
+        }
+
+        console.log('INFO: START HTTPS SERVER')
         https.createServer(options, app).listen(httpsPort)
       }
     } catch (error) {
