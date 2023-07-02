@@ -1,5 +1,4 @@
 const express = require('express')
-const cors = require('cors')
 const https = require('https')
 const http = require('http')
 const fs = require('fs')
@@ -36,11 +35,40 @@ async function startServer () {
       if (process.env.PROD === 'false') {
         app.use(limiter)
       }
-      app.use(cors({
-        credentials: true,
-        origin: '*',
-        allowedHeaders: '*'
-      }))
+      app.use(function (req, res, next) {
+        const allowedOrigins = [
+            'http://localhost:8080',
+            'https://localhost:8080',
+            'http://localhost',
+            'https://localhost',
+            'http://localhost:8081',
+            'https://localhost:8081',
+            'http://schood.fr:8080',
+            'https://schood.fr:8080',
+            'http://schood.fr',
+            'https://schood.fr',
+            'http://schood.fr:8081',
+            'https://schood.fr:8081',
+        ];
+        const origin = req.headers.origin;
+        if (process.env.PROD === 'true') {
+            if (allowedOrigins.indexOf(origin) > -1) {
+                res.header('Access-Control-Allow-Origin', origin);
+            }
+        } else {
+            res.header('Access-Control-Allow-Origin', "*");
+        }
+        res.header('Access-Control-Allow-Credentials', 'true');
+        res.header(
+            'Access-Control-Allow-Methods',
+            'GET,PUT,HEAD,OPTIONS,POST,DELETE'
+        );
+        res.header(
+            'Access-Control-Allow-Headers',
+            'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Cache-Control'
+        );
+        next();
+      });
       // Init swagger
       app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
       // Init router
