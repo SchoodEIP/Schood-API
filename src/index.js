@@ -43,6 +43,8 @@ async function startServer () {
             'https://localhost',
             'http://localhost:8081',
             'https://localhost:8081',
+            'http://localhost:3000',
+            'https://localhost:3000',
             'http://schood.fr:8080',
             'https://schood.fr:8080',
             'http://schood.fr',
