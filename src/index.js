@@ -24,7 +24,7 @@ const limiter = RateLimit({
   max: 20
 })
 
-var corsOptions = {
+const corsOptions = {
   origin: [
     'http://localhost:8080',
     'https://localhost:8080',
@@ -39,11 +39,11 @@ var corsOptions = {
     'http://schood.fr',
     'https://schood.fr',
     'http://schood.fr:8081',
-    'https://schood.fr:8081',
-],
+    'https://schood.fr:8081'
+  ],
   optionsSuccessStatus: 200,
   allowedHeaders: ['Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Cache-Control, x-auth-token'],
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }
 
 /**
