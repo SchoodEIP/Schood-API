@@ -44,7 +44,7 @@
     "jest": "^29.5.0",
     "joi": "^17.9.2",
     "joi-objectid": "^4.0.2",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "^9.0.1",
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^7.3.2",
     "multer": "^1.4.5-lts.1",
