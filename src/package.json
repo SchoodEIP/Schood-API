@@ -12,7 +12,7 @@
       "config/db.default"
     ],
     "transformIgnorePatterns": [
-      "/node_modules\/(?!my-package)(.*)"
+      "/node_modules/(?!my-package)(.*)"
     ],
     "testEnvironment": "node",
     "coverageThreshold": {
@@ -51,6 +51,7 @@
     "nodemailer": "^6.9.3",
     "nodemon": "^2.0.22",
     "random-string-generator": "^1.0.1",
+    "semver": "^7.5.4",
     "standard": "^17.1.0",
     "supertest": "^6.3.3",
     "swagger-ui-express": "^4.6.3",
