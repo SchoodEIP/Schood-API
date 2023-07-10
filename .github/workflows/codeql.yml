@@ -20,6 +20,7 @@ on:
 
 jobs:
   analyze:
+    if: ${{ github.triggering_actor != 'dependabot[bot]' }}
     name: Analyze
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
