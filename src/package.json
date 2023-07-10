@@ -54,7 +54,7 @@
     "semver": "^7.5.4",
     "standard": "^17.1.0",
     "supertest": "^6.3.3",
-    "swagger-ui-express": "^4.6.3",
+    "swagger-ui-express": "^5.0.0",
     "yamljs": "^0.3.0"
   },
   "nodemonConfig": {
