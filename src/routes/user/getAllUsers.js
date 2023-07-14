@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
     if (req.user.role.levelOfAccess >= 3) {
       positions = ['administration', 'admin']
     } else {
-      positions = ['student', 'teacher', 'administration']
+      positions = ['student', 'teacher']
     }
 
     const agg = [
