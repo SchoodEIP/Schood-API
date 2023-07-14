@@ -1,0 +1,29 @@
+name: "Update develop"
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+    Update_Develop:
+        runs-on: ubuntu-latest
+        name: Update Develop
+        permissions:
+          contents: write
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                token: ${{ secrets.GITHUB_TOKEN  }}
+                
+            - name: Set Git config
+              run: |
+                    git config --local user.email "actions@github.com"
+                    git config --local user.name "Github Actions"
+
+            - name: Merge main back to develop
+              run: |
+                    git fetch --unshallow
+                    git checkout develop
+                    git pull
+                    git merge --no-ff main -m "Auto-merge main back to develop"
+                    git push --force
