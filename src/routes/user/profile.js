@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
   try {
     const response = JSON.parse(JSON.stringify(req.user))
     delete response.password
-    
+
     // Send profile
     return res.status(200).json(response)
   } catch (error) /* istanbul ignore next */ {
