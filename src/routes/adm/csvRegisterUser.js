@@ -157,11 +157,11 @@ const processImport = async (csv, mail) => {
       row = val
 
       const password = random(10, 'alphanumeric')
-      const role = await Roles.findOne({ name: val.role });
+      const role = await Roles.findOne({ name: val.role })
       const classes = []
       for (let index = 0; index < row.classes.length; index++) {
-        const element = row.classes[index];
-        const classId = await Classes.findOne({name: element})
+        const element = row.classes[index]
+        const classId = await Classes.findOne({ name: element })
         classes.push(classId._id)
       }
       const user = new Users({
