@@ -35,19 +35,18 @@ module.exports = async (req, res) => {
     if (error) {
       return res.status(400).json({ message: 'Invalid new password' })
     }
-    const currentUser = await Users.findOne({ id: req.user._id })
 
-    const valid = await bcrypt.compare(req.body.oldPassword, currentUser.password)
+    const valid = await bcrypt.compare(req.body.oldPassword, req.user.password)
     if (!valid) {
       return res.status(400).json({ message: 'Invalid old password' })
     }
 
-    if (currentUser.firstConnexion) {
-      currentUser.firstConnexion = false
+    if (req.user.firstConnexion) {
+      req.user.firstConnexion = false
     }
 
-    currentUser.password = await bcrypt.hash(req.body.newPassword, 10)
-    await currentUser.save()
+    req.user.password = await bcrypt.hash(req.body.newPassword, 10)
+    await req.user.save()
 
     return res.status(200).json({ message: 'ok' })
   } catch (error) /* istanbul ignore next */ {

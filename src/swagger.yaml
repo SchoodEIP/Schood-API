@@ -2,10 +2,12 @@ openapi: 3.0.3
 info:
   title: Schood API
   description: |-
-    The API server for the Schood EIP Project
+    The API server documentation for the Schood EIP Project
   version: 1.0.0
 servers:
   - url: http://localhost:8080
+    description: Local backend server
+  - url: http://schood.fr:8080
     description: Main backend server
 tags:
   - name: user
@@ -137,13 +139,69 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /user/by/{position}:
+    get:
+      tags:
+        - user
+      summary: Get the list of users by position
+      description: >
+        Send a json containing an array of users by position
+      parameters:
+        - in: path
+          name: position
+          schema:
+            type: string
+          required: true
+          description: >
+            student or teacher if school administrator <br> <br>
+            administrator or admin if admin
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayProfiles'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
+  /user/all:
+    get:
+      tags:
+        - user
+      summary: Get the list of all users
+      description: >
+        Send a json containing an array of users depending of your levelOfAccess
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayProfiles'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
   /adm/register:
     post:
       tags:
         - adm
-      summary: Register a Facility
+      summary: Register a user
       description: >
-        Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
+        Register a user given a valid email, firstname, lastname, role, classes. <br> <br>
+        If the role is student, only one element in the classes array is accepted. <br> <br>
+        If the role is teacher, multiple elements in the classes array is accepted. <br> <br>
+        If other role, no element should be in the classes array
       requestBody:
         required: true
         content:
@@ -201,9 +259,9 @@ paths:
     post:
       tags:
         - admin
-      summary: Register a user
+      summary: Register a facility
       description: >
-        Register a user
+        Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
       requestBody:
         required: true
         content:
@@ -293,14 +351,57 @@ components:
         classes:
           type: array
           items:
+            type: string
+            example: ["64692acf1874cb0532aa619d", "64692acf1874cb0532aa619d"]
+    ArrayProfiles:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+            example: '64b15338a8c793949de08695'
+          email:
+            type: string
+            example: 'test.schood@gmail.com'
+          firstname:
+            type: string
+            example: 'test'
+          lastname:
+            type: string
+            example: 'test'
+          role:
             type: object
             properties:
+              _id:
+                type: string
+                example: "64b15338a8c793949de08679"
               name:
                 type: string
-                example: "200"
+                example: "student"
+              levelOfAccess:
+                type: number
+                example: 0
+          classes:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: "64b15338a8c793949de08680"
+                name:
+                  type: string
+                  example: "200"
+          firstConnexion:
+            type: boolean
+            example: true
     Profile:
       type: object
       properties:
+        _id:
+          type: string
+          example: '64b15338a8c793949de08695'
         email:
           type: string
           example: 'test.schood@gmail.com'
@@ -311,22 +412,40 @@ components:
           type: string
           example: 'test'
         role:
-          type: string
-          example: "student"
+          type: object
+          properties:
+            _id:
+              type: string
+              example: "64b15338a8c793949de08679"
+            name:
+              type: string
+              example: "student"
+            levelOfAccess:
+              type: number
+              example: 0
         classes:
           type: array
           items:
             type: object
             properties:
+              _id:
+                type: string
+                example: "64b15338a8c793949de08680"
               name:
                 type: string
                 example: "200"
+        firstConnexion:
+          type: boolean
+          example: true
     token:
       type: object
       properties:
         token:
           type: string
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJiOTg4NTE0ZDMwNjA5MDYxZGQ3MmIiLCJpYXQiOjE2ODExOTcwMDIsImV4cCI6MTY4MTI4MzQwMn0.IbO1jwqRt4sgNlNWlReZ5aj-D6C5zwSnMlz2eaLsf_s"
+        firstConnexion:
+          type: boolean
+          example: true
     invalidLogin:
       type: object
       properties:
