@@ -1,4 +1,4 @@
-firstname,lastname,email,role,class
+firstname,lastname,email,role,classes
 John_John,Doe,johndoe@gmail.com,3,200
 Michel,Doe,micheldoe@gmail.com,,200
 Paulo,Doe,paulodoe@gmail.com,test,200

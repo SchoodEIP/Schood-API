@@ -34,7 +34,11 @@ module.exports = async (req, res) => {
     const csv = await convertCsv(req.file.path)
     if (!csv || csv.length === 0) { return res.status(422).json({ message: 'Invalid request' }) }
 
-    if (checkCsvHeader(csv[0])) { return res.status(422).json({ message: 'Csv header is not valid' }) }
+    if (checkCsvHeader(csv[0])) {
+      return res.status(422).json({
+        message: 'Csv header is not valid, headers have to be: ' + ['firstname', 'lastname', 'email', 'role', 'classes'].toString()
+      })
+    }
 
     const error = await checkCsvBody(csv)
     if (error.length !== 0) {
@@ -70,7 +74,8 @@ const convertCsv = async (filepath) => {
         .pipe(csvParser())
         .on('data', (data) => csv.push(data))
         .on('end', () => {
-          resolve(csv?.map(row => { return { ...row, classes: row.class.split(':') } }))
+          const toResolve = csv?.map(row => { return { ...row, classes: row?.classes?.split(':') } })
+          resolve(toResolve)
         })
     } catch (e) /* istanbul ignore next */ {
       resolve(null)
@@ -84,10 +89,33 @@ const convertCsv = async (filepath) => {
  * @returns {boolean} Returns True if there is an error, False otherwise
  */
 const checkCsvHeader = (row) => {
-  const keys = ['firstname', 'lastname', 'email', 'role', 'class', 'classes']
+  const keys = ['firstname', 'lastname', 'email', 'role', 'classes']
 
+  // Checks if there is any additional wrong header
   for (const key of Object.keys(row)) {
-    if (!keys.includes(key)) { return true }
+    let newKey = key
+    for (let i = 0; i < newKey.length; ++i) {
+      const c = newKey[i]
+      if (!(c >= 'A' && c <= 'Z') && !(c >= 'a' && c <= 'z')) {
+        console.log(newKey)
+        if (i === 0) newKey = newKey.substring(1)
+        else newKey = newKey.substring(0, i) + newKey.substring(i + 1)
+        console.log(newKey)
+        i--
+      }
+    }
+    if (newKey !== key) {
+      row[newKey] = row[key]
+      console.log(row, newKey)
+      delete row[key]
+      console.log(row)
+    }
+    if (!keys.includes(newKey)) { console.log(`"${newKey}"`, key); return true }
+  }
+
+  // Checks if all needed keys exist
+  for (const key of keys) {
+    if (row[key] === undefined) { console.log(key, row, row[key]); return true }
   }
   return false
 }
@@ -107,7 +135,10 @@ const checkCsvBody = async (csv) => {
    */
   const addError = (errorType, index) => {
     const idx = error.findIndex((e) => e.rowCSV === index + 2)
-    if (idx === -1) { error.push({ rowCSV: index + 2, errors: [errorType], ...csv[index] }) } else { error[idx].errors.push(errorType) }
+    if (idx === -1) {
+      const itemError = { ...csv[index], classes: csv[index].classes.join(':') }
+      error.push({ rowCSV: index + 2, errors: [errorType], itemError })
+    } else { error[idx].errors.push(errorType) }
   }
 
   const emails = []
@@ -116,7 +147,10 @@ const checkCsvBody = async (csv) => {
     if (row.lastname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.lastname)) addError('Lastname is not valid', index)
     if (row.email.length === 0 || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(row.email)) addError('Email is not valid', index)
     if (row.role.length === 0 || !['student', 'teacher', 'adm'].includes(row.role.toLowerCase())) addError('Role is not valid', index)
-    if (row.classes.length === 0) addError('Class is not valid', index)
+    console.log(await Classes.find())
+    if (row.classes.length === 0) {
+      addError('Class is not valid, no class set', index)
+    }
     row.classes.forEach((className) => {
       if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className)) { addError('Class is not valid', index) }
     })
@@ -157,12 +191,18 @@ const processImport = async (csv, mail) => {
       row = val
 
       const password = random(10, 'alphanumeric')
+      const classes_ = []
+      for (const class_ of val.classes) {
+        const foundClassId = await Classes.findOne({ name: class_ })._id
+
+        if (!classes_.includes(foundClassId)) classes_.push(foundClassId)
+      }
       const user = new Users({
         ...val,
         firstname: val.firstname,
         lastname: val.lastname,
         email: val.email,
-        classes: [Classes.findOne({ name: val.class })._id],
+        classes: classes_,
         role: await Roles.findOne({ name: val.role })._id,
         password: await bcrypt.hash(password, 10)
       })
