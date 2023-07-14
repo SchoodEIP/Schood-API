@@ -28,10 +28,12 @@ module.exports = async (req, res, next) => {
     // Verify the auth token with jwt
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
     const user = await Users.findById(decoded._id)
+      .populate('role')
+      .populate('classes')
     if (!user) {
       return res.status(400).json({ message: 'Invalid token' })
     }
-    req.user = decoded
+    req.user = user
 
     next()
   } catch (error) {
