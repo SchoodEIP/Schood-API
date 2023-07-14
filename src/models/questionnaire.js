@@ -15,26 +15,26 @@ Joi.objectId = require('joi-objectid')(Joi)
  */
 const questionnaireSchema = new Schema({
   title: {
-        type: String,
-        required: true
+    type: String,
+    required: true
   },
   date: {
-      type: Date,
-      default: new Date(),
-      required: true
-    },
+    type: Date,
+    default: new Date(),
+    required: true
+  },
   questions: [{
     title: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     type: {
-        type: String,
-        enum: ['text', 'emoji', 'multiple'],
-        default: 'text',
-        required: true
+      type: String,
+      enum: ['text', 'emoji', 'multiple'],
+      default: 'text',
+      required: true
     },
-    validate: v => Array.isArray(v) && v.length > 0,
+    validate: v => Array.isArray(v) && v.length > 0
   }],
   createdBy: {
     type: mongoose.Types.ObjectId,

@@ -20,20 +20,20 @@ const answersSchema = new Schema({
     required: true
   },
   date: {
-      type: Date,
-      default: new Date(),
-      required: true
-    },
+    type: Date,
+    default: new Date(),
+    required: true
+  },
   answers: [{
     question: {
-        type: mongoose.Types.ObjectId,
-        required: true
+      type: mongoose.Types.ObjectId,
+      required: true
     },
     answer: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
-    validate: v => Array.isArray(v) && v.length > 0,
+    validate: v => Array.isArray(v) && v.length > 0
   }],
   createdBy: {
     type: mongoose.Types.ObjectId,
