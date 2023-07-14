@@ -5,7 +5,6 @@
  */
 const { Classes, validateClasses } = require('../../../models/classes')
 const { Users } = require('../../../models/users')
-const { Facilities } = require('../../../models/facilities')
 
 /**
  * Main register function
