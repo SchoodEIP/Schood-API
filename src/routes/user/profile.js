@@ -3,9 +3,6 @@
  * @inner
  * @namespace profile
  */
-const { Classes } = require('../../models/classes')
-const { Roles } = require('../../models/roles')
-const { Users } = require('../../models/users')
 
 /**
  * Main profile function
@@ -23,7 +20,7 @@ module.exports = async (req, res) => {
   try {
     const response = JSON.parse(JSON.stringify(req.user))
     delete response.password
-    
+
     // Send profile
     return res.status(200).json(response)
   } catch (error) /* istanbul ignore next */ {
