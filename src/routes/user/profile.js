@@ -21,22 +21,9 @@ const { Users } = require('../../models/users')
  */
 module.exports = async (req, res) => {
   try {
-    const user = await Users.findById(req.user._id)
-    const userRole = await Roles.findById(user.role)
-    const classes = []
-
-    for (const _class of user.classes) {
-      const className = await Classes.findById(_class)
-      classes.push(className.name)
-    }
-
-    const response = {
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      role: userRole.name,
-      classes
-    }
+    const response = JSON.parse(JSON.stringify(req.user))
+    delete response.password
+    
     // Send profile
     return res.status(200).json(response)
   } catch (error) /* istanbul ignore next */ {
