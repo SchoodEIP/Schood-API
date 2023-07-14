@@ -137,10 +137,10 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
-  /adm/register:
+  /admin/facility/register:
     post:
       tags:
-        - adm
+        - admin
       summary: Register a Facility
       description: >
         Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
@@ -149,7 +149,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '200':
           description: Successful operation
@@ -197,10 +197,40 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
-  /admin/facility/register:
+  /adm/class/register:
     post:
       tags:
-        - admin
+        - adm
+      summary: Register a Class
+      description: >
+        Register a Class, given a non empty name.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassRegister'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/register:
+    post:
+      tags:
+        - adm
       summary: Register a user
       description: >
         Register a user
@@ -275,7 +305,7 @@ components:
         filename:
           type: string
           format: binary
-    Register:
+    UserRegister:
       type: object
       properties:
         email:
@@ -298,6 +328,12 @@ components:
               name:
                 type: string
                 example: "200"
+    ClassRegister:
+      type: object
+      properties:
+        name:
+          type: string
+          example: '200'
     Profile:
       type: object
       properties:
