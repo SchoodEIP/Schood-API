@@ -3,7 +3,7 @@
  * @inner
  * @namespace changePassword
  */
-const { Users, validatePassword } = require('../../models/users')
+const { validatePassword } = require('../../models/users')
 const bcrypt = require('bcryptjs')
 
 /**
