@@ -25,6 +25,8 @@ module.exports = async (req, res) => {
 
     if (position === 'admin' && req.user.role.levelOfAccess < 3) {
       return res.status(403).json({ message: 'Insufficent access' })
+    } else if (['student', 'teacher'].includes(position) && req.user.role.levelOfAccess >= 3) {
+      return res.status(403).json({ message: 'Insufficent access' })
     }
     const agg = [
       {

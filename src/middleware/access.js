@@ -21,7 +21,7 @@ module.exports = (levelOfAccess) => {
       }
 
       // Check if the user has a good role
-      if (req.user.levelOfAccess < levelOfAccess) {
+      if (req.user.role.levelOfAccess < levelOfAccess) {
         return res.status(403).json({ message: 'Access Forbidden' })
       }
       next()

@@ -174,7 +174,7 @@ const processImport = async (csv, mail) => {
         sendMail(val.email, 'Schood Account Created', message)
       }
     }
-  } catch (e) {
+  } catch (e) /* istanbul ignore next */ {
     console.log(e)
     return [true, line, row]
   }

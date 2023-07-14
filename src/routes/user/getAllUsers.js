@@ -15,7 +15,6 @@ const { Users } = require('../../models/users')
  * @async
  * @param {Object} req
  * @param {Object} res
- * @returns 403 if Insufficent access
  * @returns 200 if OK
  * @returns 500 if Internal Server Error
  */
