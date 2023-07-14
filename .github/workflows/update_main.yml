@@ -22,4 +22,4 @@ jobs:
                     git checkout develop
                     git pull
                     git merge --no-ff main -m "Auto-merge main back to develop"
-                    git push
+                    git push --force
