@@ -1,9 +1,8 @@
 name: "Update develop"
 
 on:
-    push:
-        branches:
-            -main
+  push:
+    branches: [ "main" ]
 
 jobs:
     Update_Develop:
