@@ -30,7 +30,6 @@ module.exports = async (req, res) => {
     }
 
     const tmp = await Classes.findOne({ name: req.body.name })
-    console.log(tmp)
     if (tmp) {
       return res.status(422).json({ message: 'This name is already used' })
     }
@@ -43,7 +42,6 @@ module.exports = async (req, res) => {
     })
     await newClass.save()
 
-    console.log(await Classes.find({}).sort({ _id: -1 }).limit(1))
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
