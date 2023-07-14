@@ -8,6 +8,8 @@ jobs:
     Update_Develop:
         runs-on: ubuntu-latest
         name: Update Develop
+        permissions:
+          contents: write
         steps:
             - uses: actions/checkout@v2
               with:
