@@ -173,7 +173,7 @@ describe('User route tests', () => {
   })
 
   describe('getUsersByPosition route', () => {
-    it('GET /user/all => Try get all administrator, teacher, student', async () => {
+    it('GET /user/all => Try get all teacher, student', async () => {
       let key
 
       await request(app)
