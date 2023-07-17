@@ -157,13 +157,20 @@ const processImport = async (csv, mail) => {
       row = val
 
       const password = random(10, 'alphanumeric')
+      const role = await Roles.findOne({ name: val.role })
+      const classes = []
+      for (let index = 0; index < row.classes.length; index++) {
+        const element = row.classes[index]
+        const classId = await Classes.findOne({ name: element })
+        classes.push(classId._id)
+      }
       const user = new Users({
         ...val,
         firstname: val.firstname,
         lastname: val.lastname,
         email: val.email,
-        classes: [Classes.findOne({ name: val.class })._id],
-        role: await Roles.findOne({ name: val.role })._id,
+        classes,
+        role,
         password: await bcrypt.hash(password, 10)
       })
       await user.save()
@@ -174,7 +181,7 @@ const processImport = async (csv, mail) => {
         sendMail(val.email, 'Schood Account Created', message)
       }
     }
-  } catch (e) {
+  } catch (e) /* istanbul ignore next */ {
     console.log(e)
     return [true, line, row]
   }
