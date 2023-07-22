@@ -1,6 +1,3 @@
-const { Roles } = require('../models/roles')
-const { Users } = require('../models/users')
-
 /**
  * Main permission middleware function
  * @name Permission Middleware
@@ -18,17 +15,13 @@ const { Users } = require('../models/users')
 module.exports = (levelOfAccess) => {
   return async (req, res, next) => {
     try {
-      // Check if the user exist
-      const user = await Users.findById(req.user._id)
-
       // Check if the user has a role
-      const userRole = await Roles.findById(user.role)
-      if (!userRole || userRole === undefined || userRole.length === 0) {
+      if (!req.user.role || req.user.role === undefined || req.user.role.length === 0) {
         return res.status(403).json({ message: 'Access Forbidden' })
       }
 
       // Check if the user has a good role
-      if (userRole.levelOfAccess < levelOfAccess) {
+      if (req.user.role.levelOfAccess < levelOfAccess) {
         return res.status(403).json({ message: 'Access Forbidden' })
       }
       next()
