@@ -277,6 +277,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAlreadyUsed'
         '500':
           description: Internal Server Error
           content:
@@ -498,6 +504,18 @@ components:
         message:
           type: string
           example: "Csv header is not valid"
+    ClassRegister:
+      type: object
+      properties:
+        name:
+          type: string
+          example: '200'
+    NameAlreadyUsed:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'This name is already used'
     ok:
       type: object
       properties:

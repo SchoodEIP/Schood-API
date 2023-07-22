@@ -59,7 +59,6 @@ module.exports = async (req, res) => {
       classes.push(class_._id)
     }
 
-    const currentUser = await Users.findById(req.user._id)
     // Generating the hash for the password
     const password = random(10, 'alphanumeric')
     await bcrypt.hash(password, 10)
@@ -72,7 +71,7 @@ module.exports = async (req, res) => {
           lastname: req.body.lastname,
           role: role._id,
           classes,
-          facility: currentUser.facility
+          facility: req.user.facility._id
         })
 
         // Save the user

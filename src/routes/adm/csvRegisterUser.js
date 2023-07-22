@@ -41,8 +41,7 @@ module.exports = async (req, res) => {
       return res.status(422).json(error)
     }
 
-    const currentUser = await Users.findById(req.user._id)
-    const [err, line, row] = await processImport(csv, mail, currentUser)
+    const [err, line, row] = await processImport(csv, mail, req.user)
     if (err) {
       return res.status(422).json({
         line,

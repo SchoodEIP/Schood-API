@@ -44,7 +44,7 @@ async function initDefaultUsers () {
           lastname: 'teacher1',
           password: hash,
           role: teacher._id,
-          facility: Facilities.findOne({ name: 'Schood' })._id,
+          facility: facility._id,
           classes: [class200._id, class201._id]
         })
 
@@ -60,7 +60,7 @@ async function initDefaultUsers () {
           lastname: 'teacher2',
           password: hash,
           role: teacher._id,
-          facility: Facilities.findOne({ name: 'Schood' })._id,
+          facility: facility._id,
           classes: [class200._id]
         })
 
@@ -76,7 +76,7 @@ async function initDefaultUsers () {
           lastname: 'student1',
           password: hash,
           role: student._id,
-          facility: Facilities.findOne({ name: 'Schood' })._id,
+          facility: facility._id,
           classes: [class200._id]
         })
 
@@ -92,7 +92,7 @@ async function initDefaultUsers () {
           lastname: 'student2',
           password: hash,
           role: student._id,
-          facility: Facilities.findOne({ name: 'Schood' })._id,
+          facility: facility._id,
           classes: [class201._id]
         })
 
@@ -107,7 +107,7 @@ async function initDefaultUsers () {
           firstname: 'adm',
           lastname: 'adm',
           password: hash,
-          facility: Facilities.findOne({ name: 'Schood' })._id,
+          facility: facility._id,
           role: adm._id
         })
 
@@ -154,6 +154,7 @@ async function initDefaultRoles () {
 
 async function initDefaultClasses () {
   const tmp = await Classes.find()
+  const facility = await Facilities.findOne({ name: 'Schood' })
 
   // We check if the db is empty and if it needs to be initialized
   if (tmp === undefined || tmp === null || tmp.length === 0) {
@@ -161,12 +162,12 @@ async function initDefaultClasses () {
 
     const class1 = new Classes({
       name: '200',
-      facility: Facilities.findOne({ name: 'Schood' })._id
+      facility: facility._id
     })
 
     const class2 = new Classes({
       name: '201',
-      facility: Facilities.findOne({ name: 'Schood' })._id
+      facility: facility._id
     })
 
     await class1.save()

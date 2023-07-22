@@ -1,7 +1,7 @@
 /**
- * @memberof module:router~mainRouter~admRouter~classRouter
+ * @memberof module:router~mainRouter~admRouter
  * @inner
- * @namespace register
+ * @namespace class/register
  */
 const { Classes, validateClasses } = require('../../../models/classes')
 const { Users } = require('../../../models/users')
@@ -10,7 +10,7 @@ const { Users } = require('../../../models/users')
  * Main register function
  * @name POST /adm/class/register
  * @function
- * @memberof module:router~mainRouter~admRouter~classRouter~register
+ * @memberof module:router~mainRouter~admRouter~class/register
  * @inner
  * @async
  * @param {Object} req
@@ -29,15 +29,11 @@ module.exports = async (req, res) => {
     }
 
     const tmp = await Classes.findOne({ name: req.body.name })
-    if (tmp) {
-      return res.status(422).json({ message: 'This name is already used' })
-    }
-
-    const currentUser = await Users.findById(req.user._id)
+    if (tmp) return res.status(422).json({ message: 'This name is already used' })
 
     const newClass = new Classes({
       name: req.body.name,
-      facility: currentUser.facility
+      facility: req.user.facility._id
     })
     await newClass.save()
 

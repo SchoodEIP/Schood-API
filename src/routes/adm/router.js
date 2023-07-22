@@ -7,7 +7,7 @@ const express = require('express')
 const router = express.Router()
 const register = require('./register')
 const csvRegisterUser = require('./csvRegisterUser')
-const classRouter = require('./class/router')
+const classRegister = require('./class/register')
 const multer = require('multer')
 const upload = multer({
   dest: '/tmp',
@@ -23,7 +23,7 @@ const upload = multer({
 
 // Created router routes connection
 
-router.use('/class', classRouter)
+router.use('/class/register', classRegister)
 router.post('/register/', register)
 router.post('/csvRegisterUser', upload.single('csv'), csvRegisterUser)
 
