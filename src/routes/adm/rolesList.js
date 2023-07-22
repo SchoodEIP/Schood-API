@@ -21,12 +21,9 @@ const { Roles } = require('../../models/roles')
  */
 module.exports = async (req, res) => {
   try {
-    const response = (await Roles.find()).map(role => ({
-      levelOfAccess: role.levelOfAccess,
-      name: role.name
-    }))
+    const response = await Roles.find()
 
-    if (!response) { return res.status(422) }
+    if (!response) { return res.status(422).json({ message: 'Failed to get roles' }) }
     return res.status(200).json({ roles: response })
   } catch (error) /* istanbul ignore next */ {
     console.error(error)

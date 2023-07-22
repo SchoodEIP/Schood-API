@@ -206,6 +206,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RolesList'
+        '422':
+          description: Failed to get roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedRoles'
+
         '500':
           description: Internal Server Error
           content:
@@ -501,6 +508,12 @@ components:
         message:
           type: string
           example: "Csv header is not valid"
+    failedRoles:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to get roles"
     ok:
       type: object
       properties:
