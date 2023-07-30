@@ -4,7 +4,6 @@
  * @namespace class/register
  */
 const { Classes, validateClasses } = require('../../../models/classes')
-const { Users } = require('../../../models/users')
 
 /**
  * Main register function
