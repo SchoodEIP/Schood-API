@@ -192,6 +192,26 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /user/chat/users:
+    get:
+      tags:
+        - user
+      summary: Get the list of the users available to start a chat with.
+      description: >
+        Send a json containing an array of users depending of your levelOfAccess
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayProfiles'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
   /admin/facility/register:
     post:
       tags:
