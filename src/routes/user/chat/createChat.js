@@ -45,8 +45,6 @@ module.exports = async (req, res) => {
     })
     newChat.save()
 
-    console.log((await Chats.find()).length)
-
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
