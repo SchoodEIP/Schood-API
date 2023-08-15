@@ -192,6 +192,35 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /adm/rolesList:
+    get:
+      tags:
+        - adm
+      summary: Get the roles list
+      description: >
+        Send a json containing roles information
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolesList'
+        '422':
+          description: Failed to get roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedRoles'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
   /admin/facility/register:
     post:
       tags:
@@ -564,6 +593,17 @@ components:
         name:
           type: string
           example: "Test"
+    RolesList:
+      type: array
+      items:
+        type: object
+        properties:
+          levelOfAccess:
+            type: integer
+            example: 1
+          name:
+            type: string
+            example: 'student'
     token:
       type: object
       properties:
@@ -615,6 +655,12 @@ components:
         message:
           type: string
           example: 'At least email or telephone have to be present'
+    failedRoles:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to get roles"
     ok:
       type: object
       properties:
