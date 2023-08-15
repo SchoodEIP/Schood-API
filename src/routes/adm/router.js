@@ -22,7 +22,7 @@ const upload = multer({
 
 // Created router routes connection
 
-router.get('/class/register', classRegister)
+router.post('/class/register', classRegister)
 router.patch('/class/:id', classUpdate)
 
 router.get('/rolesList', rolesList)

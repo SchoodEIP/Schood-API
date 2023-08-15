@@ -93,7 +93,7 @@ describe('Adm route tests', () => {
       const _class = await Classes.findOne({ name: 'test' })
 
       return await request(app)
-        .post(`/adm/class/${_class._id}`)
+        .patch(`/adm/class/${_class._id}`)
         .set({
           'x-auth-token': key
         })
@@ -119,7 +119,7 @@ describe('Adm route tests', () => {
         })
 
       return await request(app)
-        .post('/adm/class/64cf86b80ebb40ecaa548205')
+        .patch('/adm/class/64cf86b80ebb40ecaa548205')
         .set({
           'x-auth-token': key
         })
