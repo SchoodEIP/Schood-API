@@ -13,6 +13,7 @@ const getAllUsers = require('./getAllUsers')
 
 const createChat = require('./chat/createChat')
 const getChats = require('./chat/getChats')
+const newMessage = require('./chat/newMessage')
 
 /**
  * User router connection
@@ -31,5 +32,6 @@ router.get('/all', auth, access(2), getAllUsers)
 
 router.get('/chat', auth, getChats)
 router.post('/chat', auth, createChat)
+router.post('/chat/:id/newMessage', auth, newMessage)
 
 module.exports = router

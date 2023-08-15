@@ -33,7 +33,11 @@ const chatSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'users',
     required: true
-  }
+  },
+  messages: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'messages'
+  }]
 })
 
 // We create answers collection from answersSchema

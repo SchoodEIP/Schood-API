@@ -39,13 +39,36 @@ module.exports = async (req, res) => {
           facility: 1,
           date: 1,
           createdBy: 1,
-          messages: 1, // For the moment it is not present, but it will be fixed while implementing messages
+          messages: 1,
           participants: {
             _id: 1,
             email: 1,
             firstname: 1,
             lastname: 1
           }
+        }
+      },
+      {
+        $lookup: {
+          from: 'messages',
+          localField: 'messages',
+          foreignField: '_id',
+          as: 'messages'
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          facility: 1,
+          date: 1,
+          createdBy: 1,
+          messages: {
+            _id: 1,
+            user: 1,
+            date: 1,
+            content: 1
+          },
+          participants: 1
         }
       }
     ]
