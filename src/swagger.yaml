@@ -192,6 +192,35 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /adm/rolesList:
+    get:
+      tags:
+        - adm
+      summary: Get the roles list
+      description: >
+        Send a json containing roles information
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolesList'
+        '422':
+          description: Failed to get roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedRoles'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
   /adm/register:
     post:
       tags:
@@ -435,6 +464,17 @@ components:
         firstConnexion:
           type: boolean
           example: true
+    RolesList:
+      type: array
+      items:
+        type: object
+        properties:
+          levelOfAccess:
+            type: integer
+            example: 1
+          name:
+            type: string
+            example: 'student'
     token:
       type: object
       properties:
@@ -468,6 +508,12 @@ components:
         message:
           type: string
           example: "Csv header is not valid"
+    failedRoles:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to get roles"
     ok:
       type: object
       properties:
