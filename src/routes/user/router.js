@@ -12,6 +12,7 @@ const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
 
 const createChat = require('./chat/createChat')
+const getChats = require('./chat/getChats')
 
 /**
  * User router connection
@@ -28,6 +29,7 @@ router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2), getUsersByPosition)
 router.get('/all', auth, access(2), getAllUsers)
 
+router.get('/chat', auth, getChats)
 router.post('/chat', auth, createChat)
 
 module.exports = router
