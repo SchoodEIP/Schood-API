@@ -192,6 +192,35 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /adm/rolesList:
+    get:
+      tags:
+        - adm
+      summary: Get the roles list
+      description: >
+        Send a json containing roles information
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolesList'
+        '422':
+          description: Failed to get roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedRoles'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
   /user/chat:
     get:
       tags:
@@ -537,6 +566,17 @@ components:
         firstConnexion:
           type: boolean
           example: true
+    RolesList:
+      type: array
+      items:
+        type: object
+        properties:
+          levelOfAccess:
+            type: integer
+            example: 1
+          name:
+            type: string
+            example: 'student'
     Chat:
       type: object
       properties:
@@ -611,6 +651,12 @@ components:
         message:
           type: string
           example: 'Users not found: [64b15338a8c793949de08695, 64b15338a8c793949de08696]'
+    failedRoles:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to get roles"
     ok:
       type: object
       properties:
