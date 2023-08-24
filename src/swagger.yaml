@@ -316,6 +316,50 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /user/chat/{id}/newFile:
+    post:
+      tags:
+        - user
+      summary: send a message to a chat
+      description: >
+        Takes a JSON containing the content of the message
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            chat id
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/newFile'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Users not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotInChat'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /admin/facility/register:
     post:
       tags:
@@ -647,6 +691,16 @@ components:
     newMessage:
       type: object
       properties:
+        content:
+          type: string
+          example: 'Test'
+          required: true
+    newFile:
+      type: object
+      properties:
+        filename:
+          type: string
+          format: binary
         content:
           type: string
           example: 'Test'
