@@ -192,6 +192,34 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /user/file/:id:
+    get:
+      tags:
+        - user
+      summary: Download a file
+      description: >
+        Send a file
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/rolesList:
     get:
       tags:
@@ -405,7 +433,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CsvRegisterUser'
+              $ref: '#/components/schemas/File'
       responses:
         '200':
           description: Successful operation
@@ -531,7 +559,7 @@ components:
         level:
           type: integer
           example: 1
-    CsvRegisterUser:
+    File:
       type: object
       properties:
         filename:
@@ -665,6 +693,24 @@ components:
           name:
             type: string
             example: 'student'
+    Message:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64b15338a8c793949de08695'
+        user:
+          type: string
+          example: '64b15338a8c793949de08695'
+        date:
+          type: string
+          example: '2023-08-15T16:35:20.186Z'
+        content:
+          type: string
+          example: "Hello World!"
+        file:
+          type: string
+          example: '64b15338a8c793949de08695'
     Chat:
       type: object
       properties:
@@ -677,6 +723,10 @@ components:
         createdBy:
           type: string
           example: '64b15338a8c793949de08695'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
         date:
           type: string
           example: '2023-08-13T15:01:49.294Z'

@@ -75,8 +75,6 @@ module.exports = async (req, res) => {
     ]
 
     const chats = await Chats.aggregate(agg)
-    console.log(chats)
-
     return res.status(200).json(chats)
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
