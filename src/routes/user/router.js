@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
+const { upload10Tmp } = require('../../utils/multer')
+
 const auth = require('../../middleware/auth')
 const access = require('../../middleware/access')
 
@@ -14,6 +16,7 @@ const getAllUsers = require('./getAllUsers')
 const createChat = require('./chat/createChat')
 const getChats = require('./chat/getChats')
 const newMessage = require('./chat/newMessage')
+const newFile = require('./chat/newFile')
 
 /**
  * User router connection
@@ -33,5 +36,6 @@ router.get('/all', auth, access(2), getAllUsers)
 router.get('/chat', auth, getChats)
 router.post('/chat', auth, createChat)
 router.post('/chat/:id/newMessage', auth, newMessage)
+router.post('/chat/:id/newFile', auth, upload10Tmp.single('file'), newFile)
 
 module.exports = router

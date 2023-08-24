@@ -11,11 +11,7 @@ const csvRegisterUser = require('./csvRegisterUser')
 const rolesList = require('./rolesList')
 
 const classRegister = require('./class/register')
-const multer = require('multer')
-const upload = multer({
-  dest: '/tmp',
-  limits: { fileSize: 1048576 } // 10 Mo
-})
+const { upload10Tmp } = require('../../utils/multer')
 
 /**
  * Adm router connection
@@ -29,6 +25,6 @@ const upload = multer({
 router.get('/rolesList', rolesList)
 router.use('/class/register', classRegister)
 router.post('/register/', register)
-router.post('/csvRegisterUser', upload.single('csv'), csvRegisterUser)
+router.post('/csvRegisterUser', upload10Tmp.single('csv'), csvRegisterUser)
 
 module.exports = router
