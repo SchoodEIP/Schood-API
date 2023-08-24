@@ -18,6 +18,8 @@ const getChats = require('./chat/getChats')
 const newMessage = require('./chat/newMessage')
 const newFile = require('./chat/newFile')
 
+const downloadFile = require('./downloadFile')
+
 /**
  * User router connection
  * @memberof module:router~mainRouter
@@ -37,5 +39,7 @@ router.get('/chat', auth, getChats)
 router.post('/chat', auth, createChat)
 router.post('/chat/:id/newMessage', auth, newMessage)
 router.post('/chat/:id/newFile', auth, upload10Tmp.single('file'), newFile)
+
+router.get('/file/:id', auth, downloadFile)
 
 module.exports = router

@@ -66,7 +66,8 @@ module.exports = async (req, res) => {
             _id: 1,
             user: 1,
             date: 1,
-            content: 1
+            content: 1,
+            file: 1
           },
           participants: 1
         }
@@ -74,6 +75,8 @@ module.exports = async (req, res) => {
     ]
 
     const chats = await Chats.aggregate(agg)
+    console.log(chats)
+
     return res.status(200).json(chats)
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
