@@ -43,7 +43,8 @@ const usersSchema = new Schema({
   }],
   facility: {
     type: mongoose.Types.ObjectId,
-    ref: 'facilities'
+    ref: 'facilities',
+    required: true
   },
   firstConnexion: {
     type: Boolean,
