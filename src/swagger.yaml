@@ -586,12 +586,15 @@ components:
         message:
           type: string
           example: 'This name is already used'
+<<<<<<< HEAD
     UsersNotFound:
       type: object
       properties:
         message:
           type: string
           example: 'Users not found: [64b15338a8c793949de08695, 64b15338a8c793949de08696]'
+=======
+>>>>>>> 9e365136ad552ce221d78a682b468a001775adab
     failedRoles:
       type: object
       properties:
