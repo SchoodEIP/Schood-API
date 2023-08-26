@@ -27,12 +27,8 @@ const upload = multer({
 
 // Created router routes connection
 
-<<<<<<< HEAD
 router.post('/helpNumbersCategory/register', helpNumbersCategoryRegister)
 router.post('/class/register', classRegister)
-=======
-router.use('/class/register', classRegister)
->>>>>>> 9e365136ad552ce221d78a682b468a001775adab
 router.get('/rolesList', rolesList)
 router.post('/register/', register)
 router.post('/csvRegisterUser', upload.single('csv'), csvRegisterUser)
