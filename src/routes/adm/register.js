@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
   try {
     /* istanbul ignore next */
     const mail = Boolean((req.query.email || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
-    const role = await Roles.findOne({ name: req.body.role });
+    const role = await Roles.findOne({ name: req.body.role })
 
     const data = {
       firstname: req.body.firstname,
@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
       email: req.body.email,
       role: role._id.toString(),
       classes: req.body.classes
-    };
+    }
 
     // Verif received data
     const { error } = validateRegister(data)
@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
     // Check classes
     const classes = []
     for (let i = 0; i < classesRequest.length; i++) {
-      const class_ = await Classes.findOne({name: classesRequest[i]})
+      const class_ = await Classes.findOne({ name: classesRequest[i] })
 
       if (!class_ || class_ === undefined || class_.length === 0) {
         return res.status(400).json({ message: 'Invalid class' })
