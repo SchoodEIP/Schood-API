@@ -9,8 +9,11 @@ const router = express.Router()
 const register = require('./register')
 const csvRegisterUser = require('./csvRegisterUser')
 const classRegister = require('./class/register')
+<<<<<<< HEAD
 const helpNumbersCategoryRegister = require('./helpNumbersCategory/register')
 const helpNumberRegister = require('./helpNumber/register')
+=======
+>>>>>>> 9e365136ad552ce221d78a682b468a001775adab
 const rolesList = require('./rolesList')
 
 const multer = require('multer')
