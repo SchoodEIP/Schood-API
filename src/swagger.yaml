@@ -221,11 +221,11 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
-  /adm/register:
+  /admin/facility/register:
     post:
       tags:
-        - adm
-      summary: Register a user
+        - admin
+      summary: Register a Facility
       description: >
         Register a user given a valid email, firstname, lastname, role, classes. <br> <br>
         If the role is student, only one element in the classes array is accepted. <br> <br>
@@ -236,7 +236,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '200':
           description: Successful operation
@@ -284,11 +284,47 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
-  /admin/facility/register:
+  /adm/class/register:
     post:
       tags:
-        - admin
-      summary: Register a facility
+        - adm
+      summary: Register a Class
+      description: >
+        Register a Class, given a non empty name.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassRegister'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAlreadyUsed'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/register:
+    post:
+      tags:
+        - adm
+      summary: Register a user
       description: >
         Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
       requestBody:
@@ -362,7 +398,7 @@ components:
         filename:
           type: string
           format: binary
-    Register:
+    UserRegister:
       type: object
       properties:
         email:
@@ -508,6 +544,18 @@ components:
         message:
           type: string
           example: "Csv header is not valid"
+    ClassRegister:
+      type: object
+      properties:
+        name:
+          type: string
+          example: '200'
+    NameAlreadyUsed:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'This name is already used'
     failedRoles:
       type: object
       properties:
