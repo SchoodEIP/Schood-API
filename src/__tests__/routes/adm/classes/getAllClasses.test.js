@@ -26,8 +26,8 @@ describe('Adm route tests', () => {
     await mongoose.connection.close()
   })
 
-  describe('Register route', () => {
-    it('POST /adm/class/register => Try register good class', async () => {
+  describe('classes getAllClasses route', () => {
+    it('GET /adm/classes/ => Try get all class', async () => {
       let key
 
       await request(app)
@@ -42,50 +42,12 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       return await request(app)
-        .post('/adm/class/register')
+        .get('/adm/classes/')
         .set({
           'x-auth-token': key
         })
-        .send({
-          name: 'test'
-        })
         .expect(200)
-    })
-
-    it('POST /adm/class/register => Try register wrong class, name already used', async () => {
-      let key
-
-      await request(app)
-        .post('/user/login')
-        .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
-        })
         .expect('Content-Type', /json/)
-        .expect(200)
-        .then((response) => {
-          key = response.body.token
-        })
-
-      await request(app)
-        .post('/adm/class/register')
-        .set({
-          'x-auth-token': key
-        })
-        .send({
-          name: 'test'
-        })
-        .expect(200)
-
-      return await request(app)
-        .post('/adm/class/register')
-        .set({
-          'x-auth-token': key
-        })
-        .send({
-          name: 'test'
-        })
-        .expect(422)
     })
   })
 })
