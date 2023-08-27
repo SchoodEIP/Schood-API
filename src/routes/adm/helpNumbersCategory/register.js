@@ -25,7 +25,6 @@ module.exports = async (req, res) => {
     // Verif received data
     const { error } = validateHelpNumbersCategories(req.body)
     if (error) {
-      console.log(error)
       return res.status(400).json({ message: 'Invalid request' })
     }
     const tmp = await HelpNumbersCategories.findOne({ name: req.body.name })
