@@ -34,6 +34,47 @@ module.exports = async (req, res) => {
           _id: { $nin: [req.user._id] },
           role: { $in: roles }
         }
+      },
+      {
+        $lookup: {
+          from: 'roles',
+          localField: 'role',
+          foreignField: '_id',
+          as: 'role'
+        }
+      },
+      {
+        $unwind: {
+          path: '$role',
+          preserveNullAndEmptyArrays: false
+        }
+      },
+      {
+        $lookup: {
+          from: 'classes',
+          localField: 'classes',
+          foreignField: '_id',
+          as: 'classes'
+        }
+      },
+      {
+        $unwind: {
+          path: '$classes',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $sort: {
+          'role.levelOfAccess': -1
+        }
+      },
+      {
+        $project: {
+          password: 0,
+          email: 0,
+          facility: 0,
+          firstConnexion: 0
+        }
       }
     ]
     const result = await Users.aggregate(agg)

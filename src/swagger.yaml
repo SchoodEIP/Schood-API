@@ -234,7 +234,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ArrayProfiles'
+                $ref: '#/components/schemas/AvailableUsers'
         '500':
           description: Internal Server Error
           content:
@@ -436,6 +436,43 @@ components:
         classes:
           type: string
           example: ["64692acf1874cb0532aa619d", "64692acf1874cb0532aa619d"]
+    AvailableUsers:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+            example: '64b15338a8c793949de08695'
+          firstname:
+            type: string
+            example: 'test'
+          lastname:
+            type: string
+            example: 'test'
+          role:
+            type: object
+            properties:
+              _id:
+                type: string
+                example: "64b15338a8c793949de08679"
+              name:
+                type: string
+                example: "student"
+              levelOfAccess:
+                type: number
+                example: 0
+          classes:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: "64b15338a8c793949de08680"
+                name:
+                  type: string
+                  example: "200"
     ArrayProfiles:
       type: array
       items:
