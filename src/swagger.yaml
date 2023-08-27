@@ -650,7 +650,6 @@ components:
         content:
           type: string
           example: 'Test'
-          required: true
     token:
       type: object
       properties:
