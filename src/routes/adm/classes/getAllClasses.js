@@ -19,7 +19,7 @@ const { Classes } = require('../../../models/classes')
  */
 module.exports = async (req, res) => {
   try {
-    const classes = await Classes.find();
+    const classes = await Classes.find({facility: req.user.facility._id});
 
     return res.status(200).json(classes)
   } catch (error) /* istanbul ignore next */ {
