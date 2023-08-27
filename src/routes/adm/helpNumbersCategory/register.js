@@ -31,8 +31,6 @@ module.exports = async (req, res) => {
     const tmp = await HelpNumbersCategories.findOne({ name: req.body.name })
     if (tmp) return res.status(422).json({ message: 'This name is already used' })
 
-    await req.user
-
     const newHelpNumbersCategory = new HelpNumbersCategories({
       name: req.body.name,
       facility: req.user.facility._id
