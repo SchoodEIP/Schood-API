@@ -6,7 +6,7 @@
 const { Classes, validateClasses } = require('../../../models/classes')
 
 /**
- * Main register function
+ * Main update function
  * @name PATCH /adm/class/:id
  * @function
  * @memberof module:router~mainRouter~admRouter~class/update
@@ -16,6 +16,7 @@ const { Classes, validateClasses } = require('../../../models/classes')
  * @param {Object} res
  * @returns 400 if invalid requests
  * @returns 200 if OK
+ * @returns 422 if class not found or name already used
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {
@@ -27,7 +28,6 @@ module.exports = async (req, res) => {
 
     const { error } = validateClasses(req.body)
     if (error) {
-      console.log(error)
       return res.status(400).json({ message: 'Invalid request' })
     }
 
