@@ -19,7 +19,8 @@ const classesSchema = new Schema({
   },
   facility: {
     type: mongoose.Types.ObjectId,
-    ref: 'facilities'
+    ref: 'facilities',
+    required: true
   }
 })
 
