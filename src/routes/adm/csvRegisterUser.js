@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
       return res.status(422).json(error)
     }
 
-    const [err, line, row] = await processImport(csv, mail)
+    const [err, line, row] = await processImport(csv, mail, req.user)
     if (err) {
       return res.status(422).json({
         line,
@@ -148,7 +148,7 @@ const checkCsvBody = async (csv) => {
  * @param mail
  * @returns {Promise<(boolean|string|number)[]|(boolean|*)[]>}
  */
-const processImport = async (csv, mail) => {
+const processImport = async (csv, mail, currentUser) => {
   let line
   let row
   try {
@@ -171,7 +171,8 @@ const processImport = async (csv, mail) => {
         email: val.email,
         classes,
         role,
-        password: await bcrypt.hash(password, 10)
+        password: await bcrypt.hash(password, 10),
+        facility: currentUser.facility
       })
       await user.save()
 

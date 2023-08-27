@@ -70,7 +70,8 @@ module.exports = async (req, res) => {
           firstname: req.body.firstname,
           lastname: req.body.lastname,
           role: role._id,
-          classes
+          classes,
+          facility: req.user.facility._id
         })
 
         // Save the user
