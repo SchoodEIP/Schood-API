@@ -13,6 +13,7 @@ const getAllUsers = require('./getAllUsers')
 
 const createChat = require('./chat/createChat')
 const getChats = require('./chat/getChats')
+const chatRouter = require('./chat/router')
 
 /**
  * User router connection
@@ -20,6 +21,8 @@ const getChats = require('./chat/getChats')
  * @inner
  * @namespace userRouter
  */
+
+router.use('/chat', auth, chatRouter)
 
 // Created router routes connection
 router.post('/login', login)
