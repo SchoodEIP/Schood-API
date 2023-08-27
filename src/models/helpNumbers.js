@@ -25,11 +25,13 @@ const helpNumbersSchema = new Schema({
   },
   helpNumbersCategory: {
     type: mongoose.Types.ObjectId,
-    ref: 'helpNumbersCategories'
+    ref: 'helpNumbersCategories',
+    required: true
   },
   facility: {
     type: mongoose.Types.ObjectId,
-    ref: 'facilities'
+    ref: 'facilities',
+    required: true
   }
 })
 
