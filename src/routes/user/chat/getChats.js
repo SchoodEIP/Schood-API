@@ -39,7 +39,6 @@ module.exports = async (req, res) => {
           facility: 1,
           date: 1,
           createdBy: 1,
-          messages: 1, // For the moment it is not present, but it will be fixed while implementing messages
           participants: {
             _id: 1,
             email: 1,
