@@ -13,8 +13,7 @@ const profile = require('./profile')
 const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
 
-const createChat = require('./chat/createChat')
-const getChats = require('./chat/getChats')
+const chatRouter = require('./chat/router')
 const newMessage = require('./chat/newMessage')
 const newFile = require('./chat/newFile')
 
@@ -27,6 +26,8 @@ const downloadFile = require('./downloadFile')
  * @namespace userRouter
  */
 
+router.use('/chat', auth, chatRouter)
+
 // Created router routes connection
 router.post('/login', login)
 router.post('/forgottenPassword', forgottenPassword)
@@ -35,8 +36,6 @@ router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2), getUsersByPosition)
 router.get('/all', auth, access(2), getAllUsers)
 
-router.get('/chat', auth, getChats)
-router.post('/chat', auth, createChat)
 router.post('/chat/:id/newMessage', auth, newMessage)
 router.post('/chat/:id/newFile', auth, upload10Tmp.single('file'), newFile)
 

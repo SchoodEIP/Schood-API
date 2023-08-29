@@ -17,6 +17,7 @@ const { Users } = require('../../../models/users')
  * @param {Object} res
  * @returns 200 if OK
  * @returns 400 if invalid requests
+ * @returns 422 if users do not exist
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {
@@ -43,7 +44,7 @@ module.exports = async (req, res) => {
       createdBy: req.user._id,
       participants: [...req.body.participants, req.user._id]
     })
-    newChat.save()
+    await newChat.save()
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
