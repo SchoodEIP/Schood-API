@@ -36,9 +36,6 @@ router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2), getUsersByPosition)
 router.get('/all', auth, access(2), getAllUsers)
 
-router.post('/chat/:id/newMessage', auth, newMessage)
-router.post('/chat/:id/newFile', auth, upload10Tmp.single('file'), newFile)
-
 router.get('/file/:id', auth, downloadFile)
 
 module.exports = router

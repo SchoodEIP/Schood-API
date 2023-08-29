@@ -23,7 +23,6 @@ module.exports = async (req, res) => {
   try {
     // Verif received id
     const id = req.params.id
-    console.log('la', id)
     if (!id) return res.status(400).json({ message: 'Invalid request' })
 
     console.log('laaa')
