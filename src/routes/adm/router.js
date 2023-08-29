@@ -8,9 +8,9 @@ const router = express.Router()
 
 const register = require('./register')
 const csvRegisterUser = require('./csvRegisterUser')
+const classRegister = require('./class/register')
 const rolesList = require('./rolesList')
 
-const classRegister = require('./class/register')
 const { upload10Tmp } = require('../../utils/multer')
 
 /**
