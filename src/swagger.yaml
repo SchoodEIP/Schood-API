@@ -236,7 +236,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRegister'
+              $ref: '#/components/schemas/FacilityRegister'
       responses:
         '200':
           description: Successful operation
@@ -364,6 +364,78 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /adm/helpNumber/register:
+    post:
+      tags:
+        - adm
+      summary: Register a help number
+      description: >
+        Register a HelpNumberCategory, given a non empty name, the id of the help numbers category and at least an email or a telephone number.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpNumber'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAlreadyUsed'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/helpNumbersCategory/register:
+    post:
+      tags:
+        - adm
+      summary: Register a help numbers category
+      description: >
+        Register a HelpNumberCategory, given a non empty name.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpNumbersCategory'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAlreadyUsed'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/register:
     post:
       tags:
@@ -376,7 +448,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FacilityRegister'
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '200':
           description: Successful operation
@@ -544,6 +616,27 @@ components:
         firstConnexion:
           type: boolean
           example: true
+    HelpNumber:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Test"
+        email:
+          type: string
+          example: "test.schood@gmail.com"
+        telephone:
+          type: string
+          example: "0102030405"
+        helpNumbersCategory:
+          type: string
+          example: "64b15338a8c793949de08680"
+    HelpNumbersCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Test"
     RolesList:
       type: array
       items:
@@ -600,6 +693,12 @@ components:
         message:
           type: string
           example: 'This name is already used'
+    AtLeastEmailOrTelephone:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'At least email or telephone have to be present'
     failedRoles:
       type: object
       properties:

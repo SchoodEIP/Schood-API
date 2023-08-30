@@ -5,6 +5,8 @@ const register = require('./register')
 const csvRegisterUser = require('./csvRegisterUser')
 const classRegister = require('./class/register')
 const classUpdate = require('./class/update')
+const helpNumbersCategoryRegister = require('./helpNumbersCategory/register')
+const helpNumberRegister = require('./helpNumber/register')
 const rolesList = require('./rolesList')
 
 const multer = require('multer')
@@ -22,10 +24,13 @@ const upload = multer({
 
 // Created router routes connection
 
-router.post('/class/register', classRegister)
 router.patch('/class/:id', classUpdate)
-
+router.post('/helpNumbersCategory/register', helpNumbersCategoryRegister)
+router.post('/class/register', classRegister)
 router.get('/rolesList', rolesList)
+router.post('/helpNumber/register', helpNumberRegister)
+router.post('/helpNumbersCategory/register', helpNumbersCategoryRegister)
+router.post('/class/register', classRegister)
 router.post('/register/', register)
 router.post('/csvRegisterUser', upload.single('csv'), csvRegisterUser)
 
