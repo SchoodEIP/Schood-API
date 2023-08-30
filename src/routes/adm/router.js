@@ -1,14 +1,10 @@
-/**
- * @module router
- * @requires express
- */
-
 const express = require('express')
 const router = express.Router()
 
 const register = require('./register')
 const csvRegisterUser = require('./csvRegisterUser')
 const classRegister = require('./class/register')
+const classUpdate = require('./class/update')
 const helpNumbersCategoryRegister = require('./helpNumbersCategory/register')
 const helpNumberRegister = require('./helpNumber/register')
 const rolesList = require('./rolesList')
@@ -28,6 +24,7 @@ const upload = multer({
 
 // Created router routes connection
 
+router.patch('/class/:id', classUpdate)
 router.post('/helpNumbersCategory/register', helpNumbersCategoryRegister)
 router.post('/class/register', classRegister)
 router.get('/rolesList', rolesList)
