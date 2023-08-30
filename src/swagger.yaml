@@ -192,11 +192,60 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
-  /adm/register:
-    post:
+  /adm/rolesList:
+    get:
       tags:
         - adm
-      summary: Register a user
+      summary: Get the roles list
+      description: >
+        Send a json containing roles information
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolesList'
+        '422':
+          description: Failed to get roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedRoles'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
+  /user/chat/users:
+    get:
+      tags:
+        - user
+      summary: Get the list of the users available to start a chat with.
+      description: >
+        Send a json containing an array of users depending of your levelOfAccess
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableUsers'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+  /admin/facility/register:
+    post:
+      tags:
+        - admin
+      summary: Register a Facility
       description: >
         Register a user given a valid email, firstname, lastname, role, classes. <br> <br>
         If the role is student, only one element in the classes array is accepted. <br> <br>
@@ -207,7 +256,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/FacilityRegister'
       responses:
         '200':
           description: Successful operation
@@ -255,11 +304,163 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
-  /admin/facility/register:
+  /adm/class/register:
     post:
       tags:
-        - admin
-      summary: Register a facility
+        - adm
+      summary: Register a Class
+      description: >
+        Register a Class, given a non empty name.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassRegister'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAlreadyUsed'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/class/:id:
+    patch:
+      tags:
+        - adm
+      summary: Update a Class
+      description: >
+        Update a Class, given a non empty and non already existing name.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the class to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassRegister'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAlreadyUsed'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/helpNumber/register:
+    post:
+      tags:
+        - adm
+      summary: Register a help number
+      description: >
+        Register a HelpNumberCategory, given a non empty name, the id of the help numbers category and at least an email or a telephone number.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpNumber'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAlreadyUsed'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/helpNumbersCategory/register:
+    post:
+      tags:
+        - adm
+      summary: Register a help numbers category
+      description: >
+        Register a HelpNumberCategory, given a non empty name.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpNumbersCategory'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAlreadyUsed'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/register:
+    post:
+      tags:
+        - adm
+      summary: Register a user
       description: >
         Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
       requestBody:
@@ -267,7 +468,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FacilityRegister'
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '200':
           description: Successful operation
@@ -333,7 +534,7 @@ components:
         filename:
           type: string
           format: binary
-    Register:
+    UserRegister:
       type: object
       properties:
         email:
@@ -351,6 +552,43 @@ components:
         classes:
           type: string
           example: ["64692acf1874cb0532aa619d", "64692acf1874cb0532aa619d"]
+    AvailableUsers:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+            example: '64b15338a8c793949de08695'
+          firstname:
+            type: string
+            example: 'test'
+          lastname:
+            type: string
+            example: 'test'
+          role:
+            type: object
+            properties:
+              _id:
+                type: string
+                example: "64b15338a8c793949de08679"
+              name:
+                type: string
+                example: "student"
+              levelOfAccess:
+                type: number
+                example: 0
+          classes:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: "64b15338a8c793949de08680"
+                name:
+                  type: string
+                  example: "200"
     ArrayProfiles:
       type: array
       items:
@@ -435,6 +673,38 @@ components:
         firstConnexion:
           type: boolean
           example: true
+    HelpNumber:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Test"
+        email:
+          type: string
+          example: "test.schood@gmail.com"
+        telephone:
+          type: string
+          example: "0102030405"
+        helpNumbersCategory:
+          type: string
+          example: "64b15338a8c793949de08680"
+    HelpNumbersCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Test"
+    RolesList:
+      type: array
+      items:
+        type: object
+        properties:
+          levelOfAccess:
+            type: integer
+            example: 1
+          name:
+            type: string
+            example: 'student'
     token:
       type: object
       properties:
@@ -468,6 +738,30 @@ components:
         message:
           type: string
           example: "Csv header is not valid"
+    ClassRegister:
+      type: object
+      properties:
+        name:
+          type: string
+          example: '200'
+    NameAlreadyUsed:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'This name is already used'
+    AtLeastEmailOrTelephone:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'At least email or telephone have to be present'
+    failedRoles:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to get roles"
     ok:
       type: object
       properties:

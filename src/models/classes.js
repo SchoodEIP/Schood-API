@@ -16,6 +16,11 @@ const classesSchema = new Schema({
   name: {
     type: String,
     required: true
+  },
+  facility: {
+    type: mongoose.Types.ObjectId,
+    ref: 'facilities',
+    required: true
   }
 })
 
