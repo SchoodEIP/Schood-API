@@ -8,6 +8,7 @@ const router = express.Router()
 
 const classRegister = require('./register')
 const getAllClasses = require('./getAllClasses')
+const classUpdate = require('./update')
 
 /**
  * Adm router connection
@@ -19,6 +20,7 @@ const getAllClasses = require('./getAllClasses')
 // Created router routes connection
 
 router.post('/register', classRegister)
+router.patch('/:id', classUpdate)
 router.get('/', getAllClasses)
 
 module.exports = router
