@@ -28,7 +28,7 @@ describe('Adm route tests', () => {
   })
 
   describe('Register route', () => {
-    it('POST /adm/class/register => Try update good class', async () => {
+    it('POST /adm/classes/register => Try update good class', async () => {
       let key
 
       await request(app)
@@ -43,7 +43,7 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       await request(app)
-        .post('/adm/class/register')
+        .post('/adm/classes/register')
         .set({
           'x-auth-token': key
         })
@@ -55,7 +55,7 @@ describe('Adm route tests', () => {
       const _class = await Classes.findOne({ name: 'test' })
 
       return await request(app)
-        .patch(`/adm/class/${_class._id}`)
+        .patch(`/adm/classes/${_class._id}`)
         .set({
           'x-auth-token': key
         })
@@ -65,7 +65,7 @@ describe('Adm route tests', () => {
         .expect(200)
     })
 
-    it('POST /adm/class/register => Try update wrong class, name already used', async () => {
+    it('POST /adm/classes/register => Try update wrong class, name already used', async () => {
       let key
 
       await request(app)
@@ -81,7 +81,7 @@ describe('Adm route tests', () => {
         })
 
       await request(app)
-        .post('/adm/class/register')
+        .post('/adm/classes/register')
         .set({
           'x-auth-token': key
         })
@@ -93,7 +93,7 @@ describe('Adm route tests', () => {
       const _class = await Classes.findOne({ name: 'test' })
 
       return await request(app)
-        .patch(`/adm/class/${_class._id}`)
+        .patch(`/adm/classes/${_class._id}`)
         .set({
           'x-auth-token': key
         })
@@ -103,7 +103,7 @@ describe('Adm route tests', () => {
         .expect(422)
     })
 
-    it('POST /adm/class/register => Try update wrong class, class not found', async () => {
+    it('POST /adm/classes/register => Try update wrong class, class not found', async () => {
       let key
 
       await request(app)
@@ -119,7 +119,7 @@ describe('Adm route tests', () => {
         })
 
       return await request(app)
-        .patch('/adm/class/64cf86b80ebb40ecaa548205')
+        .patch('/adm/classes/64cf86b80ebb40ecaa548205')
         .set({
           'x-auth-token': key
         })

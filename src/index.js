@@ -65,7 +65,7 @@ async function startServer () {
       app.use('/', sanitizer, router)
 
       // Start server
-      console.log('INFO: START HTTP SERVER')
+      console.log('INFO: START HTTP SERVER' + ' (http://localhost:' + httpPort + ')')
       http.createServer(app).listen(httpPort)
 
       if (process.env.HTTPS === 'true') {
@@ -78,7 +78,7 @@ async function startServer () {
           ca: fs.readFileSync('./ca.pem')
         }
 
-        console.log('INFO: START HTTPS SERVER')
+        console.log('INFO: START HTTPS SERVER' + ' (https://localhost:' + httpsPort + ')')
         https.createServer(options, app).listen(httpsPort)
       }
       console.log('=============================================')
