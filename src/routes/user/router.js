@@ -10,6 +10,7 @@ const forgottenPassword = require('./forgottenPassword')
 const profile = require('./profile')
 const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
+const getAvailableChatUsers = require('./chat/getAvailableChatUsers')
 
 /**
  * User router connection
@@ -25,5 +26,8 @@ router.patch('/changePassword', auth, changePassword)
 router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2), getUsersByPosition)
 router.get('/all', auth, access(2), getAllUsers)
+
+// Created router routes, chat related
+router.get('/chat/users', auth, getAvailableChatUsers)
 
 module.exports = router
