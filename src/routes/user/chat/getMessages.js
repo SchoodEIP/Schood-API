@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
     if (!id) return res.status(400).json({ message: 'Invalid request' })
 
     const chat = await Chats.findById(id)
-    if (!chat || chat.length === 0) res.status(400).json({ message: 'Invalid request' })
+    if (!chat || chat.length === 0) return res.status(400).json({ message: 'Invalid request' })
 
     const messages = []
     for (const messageId of chat.messages) {

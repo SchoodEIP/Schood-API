@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-const { upload10Tmp } = require('../../utils/multer')
-
 const auth = require('../../middleware/auth')
 const access = require('../../middleware/access')
 
@@ -14,8 +12,6 @@ const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
 
 const chatRouter = require('./chat/router')
-const newMessage = require('./chat/newMessage')
-const newFile = require('./chat/newFile')
 
 const downloadFile = require('./downloadFile')
 
