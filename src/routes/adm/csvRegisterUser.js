@@ -30,17 +30,17 @@ module.exports = async (req, res) => {
     const mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
     // Verify received data
     if (req.file.size === 0) { return res.status(422).json({ message: 'The file is empty' }) }
-    
+
     const csv = await convertCsv(req.file.path)
     if (!csv || csv.length === 0) { return res.status(422).json({ message: 'Invalid request' }) }
-    
+
     if (checkCsvHeader(csv[0])) { return res.status(422).json({ message: 'Csv header is not valid' }) }
-    
+
     const error = await checkCsvBody(csv)
     if (error.length !== 0) {
       return res.status(422).json(error)
     }
-    
+
     const [err, line, row] = await processImport(csv, mail, req.user)
     if (err) {
       return res.status(422).json({
@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
         row
       })
     }
-    
+
     return res.status(200).json('ok')
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
@@ -63,15 +63,15 @@ module.exports = async (req, res) => {
  */
 const convertCsv = async (filepath) => {
   const csv = []
-  
+
   return new Promise((resolve, reject) => {
     try {
       fs.createReadStream(filepath)
-      .pipe(csvParser())
-      .on('data', (data) => csv.push(data))
-      .on('end', () => {
-        resolve(csv?.map(row => { return { ...row, classes: row.class.split(':') } }))
-      })
+        .pipe(csvParser())
+        .on('data', (data) => csv.push(data))
+        .on('end', () => {
+          resolve(csv?.map(row => { return { ...row, classes: row.class.split(':') } }))
+        })
     } catch (e) /* istanbul ignore next */ {
       resolve(null)
     }
@@ -85,7 +85,7 @@ const convertCsv = async (filepath) => {
  */
 const checkCsvHeader = (row) => {
   const keys = ['firstname', 'lastname', 'email', 'role', 'class', 'classes']
-  
+
   for (const key of Object.keys(row)) {
     if (!keys.includes(key)) { return true }
   }
@@ -99,7 +99,7 @@ const checkCsvHeader = (row) => {
  */
 const checkCsvBody = async (csv) => {
   const error = []
-  
+
   /**
    * Add an error to the error array
    * @param errorType
@@ -109,7 +109,7 @@ const checkCsvBody = async (csv) => {
     const idx = error.findIndex((e) => e.rowCSV === index + 2)
     if (idx === -1) { error.push({ rowCSV: index + 2, errors: [errorType], ...csv[index] }) } else { error[idx].errors.push(errorType) }
   }
-  
+
   const emails = []
   for (const [index, row] of csv.entries()) {
     if (row.firstname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.firstname)) addError('Firstname is not valid', index)
@@ -121,17 +121,17 @@ const checkCsvBody = async (csv) => {
       if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className)) { addError('Class is not valid', index) }
     })
     if (row.role === 'student' && row.classes.length > 1) addError('Student can only have one class', index)
-    
+
     if (await Users.findOne({ email: row.email })) {
       addError('User already exists', index)
     }
-    
+
     if (emails.includes(row.email)) {
       addError('A different user in the csv already have this email', index)
     } else {
       emails.push(row.email)
     }
-    
+
     for (const class_ of row.classes) {
       const foundClass = await Classes.findOne({ name: class_ })
       if (!foundClass) {
@@ -155,7 +155,7 @@ const processImport = async (csv, mail, currentUser) => {
     for (const [index, val] of csv.entries()) {
       line = index
       row = val
-      
+
       const password = random(10, 'alphanumeric')
       const role = await Roles.findOne({ name: val.role })
       const classes = []
@@ -175,7 +175,7 @@ const processImport = async (csv, mail, currentUser) => {
         facility: currentUser.facility
       })
       await user.save()
-      
+
       /* istanbul ignore next */
       if (mail) {
         const message = 'email: ' + val.email + ' | password: ' + password
