@@ -24,8 +24,8 @@ router.post('/login', login)
 router.post('/forgottenPassword', forgottenPassword)
 router.patch('/changePassword', auth, changePassword)
 router.get('/profile', auth, profile)
-router.get('/by/:position', auth, access(2), getUsersByPosition)
-router.get('/all', auth, access(2), getAllUsers)
+router.get('/by/:position', auth, access(2, false), getUsersByPosition)
+router.get('/all', auth, access(2, false), getAllUsers)
 
 // Created router routes, chat related
 router.get('/chat/users', auth, getAvailableChatUsers)
