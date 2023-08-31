@@ -4,7 +4,7 @@
  * @namespace questionnaire
  */
 
-const { validateQuestionnaire, Questionnaire } = require("../../models/questionnaire")
+const { validateQuestionnaire, Questionnaire } = require("../../../models/questionnaire")
 
 /**
  * Main questionnaire function

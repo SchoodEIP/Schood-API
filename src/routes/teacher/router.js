@@ -5,10 +5,7 @@
 const express = require('express')
 const router = express.Router()
 
-const access = require('../../middleware/access')
-
-
-const questionnaire = require('./questionnaire')
+const questionnaire = require('./questionnaire/router')
 
 /**
  * Main router connection
@@ -17,6 +14,6 @@ const questionnaire = require('./questionnaire')
  * @namespace teacherRouter
  */
 
-router.post('/questionnaire', access(1, true), questionnaire)
+router.use('/questionnaire', questionnaire)
 
 module.exports = router
