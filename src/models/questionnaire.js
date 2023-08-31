@@ -24,9 +24,12 @@ const questionnaireSchema = new Schema({
     type: String,
     required: true
   },
-  date: {
+  fromDate: {
     type: Date,
-    default: new Date(),
+    required: true
+  },
+  toDate: {
+    type: Date,
     required: true
   },
   questions: [{
@@ -61,6 +64,7 @@ const Questionnaire = mongoose.model('questionnaires', questionnaireSchema)
 const validateQuestionnaire = (questionnaire) => {
   const schema = Joi.object({
     title: Joi.string().required(),
+    date: Joi.date().required(),
     questions: Joi.array().items({
       title: Joi.string().required(),
       type: Joi.string().valid(...Object.values(Types)).required()
