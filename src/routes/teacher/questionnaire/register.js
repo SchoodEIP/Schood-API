@@ -16,6 +16,7 @@ const { validateQuestionnaire, Questionnaire } = require('../../../models/questi
  * @param {Object} req
  * @param {Object} res
  * @returns 200 if OK and return access token and role name
+ * @returns 400 if Invalid arguments
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {
@@ -26,12 +27,21 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const today = new Date()
-    today.setUTCHours(0, 0, 0, 0)
+    const date = new Date(req.body.date)
+    const fromDate = new Date(date.setDate(date.getDate() - date.getDay()));
+    const toDate = new Date(date.setDate(date.getDate() - date.getDay() + 6));
+    fromDate.setUTCHours(0, 0, 0, 0)
+    toDate.setUTCHours(0, 0, 0, 0)
 
+    const check = await Questionnaire.findOne({createdBy: req.user._id, fromDate, toDate})
+
+    if (check) {
+      return res.status(400).json({ message: 'There is already a Questionnaire at this week for this teacher' })
+    }
     const questionnaire = new Questionnaire({
       title: req.body.title,
-      date: today,
+      fromDate,
+      toDate,
       questions: req.body.questions,
       classes: req.user.classes,
       createdBy: req.user._id
