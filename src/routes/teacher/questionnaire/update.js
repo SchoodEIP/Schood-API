@@ -4,7 +4,7 @@
  * @namespace questionnaire
  */
 
-const { validateQuestionnaire, Questionnaire } = require('../../../models/questionnaire')
+const { validateQuestionnaire, Questionnaire, Types } = require('../../../models/questionnaire')
 
 /**
  * Main update questionnaire function
@@ -20,22 +20,26 @@ const { validateQuestionnaire, Questionnaire } = require('../../../models/questi
  */
 module.exports = async (req, res) => {
   try {
+    const questionnaireId = req.params.id
     // Verif received data
-    const { error } = validateQuestionnaire(req.body)
+    const questionnaire = await Questionnaire.findById(questionnaireId)
+
+    if (new Date(questionnaire.fromDate) < new Date()) {
+        return res.status(400).json({message: "You cannot modify a questionnaire from current or previous weeks"})
+    }
+    let error = false;
+    req.body.questions.forEach(question => {
+        if (!question.title || !Object.values(Types).includes(question.type)) {
+            error = true
+        }
+    });
     if (error) {
-      return res.status(400).json({ message: 'Invalid request' })
+        return res.status(400).json({message: "Invalid question"})
     }
 
-    const today = new Date()
-    today.setUTCHours(0, 0, 0, 0)
-
-    const questionnaire = new Questionnaire({
-      title: req.body.title,
-      date: today,
-      questions: req.body.questions,
-      classes: req.user.classes,
-      createdBy: req.user._id
-    })
+    // Modify questionnaire
+    questionnaire.title = req.body.title ? req.body.title : questionnaire.title
+    questionnaire.questions = req.body.questions ? req.body.questions : questionnaire.questions
     await questionnaire.save()
 
     // Send profile

@@ -73,4 +73,4 @@ const validateQuestionnaire = (questionnaire) => {
   return schema.validate(questionnaire)
 }
 
-module.exports = { Questionnaire, validateQuestionnaire }
+module.exports = { Questionnaire, validateQuestionnaire, Types }
