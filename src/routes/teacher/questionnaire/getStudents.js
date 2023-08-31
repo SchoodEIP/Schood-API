@@ -29,42 +29,42 @@ module.exports = async (req, res) => {
     }
 
     const agg = [
-        {
-          $match: {
-              questionnaire: new mongoose.Types.ObjectId(questionnaireId),
-            },
-        },
-        {
-          $lookup: {
-              from: "users",
-              localField: "createdBy",
-              foreignField: "_id",
-              as: "createdBy",
-            },
-        },
-        {
-          $unwind: {
-              path: "$createdBy",
-              preserveNullAndEmptyArrays: true,
-            },
-        },
-        {
-          $project: {
-              "createdBy.password": 0,
-              "createdBy.firstConnexion": 0,
-              "createdBy.role": 0,
-              "createdBy.facility": 0,
-            },
-        },
-        {
-          $group: {
-              _id: 1,
-              users: {
-                $push: "$$ROOT.createdBy",
-              },
-            },
-        },
-      ]
+      {
+        $match: {
+          questionnaire: new mongoose.Types.ObjectId(questionnaireId)
+        }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'createdBy',
+          foreignField: '_id',
+          as: 'createdBy'
+        }
+      },
+      {
+        $unwind: {
+          path: '$createdBy',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $project: {
+          'createdBy.password': 0,
+          'createdBy.firstConnexion': 0,
+          'createdBy.role': 0,
+          'createdBy.facility': 0
+        }
+      },
+      {
+        $group: {
+          _id: 1,
+          users: {
+            $push: '$$ROOT.createdBy'
+          }
+        }
+      }
+    ]
 
     const students = await Answers.aggregate(agg)
 

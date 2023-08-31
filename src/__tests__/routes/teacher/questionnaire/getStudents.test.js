@@ -59,35 +59,35 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-            questionnaireId = await Questionnaire.findOne();
-            questionnaireId = questionnaireId._id;
-            await request(app)
-                .get('/teacher/questionnaire/' + questionnaireId + "/students")
-                .set({
-                'x-auth-token': key
-                })
-                .expect(200)
+          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = questionnaireId._id
+          await request(app)
+            .get('/teacher/questionnaire/' + questionnaireId + '/students')
+            .set({
+              'x-auth-token': key
+            })
+            .expect(200)
         })
     })
     it('GET /teacher/questionnaire/:id => Try bad get students from questionnaire', async () => {
-        let key
-        await request(app)
-          .post('/user/login')
-          .send({
-            email: 'teacher1@schood.fr',
-            password: 'teacher123'
-          })
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .then((response) => {
-            key = response.body.token
-          })
-        await request(app)
-          .get('/teacher/questionnaire/nope/students')
-          .set({
-            'x-auth-token': key
-          })
-          .expect(400)
+      let key
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'teacher1@schood.fr',
+          password: 'teacher123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+      await request(app)
+        .get('/teacher/questionnaire/nope/students')
+        .set({
+          'x-auth-token': key
+        })
+        .expect(400)
     })
   })
 })
