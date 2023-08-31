@@ -5,9 +5,9 @@
 const express = require('express')
 const router = express.Router()
 
-const access = require('../../../middleware/access')
-
 const questionnaire = require('./register')
+const getAnswersFromStudent = require('./getAnswersFromStudent')
+const getStudents = require('./getStudents')
 
 /**
  * Main router connection
@@ -16,6 +16,8 @@ const questionnaire = require('./register')
  * @namespace questionaireRouter
  */
 
-router.post('/', access(1, true), questionnaire)
+router.post('/', questionnaire)
+router.get('/:id/students', getStudents)
+router.get('/:id/answers/:studentId', getAnswersFromStudent)
 
 module.exports = router
