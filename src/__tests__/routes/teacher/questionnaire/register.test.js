@@ -48,6 +48,7 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .send({
           title: 'test',
+          date: "2023-09-05",
           questions: [
             {
               title: 'Question1',
