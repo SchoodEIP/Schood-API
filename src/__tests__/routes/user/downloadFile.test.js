@@ -72,14 +72,13 @@ describe('User route tests', () => {
         .expect(200)
 
       await request(app)
-        .get('/user/chat')
+        .get(`/user/chat/${chat._id}/messages`)
         .set({
           'x-auth-token': key
         })
-        .send()
         .expect(200)
         .then(response => {
-          id = response.body[0].messages[0].file
+          id = response.body[0].file
         })
 
       return await request(app)
