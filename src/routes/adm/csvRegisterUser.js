@@ -115,7 +115,7 @@ const checkCsvBody = async (csv) => {
     if (row.firstname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.firstname)) addError('Firstname is not valid', index)
     if (row.lastname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.lastname)) addError('Lastname is not valid', index)
     if (row.email.length === 0 || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(row.email)) addError('Email is not valid', index)
-    if (row.role.length === 0 || !['student', 'teacher', 'adm'].includes(row.role.toLowerCase())) addError('Role is not valid', index)
+    if (row.role.length === 0 || !['student', 'teacher', 'administration'].includes(row.role.toLowerCase())) addError('Role is not valid', index)
     if (row.classes.length === 0) addError('Class is not valid', index)
     row.classes.forEach((className) => {
       if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className)) { addError('Class is not valid', index) }
