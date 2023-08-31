@@ -47,39 +47,39 @@ describe('Teacher Questionnaire route tests', () => {
           'x-auth-token': key
         })
         .send({
-          title: "test",
+          title: 'test',
           questions: [
             {
-                "title": "Question1",
-                "type": "text"
+              title: 'Question1',
+              type: 'text'
             }
-        ]
+          ]
         })
         .expect(200)
     })
     it('POST /teacher/questionnaire => Try bad register', async () => {
-        let key
-        await request(app)
-          .post('/user/login')
-          .send({
-            email: 'teacher1@schood.fr',
-            password: 'teacher123'
-          })
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .then((response) => {
-            key = response.body.token
-          })
-  
-        return await request(app)
-          .post('/teacher/questionnaire')
-          .set({
-            'x-auth-token': key
-          })
-          .send({
-            title: "test",
-          })
-          .expect(400)
+      let key
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'teacher1@schood.fr',
+          password: 'teacher123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .post('/teacher/questionnaire')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test'
+        })
+        .expect(400)
     })
   })
 })

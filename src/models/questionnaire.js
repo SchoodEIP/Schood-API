@@ -8,9 +8,9 @@ const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
 
 const Types = {
-  TEXT: "text",
-  EMOJI: "emoji",
-  MULTIPLE: "multiple",
+  TEXT: 'text',
+  EMOJI: 'emoji',
+  MULTIPLE: 'multiple'
 }
 
 // We create the Schema for questionnaire and we setup the required variables
@@ -39,7 +39,7 @@ const questionnaireSchema = new Schema({
       enum: Types,
       default: Types[0],
       required: true
-    },
+    }
   }],
   classes: [{
     type: mongoose.Types.ObjectId,
