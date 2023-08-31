@@ -28,12 +28,12 @@ module.exports = async (req, res) => {
     }
 
     const date = new Date(req.body.date)
-    const fromDate = new Date(date.setDate(date.getDate() - date.getDay()));
-    const toDate = new Date(date.setDate(date.getDate() - date.getDay() + 6));
+    const fromDate = new Date(date.setDate(date.getDate() - date.getDay()))
+    const toDate = new Date(date.setDate(date.getDate() - date.getDay() + 6))
     fromDate.setUTCHours(0, 0, 0, 0)
     toDate.setUTCHours(0, 0, 0, 0)
 
-    const check = await Questionnaire.findOne({createdBy: req.user._id, fromDate, toDate})
+    const check = await Questionnaire.findOne({ createdBy: req.user._id, fromDate, toDate })
 
     if (check) {
       return res.status(400).json({ message: 'There is already a Questionnaire at this week for this teacher' })
