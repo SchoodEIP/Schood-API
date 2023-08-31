@@ -8,6 +8,7 @@ const router = express.Router()
 const questionnaire = require('./register')
 const getAnswersFromStudent = require('./getAnswersFromStudent')
 const getStudents = require('./getStudents')
+const patchQuestionnaire = require('./update')
 
 /**
  * Main router connection
@@ -19,5 +20,6 @@ const getStudents = require('./getStudents')
 router.post('/', questionnaire)
 router.get('/:id/students', getStudents)
 router.get('/:id/answers/:studentId', getAnswersFromStudent)
+router.patch("/:id", patchQuestionnaire)
 
 module.exports = router
