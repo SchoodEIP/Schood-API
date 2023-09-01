@@ -31,7 +31,7 @@ describe('Teacher Questionnaire route tests', () => {
     it('PATCH /teacher/questionnaire/:id => Try good update', async () => {
       let key
       let questionnaireId
-      let date = new Date();
+      const date = new Date()
       date.setDate(date.getDate() + 8)
       await request(app)
         .post('/user/login')
@@ -62,81 +62,29 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-            questionnaireId = await Questionnaire.findOne()
-            questionnaireId = questionnaireId._id
-            await request(app)
-                .patch('/teacher/questionnaire/' + questionnaireId)
-                .set({
-                'x-auth-token': key
-                })
-                .send({
-                    title: 'test',
-                    questions: [
-                        {
-                            title: 'Question1',
-                            type: 'text'
-                        }
-                    ]
-                })
-                .expect(200)
+          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = questionnaireId._id
+          await request(app)
+            .patch('/teacher/questionnaire/' + questionnaireId)
+            .set({
+              'x-auth-token': key
+            })
+            .send({
+              title: 'test',
+              questions: [
+                {
+                  title: 'Question1',
+                  type: 'text'
+                }
+              ]
+            })
+            .expect(200)
         })
     })
     it('PATCH /teacher/questionnaire/:id => Try good update no title', async () => {
-        let key
-        let questionnaireId
-        let date = new Date();
-        date.setDate(date.getDate() + 8)
-        await request(app)
-          .post('/user/login')
-          .send({
-            email: 'teacher1@schood.fr',
-            password: 'teacher123'
-          })
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .then((response) => {
-            key = response.body.token
-          })
-  
-        await request(app)
-          .post('/teacher/questionnaire')
-          .set({
-            'x-auth-token': key
-          })
-          .send({
-            title: 'test',
-            date: date.toUTCString(),
-            questions: [
-              {
-                title: 'Question1',
-                type: 'text'
-              }
-            ]
-          })
-          .expect(200)
-          .then(async () => {
-              questionnaireId = await Questionnaire.findOne()
-              questionnaireId = questionnaireId._id
-              await request(app)
-                  .patch('/teacher/questionnaire/' + questionnaireId)
-                  .set({
-                  'x-auth-token': key
-                  })
-                  .send({
-                      questions: [
-                          {
-                              title: 'Question1',
-                              type: 'text'
-                          }
-                      ]
-                  })
-                  .expect(200)
-          })
-      })
-    it('PATCH /teacher/questionnaire/:id => Try good update no questions', async () => {
       let key
       let questionnaireId
-      let date = new Date();
+      const date = new Date()
       date.setDate(date.getDate() + 8)
       await request(app)
         .post('/user/login')
@@ -167,121 +115,173 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-            questionnaireId = await Questionnaire.findOne()
-            questionnaireId = questionnaireId._id
-            await request(app)
-                .patch('/teacher/questionnaire/' + questionnaireId)
-                .set({
-                'x-auth-token': key
-                })
-                .send({
-                    title: 'test'
-                })
-                .expect(200)
+          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = questionnaireId._id
+          await request(app)
+            .patch('/teacher/questionnaire/' + questionnaireId)
+            .set({
+              'x-auth-token': key
+            })
+            .send({
+              questions: [
+                {
+                  title: 'Question1',
+                  type: 'text'
+                }
+              ]
+            })
+            .expect(200)
+        })
+    })
+    it('PATCH /teacher/questionnaire/:id => Try good update no questions', async () => {
+      let key
+      let questionnaireId
+      const date = new Date()
+      date.setDate(date.getDate() + 8)
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'teacher1@schood.fr',
+          password: 'teacher123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await request(app)
+        .post('/teacher/questionnaire')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test',
+          date: date.toUTCString(),
+          questions: [
+            {
+              title: 'Question1',
+              type: 'text'
+            }
+          ]
+        })
+        .expect(200)
+        .then(async () => {
+          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = questionnaireId._id
+          await request(app)
+            .patch('/teacher/questionnaire/' + questionnaireId)
+            .set({
+              'x-auth-token': key
+            })
+            .send({
+              title: 'test'
+            })
+            .expect(200)
         })
     })
     it('POST /teacher/questionnaire => Try bad register', async () => {
-        let key
-        let questionnaireId
-        let date = new Date();
-        date.setDate(date.getDate() + 8)
-        await request(app)
-          .post('/user/login')
-          .send({
-            email: 'teacher1@schood.fr',
-            password: 'teacher123'
-          })
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .then((response) => {
-            key = response.body.token
-          })
-  
-        await request(app)
-          .post('/teacher/questionnaire')
-          .set({
-            'x-auth-token': key
-          })
-          .send({
-            title: 'test',
-            date: date.toUTCString(),
-            questions: [
-              {
-                title: 'Question1',
-                type: 'text'
-              }
-            ]
-          })
-          .expect(200)
-          .then(async () => {
-              questionnaireId = await Questionnaire.findOne()
-              questionnaireId = questionnaireId._id
-              await request(app)
-                  .patch('/teacher/questionnaire/' + questionnaireId)
-                  .set({
-                  'x-auth-token': key
-                  })
-                  .send({
-                      questions: [
-                          {
-                              type: 'text'
-                          }
-                      ]
-                  })
-                  .expect(400)
-          })
+      let key
+      let questionnaireId
+      const date = new Date()
+      date.setDate(date.getDate() + 8)
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'teacher1@schood.fr',
+          password: 'teacher123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await request(app)
+        .post('/teacher/questionnaire')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test',
+          date: date.toUTCString(),
+          questions: [
+            {
+              title: 'Question1',
+              type: 'text'
+            }
+          ]
+        })
+        .expect(200)
+        .then(async () => {
+          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = questionnaireId._id
+          await request(app)
+            .patch('/teacher/questionnaire/' + questionnaireId)
+            .set({
+              'x-auth-token': key
+            })
+            .send({
+              questions: [
+                {
+                  type: 'text'
+                }
+              ]
+            })
+            .expect(400)
+        })
     })
     it('PATCH /teacher/questionnaire/:id => Try bad update bad date', async () => {
-        let key
-        let questionnaireId
-        let date = new Date();
-        await request(app)
-          .post('/user/login')
-          .send({
-            email: 'teacher1@schood.fr',
-            password: 'teacher123'
-          })
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .then((response) => {
-            key = response.body.token
-          })
-  
-        await request(app)
-          .post('/teacher/questionnaire')
-          .set({
-            'x-auth-token': key
-          })
-          .send({
-            title: 'test',
-            date: date.toUTCString(),
-            questions: [
-              {
-                title: 'Question1',
-                type: 'text'
-              }
-            ]
-          })
-          .expect(200)
-          .then(async () => {
-              questionnaireId = await Questionnaire.findOne()
-              questionnaireId = questionnaireId._id
-              await request(app)
-                  .patch('/teacher/questionnaire/' + questionnaireId)
-                  .set({
-                  'x-auth-token': key
-                  })
-                  .send({
-                      title: 'test',
-                      questions: [
-                          {
-                              title: 'Question1',
-                              type: 'text'
-                          }
-                      ]
-                  })
-                  .expect(400)
-          })
-      })
+      let key
+      let questionnaireId
+      const date = new Date()
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'teacher1@schood.fr',
+          password: 'teacher123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await request(app)
+        .post('/teacher/questionnaire')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test',
+          date: date.toUTCString(),
+          questions: [
+            {
+              title: 'Question1',
+              type: 'text'
+            }
+          ]
+        })
+        .expect(200)
+        .then(async () => {
+          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = questionnaireId._id
+          await request(app)
+            .patch('/teacher/questionnaire/' + questionnaireId)
+            .set({
+              'x-auth-token': key
+            })
+            .send({
+              title: 'test',
+              questions: [
+                {
+                  title: 'Question1',
+                  type: 'text'
+                }
+              ]
+            })
+            .expect(400)
+        })
+    })
   })
 })
