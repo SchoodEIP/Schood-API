@@ -82,5 +82,52 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .expect(400)
     })
+    it('POST /teacher/questionnaire => Try bad register already exist', async () => {
+      let key
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'teacher1@schood.fr',
+          password: 'teacher123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await request(app)
+        .post('/teacher/questionnaire')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test',
+          date: "2023-09-05",
+          questions: [
+            {
+              title: 'Question1',
+              type: 'text'
+            }
+          ]
+        })
+        .expect(200)
+      await request(app)
+        .post('/teacher/questionnaire')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test',
+          date: "2023-09-05",
+          questions: [
+            {
+              title: 'Question1',
+              type: 'text'
+            }
+          ]
+        })
+        .expect(400)
+    })
   })
 })
