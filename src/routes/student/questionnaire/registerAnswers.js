@@ -23,27 +23,27 @@ const { validateAnswers, Answers } = require('../../../models/answers')
  */
 module.exports = async (req, res) => {
   try {
-      // Verif received data
+    // Verif received data
     const questionnaireId = req.params.id
     if (!mongoose.Types.ObjectId.isValid(questionnaireId)) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
-    
+
     // Check if questionnaire exist and is currently valid
-    const questionnaire = await Questionnaire.findById(questionnaireId);
+    const questionnaire = await Questionnaire.findById(questionnaireId)
     let today = new Date()
     const startWeekToday = new Date(today.setDate(today.getDate() - today.getDay()))
     const endWeekToday = new Date(today.setDate(today.getDate() - today.getDay() + 6))
     startWeekToday.setUTCHours(0, 0, 0, 0)
     endWeekToday.setUTCHours(0, 0, 0, 0)
     if (!questionnaire || new Date(questionnaire.fromDate) < startWeekToday || new Date(questionnaire.toDate) > endWeekToday) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     // Check if not already answered
-    const answersCheck = await Answers.findOne({questionnaire: questionnaireId, createdBy: req.user._id})
+    const answersCheck = await Answers.findOne({ questionnaire: questionnaireId, createdBy: req.user._id })
     if (answersCheck) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     // Check if answers valid
@@ -51,33 +51,33 @@ module.exports = async (req, res) => {
     if (error) {
       return res.status(400).json({ message: 'Invalid request' })
     }
-    let errorAnswers = false;
+    let errorAnswers = false
     req.body.answers.forEach(answer => {
-        let present = false;
-        questionnaire.questions.forEach(question => {
-            if (question._id.equals(answer.question)) {
-                present = true;
-            }
-        });
-        if (!present) {
-            errorAnswers = true
+      let present = false
+      questionnaire.questions.forEach(question => {
+        if (question._id.equals(answer.question)) {
+          present = true
         }
-    });
+      })
+      if (!present) {
+        errorAnswers = true
+      }
+    })
     if (errorAnswers) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     // Save answers
-    today = new Date();
+    today = new Date()
     today.setUTCHours(0, 0, 0, 0)
     const answers = new Answers({
-        questionnaire: questionnaireId,
-        date: today,
-        answers: req.body.answers,
-        createdBy: req.user._id
+      questionnaire: questionnaireId,
+      date: today,
+      answers: req.body.answers,
+      createdBy: req.user._id
     })
 
-    await answers.save();
+    await answers.save()
 
     // Send profile
     return res.status(200).send()
