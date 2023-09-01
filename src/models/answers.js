@@ -51,7 +51,7 @@ const validateAnswers = (user) => {
     answers: Joi.array().items({
       question: Joi.objectId().required(),
       answer: Joi.string().required()
-    }).required(),
+    }).required()
   })
   return schema.validate(user)
 }
