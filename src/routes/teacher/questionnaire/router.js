@@ -20,6 +20,6 @@ const patchQuestionnaire = require('./update')
 router.post('/', questionnaire)
 router.get('/:id/students', getStudents)
 router.get('/:id/answers/:studentId', getAnswersFromStudent)
-router.patch("/:id", patchQuestionnaire)
+router.patch('/:id', patchQuestionnaire)
 
 module.exports = router

@@ -25,18 +25,18 @@ module.exports = async (req, res) => {
     const questionnaire = await Questionnaire.findById(questionnaireId)
 
     if (new Date(questionnaire.fromDate) < new Date()) {
-        return res.status(400).json({message: "You cannot modify a questionnaire from current or previous weeks"})
+      return res.status(400).json({ message: 'You cannot modify a questionnaire from current or previous weeks' })
     }
-    let error = false;
+    let error = false
     if (req.body.questions) {
-        req.body.questions.forEach(question => {
-            if (!question.title || !Object.values(Types).includes(question.type)) {
-                error = true
-            }
-        });
-        if (error) {
-            return res.status(400).json({message: "Invalid question"})
+      req.body.questions.forEach(question => {
+        if (!question.title || !Object.values(Types).includes(question.type)) {
+          error = true
         }
+      })
+      if (error) {
+        return res.status(400).json({ message: 'Invalid question' })
+      }
     }
 
     // Modify questionnaire
