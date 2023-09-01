@@ -228,7 +228,6 @@ describe('Student Questionnaire route tests', () => {
       let keyTeacher
       let keyStudent
       let questionnaireId
-      let 
       await request(app)
         .post('/user/login')
         .send({
