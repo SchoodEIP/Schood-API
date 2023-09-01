@@ -258,7 +258,6 @@ describe('Student Questionnaire route tests', () => {
         .expect(200)
         .then(async () => {
           questionnaireId = await Questionnaire.findOne()
-          questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')
             .send({
@@ -314,7 +313,6 @@ describe('Student Questionnaire route tests', () => {
         .expect(200)
         .then(async () => {
           questionnaireId = await Questionnaire.findOne()
-          questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')
             .send({
