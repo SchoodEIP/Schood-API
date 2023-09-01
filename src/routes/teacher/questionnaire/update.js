@@ -4,7 +4,7 @@
  * @namespace questionnaire
  */
 
-const { validateQuestionnaire, Questionnaire, Types } = require('../../../models/questionnaire')
+const { Questionnaire, Types } = require('../../../models/questionnaire')
 
 /**
  * Main update questionnaire function
