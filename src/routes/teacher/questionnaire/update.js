@@ -28,13 +28,15 @@ module.exports = async (req, res) => {
         return res.status(400).json({message: "You cannot modify a questionnaire from current or previous weeks"})
     }
     let error = false;
-    req.body.questions.forEach(question => {
-        if (!question.title || !Object.values(Types).includes(question.type)) {
-            error = true
+    if (req.body.questions) {
+        req.body.questions.forEach(question => {
+            if (!question.title || !Object.values(Types).includes(question.type)) {
+                error = true
+            }
+        });
+        if (error) {
+            return res.status(400).json({message: "Invalid question"})
         }
-    });
-    if (error) {
-        return res.status(400).json({message: "Invalid question"})
     }
 
     // Modify questionnaire

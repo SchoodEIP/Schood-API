@@ -50,6 +50,7 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .send({
           title: 'test',
+          date: new Date().toUTCString(),
           questions: [
             {
               title: 'Question1',
