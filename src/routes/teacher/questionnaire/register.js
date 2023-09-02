@@ -44,12 +44,11 @@ module.exports = async (req, res) => {
     req.body.questions.forEach(question => {
       if (question.type === Types.MULTIPLE) {
         if (!question.answers) {
-          console.log("no answers")
-          errorQuestions = true;
-          return
+          console.log('no answers')
+          errorQuestions = true
         }
       }
-    });
+    })
 
     if (errorQuestions) {
       return res.status(400).json({ message: 'Invalid request' })

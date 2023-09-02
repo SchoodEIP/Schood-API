@@ -60,7 +60,7 @@ describe('Teacher Questionnaire route tests', () => {
               answers: [
                 {
                   position: 1,
-                  title: "Test"
+                  title: 'Test'
                 }
               ]
             }
