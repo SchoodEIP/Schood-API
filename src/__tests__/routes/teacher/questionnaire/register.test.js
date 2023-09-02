@@ -48,11 +48,21 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .send({
           title: 'test',
-          date: '2023-09-05',
+          date: new Date(),
           questions: [
             {
               title: 'Question1',
               type: 'text'
+            },
+            {
+              title: 'Question1',
+              type: 'multiple',
+              answers: [
+                {
+                  position: 1,
+                  title: "Test"
+                }
+              ]
             }
           ]
         })
@@ -124,6 +134,37 @@ describe('Teacher Questionnaire route tests', () => {
             {
               title: 'Question1',
               type: 'text'
+            }
+          ]
+        })
+        .expect(400)
+    })
+    it('POST /teacher/questionnaire => Try bad register bad multiple 1', async () => {
+      let key
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'teacher1@schood.fr',
+          password: 'teacher123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .post('/teacher/questionnaire')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test',
+          date: new Date(),
+          questions: [
+            {
+              title: 'Question1',
+              type: 'multiple'
             }
           ]
         })

@@ -4,7 +4,7 @@
  * @namespace questionnaire
  */
 
-const { validateQuestionnaire, Questionnaire } = require('../../../models/questionnaire')
+const { validateQuestionnaire, Questionnaire, Types } = require('../../../models/questionnaire')
 
 /**
  * Main questionnaire function
@@ -24,6 +24,7 @@ module.exports = async (req, res) => {
     // Verif received data
     const { error } = validateQuestionnaire(req.body)
     if (error) {
+      console.log(error)
       return res.status(400).json({ message: 'Invalid request' })
     }
 
@@ -38,6 +39,22 @@ module.exports = async (req, res) => {
     if (check) {
       return res.status(400).json({ message: 'There is already a Questionnaire at this week for this teacher' })
     }
+
+    let errorQuestions = false
+    req.body.questions.forEach(question => {
+      if (question.type === Types.MULTIPLE) {
+        if (!question.answers) {
+          console.log("no answers")
+          errorQuestions = true;
+          return
+        }
+      }
+    });
+
+    if (errorQuestions) {
+      return res.status(400).json({ message: 'Invalid request' })
+    }
+
     const questionnaire = new Questionnaire({
       title: req.body.title,
       fromDate,
