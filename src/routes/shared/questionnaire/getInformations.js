@@ -20,18 +20,18 @@ const { Questionnaire } = require('../../../models/questionnaire')
  */
 module.exports = async (req, res) => {
   try {
-    const questionnaireId = req.params.id;
-    let questionnaire = await Questionnaire.findById(questionnaireId).populate('createdBy classes')
+    const questionnaireId = req.params.id
+    const questionnaire = await Questionnaire.findById(questionnaireId).populate('createdBy classes')
 
     // Remove unnecessary data
-      questionnaire.createdBy.password = undefined
-      questionnaire.createdBy.classes = undefined
-      questionnaire.createdBy.firstConnexion = undefined
-      questionnaire.createdBy.facility = undefined
-      questionnaire.createdBy.role = undefined
-      questionnaire.classes.forEach(class_ => {
-        class_.facility = undefined
-      })
+    questionnaire.createdBy.password = undefined
+    questionnaire.createdBy.classes = undefined
+    questionnaire.createdBy.firstConnexion = undefined
+    questionnaire.createdBy.facility = undefined
+    questionnaire.createdBy.role = undefined
+    questionnaire.classes.forEach(class_ => {
+      class_.facility = undefined
+    })
 
     // Send questionnaire
     return res.status(200).json(questionnaire)

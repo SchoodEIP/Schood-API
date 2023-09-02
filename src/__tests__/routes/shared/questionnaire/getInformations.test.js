@@ -60,7 +60,7 @@ describe('Shared Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-            questionnaireId = await Questionnaire.findOne({})
+          questionnaireId = await Questionnaire.findOne({})
           await request(app)
             .get('/shared/questionnaire/' + questionnaireId._id)
             .set({
