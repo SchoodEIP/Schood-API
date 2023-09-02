@@ -24,13 +24,13 @@ module.exports = async (req, res) => {
     const isTeacher = req.user.role.levelOfAccess === 1 ? true : false
     let questionnaires 
     
-    if (isTeacher) {
+    if (isTeacher) { // If teacher we only want his questionnaires
         questionnaires = await Questionnaire.find({
             facility: req.user.facility,
             classes: {$in: req.user.classes},
             createdBy: req.user._id
         }).sort({date: -1}).populate("createdBy classes")
-    } else {
+    } else { // If student we want all questionnairs for his class
         questionnaires = await Questionnaire.find({
             facility: req.user.facility,
             classes: {$in: req.user.classes}
