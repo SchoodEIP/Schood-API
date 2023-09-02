@@ -42,6 +42,11 @@ const questionnaireSchema = new Schema({
       enum: Types,
       default: Types[0],
       required: true
+    },
+    answers: {
+      type: Array,
+      default: [],
+      required: true
     }
   }],
   classes: [{
