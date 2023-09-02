@@ -21,34 +21,34 @@ const { Questionnaire } = require('../../../models/questionnaire')
  */
 module.exports = async (req, res) => {
   try {
-    const isTeacher = req.user.role.levelOfAccess === 1 ? true : false
-    let questionnaires 
-    
+    const isTeacher = req.user.role.levelOfAccess === 1
+    let questionnaires
+
     if (isTeacher) { // If teacher we only want his questionnaires
-        questionnaires = await Questionnaire.find({
-            facility: req.user.facility,
-            classes: {$in: req.user.classes},
-            createdBy: req.user._id
-        }).sort({date: -1}).populate("createdBy classes")
+      questionnaires = await Questionnaire.find({
+        facility: req.user.facility,
+        classes: { $in: req.user.classes },
+        createdBy: req.user._id
+      }).sort({ date: -1 }).populate('createdBy classes')
     } else { // If student we want all questionnairs for his class
-        questionnaires = await Questionnaire.find({
-            facility: req.user.facility,
-            classes: {$in: req.user.classes}
-        }).sort({date: -1}).populate("createdBy classes")
+      questionnaires = await Questionnaire.find({
+        facility: req.user.facility,
+        classes: { $in: req.user.classes }
+      }).sort({ date: -1 }).populate('createdBy classes')
     }
 
     // Remove unnecessary data
     questionnaires.forEach(questionnaire => {
-        questionnaire.questions = undefined
-        questionnaire.createdBy.password = undefined
-        questionnaire.createdBy.classes = undefined
-        questionnaire.createdBy.firstConnexion = undefined
-        questionnaire.createdBy.facility = undefined
-        questionnaire.createdBy.role = undefined
-        questionnaire.classes.forEach(class_ => {
-            class_.facility = undefined
-        });
-    });
+      questionnaire.questions = undefined
+      questionnaire.createdBy.password = undefined
+      questionnaire.createdBy.classes = undefined
+      questionnaire.createdBy.firstConnexion = undefined
+      questionnaire.createdBy.facility = undefined
+      questionnaire.createdBy.role = undefined
+      questionnaire.classes.forEach(class_ => {
+        class_.facility = undefined
+      })
+    })
 
     // Send questionnaires
     return res.status(200).json(questionnaires)
