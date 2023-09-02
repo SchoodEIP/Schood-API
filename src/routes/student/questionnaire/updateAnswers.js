@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
 
     // Check if questionnaire exist and is currently valid
     const questionnaire = await Questionnaire.findById(questionnaireId)
-    let today = new Date()
+    const today = new Date()
     const startWeekToday = new Date(today.setDate(today.getDate() - today.getDay()))
     const endWeekToday = new Date(today.setDate(today.getDate() - today.getDay() + 6))
     startWeekToday.setUTCHours(0, 0, 0, 0)
