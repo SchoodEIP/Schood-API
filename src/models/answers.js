@@ -29,10 +29,10 @@ const answersSchema = new Schema({
       type: mongoose.Types.ObjectId,
       required: true
     },
-    answer: {
+    answers: [{
       type: String,
       required: true
-    }
+    }]
   }],
   createdBy: {
     type: mongoose.Types.ObjectId,

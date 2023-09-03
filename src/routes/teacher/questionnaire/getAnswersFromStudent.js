@@ -64,7 +64,7 @@ module.exports = async (req, res) => {
     const answers = await Answers.aggregate(agg)
 
     // Send answers
-    return res.status(200).json(answers)
+    return res.status(200).json(answers[0])
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
