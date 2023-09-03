@@ -340,7 +340,7 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
-  /adm/class/:id:
+  /adm/class/{id}:
     patch:
       tags:
         - adm
@@ -486,6 +486,36 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /teacher/questionnaire/:
+    post:
+      tags:
+        - teacher
+      summary: Register a new questionnaire
+      description: >
+        Register a new questionnaire for a date with questions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newQuestionnaire'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
 
 components:
   schemas:
@@ -552,6 +582,43 @@ components:
         classes:
           type: string
           example: ["64692acf1874cb0532aa619d", "64692acf1874cb0532aa619d"]
+    newQuestionnaire:
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'Questionnaire'
+        date:
+          type: string
+          example: '2023-09-02'
+        questions:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              type:
+                type: string
+              answers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    position:
+                      type: number
+                    title:
+                      type: string
+          example:
+            - title: "Question1"
+              type: "multiple"
+              answers:
+                - position: 1,
+                  title: "Test"
+            - title: "Question2"
+              type: "text"
+            - title: "Question3"
+              type: "emoji"
     AvailableUsers:
       type: array
       items:
