@@ -595,6 +595,44 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /teacher/questionnaire/{id}:
+    patch:
+      tags:
+        - teacher
+      summary: Update a questionnaire
+      description: >
+        Update a questionnaire
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the questionnaire
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateQuestionnaire'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
 
 components:
   schemas:
@@ -692,7 +730,41 @@ components:
             - title: "Question1"
               type: "multiple"
               answers:
-                - position: 1,
+                - position: 1
+                  title: "Test"
+            - title: "Question2"
+              type: "text"
+            - title: "Question3"
+              type: "emoji"
+    updateQuestionnaire:
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'Questionnaire'
+        questions:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              type:
+                type: string
+              answers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    position:
+                      type: number
+                    title:
+                      type: string
+          example:
+            - title: "Question1"
+              type: "multiple"
+              answers:
+                - position: 1
                   title: "Test"
             - title: "Question2"
               type: "text"

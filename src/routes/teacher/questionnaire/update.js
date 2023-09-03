@@ -33,6 +33,11 @@ module.exports = async (req, res) => {
         if (!question.title || !Object.values(Types).includes(question.type)) {
           error = true
         }
+        if (question.type === Types.MULTIPLE) {
+          if (!question.answers) {
+            error = true
+          }
+        }
       })
       if (error) {
         return res.status(400).json({ message: 'Invalid question' })
