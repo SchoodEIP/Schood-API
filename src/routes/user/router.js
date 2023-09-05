@@ -10,7 +10,6 @@ const forgottenPassword = require('./forgottenPassword')
 const profile = require('./profile')
 const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
-const getAvailableChatUsers = require('./chat/getAvailableChatUsers')
 
 const chatRouter = require('./chat/router')
 
@@ -34,8 +33,5 @@ router.get('/by/:position', auth, access(2), getUsersByPosition)
 router.get('/all', auth, access(2), getAllUsers)
 
 router.get('/file/:id', auth, downloadFile)
-
-// Created router routes, chat related
-router.get('/chat/users', auth, getAvailableChatUsers)
 
 module.exports = router

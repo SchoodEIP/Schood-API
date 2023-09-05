@@ -8,6 +8,7 @@ const newMessage = require('./newMessage')
 const newFile = require('./newFile')
 const getMessages = require('./getMessages')
 const { upload10Tmp } = require('../../../utils/multer')
+const getAvailableChatUsers = require('./getAvailableChatUsers')
 
 /**
  * User router connection
@@ -18,6 +19,7 @@ const { upload10Tmp } = require('../../../utils/multer')
 
 router.get('/', getChats)
 router.get('/:id/messages', getMessages)
+router.get('/users', auth, getAvailableChatUsers)
 
 router.post('/', createChat)
 router.post('/:id/newMessage', auth, newMessage)
