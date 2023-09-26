@@ -786,12 +786,6 @@ components:
         message:
           type: string
           example: 'At least email or telephone have to be present'
-    NameAlreadyUsed:
-      type: object
-      properties:
-        message:
-          type: string
-          example: 'This name is already used'
     UsersNotFound:
       type: object
       properties:
