@@ -19,13 +19,6 @@ const upload = multer({
   limits: { fileSize: 1048576 } // 10 Mo
 })
 
-/**
- * Adm router connection
- * @memberof module:router~mainRouter
- * @inner
- * @namespace admRouter
- */
-
 // Created router routes connection
 
 router.use('/classes', classesRouter)

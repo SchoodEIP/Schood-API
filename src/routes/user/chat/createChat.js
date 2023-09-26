@@ -28,20 +28,34 @@ module.exports = async (req, res) => {
     }
 
     const failedIds = []
+    const foundUsers = []
     for (const id of req.body.participants) {
       const user = await Users.findById(id)
 
       if (!user || user.length === 0) {
         failedIds.push(id)
+      } else {
+        foundUsers.push(user)
       }
     }
     if (failedIds.length !== 0) return res.status(422).json({ message: `These users does not exist with, ids: ${failedIds}` })
+
+    let title
+    console.log(req.body)
+    if (req.body.title) {
+      title = req.body.title
+      console.log(title)
+    } else {
+      title = foundUsers.map(user => user.firstname + ' ' + user.lastname).join(',')
+      console.log(title)
+    }
 
     const newChat = new Chats({
       facility: req.user.facility,
       date: new Date(),
       createdBy: req.user._id,
-      participants: [...req.body.participants, req.user._id]
+      participants: [...req.body.participants, req.user._id],
+      title
     })
     newChat.save()
 
