@@ -30,7 +30,7 @@ describe('Adm route tests', () => {
   })
 
   describe('Register route', () => {
-    it('PATCH /teacher/user/:id => Try update user good student', async () => {
+    it('PATCH /user/:id => Try update user good student', async () => {
       let key
       const roleStudent = await Roles.findOne({ name: 'student' })
       const roleTeacher = await Roles.findOne({ name: 'teacher' })
@@ -66,7 +66,7 @@ describe('Adm route tests', () => {
 
       const user = await Users.findOne({ email: 'schood.eip@gmail.com' })
       return request(app)
-        .patch(`/teacher/user/${user._id}`)
+        .patch(`/user/${user._id}`)
         .set({
           'x-auth-token': key
         })
@@ -83,7 +83,7 @@ describe('Adm route tests', () => {
         .expect(200)
     })
 
-    it('PATCH /teacher/user/:id => Try update user bad body', async () => {
+    it('PATCH /user/:id => Try update user bad body', async () => {
       let key
       const roleStudent = await Roles.findOne({ name: 'student' })
       const class200 = await Classes.findOne({ name: '200' })
@@ -117,7 +117,7 @@ describe('Adm route tests', () => {
 
       const user = await Users.findOne({ email: 'schood.eip@gmail.com' })
       return request(app)
-        .patch(`/teacher/user/${user._id}`)
+        .patch(`/user/${user._id}`)
         .set({
           'x-auth-token': key
         })
@@ -133,7 +133,7 @@ describe('Adm route tests', () => {
         .expect(400)
     })
 
-    it('PATCH /teacher/user/:id => Try update user bad role', async () => {
+    it('PATCH /user/:id => Try update user bad role', async () => {
       let key
       const roleStudent = await Roles.findOne({ name: 'student' })
       const class200 = await Classes.findOne({ name: '200' })
@@ -167,7 +167,7 @@ describe('Adm route tests', () => {
 
       const user = await Users.findOne({ email: 'schood.eip@gmail.com' })
       return request(app)
-        .patch(`/teacher/user/${user._id}`)
+        .patch(`/user/${user._id}`)
         .set({
           'x-auth-token': key
         })
@@ -183,7 +183,7 @@ describe('Adm route tests', () => {
         .expect(400)
     })
 
-    it('PATCH /teacher/user/:id => Try update user bad number of classes', async () => {
+    it('PATCH /user/:id => Try update user bad number of classes', async () => {
       let key
       const roleStudent = await Roles.findOne({ name: 'student' })
       const class200 = await Classes.findOne({ name: '200' })
@@ -218,7 +218,7 @@ describe('Adm route tests', () => {
 
       const user = await Users.findOne({ email: 'schood.eip@gmail.com' })
       return request(app)
-        .patch(`/teacher/user/${user._id}`)
+        .patch(`/user/${user._id}`)
         .set({
           'x-auth-token': key
         })
@@ -235,7 +235,7 @@ describe('Adm route tests', () => {
         .expect(400)
     })
 
-    it('PATCH /teacher/user/:id => Try update user bad class', async () => {
+    it('PATCH /user/:id => Try update user bad class', async () => {
       let key
       const roleStudent = await Roles.findOne({ name: 'student' })
       const class200 = await Classes.findOne({ name: '200' })
@@ -269,7 +269,7 @@ describe('Adm route tests', () => {
 
       const user = await Users.findOne({ email: 'schood.eip@gmail.com' })
       return request(app)
-        .patch(`/teacher/user/${user._id}`)
+        .patch(`/user/${user._id}`)
         .set({
           'x-auth-token': key
         })
@@ -285,7 +285,7 @@ describe('Adm route tests', () => {
         .expect(400)
     })
 
-    it('PATCH /teacher/user/:id => Try update user bad class', async () => {
+    it('PATCH /user/:id => Try update user bad class', async () => {
       let key
       const roleStudent = await Roles.findOne({ name: 'student' })
       const class200 = await Classes.findOne({ name: '200' })
@@ -319,7 +319,7 @@ describe('Adm route tests', () => {
 
       const user = await Users.findOne({ email: 'schood.eip@gmail.com' })
       return request(app)
-        .patch(`/teacher/user/${user._id}`)
+        .patch(`/user/${user._id}`)
         .set({
           'x-auth-token': key
         })

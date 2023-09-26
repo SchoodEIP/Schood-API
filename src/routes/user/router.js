@@ -26,6 +26,6 @@ router.patch('/changePassword', auth, changePassword)
 router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2), getUsersByPosition)
 router.get('/all', auth, access(2), getAllUsers)
-router.patch('/user/:id', auth, access(1), updateUser)
+router.patch('/:id', auth, access(1), updateUser)
 
 module.exports = router
