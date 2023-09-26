@@ -5,7 +5,6 @@
 
 const express = require('express')
 const router = express.Router()
-const updateUser = require('./updateUser')
 
 /**
  * Adm router connection
@@ -13,9 +12,5 @@ const updateUser = require('./updateUser')
  * @inner
  * @namespace teacherRouter
  */
-
-// Created router routes connection
-
-router.patch('/user/:id', updateUser)
 
 module.exports = router

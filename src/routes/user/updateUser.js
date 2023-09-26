@@ -1,5 +1,5 @@
 /**
- * @memberof module:router~mainRouter~teacherRouter
+ * @memberof module:router~mainRouter~userRouter
  * @inner
  * @namespace updateUser
  */
@@ -9,9 +9,9 @@ const { Users, validateRegister } = require('../../models/users')
 
 /**
  * Main register function
- * @name PATCH /teacher/user/:id
+ * @name PATCH /user/user/:id
  * @function
- * @memberof module:router~mainRouter~teacherRouter~updateUser
+ * @memberof module:router~mainRouter~userRouter~updateUser
  * @inner
  * @async
  * @param {Object} req
