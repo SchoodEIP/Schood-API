@@ -26,7 +26,7 @@ async function dbConnection (databaseName) {
     console.info('INFO: Retrying connection in 5 seconds...')
     setTimeout(() => {
       dbConnection(databaseName)
-    }, 5000);
+    }, 5000)
     return false
   }
 }
