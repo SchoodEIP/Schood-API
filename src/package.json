@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "nodemon --ignore node_modules",
-    "coverage": "jest --runInBand --testTimeout=15000 --coverage --detectOpenHandles",
+    "coverage": "jest --runInBand --testTimeout=15000 --coverage",
     "test": "jest --runInBand --testTimeout=15000",
     "linter": "standard --fix --global it --global expect --global describe --global beforeAll --global afterEach --global beforeEach --global afterAll"
   },
