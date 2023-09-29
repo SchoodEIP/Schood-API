@@ -16,7 +16,6 @@ const { Questionnaire } = require('../../../models/questionnaire')
  * @param {Object} req
  * @param {Object} res
  * @returns 200 if OK and return access token and role name
- * @returns 400 if Invalid arguments
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {
