@@ -6,6 +6,7 @@ const express = require('express')
 const router = express.Router()
 
 const getQuestionnaires = require('./getQuestionnaires')
+const getInformations = require('./getInformations')
 
 /**
  * Main router connection
@@ -15,5 +16,6 @@ const getQuestionnaires = require('./getQuestionnaires')
  */
 
 router.get('/', getQuestionnaires)
+router.get('/:id', getInformations)
 
 module.exports = router
