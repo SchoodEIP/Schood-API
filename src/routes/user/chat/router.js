@@ -5,6 +5,7 @@ const createChat = require('./createChat')
 const getChats = require('./getChats')
 const auth = require('../../../middleware/auth')
 const getAvailableChatUsers = require('./getAvailableChatUsers')
+const newMessage = require('./newMessage')
 
 /**
  * User router connection
@@ -15,6 +16,7 @@ const getAvailableChatUsers = require('./getAvailableChatUsers')
 
 router.get('/', getChats)
 router.post('/', createChat)
+router.post('/:id/newMessage', newMessage)
 
 router.get('/users', auth, getAvailableChatUsers)
 

@@ -278,6 +278,50 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /user/chat/{id}/newMessage:
+    post:
+      tags:
+        - user
+      summary: send a message to a chat
+      description: >
+        Takes a JSON containing the content of the message
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            chat id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newMessage'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Users not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotInChat'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /user/chat/users:
     get:
       tags:
@@ -1461,6 +1505,12 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Chat'
+    newMessage:
+      type: object
+      properties:
+        content:
+          type: string
+          example: 'Test'
     token:
       type: object
       properties:
@@ -1506,18 +1556,24 @@ components:
         message:
           type: string
           example: 'This name is already used'
-    AtLeastEmailOrTelephone:
-      type: object
-      properties:
-        message:
-          type: string
-          example: 'At least email or telephone have to be present'
     UsersNotFound:
       type: object
       properties:
         message:
           type: string
           example: 'Users not found: [64b15338a8c793949de08695, 64b15338a8c793949de08696]'
+    UserNotInChat:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'User does not participate in this chat'
+    AtLeastEmailOrTelephone:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'At least email or telephone have to be present'
     failedRoles:
       type: object
       properties:
