@@ -12,6 +12,8 @@ const forgottenPassword = require('./forgottenPassword')
 const profile = require('./profile')
 const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
+const updateUser = require('./updateUser')
+const getAvailableChatUsers = require('./chat/getAvailableChatUsers')
 
 const createChat = require('./chat/createChat')
 const getChats = require('./chat/getChats')
@@ -32,6 +34,10 @@ router.patch('/changePassword', auth, changePassword)
 router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2), getUsersByPosition)
 router.get('/all', auth, access(2), getAllUsers)
+router.patch('/:id', auth, access(1), updateUser)
+
+// Created router routes, chat related
+router.get('/chat/users', auth, getAvailableChatUsers)
 
 router.get('/chat', auth, getChats)
 router.post('/chat', auth, createChat)

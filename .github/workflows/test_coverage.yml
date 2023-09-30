@@ -1,8 +1,13 @@
 name: 'Tests and Coverage'
+
 on:
   schedule:
     - cron: '0 0 * * *'
   pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   DB_USER: ${{secrets.DB_USER}}
