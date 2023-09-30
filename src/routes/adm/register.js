@@ -45,13 +45,13 @@ module.exports = async (req, res) => {
     // Check if the nb of classes for student is greater than 1
     const classesRequest = req.body.classes
     if (role.name === 'student' && classesRequest.length > 1) {
-      return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Student can only have 1 class' })
     }
 
     // Check classes
     const classes = []
     for (const element of classesRequest) {
-      const class_ = await Classes.findOne({ name: element.name })
+      const class_ = await Classes.findById(element)
 
       if (!class_ || class_ === undefined || class_.length === 0) {
         return res.status(400).json({ message: 'Invalid class' })
@@ -70,7 +70,8 @@ module.exports = async (req, res) => {
           firstname: req.body.firstname,
           lastname: req.body.lastname,
           role: role._id,
-          classes
+          classes,
+          facility: req.user.facility._id
         })
 
         // Save the user

@@ -69,7 +69,7 @@ jobs:
           github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: "Non fixable linter problems:"
+          message: "All linter problems fixed"
           comment_tag: linternonfixable
           create_if_not_exists: false
 

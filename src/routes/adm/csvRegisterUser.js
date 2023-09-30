@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
       return res.status(422).json(error)
     }
 
-    const [err, line, row] = await processImport(csv, mail)
+    const [err, line, row] = await processImport(csv, mail, req.user)
     if (err) {
       return res.status(422).json({
         line,
@@ -115,7 +115,7 @@ const checkCsvBody = async (csv) => {
     if (row.firstname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.firstname)) addError('Firstname is not valid', index)
     if (row.lastname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.lastname)) addError('Lastname is not valid', index)
     if (row.email.length === 0 || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(row.email)) addError('Email is not valid', index)
-    if (row.role.length === 0 || !['student', 'teacher', 'adm'].includes(row.role.toLowerCase())) addError('Role is not valid', index)
+    if (row.role.length === 0 || !['student', 'teacher', 'administration'].includes(row.role.toLowerCase())) addError('Role is not valid', index)
     if (row.classes.length === 0) addError('Class is not valid', index)
     row.classes.forEach((className) => {
       if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className)) { addError('Class is not valid', index) }
@@ -148,7 +148,7 @@ const checkCsvBody = async (csv) => {
  * @param mail
  * @returns {Promise<(boolean|string|number)[]|(boolean|*)[]>}
  */
-const processImport = async (csv, mail) => {
+const processImport = async (csv, mail, currentUser) => {
   let line
   let row
   try {
@@ -157,14 +157,22 @@ const processImport = async (csv, mail) => {
       row = val
 
       const password = random(10, 'alphanumeric')
+      const role = await Roles.findOne({ name: val.role })
+      const classes = []
+      for (let index = 0; index < row.classes.length; index++) {
+        const element = row.classes[index]
+        const classId = await Classes.findOne({ name: element })
+        classes.push(classId._id)
+      }
       const user = new Users({
         ...val,
         firstname: val.firstname,
         lastname: val.lastname,
         email: val.email,
-        classes: [Classes.findOne({ name: val.class })._id],
-        role: await Roles.findOne({ name: val.role })._id,
-        password: await bcrypt.hash(password, 10)
+        classes,
+        role,
+        password: await bcrypt.hash(password, 10),
+        facility: currentUser.facility
       })
       await user.save()
 
@@ -174,7 +182,7 @@ const processImport = async (csv, mail) => {
         sendMail(val.email, 'Schood Account Created', message)
       }
     }
-  } catch (e) {
+  } catch (e) /* istanbul ignore next */ {
     console.log(e)
     return [true, line, row]
   }

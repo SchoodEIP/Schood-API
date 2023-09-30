@@ -34,12 +34,18 @@ const usersSchema = new Schema({
   },
   role: {
     type: mongoose.Types.ObjectId,
-    ref: 'roles'
+    ref: 'roles',
+    required: true
   },
   classes: [{
     type: mongoose.Types.ObjectId,
     ref: 'classes'
   }],
+  facility: {
+    type: mongoose.Types.ObjectId,
+    ref: 'facilities',
+    required: true
+  },
   firstConnexion: {
     type: Boolean,
     required: true,
