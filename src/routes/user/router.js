@@ -10,9 +10,14 @@ const forgottenPassword = require('./forgottenPassword')
 const profile = require('./profile')
 const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
+
 const updateUser = require('./updateUser')
-const getAvailableChatUsers = require('./chat/getAvailableChatUsers')
+const chatRouter = require('./chat/router')
+const getAllHelpNumbers = require('./getAllHelpNumbers')
+const getHelpNumbersByCategory = require('./getHelpNumbersByCategory')
 const getAllHelpNumbersCategories = require('./getAllHelpNumbersCategories')
+
+const downloadFile = require('./downloadFile')
 
 /**
  * User router connection
@@ -21,19 +26,19 @@ const getAllHelpNumbersCategories = require('./getAllHelpNumbersCategories')
  * @namespace userRouter
  */
 
+router.use('/chat', auth, chatRouter)
+
 // Created router routes connection
 router.post('/login', login)
 router.post('/forgottenPassword', forgottenPassword)
 router.patch('/changePassword', auth, changePassword)
 router.get('/profile', auth, profile)
-router.get('/by/:position', auth, access(2), getUsersByPosition)
-router.get('/all', auth, access(2), getAllUsers)
+router.get('/by/:position', auth, access(2, false), getUsersByPosition)
+router.get('/all', auth, access(2, false), getAllUsers)
 router.patch('/:id', auth, access(1), updateUser)
-
-// Created router routes, helpNumbersCategory related
+router.get('/helpNumbers', auth, getAllHelpNumbers)
+router.get('/helpNumbers/:id', auth, getHelpNumbersByCategory)
 router.get('/helpNumbersCategories', auth, getAllHelpNumbersCategories)
-
-// Created router routes, chat related
-router.get('/chat/users', auth, getAvailableChatUsers)
+router.get('/file/:id', auth, downloadFile)
 
 module.exports = router

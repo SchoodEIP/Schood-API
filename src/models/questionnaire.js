@@ -7,6 +7,12 @@ const Schema = mongoose.Schema
 const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
 
+const Types = {
+  TEXT: 'text',
+  EMOJI: 'emoji',
+  MULTIPLE: 'multiple'
+}
+
 // We create the Schema for questionnaire and we setup the required variables
 
 /**
@@ -18,9 +24,12 @@ const questionnaireSchema = new Schema({
     type: String,
     required: true
   },
-  date: {
+  fromDate: {
     type: Date,
-    default: new Date(),
+    required: true
+  },
+  toDate: {
+    type: Date,
     required: true
   },
   questions: [{
@@ -30,11 +39,25 @@ const questionnaireSchema = new Schema({
     },
     type: {
       type: String,
-      enum: ['text', 'emoji', 'multiple'],
-      default: 'text',
+      enum: Types,
+      default: Types[0],
       required: true
     },
-    validate: v => Array.isArray(v) && v.length > 0
+    answers: [{
+      position: {
+        type: Number,
+        required: true
+      },
+      title: {
+        type: String,
+        required: true
+      }
+    }]
+  }],
+  classes: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'classes',
+    required: true
   }],
   createdBy: {
     type: mongoose.Types.ObjectId,
@@ -52,10 +75,16 @@ const validateQuestionnaire = (questionnaire) => {
   const schema = Joi.object({
     title: Joi.string().required(),
     date: Joi.date().required(),
-    questions: Joi.array().required(),
-    createdBy: Joi.objectId().required()
+    questions: Joi.array().items({
+      title: Joi.string().required(),
+      type: Joi.string().valid(...Object.values(Types)).required(),
+      answers: Joi.array().items({
+        position: Joi.number().required(),
+        title: Joi.string().required()
+      })
+    }).required()
   })
   return schema.validate(questionnaire)
 }
 
-module.exports = { Questionnaire, validateQuestionnaire }
+module.exports = { Questionnaire, validateQuestionnaire, Types }
