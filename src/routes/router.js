@@ -9,6 +9,7 @@ const auth = require('../middleware/auth')
 const access = require('../middleware/access')
 
 const userRouter = require('./user/router')
+const teacherRouter = require('./teacher/router')
 const admRouter = require('./adm/router')
 const adminRouter = require('./admin/router')
 const teacherRouter = require('./teacher/router')
