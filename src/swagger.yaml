@@ -275,6 +275,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+  /user/helpNumbers/:id:
+    get:
+      tags:
+        - user
+      summary: Get the list of the helpNumbers related to the helpNumbersCategory id passed as parameter.
+      description: >
+        Send a json containing an array of helpNumbers.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpNumberArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
   /user/chat/users:
     get:
       tags:
@@ -320,7 +340,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '200':
           description: Successful operation
