@@ -25,8 +25,11 @@ const messagesSchema = new Schema({
     required: true
   },
   content: {
-    type: String,
-    required: true
+    type: String
+  },
+  file: {
+    type: mongoose.Types.ObjectId,
+    ref: 'files'
   },
   chat: {
     type: mongoose.Types.ObjectId,

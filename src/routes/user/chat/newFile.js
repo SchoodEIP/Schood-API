@@ -1,16 +1,18 @@
 /**
  * @memberof module:router~mainRouter~userRouter
  * @inner
- * @namespace newMessage
+ * @namespace newFile
  */
 const { Chats } = require('../../../models/chat')
-const { Messages, validateMessages } = require('../../../models/message')
+const { Messages } = require('../../../models/message')
+const { Files } = require('../../../models/file')
+const fs = require('fs')
 
 /**
- * Main new message function
- * @name POST /user/chat/:id/newMessage
+ * Main new file function
+ * @name POST /user/chat/:id/newFile
  * @function
- * @memberof module:router~mainRouter~userRouter~newMessage
+ * @memberof module:router~mainRouter~userRouter~newFile
  * @inner
  * @async
  * @param {Object} req
@@ -29,27 +31,39 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    // Verif received data
-    const { error } = validateMessages(req.body)
-    if (error) {
-      return res.status(400).json({ message: 'Invalid request' })
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' })
     }
+
+    const { originalname, mimetype, path } = req.file
+    const binaryData = fs.readFileSync(path) // Access the binary data from multer
 
     if (!chat.participants.includes(req.user._id)) {
       return res.status(422).json({ message: 'User does not participate in this chat' })
     }
 
+    const newFile = new Files({
+      name: originalname,
+      mimetype,
+      binaryData
+    })
+    await newFile.save()
+
     const newMessage = new Messages({
       date: new Date(),
       user: req.user._id,
-      content: req.body.content,
+      file: newFile._id,
       chat: chat._id
     })
+    if (req.body.content) newMessage.content = req.body.content
+
     await newMessage.save()
     chat.messages.push(newMessage._id)
     await chat.save()
 
-    return res.status(200).send()
+    res.setHeader('Content-Type', newFile.mimetype)
+    res.setHeader('Content-Disposition', `attachment; filename="${newFile.originalName}"`)
+    return res.status(200).send(newFile.binaryData)
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
