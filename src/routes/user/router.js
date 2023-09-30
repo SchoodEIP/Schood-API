@@ -12,7 +12,7 @@ const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
 const updateUser = require('./updateUser')
 const getAvailableChatUsers = require('./chat/getAvailableChatUsers')
-const getAllHelpNumbers = require('./getAllHelpNumbers')
+const getHelpNumbersByCategory = require('./getHelpNumbersByCategory')
 
 /**
  * User router connection
@@ -31,7 +31,7 @@ router.get('/all', auth, access(2), getAllUsers)
 router.patch('/:id', auth, access(1), updateUser)
 
 // Created router routes, helpNumbers related
-router.get('/helpNumbers', auth, getAllHelpNumbers)
+router.get('/helpNumbers/:id', auth, getHelpNumbersByCategory)
 
 // Created router routes, chat related
 router.get('/chat/users', auth, getAvailableChatUsers)

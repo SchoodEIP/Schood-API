@@ -223,11 +223,11 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
-  /user/helpNumbers:
+  /user/helpNumbers/:id:
     get:
       tags:
         - user
-      summary: Get the list of all the helpNumbers.
+      summary: Get the list of the helpNumbers related to the helpNumbersCategory id passed as parameter.
       description: >
         Send a json containing an array of helpNumbers.
       responses:

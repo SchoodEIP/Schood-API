@@ -26,8 +26,8 @@ describe('User route tests', () => {
     await mongoose.connection.close()
   })
 
-  describe('getAllHelpNumbers route', () => {
-    it('GET /user/helpNumbers => Try get all help numbers', async () => {
+  describe('getHelpNumbersByCategory route', () => {
+    it('GET /user/helpNumbers/:id => Try get help numbers', async () => {
       let key
 
       await request(app)
@@ -43,7 +43,7 @@ describe('User route tests', () => {
         })
 
       return await request(app)
-        .get('/user/helpNumbers')
+        .get('/user/helpNumbers/65181c1b42acc204ab4d462c')
         .set({
           'x-auth-token': key
         })
