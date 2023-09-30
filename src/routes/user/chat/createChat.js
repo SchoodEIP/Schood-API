@@ -41,13 +41,10 @@ module.exports = async (req, res) => {
     if (failedIds.length !== 0) return res.status(422).json({ message: `These users does not exist with, ids: ${failedIds}` })
 
     let title
-    console.log(req.body)
     if (req.body.title) {
       title = req.body.title
-      console.log(title)
     } else {
       title = foundUsers.map(user => user.firstname + ' ' + user.lastname).join(',')
-      console.log(title)
     }
 
     const newChat = new Chats({
@@ -57,7 +54,7 @@ module.exports = async (req, res) => {
       participants: [...req.body.participants, req.user._id],
       title
     })
-    newChat.save()
+    await newChat.save()
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
