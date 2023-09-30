@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-const { upload10Tmp } = require('../../utils/multer')
-
 const auth = require('../../middleware/auth')
 const access = require('../../middleware/access')
 
