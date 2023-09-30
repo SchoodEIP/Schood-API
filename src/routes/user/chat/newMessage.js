@@ -42,7 +42,8 @@ module.exports = async (req, res) => {
     const newMessage = new Messages({
       date: new Date(),
       user: req.user._id,
-      content: req.body.content
+      content: req.body.content,
+      chat: chat._id
     })
     newMessage.save()
     chat.messages.push(newMessage._id)

@@ -7,13 +7,13 @@ const Schema = mongoose.Schema
 const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
 
-// We create the Schema for chat, and we set up the required variables
+// We create the Schema for messages, and we set up the required variables
 
 /**
- * Answers schema, containing user, date, content
- * @constructor Message
+ * Messages schema, containing user, date, content
+ * @constructor Messages
  */
-const messageSchema = new Schema({
+const messagesSchema = new Schema({
   user: {
     type: mongoose.Types.ObjectId,
     ref: 'users',
@@ -27,11 +27,16 @@ const messageSchema = new Schema({
   content: {
     type: String,
     required: true
+  },
+  chat: {
+    type: mongoose.Types.ObjectId,
+    ref: 'chats',
+    required: true
   }
 })
 
-// We create answers collection from answersSchema
-const Messages = mongoose.model('messages', messageSchema)
+// We create answers collection from messagesSchema
+const Messages = mongoose.model('messages', messagesSchema)
 
 // We check if all required variables are here
 
