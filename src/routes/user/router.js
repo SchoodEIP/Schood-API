@@ -31,9 +31,4 @@ router.get('/by/:position', auth, access(2, false), getUsersByPosition)
 router.get('/all', auth, access(2, false), getAllUsers)
 router.patch('/:id', auth, access(1), updateUser)
 
-// Created router routes, chat related
-
-router.post('/chat', auth, createChat)
-router.get('/chat/users', auth, getAvailableChatUsers)
-
 module.exports = router
