@@ -6,6 +6,7 @@ const express = require('express')
 const router = express.Router()
 
 const registerAnswers = require('./registerAnswers')
+const updateAnswers = require('./updateAnswers')
 
 /**
  * Main router connection
@@ -15,5 +16,6 @@ const registerAnswers = require('./registerAnswers')
  */
 
 router.post('/:id', registerAnswers)
+router.patch('/:id', updateAnswers)
 
 module.exports = router
