@@ -223,6 +223,26 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /user/getAllHelpNumbersCategories:
+    get:
+      tags:
+        - user
+      summary: Get the list of all the helpNumbersCategories.
+      description: >
+        Send a json containing an array of helpNumbersCategories
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableUsers'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
   /user/chat/users:
     get:
       tags:
@@ -745,6 +765,10 @@ components:
         name:
           type: string
           example: "Test"
+    HelpNumbersCategoryArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/HelpNumbersCategory'
     RolesList:
       type: array
       items:
