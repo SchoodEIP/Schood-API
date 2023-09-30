@@ -247,11 +247,60 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
-  /admin/facility/register:
+  /user/:id:
+    patch:
+      tags:
+        - teacher
+      summary: Update an user
+      description: >
+        Update a user given a valid email, firstname, lastname, role, classes. <br> <br>
+        If the role is student, only one element in the classes array is accepted. <br> <br>
+        If the role is teacher, multiple elements in the classes array is accepted. <br> <br>
+        If other role, no element should be in the classes array. <br> <br>
+        If the connected user is a teacher, all fields except roles and classes will be updated. <br> <br>
+        If other role, all fields will be updated.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the user that will be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/register:
     post:
       tags:
         - admin
-      summary: Register a Facility
+      summary: Register a user
       description: >
         Register a user given a valid email, firstname, lastname, role, classes. <br> <br>
         If the role is student, only one element in the classes array is accepted. <br> <br>
@@ -461,12 +510,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalServerError'
       security:
-        - x-auth-token: [ ]
-  /adm/register:
+        - x-auth-token: []
+  /adm/facility/register:
     post:
       tags:
         - adm
-      summary: Register a user
+      summary: Register a facility
       description: >
         Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
       requestBody:
