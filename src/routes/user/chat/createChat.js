@@ -55,11 +55,7 @@ module.exports = async (req, res) => {
       participants: [...req.body.participants, req.user._id],
       title
     })
-<<<<<<< HEAD
-    newChat.save()
-=======
     await newChat.save()
->>>>>>> e817968fcbe9ce698f922604bf214f714fac84cd
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
