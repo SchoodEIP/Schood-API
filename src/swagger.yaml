@@ -228,6 +228,27 @@ paths:
       security:
         - x-auth-token: []
   /user/chat:
+    get:
+      tags:
+        - user
+      summary: Get chats related to current user
+      description: >
+        Send a JSON containing an array of chats related to current user
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chats'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
     post:
       tags:
         - user
@@ -1329,6 +1350,21 @@ components:
           firstConnexion:
             type: boolean
             example: true
+    SimpleProfile:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64b15338a8c793949de08695'
+        email:
+          type: string
+          example: 'test.schood@gmail.com'
+        firstname:
+          type: string
+          example: 'test'
+        lastname:
+          type: string
+          example: 'test'
     Profile:
       type: object
       properties:
@@ -1402,6 +1438,29 @@ components:
           name:
             type: string
             example: 'student'
+    Chat:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64b15338a8c793949de08695'
+        facility:
+          type: string
+          example: '64b15338a8c793949de08695'
+        createdBy:
+          type: string
+          example: '64b15338a8c793949de08695'
+        date:
+          type: string
+          example: '2023-08-13T15:01:49.294Z'
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleProfile'
+    Chats:
+      type: array
+      items:
+        $ref: '#/components/schemas/Chat'
     token:
       type: object
       properties:

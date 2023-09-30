@@ -17,6 +17,7 @@ const { Users } = require('../../../models/users')
  * @param {Object} res
  * @returns 200 if OK
  * @returns 400 if invalid requests
+ * @returns 422 if users do not exist
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {

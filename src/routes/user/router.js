@@ -11,9 +11,7 @@ const profile = require('./profile')
 const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
 const updateUser = require('./updateUser')
-const getAvailableChatUsers = require('./chat/getAvailableChatUsers')
-
-const createChat = require('./chat/createChat')
+const chatRouter = require('./chat/router')
 
 /**
  * User router connection
@@ -21,6 +19,8 @@ const createChat = require('./chat/createChat')
  * @inner
  * @namespace userRouter
  */
+
+router.use('/chat', auth, chatRouter)
 
 // Created router routes connection
 router.post('/login', login)
@@ -30,10 +30,5 @@ router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2, false), getUsersByPosition)
 router.get('/all', auth, access(2, false), getAllUsers)
 router.patch('/:id', auth, access(1), updateUser)
-
-// Created router routes, chat related
-
-router.post('/chat', auth, createChat)
-router.get('/chat/users', auth, getAvailableChatUsers)
 
 module.exports = router
