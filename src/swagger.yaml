@@ -12,6 +12,12 @@ servers:
 tags:
   - name: user
     description: User operations
+  - name: shared
+    description: Shared operations
+  - name: student
+    description: Student operations
+  - name: teacher
+    description: Teacher operations
   - name: adm
     description: School Administration operations
   - name: admin
@@ -633,6 +639,180 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /student/questionnaire/{id}:
+    post:
+      tags:
+        - student
+      summary: Register answers to questionnaire
+      description: >
+        Register student answers to a questionnaire
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the questionnaire
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newAnswers'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    patch:
+      tags:
+        - student
+      summary: Modify answers to questionnaire
+      description: >
+        Modify student answers to a questionnaire
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the questionnaire
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newAnswers'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    get:
+      tags:
+        - student
+      summary: Get answers to questionnaire
+      description: >
+        Modify student answers to a questionnaire
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the questionnaire
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/newAnswers'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /shared/questionnaire/:
+    get:
+      tags:
+        - shared
+      summary: Get list of questionnaires
+      description: >
+        Get list of questionnaires
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/listQuestionnaires'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /shared/questionnaire/{id}:
+    get:
+      tags:
+        - shared
+      summary: Get informations of questionnaire
+      description: >
+        Get informations of a questionnaire
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the questionnaire
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/infoQuestionnaire'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
 
 components:
   schemas:
@@ -699,6 +879,30 @@ components:
         classes:
           type: string
           example: ["64692acf1874cb0532aa619d", "64692acf1874cb0532aa619d"]
+    newAnswers:
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              type:
+                type: string
+              answers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    position:
+                      type: number
+                    title:
+                      type: string
+          example:
+            - question: "64f112e13c0bc73031846e2c"
+              answer: "test"
     newQuestionnaire:
       type: object
       properties:
@@ -736,6 +940,126 @@ components:
               type: "text"
             - title: "Question3"
               type: "emoji"
+    listQuestionnaires:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+            example: '64f112e13c0bc73031846e2c'
+          title:
+            type: string
+            example: 'Questionnaire'
+          fromDate:
+            type: string
+            example: '2023-09-04T00:00:00.000Z'
+          toDate:
+            type: string
+            example: '2023-09-10T00:00:00.000Z'
+          classes:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+            example:
+              - _id: "64f112e13c0bc73031846e2c"
+                name: "200"
+              - _id: "64f112e13c0bc73031846e2c"
+                name: "201"
+          createdBy:
+            type: object
+            properties:
+              _id:
+                type: string
+                example: '64f112e13c0bc73031846e2c'
+              email:
+                type: string
+                example: 'teacher1@schood.fr'
+              firstname:
+                type: string
+                example: 'teacher1'
+              lastname:
+                type: string
+                example: 'teacher1'
+    infoQuestionnaire:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+            example: '64f112e13c0bc73031846e2c'
+          title:
+            type: string
+            example: 'Questionnaire'
+          fromDate:
+            type: string
+            example: '2023-09-04T00:00:00.000Z'
+          toDate:
+            type: string
+            example: '2023-09-10T00:00:00.000Z'
+          questions:
+            type: array
+            items:
+              type: object
+              properties:
+                title:
+                  type: string
+                type:
+                  type: string
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      position:
+                        type: number
+                      title:
+                        type: string
+            example:
+              - title: "Question1"
+                type: "multiple"
+                answers:
+                  - position: 1
+                    title: "Test"
+              - title: "Question2"
+                type: "text"
+              - title: "Question3"
+                type: "emoji"
+          classes:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                name:
+                  type: string
+            example:
+              - _id: "64f112e13c0bc73031846e2c"
+                name: "200"
+              - _id: "64f112e13c0bc73031846e2c"
+                name: "201"
+          createdBy:
+            type: object
+            properties:
+              _id:
+                type: string
+                example: '64f112e13c0bc73031846e2c'
+              email:
+                type: string
+                example: 'teacher1@schood.fr'
+              firstname:
+                type: string
+                example: 'teacher1'
+              lastname:
+                type: string
+                example: 'teacher1'
     updateQuestionnaire:
       type: object
       properties:
