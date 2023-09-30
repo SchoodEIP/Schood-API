@@ -37,7 +37,11 @@ const chatsSchema = new Schema({
   messages: [{
     type: mongoose.Types.ObjectId,
     ref: 'messages'
-  }]
+  }],
+  title: {
+    type: String,
+    required: true
+  }
 })
 
 // We create answers collection from answersSchema
@@ -47,7 +51,8 @@ const Chats = mongoose.model('chats', chatsSchema)
 
 const validateChats = (chat) => {
   const schema = Joi.object({
-    participants: Joi.array().items(Joi.objectId().required()).min(1).required()
+    participants: Joi.array().items(Joi.objectId().required()).min(1).required(),
+    title: Joi.string()
   })
   return schema.validate(chat)
 }

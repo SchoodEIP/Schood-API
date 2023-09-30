@@ -5,15 +5,15 @@
 const express = require('express')
 const router = express.Router()
 
-const questionnaire = require('./questionnaire/router')
+const questionaireRouter = require('./questionnaire/router')
 
 /**
  * Main router connection
  * @memberof module:router~mainRouter
  * @inner
- * @namespace teacherRouter
+ * @namespace studentRouter
  */
 
-router.use('/questionnaire', questionnaire)
+router.use('/questionnaire', questionaireRouter)
 
 module.exports = router
