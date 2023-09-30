@@ -13,6 +13,7 @@ const getAllUsers = require('./getAllUsers')
 
 const updateUser = require('./updateUser')
 const chatRouter = require('./chat/router')
+const getAllHelpNumbers = require('./getAllHelpNumbers')
 
 const downloadFile = require('./downloadFile')
 
@@ -33,7 +34,7 @@ router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2, false), getUsersByPosition)
 router.get('/all', auth, access(2, false), getAllUsers)
 router.patch('/:id', auth, access(1), updateUser)
-
+router.get('/helpNumbers', auth, getAllHelpNumbers)
 router.get('/file/:id', auth, downloadFile)
 
 module.exports = router
