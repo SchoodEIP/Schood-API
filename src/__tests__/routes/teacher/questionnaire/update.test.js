@@ -224,6 +224,58 @@ describe('Teacher Questionnaire route tests', () => {
             .send({
               questions: [
                 {
+                  title: 'Question1',
+                  type: 'multiple'
+                }
+              ]
+            })
+            .expect(400)
+        })
+    })
+    it('POST /teacher/questionnaire => Try bad register 2', async () => {
+      let key
+      let questionnaireId
+      const date = new Date()
+      date.setDate(date.getDate() + 8)
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'teacher1@schood.fr',
+          password: 'teacher123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await request(app)
+        .post('/teacher/questionnaire')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test',
+          date: date.toUTCString(),
+          questions: [
+            {
+              title: 'Question1',
+              type: 'text'
+            }
+          ]
+        })
+        .expect(200)
+        .then(async () => {
+          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = questionnaireId._id
+          await request(app)
+            .patch('/teacher/questionnaire/' + questionnaireId)
+            .set({
+              'x-auth-token': key
+            })
+            .send({
+              questions: [
+                {
                   type: 'text'
                 }
               ]

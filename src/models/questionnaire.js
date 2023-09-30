@@ -43,11 +43,16 @@ const questionnaireSchema = new Schema({
       default: Types[0],
       required: true
     },
-    answers: {
-      type: Array,
-      default: [],
-      required: true
-    }
+    answers: [{
+      position: {
+        type: Number,
+        required: true
+      },
+      title: {
+        type: String,
+        required: true
+      }
+    }]
   }],
   classes: [{
     type: mongoose.Types.ObjectId,
@@ -72,7 +77,11 @@ const validateQuestionnaire = (questionnaire) => {
     date: Joi.date().required(),
     questions: Joi.array().items({
       title: Joi.string().required(),
-      type: Joi.string().valid(...Object.values(Types)).required()
+      type: Joi.string().valid(...Object.values(Types)).required(),
+      answers: Joi.array().items({
+        position: Joi.number().required(),
+        title: Joi.string().required()
+      })
     }).required()
   })
   return schema.validate(questionnaire)
