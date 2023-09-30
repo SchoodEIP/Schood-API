@@ -32,8 +32,7 @@ const answersSchema = new Schema({
     answer: {
       type: String,
       required: true
-    },
-    validate: v => Array.isArray(v) && v.length > 0
+    }
   }],
   createdBy: {
     type: mongoose.Types.ObjectId,
