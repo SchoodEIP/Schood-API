@@ -29,11 +29,10 @@ const answersSchema = new Schema({
       type: mongoose.Types.ObjectId,
       required: true
     },
-    answer: {
+    answers: [{
       type: String,
       required: true
-    },
-    validate: v => Array.isArray(v) && v.length > 0
+    }]
   }],
   createdBy: {
     type: mongoose.Types.ObjectId,
@@ -49,10 +48,10 @@ const Answers = mongoose.model('answers', answersSchema)
 
 const validateAnswers = (user) => {
   const schema = Joi.object({
-    questionnaire: Joi.objectId().required(),
-    date: Joi.date().required(),
-    answers: Joi.array().required(),
-    createdBy: Joi.objectId().required()
+    answers: Joi.array().items({
+      question: Joi.objectId().required(),
+      answer: Joi.string().required()
+    }).required()
   })
   return schema.validate(user)
 }

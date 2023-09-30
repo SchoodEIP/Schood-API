@@ -47,18 +47,19 @@ module.exports = async (req, res) => {
       mimetype,
       binaryData
     })
-    newFile.save()
+    await newFile.save()
 
     const newMessage = new Messages({
       date: new Date(),
       user: req.user._id,
-      file: newFile._id
+      file: newFile._id,
+      chat: chat._id
     })
     if (req.body.content) newMessage.content = req.body.content
 
-    newMessage.save()
+    await newMessage.save()
     chat.messages.push(newMessage._id)
-    chat.save()
+    await chat.save()
 
     res.setHeader('Content-Type', newFile.mimetype)
     res.setHeader('Content-Disposition', `attachment; filename="${newFile.originalName}"`)

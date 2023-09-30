@@ -13,7 +13,7 @@ Joi.objectId = require('joi-objectid')(Joi)
  * Answers schema, containing facility, participants, date, createdBy
  * @constructor Chat
  */
-const chatSchema = new Schema({
+const chatsSchema = new Schema({
   facility: {
     type: mongoose.Types.ObjectId,
     ref: 'facilities',
@@ -37,17 +37,22 @@ const chatSchema = new Schema({
   messages: [{
     type: mongoose.Types.ObjectId,
     ref: 'messages'
-  }]
+  }],
+  title: {
+    type: String,
+    required: true
+  }
 })
 
 // We create answers collection from answersSchema
-const Chats = mongoose.model('chats', chatSchema)
+const Chats = mongoose.model('chats', chatsSchema)
 
 // We check if all required variables are here
 
 const validateChats = (chat) => {
   const schema = Joi.object({
-    participants: Joi.array().items(Joi.objectId().required()).min(1).required()
+    participants: Joi.array().items(Joi.objectId().required()).min(1).required(),
+    title: Joi.string()
   })
   return schema.validate(chat)
 }
