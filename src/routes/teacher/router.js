@@ -5,6 +5,8 @@
 const express = require('express')
 const router = express.Router()
 
+const access = require('../../middleware/access')
+
 const questionnaire = require('./questionnaire/router')
 
 /**
@@ -14,6 +16,6 @@ const questionnaire = require('./questionnaire/router')
  * @namespace teacherRouter
  */
 
-router.use('/questionnaire', questionnaire)
+router.use('/questionnaire', access(1, true), questionnaire)
 
 module.exports = router

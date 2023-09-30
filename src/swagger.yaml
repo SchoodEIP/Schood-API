@@ -567,6 +567,85 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /teacher/questionnaire/{id}/students:
+    get:
+      tags:
+        - teacher
+      summary: Get the students who answered a questionnaire
+      description: >
+        Get the list of students who answered the questionnaire
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the questionnaire
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/listStudentsAnswered'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /teacher/questionnaire/{id}/answers/{studentId}:
+    get:
+      tags:
+        - teacher
+      summary: Get the answers of a student from a questionnaire
+      description: >
+        Get the answers of a student from a questionnaire
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the questionnaire
+        - in: path
+          name: studentId
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the student
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/studentAnswers'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
 
 components:
   schemas:
@@ -670,6 +749,82 @@ components:
               type: "text"
             - title: "Question3"
               type: "emoji"
+    listStudentsAnswered:
+      type: object
+      properties:
+        _id:
+          type: number
+          example: 1
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                example: "64eaa50066de8221161b657f"
+              email:
+                type: string
+                example: "student2@schood.fr"
+              firstname:
+                type: string
+                example: "student2"
+              lastname:
+                type: string
+                example: "student2"
+              classes:
+                type: array
+                items:
+                  type: string
+                  example: "64eaa50066de8221161b656c"
+    studentAnswers:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "64f17880cef68904c7c98a50"
+        questionnaire:
+          type: string
+          example: "64f17880cef68904c7c98a50"
+        date:
+          type: string
+          example: "2023-09-01T00:00:00.000Z"
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              question:
+                type: string
+                example: "64f17880cef68904c7c98a50"
+              _id:
+                type: string
+                example: "64f17880cef68904c7c98a50"
+              answers:
+                type: array
+                items:
+                  type: string
+                  example: "test"
+              createdBy:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: "64f17880cef68904c7c98a50"
+                  email:
+                    type: string
+                    example: "student2@schood.fr"
+                  firstname:
+                    type: string
+                    example: "student2"
+                  lastname:
+                    type: string
+                    example: "student2"
+                  classes:
+                    type: array
+                    items:
+                      type: string
+                      example: "64eaa50066de8221161b656c"
     AvailableUsers:
       type: array
       items:
