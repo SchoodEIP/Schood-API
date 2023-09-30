@@ -31,10 +31,9 @@ describe('Config tests', () => {
     const tmp = process.env.DB_HOST
 
     it('Bad database connection', async () => {
-      // process.env.DB_HOST = 'Nope'
+      process.env.DB_HOST = 'Nope'
       const val = await dbConnection('test')
-      // expect(val).toBeFalsy()
-      expect(val).toBeTruthy()
+      expect(val).toBeFalsy()
     }, 31000)
 
     it('Good database connection', async () => {
