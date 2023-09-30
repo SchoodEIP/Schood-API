@@ -13,6 +13,8 @@ const getAllUsers = require('./getAllUsers')
 const updateUser = require('./updateUser')
 const getAvailableChatUsers = require('./chat/getAvailableChatUsers')
 
+const createChat = require('./chat/createChat')
+
 /**
  * User router connection
  * @memberof module:router~mainRouter
@@ -30,6 +32,8 @@ router.get('/all', auth, access(2, false), getAllUsers)
 router.patch('/:id', auth, access(1), updateUser)
 
 // Created router routes, chat related
+
+router.post('/chat', auth, createChat)
 router.get('/chat/users', auth, getAvailableChatUsers)
 
 module.exports = router

@@ -227,6 +227,36 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /user/chat:
+    post:
+      tags:
+        - user
+      summary: Create a chat
+      description: >
+        Takes a JSON containing an array of users which will be part of the chat
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Users not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersNotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /user/chat/users:
     get:
       tags:
@@ -1423,6 +1453,12 @@ components:
         message:
           type: string
           example: 'At least email or telephone have to be present'
+    UsersNotFound:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Users not found: [64b15338a8c793949de08695, 64b15338a8c793949de08696]'
     failedRoles:
       type: object
       properties:
