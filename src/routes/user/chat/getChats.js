@@ -22,7 +22,8 @@ module.exports = async (req, res) => {
     const agg = [
       {
         $match: {
-          participants: req.user._id
+          participants: req.user._id,
+          facility: req.user.facility
         }
       },
       {
