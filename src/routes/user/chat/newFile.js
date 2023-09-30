@@ -52,7 +52,8 @@ module.exports = async (req, res) => {
     const newMessage = new Messages({
       date: new Date(),
       user: req.user._id,
-      file: newFile._id
+      file: newFile._id,
+      chat: chat._id
     })
     if (req.body.content) newMessage.content = req.body.content
 
