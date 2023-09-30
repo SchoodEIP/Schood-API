@@ -48,13 +48,10 @@ const Answers = mongoose.model('answers', answersSchema)
 
 const validateAnswers = (user) => {
   const schema = Joi.object({
-    questionnaire: Joi.objectId().required(),
-    date: Joi.date().required(),
     answers: Joi.array().items({
       question: Joi.objectId().required(),
       answer: Joi.string().required()
-    }).required(),
-    createdBy: Joi.objectId().required()
+    }).required()
   })
   return schema.validate(user)
 }

@@ -9,9 +9,11 @@ const auth = require('../middleware/auth')
 const access = require('../middleware/access')
 
 const userRouter = require('./user/router')
-const teacherRouter = require('./teacher/router')
 const admRouter = require('./adm/router')
 const adminRouter = require('./admin/router')
+const teacherRouter = require('./teacher/router')
+const studentRouter = require('./student/router')
+
 /**
  * Main router connection
  * @namespace mainRouter
@@ -19,6 +21,7 @@ const adminRouter = require('./admin/router')
 router.use('/user', userRouter)
 router.use('/adm', auth, access(2, false), admRouter)
 router.use('/admin', auth, access(3, false), adminRouter)
-router.use('/teacher', auth, teacherRouter)
+router.use('/teacher', auth, access(1, true), teacherRouter)
+router.use('/student', auth, access(0, true), studentRouter)
 
 module.exports = router

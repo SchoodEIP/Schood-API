@@ -5,15 +5,15 @@
 const express = require('express')
 const router = express.Router()
 
-const questionnaire = require('./questionnaire/router')
+const registerAnswers = require('./registerAnswers')
 
 /**
  * Main router connection
- * @memberof module:router~mainRouter
+ * @memberof module:router~mainRouter~studentRouter
  * @inner
- * @namespace teacherRouter
+ * @namespace questionaireRouter
  */
 
-router.use('/questionnaire', questionnaire)
+router.post('/:id', registerAnswers)
 
 module.exports = router
