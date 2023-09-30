@@ -4,7 +4,7 @@ const dbDefault = require('./db.default')
 
 // Database Connection
 
-async function dbConnection (databaseName) {
+async function dbConnection (databaseName, test = false) {
   // We define the host to connect to the database
   const host = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT
   // We try to connect to the database
@@ -24,9 +24,11 @@ async function dbConnection (databaseName) {
   } catch (error) {
     console.error('ERROR: Could not connect to Database : ', error)
     console.info('INFO: Retrying connection in 5 seconds...')
-    setTimeout(() => {
-      dbConnection(databaseName)
-    }, 5000);
+    if (!test) {
+      setTimeout(() => {
+        dbConnection(databaseName)
+      }, 5000)
+    }
     return false
   }
 }
