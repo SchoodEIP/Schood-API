@@ -1,3 +1,8 @@
+/**
+ * @module router
+ * @requires express
+ */
+
 const express = require('express')
 const router = express.Router()
 
@@ -8,11 +13,7 @@ const helpNumbersCategoryRegister = require('./helpNumbersCategory/register')
 const helpNumberRegister = require('./helpNumber/register')
 const rolesList = require('./rolesList')
 
-const multer = require('multer')
-const upload = multer({
-  dest: '/tmp',
-  limits: { fileSize: 1048576 } // 10 Mo
-})
+const { upload10Tmp } = require('../../utils/multer')
 
 /**
  * Adm router connection
@@ -28,6 +29,6 @@ router.get('/rolesList', rolesList)
 router.post('/helpNumber/register', helpNumberRegister)
 router.post('/helpNumbersCategory/register', helpNumbersCategoryRegister)
 router.post('/register/', register)
-router.post('/csvRegisterUser', upload.single('csv'), csvRegisterUser)
+router.post('/csvRegisterUser', upload10Tmp.single('csv'), csvRegisterUser)
 
 module.exports = router
