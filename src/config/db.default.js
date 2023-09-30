@@ -2,7 +2,6 @@ const { Users } = require('../models/users')
 const { Roles } = require('../models/roles')
 const bcrypt = require('bcryptjs')
 const { Classes } = require('../models/classes')
-const { Facilities } = require('../models/facilities')
 
 async function initDefaultUsers () {
   const tmp = await Users.find({ firstname: 'admin' })
@@ -18,8 +17,6 @@ async function initDefaultUsers () {
     const class200 = await Classes.findOne({ name: '200' })
     const class201 = await Classes.findOne({ name: '201' })
 
-    const facility = await Facilities.findOne({ name: 'Schood' })
-
     await bcrypt.hash('admin123', 10).then(async (hash) => {
       // We create a default admin user
       const adminU = new Users({
@@ -27,7 +24,6 @@ async function initDefaultUsers () {
         firstname: 'admin',
         lastname: 'admin',
         password: hash,
-        facility: facility._id,
         role: admin._id
       })
 
@@ -44,7 +40,6 @@ async function initDefaultUsers () {
           lastname: 'teacher1',
           password: hash,
           role: teacher._id,
-          facility: facility._id,
           classes: [class200._id, class201._id]
         })
 
@@ -60,7 +55,6 @@ async function initDefaultUsers () {
           lastname: 'teacher2',
           password: hash,
           role: teacher._id,
-          facility: facility._id,
           classes: [class200._id]
         })
 
@@ -76,7 +70,6 @@ async function initDefaultUsers () {
           lastname: 'student1',
           password: hash,
           role: student._id,
-          facility: facility._id,
           classes: [class200._id]
         })
 
@@ -92,7 +85,6 @@ async function initDefaultUsers () {
           lastname: 'student2',
           password: hash,
           role: student._id,
-          facility: facility._id,
           classes: [class201._id]
         })
 
@@ -107,7 +99,6 @@ async function initDefaultUsers () {
           firstname: 'adm',
           lastname: 'adm',
           password: hash,
-          facility: facility._id,
           role: adm._id
         })
 
@@ -154,20 +145,17 @@ async function initDefaultRoles () {
 
 async function initDefaultClasses () {
   const tmp = await Classes.find()
-  const facility = await Facilities.findOne({ name: 'Schood' })
 
   // We check if the db is empty and if it needs to be initialized
   if (tmp === undefined || tmp === null || tmp.length === 0) {
     console.log('INFO: Init defaultClasses')
 
     const class1 = new Classes({
-      name: '200',
-      facility: facility._id
+      name: '200'
     })
 
     const class2 = new Classes({
-      name: '201',
-      facility: facility._id
+      name: '201'
     })
 
     await class1.save()
@@ -175,26 +163,7 @@ async function initDefaultClasses () {
   }
 }
 
-async function initDefaultFacility () {
-  const tmp = await Facilities.find()
-
-  // We check if the db is empty and if it needs to be initialized
-  if (tmp === undefined || tmp === null || tmp.length === 0) {
-    console.log('INFO: Init defaultFacilities')
-
-    const facility = new Facilities({
-      name: 'Schood',
-      address: '1 rue schood',
-      telephone: '0102030405',
-      level: 4
-    })
-
-    await facility.save()
-  }
-}
-
 module.exports = async () => {
-  await initDefaultFacility()
   await initDefaultRoles()
   if (process.env.PROD === 'true') {
     await initDefaultClasses()

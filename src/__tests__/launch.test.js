@@ -32,7 +32,7 @@ describe('Config tests', () => {
 
     it('Bad database connection', async () => {
       process.env.DB_HOST = 'Nope'
-      const val = await dbConnection('test', true)
+      const val = await dbConnection('test')
       expect(val).toBeFalsy()
     }, 31000)
 

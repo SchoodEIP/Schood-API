@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const server = require('../../serverUtils/testServer')
 const dbDefault = require('../../../config/db.default')
 const { Roles } = require('../../../models/roles')
-const { Classes } = require('../../../models/classes')
 
 describe('Adm route tests', () => {
   let app
@@ -32,7 +31,6 @@ describe('Adm route tests', () => {
     it('POST /adm/register => Try register good student', async () => {
       let key
       const role = await Roles.findOne({ name: 'student' })
-      const class_ = await Classes.findOne({ name: '200' })
 
       await request(app)
         .post('/user/login')
@@ -56,7 +54,9 @@ describe('Adm route tests', () => {
           lastname: 'studentTest',
           role: role._id,
           classes: [
-            class_._id
+            {
+              name: '200'
+            }
           ]
         })
         .expect(200)
@@ -65,7 +65,6 @@ describe('Adm route tests', () => {
     it('POST /adm/register => Try register bad body', async () => {
       let key
       const role = await Roles.findOne({ name: 'student' })
-      const class_ = await Classes.findOne({ name: '200' })
 
       await request(app)
         .post('/user/login')
@@ -88,7 +87,9 @@ describe('Adm route tests', () => {
           lastname: 'studentTest',
           role: role._id,
           classes: [
-            class_._id
+            {
+              name: '200'
+            }
           ]
         })
         .expect('Content-Type', /json/)
@@ -120,7 +121,9 @@ describe('Adm route tests', () => {
           lastname: 'studentTest',
           role: '6460a74d0f190e2de1d22800',
           classes: [
-            '6460a74d0f190e2de1d22800'
+            {
+              name: '200'
+            }
           ]
         })
         .expect('Content-Type', /json/)
@@ -130,8 +133,6 @@ describe('Adm route tests', () => {
     it('POST /adm/register => Try register bad number of classes', async () => {
       let key
       const role = await Roles.findOne({ name: 'student' })
-      const class1 = await Classes.findOne({ name: '200' })
-      const class2 = await Classes.findOne({ name: '201' })
 
       await request(app)
         .post('/user/login')
@@ -155,8 +156,12 @@ describe('Adm route tests', () => {
           lastname: 'studentTest',
           role: role._id,
           classes: [
-            class1._id,
-            class2._id
+            {
+              name: '200'
+            },
+            {
+              name: '201'
+            }
           ]
         })
         .expect('Content-Type', /json/)
@@ -189,7 +194,9 @@ describe('Adm route tests', () => {
           lastname: 'studentTest',
           role: role._id,
           classes: [
-            '6460a74d0f190e2de1d22800'
+            {
+              name: 'nope'
+            }
           ]
         })
         .expect('Content-Type', /json/)
@@ -199,7 +206,6 @@ describe('Adm route tests', () => {
     it('POST /adm/register => Try register bad access level', async () => {
       let key
       const role = await Roles.findOne({ name: 'student' })
-      const class1 = await Classes.findOne({ name: '200' })
 
       await request(app)
         .post('/user/login')
@@ -223,7 +229,9 @@ describe('Adm route tests', () => {
           lastname: 'studentTest',
           role: role._id,
           classes: [
-            class1._id
+            {
+              name: '200'
+            }
           ]
         })
         .expect('Content-Type', /json/)

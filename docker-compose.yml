@@ -3,7 +3,6 @@ services:
   mongodb:
     image: 'mongo'
     restart: always
-    command: mongod --port ${DB_PORT}
     ports:
       - '${DB_PORT}:${DB_PORT}'
     environment:
@@ -36,6 +35,7 @@ services:
       - HTTPS=${HTTPS}
     volumes:
       - ./src:/app
+      - /app/
 
 volumes:
   db:
