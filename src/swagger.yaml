@@ -255,6 +255,26 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /user/helpNumbers:
+    get:
+      tags:
+        - user
+      summary: Get the list of all the helpNumbers.
+      description: >
+        Send a json containing an array of helpNumbers.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpNumberArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
   /user/helpNumbers/:id:
     get:
       tags:
@@ -320,7 +340,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '200':
           description: Successful operation
