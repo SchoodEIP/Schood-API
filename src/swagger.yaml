@@ -255,6 +255,66 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /user/getAllHelpNumbersCategories:
+    get:
+      tags:
+        - user
+      summary: Get the list of all the helpNumbersCategories.
+      description: >
+        Send a json containing an array of helpNumbersCategories
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpNumberArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+  /user/helpNumbers:
+    get:
+      tags:
+        - user
+      summary: Get the list of all the helpNumbers.
+      description: >
+        Send a json containing an array of helpNumbers.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpNumberArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+  /user/helpNumbers/:id:
+    get:
+      tags:
+        - user
+      summary: Get the list of the helpNumbers related to the helpNumbersCategory id passed as parameter.
+      description: >
+        Send a json containing an array of helpNumbers.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpNumberArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
   /user/chat/users:
     get:
       tags:
@@ -300,7 +360,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '200':
           description: Successful operation
@@ -444,7 +504,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/Profile'
       responses:
         '200':
           description: Successful operation
@@ -1586,12 +1646,20 @@ components:
         helpNumbersCategory:
           type: string
           example: "64b15338a8c793949de08680"
+    HelpNumberArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/HelpNumber'
     HelpNumbersCategory:
       type: object
       properties:
         name:
           type: string
           example: "Test"
+    HelpNumbersCategoryArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/HelpNumbersCategory'
     RolesList:
       type: array
       items:
@@ -1726,6 +1794,12 @@ components:
         message:
           type: string
           example: 'At least email or telephone have to be present'
+    UserNotFound:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'User not found: 64b15338a8c793949de08695'
     failedRoles:
       type: object
       properties:
