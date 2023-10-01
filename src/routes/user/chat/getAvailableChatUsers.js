@@ -58,12 +58,6 @@ module.exports = async (req, res) => {
         }
       },
       {
-        $unwind: {
-          path: '$classes',
-          preserveNullAndEmptyArrays: true
-        }
-      },
-      {
         $sort: {
           'role.levelOfAccess': -1
         }
