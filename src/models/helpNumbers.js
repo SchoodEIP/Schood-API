@@ -28,6 +28,9 @@ const helpNumbersSchema = new Schema({
     ref: 'helpNumbersCategories',
     required: true
   },
+  description: {
+    type: String
+  },
   facility: {
     type: mongoose.Types.ObjectId,
     ref: 'facilities',
@@ -45,7 +48,8 @@ const validateHelpNumbers = (helpNumber) => {
     name: Joi.string().required(),
     email: Joi.string().optional(),
     telephone: Joi.string().min(10).max(10).regex(/^[0-9]+$/).optional(),
-    helpNumbersCategory: Joi.required()
+    helpNumbersCategory: Joi.required(),
+    description: Joi.string().optional()
   })
   return schema.validate(
     helpNumber

@@ -39,6 +39,7 @@ module.exports = async (req, res) => {
       telephone: req.body.telephone,
       email: req.body.email,
       helpNumbersCategory: req.body.helpNumbersCategory,
+      description: req.body.description,
       facility: req.user.facility._id
     })
     await newHelpNumber.save()
