@@ -54,6 +54,7 @@ describe('Adm route tests', () => {
 
       const _class = await Classes.findOne({ name: 'test' })
 
+      console.log(_class._id)
       return await request(app)
         .patch(`/adm/classes/${_class._id}`)
         .set({
