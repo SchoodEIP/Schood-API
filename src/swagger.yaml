@@ -1643,6 +1643,9 @@ components:
         telephone:
           type: string
           example: "0102030405"
+        description:
+          type: string
+          example: "random description"
         helpNumbersCategory:
           type: string
           example: "64b15338a8c793949de08680"
