@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
             "role": req.user.role._id
           }
         ]
-    }).sort({createdAt: -1})
+    }).sort({createdAt: -1}).populate("createdBy")
 
     return res.status(200).json(alerts)
   } catch (error) /* istanbul ignore next */ {
