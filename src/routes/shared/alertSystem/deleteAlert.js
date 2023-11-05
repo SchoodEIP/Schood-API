@@ -1,24 +1,22 @@
 /**
  * @memberof module:router~mainRouter~sharedRouter~alertSystemRouter
  * @inner
- * @namespace registerAlertFile
+ * @namespace deleteAlert
  */
 
 const { AlertSystem } = require("../../../models/alertSystem");
 const mongoose = require('mongoose');
-const { Files } = require("../../../models/file");
-const fs = require('fs')
 
 /**
- * Main register alert file function
- * @name POST /shared/alert/file/:id
+ * Main delete alert function
+ * @name DELETE /shared/alert/:id
  * @function
- * @memberof module:router~mainRouter~sharedRouter~alertSystemRouter~registerAlertFile
+ * @memberof module:router~mainRouter~sharedRouter~alertSystemRouter~deleteAlert
  * @inner
  * @async
  * @param {Object} req
  * @param {Object} res
- * @returns 200 if OK
+ * @returns 200 if OK and return alert data
  * @returns 400 if Invalid arguments
  * @returns 500 if Internal Server Error
  */
@@ -30,26 +28,18 @@ module.exports = async (req, res) => {
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({ message: 'Invalid request' })
     }
-    if (!req.file) {
-        return res.status(400).json({ message: 'Invalid request' })
-    }
-
-    let fileObject
-    const { originalname, mimetype, path } = req.file
-    const binaryData = fs.readFileSync(path) // Access the binary data from multer
-
-    fileObject = new Files({
-        name: originalname,
-        mimetype,
-        binaryData
-    })
-    await fileObject.save()
 
     const alert = await AlertSystem.findById(id)
 
-    alert.file = fileObject;
+    if (!alert) {
+        return res.status(400).json({ message: 'Invalid request' })
+    }
 
-    await alert.save()
+    if (String(alert.createdBy) !== String(req.user._id)) {
+        return res.status(400).json({ message: 'Invalid request' })
+    }
+
+    await AlertSystem.findByIdAndDelete(id)
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {

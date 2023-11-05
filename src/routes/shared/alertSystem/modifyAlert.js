@@ -1,19 +1,19 @@
 /**
  * @memberof module:router~mainRouter~sharedRouter~alertSystemRouter
  * @inner
- * @namespace registerAlert
+ * @namespace modifyAlert
  */
 
-const { validateAlert, AlertSystem } = require("../../../models/alertSystem");
+const { AlertSystem } = require("../../../models/alertSystem");
 const { Classes } = require("../../../models/classes");
 const mongoose = require('mongoose');
 const { Roles } = require("../../../models/roles");
 
 /**
- * Main register alert function
- * @name POST /shared/alert/
+ * Main modify alert function
+ * @name PATCH /shared/alert/:id
  * @function
- * @memberof module:router~mainRouter~sharedRouter~alertSystemRouter~registerAlert
+ * @memberof module:router~mainRouter~sharedRouter~alertSystemRouter~modifyAlert
  * @inner
  * @async
  * @param {Object} req
@@ -25,13 +25,13 @@ const { Roles } = require("../../../models/roles");
 module.exports = async (req, res) => {
   try {
     // Verif received data
-    const { error } = validateAlert(req.body)
-    if (error) {
-      console.log(error)
-      return res.status(400).json({ message: 'Invalid request' })
+    const id = req.params.id
+
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'Invalid request' })
     }
 
-    let forClasses = false
+    let forClasses
     if (req.body.classes) {
         if (!Array.isArray(req.body.classes)) {
             return res.status(400).json({ message: 'Invalid request' })
@@ -70,17 +70,13 @@ module.exports = async (req, res) => {
         }
     }
 
-    const alert = new AlertSystem({
-        title: req.body.title,
-        message: req.body.message,
-        file: null,
-        forClasses,
-        classes: req.body.classes ? req.body.classes : null,
-        role: req.body.role ? req.body.role : null,
-        createdAt: new Date(),
-        createdBy: req.user._id,
-        facility: req.user.facility
-    })
+    const alert = await AlertSystem.findById(id)
+
+    alert.title = req.body.title ? req.body.title : alert.title
+    alert.message = req.body.message ? req.body.message : alert.message
+    alert.forClasses = forClasses ? forClasses : alert.forClasses
+    alert.classes = req.body.classes ? req.body.classes : alert.classes
+    alert.role = req.body.role ? req.body.role : alert.role
 
     await alert.save()
 
