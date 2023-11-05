@@ -25,7 +25,6 @@ module.exports = async (req, res) => {
     const id = req.params.id
     if (!id) return res.status(400).json({ message: 'Invalid request' })
 
-    console.log('laaa')
     const file = await Files.findById(id)
     if (!file || file.length === 0) return res.status(400).json({ message: 'Invalid request' })
 
