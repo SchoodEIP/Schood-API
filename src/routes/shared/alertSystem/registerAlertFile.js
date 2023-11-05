@@ -34,11 +34,10 @@ module.exports = async (req, res) => {
         return res.status(400).json({ message: 'Invalid request' })
     }
 
-    let fileObject
     const { originalname, mimetype, path } = req.file
     const binaryData = fs.readFileSync(path) // Access the binary data from multer
 
-    fileObject = new Files({
+    const fileObject = new Files({
         name: originalname,
         mimetype,
         binaryData

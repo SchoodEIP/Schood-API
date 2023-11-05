@@ -5,7 +5,6 @@
  */
 
 const { AlertSystem } = require("../../../models/alertSystem");
-const mongoose = require('mongoose');
 
 /**
  * Main get alert function
