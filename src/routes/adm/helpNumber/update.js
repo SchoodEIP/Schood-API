@@ -4,7 +4,8 @@
  * @namespace helpNumber/update
  */
 const { HelpNumbers, validateHelpNumbers } = require('../../../models/helpNumbers')
-const { Mongoose } = require('mongoose')
+const { HelpNumbersCategories } = require('../../../models/helpNumbersCategories')
+const mongoose = require('mongoose')
 
 /**
  * Main update function
@@ -25,7 +26,7 @@ module.exports = async (req, res) => {
     // Verif received data
     const id = req.params.id
 
-    if (!id && !Mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const { error } = validateHelpNumbers(req.body)
     if (error) {
@@ -43,8 +44,11 @@ module.exports = async (req, res) => {
     if (req.body.name) helpNumberToUpdate.name = req.body.name
     if (req.body.telephone) helpNumberToUpdate.telephone = req.body.telephone
     if (req.body.email) helpNumberToUpdate.email = req.body.email
-    if (req.body.helpNumbersCategory) helpNumberToUpdate.helpNumbersCategory = req.body.helpNumbersCategory
     if (req.body.description) helpNumberToUpdate.description = req.body.description
+    if (req.body.helpNumbersCategory && mongoose.Types.ObjectId.isValid(req.body.helpNumbersCategory)) {
+      const cat = HelpNumbersCategories.findOne({ id: req.body.helpNumbersCategory })
+      if (cat) helpNumberToUpdate.helpNumbersCategory = req.body.helpNumbersCategory
+    }
     await helpNumberToUpdate.save()
 
     return res.status(200).send()
