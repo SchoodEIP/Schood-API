@@ -4,8 +4,8 @@
  * @namespace deleteAlert
  */
 
-const { AlertSystem } = require("../../../models/alertSystem");
-const mongoose = require('mongoose');
+const { AlertSystem } = require('../../../models/alertSystem')
+const mongoose = require('mongoose')
 
 /**
  * Main delete alert function
@@ -26,17 +26,17 @@ module.exports = async (req, res) => {
     const id = req.params.id
 
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     const alert = await AlertSystem.findById(id)
 
     if (!alert) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     if (String(alert.createdBy) !== String(req.user._id)) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     await AlertSystem.findByIdAndDelete(id)

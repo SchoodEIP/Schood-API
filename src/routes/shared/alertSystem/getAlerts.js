@@ -4,7 +4,7 @@
  * @namespace getAlerts
  */
 
-const { AlertSystem } = require("../../../models/alertSystem");
+const { AlertSystem } = require('../../../models/alertSystem')
 
 /**
  * Main get alert function
@@ -24,15 +24,15 @@ module.exports = async (req, res) => {
     const userClasses = req.user.classes.map((class_) => class_._id)
 
     const alerts = await AlertSystem.find({
-        $or: [
-          {
-            "classes": { $in: userClasses },
-          },
-          {
-            "role": req.user.role._id
-          }
-        ]
-    }).sort({createdAt: -1}).populate("createdBy")
+      $or: [
+        {
+          classes: { $in: userClasses }
+        },
+        {
+          role: req.user.role._id
+        }
+      ]
+    }).sort({ createdAt: -1 }).populate('createdBy')
 
     return res.status(200).json(alerts)
   } catch (error) /* istanbul ignore next */ {

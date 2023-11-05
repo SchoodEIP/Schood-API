@@ -4,10 +4,10 @@
  * @namespace modifyAlert
  */
 
-const { AlertSystem } = require("../../../models/alertSystem");
-const { Classes } = require("../../../models/classes");
-const mongoose = require('mongoose');
-const { Roles } = require("../../../models/roles");
+const { AlertSystem } = require('../../../models/alertSystem')
+const { Classes } = require('../../../models/classes')
+const mongoose = require('mongoose')
+const { Roles } = require('../../../models/roles')
 
 /**
  * Main modify alert function
@@ -28,53 +28,53 @@ module.exports = async (req, res) => {
     const id = req.params.id
 
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     let forClasses
     if (req.body.classes) {
-        if (!Array.isArray(req.body.classes)) {
+      if (!Array.isArray(req.body.classes)) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
+      if (req.body.classes.length > 0) {
+        for (let index = 0; index < req.body.classes.length; index++) {
+          const _class = req.body.classes[index]
+          if (!mongoose.Types.ObjectId.isValid(_class)) {
             return res.status(400).json({ message: 'Invalid request' })
+          }
+          const classData = await Classes.findById(_class)
+
+          if (!classData) {
+            return res.status(400).json({ message: 'Invalid request' })
+          }
         }
-        if (req.body.classes.length > 0 ) {
-            for (let index = 0; index < req.body.classes.length; index++) {
-                const _class = req.body.classes[index];
-                if (!mongoose.Types.ObjectId.isValid(_class)) {
-                    return res.status(400).json({ message: 'Invalid request' })
-                }
-                const classData = await Classes.findById(_class)
-    
-                if (!classData) {
-                    return res.status(400).json({ message: 'Invalid request' })
-                }
-            }
-            forClasses = true
-        }
+        forClasses = true
+      }
     }
     if (req.body.role) {
-        if (forClasses) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
-        const role = req.body.role
-        if (!mongoose.Types.ObjectId.isValid(role)) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
-        
-        const roleData = await Roles.findById(role)
-        if (!roleData) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
+      if (forClasses) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
+      const role = req.body.role
+      if (!mongoose.Types.ObjectId.isValid(role)) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
+
+      const roleData = await Roles.findById(role)
+      if (!roleData) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
     } else {
-        if (!forClasses) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
+      if (!forClasses) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
     }
 
     const alert = await AlertSystem.findById(id)
 
     alert.title = req.body.title ? req.body.title : alert.title
     alert.message = req.body.message ? req.body.message : alert.message
-    alert.forClasses = forClasses ? forClasses : alert.forClasses
+    alert.forClasses = forClasses || alert.forClasses
     alert.classes = req.body.classes ? req.body.classes : alert.classes
     alert.role = req.body.role ? req.body.role : alert.role
 
