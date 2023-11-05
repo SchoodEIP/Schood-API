@@ -8,7 +8,6 @@ const { validateAlert, AlertSystem } = require("../../../models/alertSystem");
 const { Classes } = require("../../../models/classes");
 const mongoose = require('mongoose');
 const { Roles } = require("../../../models/roles");
-const { Files } = require("../../../models/file");
 
 /**
  * Main register alert function
@@ -19,7 +18,7 @@ const { Files } = require("../../../models/file");
  * @async
  * @param {Object} req
  * @param {Object} res
- * @returns 200 if OK and return access token and role name
+ * @returns 200 if OK and return alert data
  * @returns 400 if Invalid arguments
  * @returns 500 if Internal Server Error
  */

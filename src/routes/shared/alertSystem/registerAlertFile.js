@@ -18,7 +18,7 @@ const fs = require('fs')
  * @async
  * @param {Object} req
  * @param {Object} res
- * @returns 200 if OK and return access token and role name
+ * @returns 200 if OK
  * @returns 400 if Invalid arguments
  * @returns 500 if Internal Server Error
  */
