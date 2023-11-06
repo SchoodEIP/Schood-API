@@ -33,41 +33,41 @@ module.exports = async (req, res) => {
 
     let forClasses = false
     if (req.body.classes) {
-        if (!Array.isArray(req.body.classes)) {
+      if (!Array.isArray(req.body.classes)) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
+      if (req.body.classes.length > 0) {
+        for (let index = 0; index < req.body.classes.length; index++) {
+          const _class = req.body.classes[index]
+          if (!mongoose.Types.ObjectId.isValid(_class)) {
             return res.status(400).json({ message: 'Invalid request' })
+          }
+          const classData = await Classes.findById(_class)
+
+          if (!classData) {
+            return res.status(400).json({ message: 'Invalid request' })
+          }
         }
-        if (req.body.classes.length > 0 ) {
-            for (let index = 0; index < req.body.classes.length; index++) {
-                const _class = req.body.classes[index];
-                if (!mongoose.Types.ObjectId.isValid(_class)) {
-                    return res.status(400).json({ message: 'Invalid request' })
-                }
-                const classData = await Classes.findById(_class)
-    
-                if (!classData) {
-                    return res.status(400).json({ message: 'Invalid request' })
-                }
-            }
-            forClasses = true
-        }
+        forClasses = true
+      }
     }
     if (req.body.role) {
-        if (forClasses) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
-        const role = req.body.role
-        if (!mongoose.Types.ObjectId.isValid(role)) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
-        
-        const roleData = await Roles.findById(role)
-        if (!roleData) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
+      if (forClasses) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
+      const role = req.body.role
+      if (!mongoose.Types.ObjectId.isValid(role)) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
+
+      const roleData = await Roles.findById(role)
+      if (!roleData) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
     } else {
-        if (!forClasses) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
+      if (!forClasses) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
     }
 
     const alert = new Alerts({

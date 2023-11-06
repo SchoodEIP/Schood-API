@@ -26,17 +26,17 @@ module.exports = async (req, res) => {
     const id = req.params.id
 
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     const alert = await Alerts.findById(id)
 
     if (!alert) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     if (String(alert.createdBy) !== String(req.user._id)) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     await Alerts.findByIdAndDelete(id)

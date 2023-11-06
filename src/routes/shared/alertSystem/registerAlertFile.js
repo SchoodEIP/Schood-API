@@ -28,25 +28,25 @@ module.exports = async (req, res) => {
     const id = req.params.id
 
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
     if (!req.file) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     const { originalname, mimetype, path } = req.file
     const binaryData = fs.readFileSync(path) // Access the binary data from multer
 
     const fileObject = new Files({
-        name: originalname,
-        mimetype,
-        binaryData
+      name: originalname,
+      mimetype,
+      binaryData
     })
     await fileObject.save()
 
     const alert = await Alerts.findById(id)
 
-    alert.file = fileObject;
+    alert.file = fileObject
 
     await alert.save()
 
