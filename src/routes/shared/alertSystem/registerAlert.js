@@ -4,7 +4,7 @@
  * @namespace registerAlert
  */
 
-const { validateAlert, AlertSystem } = require("../../../models/alertSystem");
+const { validateAlerts, Alerts } = require("../../../models/alertSystem");
 const { Classes } = require("../../../models/classes");
 const mongoose = require('mongoose');
 const { Roles } = require("../../../models/roles");
@@ -25,7 +25,7 @@ const { Roles } = require("../../../models/roles");
 module.exports = async (req, res) => {
   try {
     // Verif received data
-    const { error } = validateAlert(req.body)
+    const { error } = validateAlerts(req.body)
     if (error) {
       console.log(error)
       return res.status(400).json({ message: 'Invalid request' })
@@ -70,7 +70,7 @@ module.exports = async (req, res) => {
         }
     }
 
-    const alert = new AlertSystem({
+    const alert = new Alerts({
         title: req.body.title,
         message: req.body.message,
         file: null,

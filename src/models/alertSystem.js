@@ -7,13 +7,13 @@ const Schema = mongoose.Schema
 const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
 
-// We create the Schema for alertSystem and we setup the required variables
+// We create the Schema for alerts and we setup the required variables
 
 /**
- * AlertSystem schema, containing email, password, firstname, lastname, role and classes
- * @constructor AlertSystem
+ * Alerts schema, containing title, message, file, forClasses, classes, role, createdAt, createdBy and facility
+ * @constructor Alerts
  */
-const alertSystemSchema = new Schema({
+const alertsSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -54,12 +54,12 @@ const alertSystemSchema = new Schema({
     }
 })
 
-// We create alertSystem collection from alertSystemSchema
-const AlertSystem = mongoose.model('alertSystem', alertSystemSchema)
+// We create alerts collection from alertsSchema
+const Alerts = mongoose.model('alerts', alertsSchema)
 
 // We check if all required variables are here
 
-const validateAlert = (alert) => {
+const validateAlerts = (alert) => {
   const schema = Joi.object({
     title: Joi.string().required(),
     message: Joi.string().required(),
@@ -69,4 +69,4 @@ const validateAlert = (alert) => {
   return schema.validate(alert)
 }
 
-module.exports = { AlertSystem, validateAlert }
+module.exports = { Alerts, validateAlerts }

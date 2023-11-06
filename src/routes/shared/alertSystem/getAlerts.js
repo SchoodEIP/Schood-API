@@ -4,7 +4,7 @@
  * @namespace getAlerts
  */
 
-const { AlertSystem } = require("../../../models/alertSystem");
+const { Alerts } = require("../../../models/alertSystem");
 
 /**
  * Main get alert function
@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
   try {
     const userClasses = req.user.classes.map((class_) => class_._id)
 
-    const alerts = await AlertSystem.find({
+    const alerts = await Alerts.find({
         $or: [
           {
             "classes": { $in: userClasses },

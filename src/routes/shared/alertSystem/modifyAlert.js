@@ -4,7 +4,7 @@
  * @namespace modifyAlert
  */
 
-const { AlertSystem } = require("../../../models/alertSystem");
+const { Alerts } = require("../../../models/alertSystem");
 const { Classes } = require("../../../models/classes");
 const mongoose = require('mongoose');
 const { Roles } = require("../../../models/roles");
@@ -70,7 +70,7 @@ module.exports = async (req, res) => {
         }
     }
 
-    const alert = await AlertSystem.findById(id)
+    const alert = await Alerts.findById(id)
 
     alert.title = req.body.title ? req.body.title : alert.title
     alert.message = req.body.message ? req.body.message : alert.message

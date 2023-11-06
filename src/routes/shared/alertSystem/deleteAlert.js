@@ -4,7 +4,7 @@
  * @namespace deleteAlert
  */
 
-const { AlertSystem } = require("../../../models/alertSystem");
+const { Alerts } = require("../../../models/alertSystem");
 const mongoose = require('mongoose');
 
 /**
@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const alert = await AlertSystem.findById(id)
+    const alert = await Alerts.findById(id)
 
     if (!alert) {
         return res.status(400).json({ message: 'Invalid request' })
@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({ message: 'Invalid request' })
     }
 
-    await AlertSystem.findByIdAndDelete(id)
+    await Alerts.findByIdAndDelete(id)
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {

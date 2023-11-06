@@ -4,7 +4,7 @@
  * @namespace registerAlertFile
  */
 
-const { AlertSystem } = require("../../../models/alertSystem");
+const { Alerts } = require("../../../models/alertSystem");
 const mongoose = require('mongoose');
 const { Files } = require("../../../models/file");
 const fs = require('fs')
@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
     })
     await fileObject.save()
 
-    const alert = await AlertSystem.findById(id)
+    const alert = await Alerts.findById(id)
 
     alert.file = fileObject;
 
