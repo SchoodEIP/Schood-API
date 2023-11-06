@@ -14,44 +14,44 @@ Joi.objectId = require('joi-objectid')(Joi)
  * @constructor Alerts
  */
 const alertsSchema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    message: {
-        type: String,
-        required: true
-    },
-    file: {
-        type: mongoose.Types.ObjectId,
-        ref: 'files'
-    },
-    forClasses: {
-        type: Boolean,
-        required: true
-    },
-    classes:[{
-        type: mongoose.Types.ObjectId,
-        ref: 'classes'
-    }],
-    role: {
-        type: mongoose.Types.ObjectId,
-        ref: 'roles'
-    },
-    createdAt: {
-        type: Date,
-        required: true,
-        default: new Date()
-    },
-    createdBy: {
-        type: mongoose.Types.ObjectId,
-        ref: 'users'
-    },
-    facility: {
-        type: mongoose.Types.ObjectId,
-        ref: 'facilities',
-        required: true
-    }
+  title: {
+    type: String,
+    required: true
+  },
+  message: {
+    type: String,
+    required: true
+  },
+  file: {
+    type: mongoose.Types.ObjectId,
+    ref: 'files'
+  },
+  forClasses: {
+    type: Boolean,
+    required: true
+  },
+  classes: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'classes'
+  }],
+  role: {
+    type: mongoose.Types.ObjectId,
+    ref: 'roles'
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: new Date()
+  },
+  createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: 'users'
+  },
+  facility: {
+    type: mongoose.Types.ObjectId,
+    ref: 'facilities',
+    required: true
+  }
 })
 
 // We create alerts collection from alertsSchema

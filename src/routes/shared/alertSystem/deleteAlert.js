@@ -4,8 +4,8 @@
  * @namespace deleteAlert
  */
 
-const { Alerts } = require("../../../models/alertSystem");
-const mongoose = require('mongoose');
+const { Alerts } = require('../../../models/alertSystem')
+const mongoose = require('mongoose')
 
 /**
  * Main delete alert function

@@ -4,10 +4,10 @@
  * @namespace registerAlert
  */
 
-const { validateAlerts, Alerts } = require("../../../models/alertSystem");
-const { Classes } = require("../../../models/classes");
-const mongoose = require('mongoose');
-const { Roles } = require("../../../models/roles");
+const { validateAlerts, Alerts } = require('../../../models/alertSystem')
+const { Classes } = require('../../../models/classes')
+const mongoose = require('mongoose')
+const { Roles } = require('../../../models/roles')
 
 /**
  * Main register alert function
@@ -71,15 +71,15 @@ module.exports = async (req, res) => {
     }
 
     const alert = new Alerts({
-        title: req.body.title,
-        message: req.body.message,
-        file: null,
-        forClasses,
-        classes: req.body.classes ? req.body.classes : null,
-        role: req.body.role ? req.body.role : null,
-        createdAt: new Date(),
-        createdBy: req.user._id,
-        facility: req.user.facility
+      title: req.body.title,
+      message: req.body.message,
+      file: null,
+      forClasses,
+      classes: req.body.classes ? req.body.classes : null,
+      role: req.body.role ? req.body.role : null,
+      createdAt: new Date(),
+      createdBy: req.user._id,
+      facility: req.user.facility
     })
 
     await alert.save()

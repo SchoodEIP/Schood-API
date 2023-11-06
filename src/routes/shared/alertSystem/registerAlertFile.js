@@ -4,9 +4,9 @@
  * @namespace registerAlertFile
  */
 
-const { Alerts } = require("../../../models/alertSystem");
-const mongoose = require('mongoose');
-const { Files } = require("../../../models/file");
+const { Alerts } = require('../../../models/alertSystem')
+const mongoose = require('mongoose')
+const { Files } = require('../../../models/file')
 const fs = require('fs')
 
 /**
