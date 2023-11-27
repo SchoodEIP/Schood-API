@@ -337,9 +337,6 @@ describe('Adm route tests', () => {
         .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyMultipleSameEmail.csv')
         .expect('Content-Type', /json/)
         .expect(422)
-        .then((response) => {
-          console.log(response.body)
-        })
     })
   })
 })
