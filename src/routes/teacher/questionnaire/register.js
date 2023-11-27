@@ -4,7 +4,7 @@
  * @namespace questionnaire
  */
 
-const { validateQuestionnaire, Questionnaire, Types } = require('../../../models/questionnaire')
+const { validateQuestionnaire, Questionnaires, Types } = require('../../../models/questionnaire')
 
 /**
  * Main questionnaire function
@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
     fromDate.setUTCHours(0, 0, 0, 0)
     toDate.setUTCHours(0, 0, 0, 0)
 
-    const check = await Questionnaire.findOne({ createdBy: req.user._id, fromDate, toDate })
+    const check = await Questionnaires.findOne({ createdBy: req.user._id, fromDate, toDate })
 
     if (check) {
       return res.status(400).json({ message: 'There is already a Questionnaire at this week for this teacher' })
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const questionnaire = new Questionnaire({
+    const questionnaire = new Questionnaires({
       title: req.body.title,
       fromDate,
       toDate,

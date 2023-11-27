@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 const server = require('../../../serverUtils/testServer')
 const dbDefault = require('../../../../config/db.default')
-const { Questionnaire } = require('../../../../models/questionnaire')
+const { Questionnaires } = require('../../../../models/questionnaire')
 
 describe('Student Questionnaire route tests', () => {
   let app
@@ -62,7 +62,7 @@ describe('Student Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = await Questionnaires.findOne()
           questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')
@@ -181,7 +181,7 @@ describe('Student Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = await Questionnaires.findOne()
           questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')
@@ -257,7 +257,7 @@ describe('Student Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = await Questionnaires.findOne()
           await request(app)
             .post('/user/login')
             .send({
@@ -312,7 +312,7 @@ describe('Student Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = await Questionnaires.findOne()
           await request(app)
             .post('/user/login')
             .send({

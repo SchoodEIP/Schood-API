@@ -4,7 +4,7 @@
  * @namespace questionnaire
  */
 
-const { Questionnaire } = require('../../../models/questionnaire')
+const { Questionnaires } = require('../../../models/questionnaire')
 
 /**
  * Main questionnaire informations function
@@ -21,7 +21,7 @@ const { Questionnaire } = require('../../../models/questionnaire')
 module.exports = async (req, res) => {
   try {
     const questionnaireId = req.params.id
-    const questionnaire = await Questionnaire.findById(questionnaireId).populate('createdBy classes')
+    const questionnaire = await Questionnaires.findById(questionnaireId).populate('createdBy classes')
 
     // Remove unnecessary data
     questionnaire.createdBy.password = undefined

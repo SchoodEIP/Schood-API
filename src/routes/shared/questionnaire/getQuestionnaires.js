@@ -4,7 +4,7 @@
  * @namespace questionnaire
  */
 
-const { Questionnaire } = require('../../../models/questionnaire')
+const { Questionnaires } = require('../../../models/questionnaire')
 
 /**
  * Main questionnaire function
@@ -24,13 +24,13 @@ module.exports = async (req, res) => {
     let questionnaires
 
     if (isTeacher) { // If teacher we only want his questionnaires
-      questionnaires = await Questionnaire.find({
+      questionnaires = await Questionnaires.find({
         facility: req.user.facility,
         classes: { $in: req.user.classes },
         createdBy: req.user._id
       }).sort({ date: -1 }).populate('createdBy classes')
     } else { // If student we want all questionnairs for his class
-      questionnaires = await Questionnaire.find({
+      questionnaires = await Questionnaires.find({
         facility: req.user.facility,
         classes: { $in: req.user.classes }
       }).sort({ date: -1 }).populate('createdBy classes')
