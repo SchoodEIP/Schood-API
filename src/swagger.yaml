@@ -572,6 +572,28 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /user/facility:
+    get:
+      tags:
+        - user
+      summary: Get the user's facility informations
+      description: >
+        Send a json containing the user's facility informations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facility'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/register:
     post:
       tags:
@@ -1168,6 +1190,24 @@ components:
     FacilityRegister:
       type: object
       properties:
+        name:
+          type: string
+          example: 'Example school'
+        address:
+          type: string
+          example: '3 rue test'
+        telephone:
+          type: string
+          example: '0102030405'
+        level:
+          type: integer
+          example: 1
+    Facility:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64b15338a8c793949de08695'
         name:
           type: string
           example: 'Example school'
