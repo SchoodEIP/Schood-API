@@ -3,6 +3,7 @@
  */
 const jwt = require('jsonwebtoken')
 const { Users } = require('../models/users')
+const Logger = require('../services/logger')
 
 /**
  * Main auth middleware function
@@ -37,7 +38,7 @@ module.exports = async (req, res, next) => {
 
     next()
   } catch (error) {
-    console.error(error)
+    Logger.error(error)
     return res.status(400).json({ message: 'Invalid token' })
   }
 }

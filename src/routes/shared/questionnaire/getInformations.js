@@ -5,6 +5,7 @@
  */
 
 const { Questionnaire } = require('../../../models/questionnaire')
+const Logger = require('../../../services/logger')
 
 /**
  * Main questionnaire informations function
@@ -36,7 +37,7 @@ module.exports = async (req, res) => {
     // Send questionnaire
     return res.status(200).json(questionnaire)
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

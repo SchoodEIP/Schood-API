@@ -7,6 +7,7 @@ const { Chats } = require('../../../models/chat')
 const { Messages } = require('../../../models/message')
 const { Files } = require('../../../models/file')
 const fs = require('fs')
+const Logger = require('../../../services/logger')
 
 /**
  * Main new file function
@@ -65,7 +66,7 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename="${newFile.originalName}"`)
     return res.status(200).send(newFile.binaryData)
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

@@ -5,6 +5,7 @@
  */
 const { Chats } = require('../../../models/chat')
 const { Messages, validateMessages } = require('../../../models/message')
+const Logger = require('../../../services/logger')
 
 /**
  * Main new message function
@@ -51,7 +52,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

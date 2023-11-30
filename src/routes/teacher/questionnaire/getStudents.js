@@ -6,6 +6,7 @@
 
 const { default: mongoose } = require('mongoose')
 const { Answers } = require('../../../models/answers')
+const Logger = require('../../../services/logger')
 
 /**
  * Main getAnswers function
@@ -71,7 +72,7 @@ module.exports = async (req, res) => {
     // Send students
     return res.status(200).json(students[0])
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }
