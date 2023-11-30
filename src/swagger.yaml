@@ -479,6 +479,51 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /user/chat/{id}/messages/{id}:
+    delete:
+      tags:
+        - user
+      summary: delete a message from a chat
+      description: >
+        Deletes a message from a chat
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            chat id
+        - in: path
+          name: messageId
+          schema:
+            type: string
+          required: true
+          description: >
+            message id
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '401':
+          description: Users not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAllowed'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /user/:id:
     patch:
       tags:
@@ -1847,6 +1892,12 @@ components:
         message:
           type: string
           example: 'User not found: 64b15338a8c793949de08695'
+    NotAllowed:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Not allowed'
     failedRoles:
       type: object
       properties:

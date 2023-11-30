@@ -9,6 +9,7 @@ const newMessage = require('./newMessage')
 const newFile = require('./newFile')
 const { upload10Tmp } = require('../../../utils/multer')
 const getMessages = require('./getMessages')
+const deleteMessage = require('./deleteMessage')
 
 /**
  * User router connection
@@ -25,6 +26,6 @@ router.post('/', createChat)
 router.post('/:id/newMessage', newMessage)
 router.post('/:id/newFile', auth, upload10Tmp.single('file'), newFile)
 
-router.get('/users', auth, getAvailableChatUsers)
+router.delete('/:id/messages/:messageId', deleteMessage)
 
 module.exports = router
