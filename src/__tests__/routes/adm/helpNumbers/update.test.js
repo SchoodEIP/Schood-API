@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const server = require('../../../serverUtils/testServer')
 const dbDefault = require('../../../../config/db.default')
 const { HelpNumbersCategories } = require('../../../../models/helpNumbersCategories')
+const { HelpNumbers } = require('../../../../models/helpNumbers')
 
 describe('Adm route tests', () => {
   let app
@@ -28,7 +29,7 @@ describe('Adm route tests', () => {
   })
 
   describe('Register route', () => {
-    it('POST /adm/helpNumber/register => Try register good request', async () => {
+    it('PATCH /adm/helpNumber/:id => Try update good request', async () => {
       let key
 
       await request(app)
@@ -55,7 +56,7 @@ describe('Adm route tests', () => {
 
       const helpNumbersCategory = await HelpNumbersCategories.findOne({ name: 'testCategory' })
 
-      return await request(app)
+      await request(app)
         .post('/adm/helpNumber/register')
         .set({
           'x-auth-token': key
@@ -68,9 +69,25 @@ describe('Adm route tests', () => {
           description: 'Random description'
         })
         .expect(200)
+
+      const _helpNumber = await HelpNumbers.findOne({ name: 'test' })
+
+      return await request(app)
+        .patch(`/adm/helpNumber/${_helpNumber._id}`)
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          name: 'testee',
+          telephone: '0102030405',
+          email: 'test.mail@gmail.com',
+          helpNumbersCategory: helpNumbersCategory._id,
+          description: 'Random description'
+        })
+        .expect(200)
     })
 
-    it('POST /adm/helpNumber/register => Try register bad request', async () => {
+    it('PATCH /adm/helpNumber/:id => Try register bad request', async () => {
       let key
 
       await request(app)
@@ -95,8 +112,25 @@ describe('Adm route tests', () => {
         })
         .expect(200)
 
-      return await request(app)
+      const helpNumbersCategory = await HelpNumbersCategories.findOne({ name: 'testCategory' })
+
+      await request(app)
         .post('/adm/helpNumber/register')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          name: 'test',
+          telephone: '0102030405',
+          email: 'test.mail@gmail.com',
+          helpNumbersCategory: helpNumbersCategory._id,
+          description: 'Random description'
+        })
+        .expect(200)
+
+      const helpNumber = await HelpNumbers.findOne({ name: 'test' })
+      return await request(app)
+        .patch(`/adm/helpNumber/${helpNumber._id}`)
         .set({
           'x-auth-token': key
         })
@@ -105,7 +139,7 @@ describe('Adm route tests', () => {
         .expect(400)
     })
 
-    it('POST /adm/helpNumber/register => Try register name already used', async () => {
+    it('PATCH /adm/helpNumber/:id => Try register name already used', async () => {
       let key
 
       await request(app)
@@ -141,59 +175,37 @@ describe('Adm route tests', () => {
           name: 'test',
           telephone: '0102030405',
           email: 'test.mail@gmail.com',
-          helpNumbersCategory: helpNumbersCategory._id
+          helpNumbersCategory: helpNumbersCategory._id,
+          description: 'Random description'
         })
         .expect(200)
 
-      return await request(app)
+      await request(app)
         .post('/adm/helpNumber/register')
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'test',
+          name: 'test 2',
           telephone: '0102030405',
           email: 'test.mail@gmail.com',
-          helpNumbersCategory: helpNumbersCategory._id
-        })
-        .expect(422)
-    })
-
-    it('POST /adm/helpNumber/register => Try register no email and no telephone', async () => {
-      let key
-
-      await request(app)
-        .post('/user/login')
-        .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
-        })
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then((response) => {
-          key = response.body.token
-        })
-
-      await request(app)
-        .post('/adm/helpNumbersCategory/register')
-        .set({
-          'x-auth-token': key
-        })
-        .send({
-          name: 'testCategory'
+          helpNumbersCategory: helpNumbersCategory._id,
+          description: 'Random description'
         })
         .expect(200)
 
-      const helpNumbersCategory = await HelpNumbersCategories.findOne({ name: 'testCategory' })
-
+      const helpNumber = await HelpNumbers.findOne({ name: 'test' })
       return await request(app)
-        .post('/adm/helpNumber/register')
+        .patch(`/adm/helpNumber/${helpNumber._id}`)
         .set({
           'x-auth-token': key
         })
         .send({
-          name: 'test',
-          helpNumbersCategory: helpNumbersCategory._id
+          name: 'test 2',
+          telephone: '0102030405',
+          email: 'test.mail@gmail.com',
+          helpNumbersCategory: helpNumbersCategory._id,
+          description: 'Random description'
         })
         .expect(422)
     })

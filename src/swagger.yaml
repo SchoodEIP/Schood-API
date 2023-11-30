@@ -773,6 +773,50 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /adm/helpNumber/{id}:
+    patch:
+      tags:
+        - adm
+      summary: Update a help number
+      description: >
+        Update a HelpNumber, given a non empty name, the id of the help numbers category and at least an email or a telephone number.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the helpNumber to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpNumber'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAlreadyUsed'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/helpNumbersCategory/register:
     post:
       tags:
@@ -1683,6 +1727,9 @@ components:
         telephone:
           type: string
           example: "0102030405"
+        description:
+          type: string
+          example: "random description"
         helpNumbersCategory:
           type: string
           example: "64b15338a8c793949de08680"

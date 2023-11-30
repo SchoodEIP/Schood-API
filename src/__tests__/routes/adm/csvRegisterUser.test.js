@@ -8,7 +8,7 @@ describe('Adm route tests', () => {
   let app
 
   beforeAll(async () => {
-    process.env.PROD = true
+    process.env.PROD = false
     app = await server.testServer()
   })
 
@@ -337,9 +337,6 @@ describe('Adm route tests', () => {
         .attach('csv', '__tests__/fixtures/adm/csvRegisterUser/wrongBodyMultipleSameEmail.csv')
         .expect('Content-Type', /json/)
         .expect(422)
-        .then((response) => {
-          console.log(response.body)
-        })
     })
   })
 })

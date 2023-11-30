@@ -31,7 +31,10 @@ module.exports = async (req, res) => {
     if (!req.body.email && !req.body.telephone) {
       return res.status(422).json({ message: 'At least email or telephone have to be present' })
     }
-    const tmp = await HelpNumbers.findOne({ name: req.body.name })
+    const tmp = await HelpNumbers.findOne({
+      name: req.body.name,
+      facility: req.user.facility._id
+    })
     if (tmp) return res.status(422).json({ message: 'This name is already used' })
 
     const newHelpNumber = new HelpNumbers({
@@ -39,6 +42,7 @@ module.exports = async (req, res) => {
       telephone: req.body.telephone,
       email: req.body.email,
       helpNumbersCategory: req.body.helpNumbersCategory,
+      description: req.body.description,
       facility: req.user.facility._id
     })
     await newHelpNumber.save()
