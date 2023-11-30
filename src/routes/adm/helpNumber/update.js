@@ -1,7 +1,7 @@
 /**
- * @memberof module:router~mainRouter~admRouter
+ * @memberof module:router~mainRouter~admRouter~helpNumbersRouter
  * @inner
- * @namespace helpNumber/update
+ * @namespace update
  */
 const { HelpNumbers, validateHelpNumbers } = require('../../../models/helpNumbers')
 const { HelpNumbersCategories } = require('../../../models/helpNumbersCategories')
@@ -11,7 +11,7 @@ const mongoose = require('mongoose')
  * Main update function
  * @name PATCH /adm/helpNumber/:id
  * @function
- * @memberof module:router~mainRouter~admRouter~helpNumber/update
+ * @memberof module:router~mainRouter~admRouter~helpNumbersRouter~update
  * @inner
  * @async
  * @param {Object} req
