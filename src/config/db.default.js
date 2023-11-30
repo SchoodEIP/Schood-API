@@ -35,7 +35,7 @@ async function initDefaultUsers () {
       await adminU.save()
     })
 
-    if (process.env.PROD === 'true') {
+    if (process.env.PROD === 'false') {
       await bcrypt.hash('teacher123', 10).then(async (hash) => {
         // We create a default teacher1 user
         const teacher1 = new Users({
@@ -196,7 +196,7 @@ async function initDefaultFacility () {
 module.exports = async () => {
   await initDefaultFacility()
   await initDefaultRoles()
-  if (process.env.PROD === 'true') {
+  if (process.env.PROD === 'false') {
     await initDefaultClasses()
   }
   await initDefaultUsers()
