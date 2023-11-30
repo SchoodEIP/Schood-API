@@ -9,7 +9,7 @@ describe('Adm route tests', () => {
   let funcs
 
   beforeAll(async () => {
-    process.env.PROD = true
+    process.env.PROD = false
     app = await server.testServer()
     funcs = new TestFunctions(app)
   })

@@ -1,15 +1,17 @@
-const request = require('supertest')
 const mongoose = require('mongoose')
 
 const server = require('../../serverUtils/testServer')
 const dbDefault = require('../../../config/db.default')
+const TestFunctions = require('../../serverUtils/TestFunctions')
 
 describe('User route tests', () => {
   let app
+  let funcs
 
   beforeAll(async () => {
     process.env.PROD = false
     app = await server.testServer()
+    funcs = new TestFunctions(app)
   })
 
   afterEach(async () => {
@@ -28,27 +30,12 @@ describe('User route tests', () => {
 
   describe('getAllHelpNumbers route', () => {
     it('GET /user/helpNumbers => Try get all help numbers', async () => {
-      let key
+      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const class_ = await funcs.getClass({ name: 200 })
 
-      await request(app)
-        .post('/user/login')
-        .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
-        })
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then((response) => {
-          key = response.body.token
-        })
-
-      return await request(app)
-        .get('/user/helpNumbers')
-        .set({
-          'x-auth-token': key
-        })
-        .expect('Content-Type', /json/)
-        .expect(200)
+      funcs.setToken(token)
+      const res = await funcs.get(`/user/class/${class_._id}`, 200, /json/)
+      expect(res).toHaveLength(3)
     })
   })
 })
