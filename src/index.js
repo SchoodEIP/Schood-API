@@ -56,7 +56,7 @@ async function startServer () {
       app.use(cors(corsOptions))
       app.use(express.json())
       app.use(express.urlencoded({ extended: true }))
-      if (process.env.PROD === 'false') {
+      if (process.env.PROD === 'true') {
         app.use(limiter)
       }
       // Init swagger
