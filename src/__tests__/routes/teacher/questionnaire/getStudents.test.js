@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 const server = require('../../../serverUtils/testServer')
 const dbDefault = require('../../../../config/db.default')
-const { Questionnaire } = require('../../../../models/questionnaire')
+const { Questionnaires } = require('../../../../models/questionnaire')
 
 describe('Teacher Questionnaire route tests', () => {
   let app
@@ -60,7 +60,7 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = await Questionnaires.findOne()
           questionnaireId = questionnaireId._id
           await request(app)
             .get('/teacher/questionnaire/' + questionnaireId + '/students')
