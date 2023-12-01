@@ -831,6 +831,44 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /adm/helpNumbersCategory/{id}:
+    patch:
+      tags:
+        - adm
+      summary: Update a help numbers category
+      description: >
+        Update a HelpNumberCategory, given a non empty name.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpNumbersCategory'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/NameAlreadyUsed'
+                  - $ref: '#/components/schemas/HelpNumberNotExist'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/facility/register:
     post:
       tags:
@@ -1835,6 +1873,12 @@ components:
         message:
           type: string
           example: 'User does not participate in this chat'
+    HelpNumberNotExist:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'This helpNumbersCategory do not exist'
     AtLeastEmailOrTelephone:
       type: object
       properties:
