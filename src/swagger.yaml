@@ -479,6 +479,52 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /user/chat/{id}/addParticipants:
+    post:
+      tags:
+        - user
+      summary: Add participants to a chat
+      description: >
+        Takes a JSON containing the participants to be added in the chat
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            chat id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatBody'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Users not found
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/UsersNotFound'
+                  - $ref: '#/components/schemas/UsersAlreadyInChat'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /user/:id:
     patch:
       tags:
@@ -1778,6 +1824,15 @@ components:
         content:
           type: string
           example: 'Test'
+    ChatBody:
+      type: object
+      properties:
+        participants:
+          type: array
+          items:
+            description: id
+            type: string
+            example: '64b15338a8c793949de08695'
     token:
       type: object
       properties:
@@ -1829,6 +1884,12 @@ components:
         message:
           type: string
           example: 'Users not found: [64b15338a8c793949de08695, 64b15338a8c793949de08696]'
+    UsersAlreadyInChat:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'These users are already in chat, ids: [64b15338a8c793949de08695, 64b15338a8c793949de08696]'
     UserNotInChat:
       type: object
       properties:
