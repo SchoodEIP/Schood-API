@@ -20,7 +20,7 @@ const access = require('../../../middleware/access')
 
 router.post('/', register)
 router.patch('/:id', modify)
-router.delete('/:id', access(2, true) ,delete_)
+router.delete('/:id', access(2, true), delete_)
 router.get('/', get)
 
 module.exports = router
