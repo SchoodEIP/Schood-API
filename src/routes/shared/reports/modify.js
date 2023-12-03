@@ -4,10 +4,10 @@
  * @namespace reports
  */
 
-const { default: mongoose } = require("mongoose")
-const { Reports, validateModify } = require("../../../models/reports")
-const { Users } = require("../../../models/users")
-const { Chats } = require("../../../models/chat")
+const { default: mongoose } = require('mongoose')
+const { Reports, validateModify } = require('../../../models/reports')
+const { Users } = require('../../../models/users')
+const { Chats } = require('../../../models/chat')
 
 /**
  * Main reports function
@@ -28,36 +28,36 @@ module.exports = async (req, res) => {
     const id = req.params.id
     const { error } = validateModify(req.body)
     if (error) {
-        console.log(error)
+      console.log(error)
       return res.status(400).json({ message: 'Invalid request' })
     }
 
     if (req.body.userSignaled) {
-        const user = await Users.findById(req.body.userSignaled)
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
+      const user = await Users.findById(req.body.userSignaled)
+      if (!user) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
     }
 
     if (req.body.conversation) {
-        const conversation = await Chats.findById(req.body.conversation)
-        if (!conversation) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
+      const conversation = await Chats.findById(req.body.conversation)
+      if (!conversation) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
     }
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
     const report = await Reports.findById(id)
     if (!report) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     if (req.user.role.levelOfAccess === 0) {
-        if (String(report.signaledBy) !== String(req.usre._id)) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
+      if (String(report.signaledBy) !== String(req.usre._id)) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
     }
 
     report.userSignaled = req.body.userSignaled ? new mongoose.Types.ObjectId(req.body.userSignaled) : report.userSignaled

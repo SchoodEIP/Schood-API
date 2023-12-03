@@ -4,8 +4,8 @@
  * @namespace reports
  */
 
-const { default: mongoose } = require("mongoose")
-const { Reports } = require("../../../models/reports")
+const { default: mongoose } = require('mongoose')
+const { Reports } = require('../../../models/reports')
 
 /**
  * Main reports function
@@ -26,13 +26,13 @@ module.exports = async (req, res) => {
     const id = req.params.id
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
-    
+
     const report = await Reports.findById(id)
 
     if (!report) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     await Reports.findByIdAndDelete(id)

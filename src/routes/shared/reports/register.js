@@ -4,10 +4,10 @@
  * @namespace reports
  */
 
-const { default: mongoose } = require("mongoose")
-const { validateRegister, Reports } = require("../../../models/reports")
-const { Users } = require("../../../models/users")
-const { Chats } = require("../../../models/chat")
+const { default: mongoose } = require('mongoose')
+const { validateRegister, Reports } = require('../../../models/reports')
+const { Users } = require('../../../models/users')
+const { Chats } = require('../../../models/chat')
 
 /**
  * Main reports function
@@ -32,24 +32,24 @@ module.exports = async (req, res) => {
 
     const user = await Users.findById(req.body.userSignaled)
     if (!user) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
     if (req.body.conversation) {
-        const conversation = await Chats.findById(req.body.conversation)
-        if (!conversation) {
-            return res.status(400).json({ message: 'Invalid request' })
-        }
+      const conversation = await Chats.findById(req.body.conversation)
+      if (!conversation) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
     }
 
     const report = new Reports({
-        userSignaled: new mongoose.Types.ObjectId(req.body.userSignaled),
-        signaledBy: new mongoose.Types.ObjectId(req.user._id),
-        createdAt: new Date(),
-        message: req.body.message ? req.body.message : "",
-        conversation: req.body.conversation ? new mongoose.Types.ObjectId(req.body.conversation) : null,
-        type: req.body.type,
-        facility: req.user.facility
+      userSignaled: new mongoose.Types.ObjectId(req.body.userSignaled),
+      signaledBy: new mongoose.Types.ObjectId(req.user._id),
+      createdAt: new Date(),
+      message: req.body.message ? req.body.message : '',
+      conversation: req.body.conversation ? new mongoose.Types.ObjectId(req.body.conversation) : null,
+      type: req.body.type,
+      facility: req.user.facility
     })
     await report.save()
 

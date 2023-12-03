@@ -36,7 +36,7 @@ const reportsSchema = new Schema({
     default: new Date()
   },
   modifiedAt: {
-    type: Date,
+    type: Date
   },
   modifiedBy: {
     type: mongoose.Types.ObjectId,
@@ -44,11 +44,11 @@ const reportsSchema = new Schema({
   },
   message: {
     type: String,
-    default: ""
+    default: ''
   },
   conversation: {
     type: mongoose.Types.ObjectId,
-    ref: 'chats',
+    ref: 'chats'
   },
   type: {
     type: String,

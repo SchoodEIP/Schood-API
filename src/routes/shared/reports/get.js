@@ -4,7 +4,7 @@
  * @namespace reports
  */
 
-const { Reports } = require("../../../models/reports")
+const { Reports } = require('../../../models/reports')
 
 /**
  * Main reports function
@@ -22,11 +22,11 @@ const { Reports } = require("../../../models/reports")
 module.exports = async (req, res) => {
   try {
     const query = {
-        facility: req.user.facility
+      facility: req.user.facility
     }
 
     if (req.user.role.levelOfAccess <= 1) {
-        query['signaledBy'] = req.user._id
+      query.signaledBy = req.user._id
     }
     const reports = await Reports.find(query)
 
