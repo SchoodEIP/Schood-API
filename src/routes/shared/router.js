@@ -6,6 +6,7 @@ const express = require('express')
 const router = express.Router()
 
 const questionaireRouter = require('./questionnaire/router')
+const reportRouter = require('./reports/router')
 
 /**
  * Main router connection
@@ -15,5 +16,6 @@ const questionaireRouter = require('./questionnaire/router')
  */
 
 router.use('/questionnaire', questionaireRouter)
+router.use('/report', reportRouter)
 
 module.exports = router
