@@ -4,7 +4,6 @@
  * @namespace reports
  */
 
-const { default: mongoose } = require("mongoose")
 const { Reports } = require("../../../models/reports")
 
 /**
