@@ -28,7 +28,8 @@ module.exports = async (req, res) => {
 
     if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
-    await HelpNumbers.findOneAndRemove({ _id: id })
+    if (!await HelpNumbers.findByIdAndDelete(id)) return res.status(400).json({ message: 'Invalid request' })
+
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
