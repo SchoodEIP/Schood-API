@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
     if (idx === -1) return res.status(422).json({ message: 'User not in chat' })
     chat.participants.splice(idx, 1)
     if (chat.participants.length === 1) {
-      await Chats.findByIdAndRemove(id)
+      await Chats.findByIdAndDelete(id)
     } else {
       await chat.save()
     }
