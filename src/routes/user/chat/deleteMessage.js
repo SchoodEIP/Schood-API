@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
     }
 
     await chat.save()
-    await Messages.findByIdAndRemove(messageId)
+    await Messages.findByIdAndDelete(messageId)
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
