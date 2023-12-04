@@ -27,7 +27,11 @@ const dailyMoods = new Schema({
   date: {
     type: Date,
     required: true,
-    default: new Date()
+    default: function() {
+        const date = new Date()
+        date.setUTCHours(0,0,0,0)
+        return date;
+    }
   },
   facility: {
     type: mongoose.Types.ObjectId,
@@ -41,11 +45,11 @@ const DailyMoods = mongoose.model('dailyMoods', dailyMoods)
 
 // We check if all required variables are here
 
-const validateDailyMoods = (dailyMoods) => {
+const validateRegister = (dailyMoods) => {
   const schema = Joi.object({
-    name: Joi.string().required()
+    mood: Joi.number().min(0).max(5).required()
   })
   return schema.validate(dailyMoods)
 }
 
-module.exports = { DailyMoods, validateDailyMoods }
+module.exports = { DailyMoods, validateRegister }

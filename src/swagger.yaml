@@ -1118,6 +1118,36 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /student/dailyMood/:
+    post:
+      tags:
+        - student
+      summary: Register dailyMood
+      description: >
+        Register a daily mood between 0 and 5 and modify current one if already one
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newDailyMood'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /shared/questionnaire/:
     get:
       tags:
@@ -1356,6 +1386,12 @@ components:
         filename:
           type: string
           format: binary
+    newDailyMood:
+      type: object
+      properties:
+        mood:
+          type: number
+          example: 0
     UserRegister:
       type: object
       properties:
