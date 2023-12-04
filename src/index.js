@@ -15,6 +15,7 @@ const sanitizer = require('./middleware/sanitize')
 const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./swagger.yaml')
+const Logger = require('./services/logger')
 
 /**
  * Set limiter
@@ -65,7 +66,7 @@ async function startServer () {
       app.use('/', sanitizer, router)
 
       // Start server
-      console.log('INFO: START HTTP SERVER' + ' (http://localhost:' + httpPort + ')')
+      Logger.info('INFO: START HTTP SERVER' + ' (http://localhost:' + httpPort + ')')
       http.createServer(app).listen(httpPort)
 
       if (process.env.HTTPS === 'true') {
@@ -78,12 +79,12 @@ async function startServer () {
           ca: fs.readFileSync('./ca.pem')
         }
 
-        console.log('INFO: START HTTPS SERVER' + ' (https://localhost:' + httpsPort + ')')
+        Logger.info('INFO: START HTTPS SERVER' + ' (https://localhost:' + httpsPort + ')')
         https.createServer(options, app).listen(httpsPort)
       }
       console.log('=============================================')
     } catch (error) {
-      console.error('ERROR: index.js error : ', error)
+      Logger.error('ERROR: index.js error : ', error)
     }
   }
 }

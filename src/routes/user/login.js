@@ -5,6 +5,7 @@
  */
 const { Users, validateUser } = require('../../models/users')
 const bcrypt = require('bcryptjs')
+const Logger = require('../../services/logger')
 
 /**
  * Main login function
@@ -49,7 +50,7 @@ module.exports = async (req, res) => {
     // Send token
     return res.status(200).json({ token, firstConnexion })
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

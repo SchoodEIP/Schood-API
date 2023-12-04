@@ -19,7 +19,7 @@ describe('Student Questionnaires route tests', () => {
       const collection = collections[key]
       await collection.deleteMany()
     }
-    await dbDefault()
+    await dbDefault(true)
   })
 
   afterAll(async () => {
@@ -84,7 +84,7 @@ describe('Student Questionnaires route tests', () => {
               answers: [
                 {
                   question: questionId,
-                  answer: 'Test'
+                  answers: ['Test']
                 }
               ]
             })
@@ -155,7 +155,7 @@ describe('Student Questionnaires route tests', () => {
           answers: [
             {
               question: '64f258afe6d3d02761a011ed',
-              answer: 'Test'
+              answers: ['Test']
             }
           ]
         })
@@ -351,7 +351,7 @@ describe('Student Questionnaires route tests', () => {
               answers: [
                 {
                   question: questionId,
-                  answer: 'Test'
+                  answers: ['Test']
                 }
               ]
             })
