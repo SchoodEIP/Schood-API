@@ -1535,6 +1535,34 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /shared/notifications/:
+    get:
+      tags:
+        - shared
+      summary: Get notifications
+      description: >
+        Get user notifications
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notifications'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /shared/alert/:
     post:
       tags:
@@ -1869,6 +1897,31 @@ components:
           example:
             - question: "64f112e13c0bc73031846e2c"
               answer: "test"
+    notifications:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64f112e13c0bc73031846e2c'
+        concernedUser:
+          type: string
+          example: '64f112e13c0bc73031846e2c'
+        title:
+          type: string
+          example: 'Test'
+        message:
+          type: string
+          example: 'Test notification'
+        viewed:
+          type: boolean
+          example: false
+        topic:
+          type: string
+          example: 'statistics'
+        topicId:
+          type: string
+          example: '64f112e13c0bc73031846e2c'
+
     newQuestionnaire:
       type: object
       properties:
