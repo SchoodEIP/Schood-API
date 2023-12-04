@@ -6,13 +6,13 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Joi = require('joi')
 
-const Level = {
+const Level = Object.freeze({
   PRIMAIRE: 0,
   COLLEGE: 1,
   LYCEE: 2,
   SUPERIEUR: 3,
   AUTRE: 4
-}
+})
 
 // We create the Schema for facilities, and we set up the required variables.
 
