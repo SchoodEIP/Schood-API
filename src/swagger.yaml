@@ -1379,6 +1379,132 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /shared/report/:
+    get:
+      tags:
+        - shared
+      summary: Get list of reports
+      description: >
+        Get list of reports. If student or teacher, get list of our reports
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/listReports'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    post:
+      tags:
+        - shared
+      summary: Create a report
+      description: >
+        Create a report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newReport'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /shared/report/{id}:
+    patch:
+      tags:
+        - shared
+      summary: Modify a report
+      description: >
+        Modify a report. If student, can only modify our own reports
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the questionnaire
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newReport'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    delete:
+      tags:
+        - shared
+      summary: Delete a report
+      description: >
+        Delete a report.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the questionnaire
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /shared/alert/:
     post:
       tags:
@@ -1790,6 +1916,52 @@ components:
               lastname:
                 type: string
                 example: 'teacher1'
+    newReport:
+      type: array
+      items:
+        type: object
+        properties:
+          userSignaled:
+            type: string
+            example: '64f112e13c0bc73031846e2c'
+          message:
+            type: string
+            example: ""
+          conversation:
+            type: string
+            example: "64f112e13c0bc73031846e2c"
+          type:
+            type: string
+            example: "other"
+    listReports:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+            example: '64f112e13c0bc73031846e2c'
+          userSignaled:
+            type: string
+            example: '64f112e13c0bc73031846e2c'
+          signaledBy:
+            type: string
+            example: '64f112e13c0bc73031846e2c'
+          createdAt:
+            type: string
+            example: '2023-09-10T00:00:00.000Z'
+          message:
+            type: string
+            example: ""
+          conversation:
+            type: string
+            example: "64f112e13c0bc73031846e2c"
+          type:
+            type: string
+            example: "other"
+          facility:
+            type: string
+            example: "64f112e13c0bc73031846e2c"
     infoQuestionnaire:
       type: array
       items:
