@@ -5,7 +5,7 @@
  */
 
 const { default: mongoose } = require('mongoose')
-const { Questionnaire } = require('../../../models/questionnaire')
+const { Questionnaires } = require('../../../models/questionnaire')
 const { Answers } = require('../../../models/answers')
 
 /**
@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
     }
 
     // Check if questionnaire exist
-    const questionnaire = await Questionnaire.findById(questionnaireId)
+    const questionnaire = await Questionnaires.findById(questionnaireId)
     if (!questionnaire) {
       return res.status(400).json({ message: 'Invalid request' })
     }
