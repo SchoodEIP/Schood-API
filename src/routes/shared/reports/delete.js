@@ -29,13 +29,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const report = await Reports.findById(id)
-
-    if (!report) {
-      return res.status(400).json({ message: 'Invalid request' })
-    }
-
-    await Reports.findByIdAndDelete(id)
+    if (!await Reports.findByIdAndDelete(id)) { return res.status(400).json({ message: 'Invalid request' }) }
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {

@@ -20,7 +20,7 @@ describe('User route tests', () => {
       const collection = collections[key]
       await collection.deleteMany()
     }
-    await dbDefault()
+    await dbDefault(true)
   })
 
   afterAll(async () => {

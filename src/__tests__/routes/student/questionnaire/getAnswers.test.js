@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 const server = require('../../../serverUtils/testServer')
 const dbDefault = require('../../../../config/db.default')
-const { Questionnaire } = require('../../../../models/questionnaire')
+const { Questionnaires } = require('../../../../models/questionnaire')
 
 describe('Student Questionnaire route tests', () => {
   let app
@@ -19,7 +19,7 @@ describe('Student Questionnaire route tests', () => {
       const collection = collections[key]
       await collection.deleteMany()
     }
-    await dbDefault()
+    await dbDefault(true)
   })
 
   afterAll(async () => {
@@ -61,7 +61,7 @@ describe('Student Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = await Questionnaires.findOne()
           await request(app)
             .post('/user/login')
             .send({
