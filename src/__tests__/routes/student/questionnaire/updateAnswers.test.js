@@ -84,7 +84,7 @@ describe('Student Questionnaire route tests', () => {
               answers: [
                 {
                   question: questionId,
-                  answer: 'Test'
+                  answers: ['Test']
                 }
               ]
             })
@@ -155,7 +155,7 @@ describe('Student Questionnaire route tests', () => {
           answers: [
             {
               question: '64f258afe6d3d02761a011ed',
-              answer: 'Test'
+              answers: ['Test']
             }
           ]
         })
@@ -351,7 +351,7 @@ describe('Student Questionnaire route tests', () => {
               answers: [
                 {
                   question: questionId,
-                  answer: 'Test'
+                  answers: ['Test']
                 }
               ]
             })
