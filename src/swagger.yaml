@@ -335,28 +335,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
-  /user/chat/messages/{id}:
-    patch:
+  /user/chat/{id}/leave:
+    post:
       tags:
         - user
-      summary: update a message
+      summary: Leave a chat.
       description: >
-        Update a message
+        Leave a chat
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableUsers'
         '400':
           description: Invalid request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/invalidRequest'
-        '401':
-          description: Not allowed
+        '422':
+          description: User not in chat
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotAllowed'
+                $ref: '#/components/schemas/UserNotInChat'
         '500':
           description: Internal Server Error
           content:
