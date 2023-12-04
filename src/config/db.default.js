@@ -3,13 +3,14 @@ const { Roles } = require('../models/roles')
 const bcrypt = require('bcryptjs')
 const { Classes } = require('../models/classes')
 const { Facilities } = require('../models/facilities')
+const Logger = require('../services/logger')
 
 async function initDefaultUsers () {
   const tmp = await Users.find({ firstname: 'admin' })
 
   // We check if the db is empty and if it needs to be initialized
   if (tmp === undefined || tmp === null || tmp.length === 0) {
-    console.log('INFO: Init defaultUsers')
+    Logger.info('INFO: Init defaultUsers')
     const student = await Roles.findOne({ name: 'student' })
     const teacher = await Roles.findOne({ name: 'teacher' })
     const adm = await Roles.findOne({ name: 'administration' })
@@ -123,7 +124,7 @@ async function initDefaultRoles () {
 
   // We check if the db is empty and if it needs to be initialized
   if (tmp === undefined || tmp === null || tmp.length === 0) {
-    console.log('INFO: Init defaultRoles')
+    Logger.info('INFO: Init defaultRoles')
 
     const student = new Roles({
       name: 'student',
@@ -158,7 +159,7 @@ async function initDefaultClasses () {
 
   // We check if the db is empty and if it needs to be initialized
   if (tmp === undefined || tmp === null || tmp.length === 0) {
-    console.log('INFO: Init defaultClasses')
+    Logger.info('INFO: Init defaultClasses')
 
     const class1 = new Classes({
       name: '200',
@@ -180,7 +181,7 @@ async function initDefaultFacility () {
 
   // We check if the db is empty and if it needs to be initialized
   if (tmp === undefined || tmp === null || tmp.length === 0) {
-    console.log('INFO: Init defaultFacilities')
+    Logger.info('INFO: Init defaultFacilities')
 
     const facility = new Facilities({
       name: 'Schood',
@@ -193,11 +194,13 @@ async function initDefaultFacility () {
   }
 }
 
-module.exports = async () => {
+module.exports = async (test = false) => {
+  if (test) Logger.displayed = false
   await initDefaultFacility()
   await initDefaultRoles()
   if (process.env.PROD === 'false') {
     await initDefaultClasses()
   }
   await initDefaultUsers()
+  if (test) Logger.displayed = true
 }

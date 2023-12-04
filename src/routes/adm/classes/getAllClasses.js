@@ -4,6 +4,7 @@
  * @namespace class/getAllClasses
  */
 const { Classes } = require('../../../models/classes')
+const Logger = require('../../../services/logger')
 
 /**
  * Main register function
@@ -23,7 +24,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).json(classes)
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }
