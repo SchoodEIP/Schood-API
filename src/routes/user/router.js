@@ -10,6 +10,7 @@ const forgottenPassword = require('./forgottenPassword')
 const profile = require('./profile')
 const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
+const getClassUsers = require('./getClassUsers')
 
 const updateUser = require('./updateUser')
 const chatRouter = require('./chat/router')
@@ -48,6 +49,7 @@ router.get('/helpNumbersCategories', auth, getAllHelpNumbersCategories)
 
 // file
 router.get('/file/:id', auth, downloadFile)
+router.get('/class/:id', auth, access(1), getClassUsers)
 
 // facility
 router.get('/facility', auth, getFacility)
