@@ -5,9 +5,12 @@
   "main": "index.js",
   "jest": {
     "testPathIgnorePatterns": [
-      "__tests__/serverUtils"
+      "__tests__/serverUtils",
+      "__tests__/fixtures"
     ],
     "coveragePathIgnorePatterns": [
+      "__tests__/serverUtils",
+      "__tests__/fixtures",
       "services/mailer",
       "config/db.default"
     ],
