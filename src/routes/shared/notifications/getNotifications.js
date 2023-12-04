@@ -21,7 +21,7 @@ const { Questionnaire } = require('../../../models/questionnaire')
  */
 module.exports = async (req, res) => {
   try {
-    const notifications = await Notifications.find({user: req.user._id})
+    const notifications = await Notifications.find({ user: req.user._id })
 
     return res.status(200).json(notifications)
   } catch (error) /* istanbul ignore next */ {
