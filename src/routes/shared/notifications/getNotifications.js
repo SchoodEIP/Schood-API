@@ -5,7 +5,6 @@
  */
 
 const { Notifications } = require('../../../models/notifications')
-const { Questionnaire } = require('../../../models/questionnaire')
 
 /**
  * Main notifications informations function
