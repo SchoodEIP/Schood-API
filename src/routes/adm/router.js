@@ -6,12 +6,12 @@
 const express = require('express')
 const router = express.Router()
 
+const classesRouter = require('./classes/router')
+const helpNumbersRouter = require('./helpNumber/router')
+
 const register = require('./register')
 const csvRegisterUser = require('./csvRegisterUser')
-const classesRouter = require('./classes/router')
 const helpNumbersCategoryRegister = require('./helpNumbersCategory/register')
-const helpNumberRegister = require('./helpNumber/register')
-const helpNumberUpdate = require('./helpNumber/update')
 const rolesList = require('./rolesList')
 
 const { upload10Tmp } = require('../../utils/multer')
@@ -26,9 +26,9 @@ const { upload10Tmp } = require('../../utils/multer')
 // Created router routes connection
 
 router.use('/classes', classesRouter)
+router.use('/helpNumber', helpNumbersRouter)
+
 router.get('/rolesList', rolesList)
-router.post('/helpNumber/register', helpNumberRegister)
-router.patch('/helpNumber/:id', helpNumberUpdate)
 router.post('/helpNumbersCategory/register', helpNumbersCategoryRegister)
 router.post('/register/', register)
 router.post('/csvRegisterUser', upload10Tmp.single('csv'), csvRegisterUser)
