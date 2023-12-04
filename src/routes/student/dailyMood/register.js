@@ -28,9 +28,9 @@ module.exports = async (req, res) => {
     }
 
     const date = new Date()
-    date.setUTCHours(0,0,0,0)
+    date.setUTCHours(0, 0, 0, 0)
     let dailyMood
-    dailyMood = await DailyMoods.findOne({date: date})
+    dailyMood = await DailyMoods.findOne({ date })
 
     if (dailyMood) {
       dailyMood.mood = req.body.mood
@@ -42,8 +42,8 @@ module.exports = async (req, res) => {
         facility: req.user.facility
       })
     }
-    
-    dailyMood.save();
+
+    dailyMood.save()
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {

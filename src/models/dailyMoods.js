@@ -27,10 +27,10 @@ const dailyMoods = new Schema({
   date: {
     type: Date,
     required: true,
-    default: function() {
-        const date = new Date()
-        date.setUTCHours(0,0,0,0)
-        return date;
+    default: function () {
+      const date = new Date()
+      date.setUTCHours(0, 0, 0, 0)
+      return date
     }
   },
   facility: {
