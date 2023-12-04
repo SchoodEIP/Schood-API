@@ -335,10 +335,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalServerError'
+  /user/chat/{id}/leave:
+    post:
+      tags:
+        - user
+      summary: Leave a chat.
+      description: >
+        Leave a chat
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableUsers'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: User not in chat
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotInChat'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
   /user/{id}:
     patch:
       tags:
-        - teacher
+        - user
       summary: Update an user
       description: >
         Update a user given a valid email, firstname, lastname, role, classes. <br> <br>
@@ -479,18 +511,13 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
-  /user/:id:
-    patch:
+  /user/chat/{id}/addParticipants:
+    post:
       tags:
-        - teacher
-      summary: Update an user
+        - user
+      summary: Add participants to a chat
       description: >
-        Update a user given a valid email, firstname, lastname, role, classes. <br> <br>
-        If the role is student, only one element in the classes array is accepted. <br> <br>
-        If the role is teacher, multiple elements in the classes array is accepted. <br> <br>
-        If other role, no element should be in the classes array. <br> <br>
-        If the connected user is a teacher, all fields except roles and classes will be updated. <br> <br>
-        If other role, all fields will be updated.
+        Takes a JSON containing the participants to be added in the chat
       parameters:
         - in: path
           name: id
@@ -498,13 +525,13 @@ paths:
             type: string
           required: true
           description: >
-            Id of the user that will be updated
+            chat id
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Profile'
+              $ref: '#/components/schemas/ChatBody'
       responses:
         '200':
           description: Successful operation
@@ -515,11 +542,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/invalidRequest'
         '422':
-          description: User not found
+          description: Users not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserNotFound'
+                oneOf:
+                  - $ref: '#/components/schemas/UsersNotFound'
+                  - $ref: '#/components/schemas/UsersAlreadyInChat'
         '500':
           description: Internal Server Error
           content:
@@ -572,10 +601,64 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /user/facility:
+    get:
+      tags:
+        - user
+      summary: Get the user's facility informations
+      description: >
+        Send a json containing the user's facility informations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facility'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /user/class/{id}:
+    get:
+      tags:
+        - user
+      summary: get all users from a class
+      description: >
+        Takes the id of the class as parameter and return a JSON with all the Users of the class
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            class id
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/register:
     post:
       tags:
-        - admin
+        - adm
       summary: Register a user
       description: >
         Register a user given a valid email, firstname, lastname, role, classes. <br> <br>
@@ -795,6 +878,37 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+    delete:
+      tags:
+        - adm
+      summary: Delete a help number
+      description: >
+        Delete a HelpNumber
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the helpNumber to delete
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/helpNumbersCategory/register:
     post:
       tags:
@@ -869,10 +983,10 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
-  /adm/facility/register:
+  /admin/facility/register:
     post:
       tags:
-        - adm
+        - admin
       summary: Register a facility
       description: >
         Register a Facility, given a non empty name, a non empty address, a non empty telephone and a valid level.
@@ -1220,9 +1334,229 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /shared/alert/:
+    post:
+      tags:
+        - shared
+      summary: Create new alert
+      description: >
+        Create a new alert. Send a list of classes or a role for the alert, but not both
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newAlert'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertAnswer'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    get:
+      tags:
+        - shared
+      summary: Get alerts
+      description: >
+        Get alerts depending on your role and classes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertAnswer'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /shared/alert/{id}:
+    patch:
+      tags:
+        - shared
+      summary: Modify alert
+      description: >
+        Modify an alert
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the alert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newAlert'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertAnswer'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    delete:
+      tags:
+        - shared
+      summary: Delete alert
+      description: >
+        Delete an alert
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the alert
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /shared/alert/file/{id}:
+    post:
+      tags:
+        - shared
+      summary: Add file alert
+      description: >
+        Add a file to the alert.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            The id of the alert
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/newFile'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
 
 components:
   schemas:
+    newAlert:
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'Test Answer'
+        message:
+          type: string
+          example: 'Test Answer message'
+        role:
+          type: string
+          example: "64692acf1874cb0532aa619d"
+        classes:
+          type: string
+          example: ["64692acf1874cb0532aa619d", "64692acf1874cb0532aa619d"]
+    alertAnswer:
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'Test Answer'
+        message:
+          type: string
+          example: 'Test Answer message'
+        file:
+          type: string
+          example: "64692acf1874cb0532aa619d"
+        forClasses:
+          type: boolean
+          example: true
+        classes:
+          type: string
+          example: []
+        role:
+          type: string
+          example: "64692acf1874cb0532aa619d"
+        createdAt:
+          type: string
+          example: '2023-11-05T10:35:31.784Z'
+        createdBy:
+          type: string
+          example: '64692acf1874cb0532aa619d'
+        facility:
+          type: string
+          example: '64692acf1874cb0532aa619d'
+        _id:
+          type: string
+          example: '64692acf1874cb0532aa619d'
     UserLogin:
       type: object
       properties:
@@ -1250,6 +1584,24 @@ components:
     FacilityRegister:
       type: object
       properties:
+        name:
+          type: string
+          example: 'Example school'
+        address:
+          type: string
+          example: '3 rue test'
+        telephone:
+          type: string
+          example: '0102030405'
+        level:
+          type: integer
+          example: 1
+    Facility:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64b15338a8c793949de08695'
         name:
           type: string
           example: 'Example school'
@@ -1816,6 +2168,15 @@ components:
         content:
           type: string
           example: 'Test'
+    ChatBody:
+      type: object
+      properties:
+        participants:
+          type: array
+          items:
+            description: id
+            type: string
+            example: '64b15338a8c793949de08695'
     token:
       type: object
       properties:
@@ -1867,6 +2228,18 @@ components:
         message:
           type: string
           example: 'Users not found: [64b15338a8c793949de08695, 64b15338a8c793949de08696]'
+    NotAllowed:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Not allowed'
+    UsersAlreadyInChat:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'These users are already in chat, ids: [64b15338a8c793949de08695, 64b15338a8c793949de08696]'
     UserNotInChat:
       type: object
       properties:

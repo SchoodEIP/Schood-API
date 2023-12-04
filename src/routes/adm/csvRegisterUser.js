@@ -11,6 +11,7 @@ const bcrypt = require('bcryptjs')
 const random = require('random-string-generator')
 const { Classes } = require('../../models/classes')
 const { sendMail } = require('../../services/mailer')
+const Logger = require('../../services/logger')
 
 /**
  * Main csvRegisterUser function
@@ -51,7 +52,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).json('ok')
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }
@@ -183,7 +184,7 @@ const processImport = async (csv, mail, currentUser) => {
       }
     }
   } catch (e) /* istanbul ignore next */ {
-    console.log(e)
+    Logger.error(e)
     return [true, line, row]
   }
   return [false, '', -1]

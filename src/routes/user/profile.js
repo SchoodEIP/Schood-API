@@ -4,6 +4,8 @@
  * @namespace profile
  */
 
+const Logger = require('../../services/logger')
+
 /**
  * Main profile function
  * @name GET /user/profile
@@ -24,7 +26,7 @@ module.exports = async (req, res) => {
     // Send profile
     return res.status(200).json(response)
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

@@ -2,6 +2,7 @@
  * @module middlewares
  */
 const sanitize = require('mongo-sanitize')
+const Logger = require('../services/logger')
 
 /**
  * Main sanitize middleware function
@@ -20,7 +21,7 @@ module.exports = (req, res, next) => {
     req.body = sanitize(req.body)
     next()
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

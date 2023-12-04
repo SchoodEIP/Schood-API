@@ -1,3 +1,5 @@
+const Logger = require('../services/logger')
+
 /**
  * Main permission middleware function
  * @name Permission Middleware
@@ -32,7 +34,7 @@ module.exports = (levelOfAccess, onlyMode) => {
       }
       next()
     } catch (error) /* istanbul ignore next */ {
-      console.error(error)
+      Logger.error(error)
       return res.status(500).json({ message: 'Internal Server Error' })
     }
   }
