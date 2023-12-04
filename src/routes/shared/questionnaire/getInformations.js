@@ -4,7 +4,8 @@
  * @namespace questionnaire
  */
 
-const { Questionnaire } = require('../../../models/questionnaire')
+const { Questionnaires } = require('../../../models/questionnaire')
+const Logger = require('../../../services/logger')
 
 /**
  * Main questionnaire informations function
@@ -21,7 +22,7 @@ const { Questionnaire } = require('../../../models/questionnaire')
 module.exports = async (req, res) => {
   try {
     const questionnaireId = req.params.id
-    const questionnaire = await Questionnaire.findById(questionnaireId).populate('createdBy classes')
+    const questionnaire = await Questionnaires.findById(questionnaireId).populate('createdBy classes')
 
     // Remove unnecessary data
     questionnaire.createdBy.password = undefined
@@ -36,7 +37,7 @@ module.exports = async (req, res) => {
     // Send questionnaire
     return res.status(200).json(questionnaire)
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

@@ -20,7 +20,7 @@ describe('User route tests', () => {
       const collection = collections[key]
       await collection.deleteMany()
     }
-    await dbDefault()
+    await dbDefault(true)
   })
 
   afterAll(async () => {
@@ -124,7 +124,7 @@ describe('User route tests', () => {
           key = response.body.token
         })
 
-      await Users.findOneAndRemove({ firstname: 'admin' })
+      await Users.findOneAndDelete({ firstname: 'admin' })
 
       return await request(app)
         .post('/adm/register/?mail=false')
@@ -161,7 +161,7 @@ describe('User route tests', () => {
           key = response.body.token
         })
 
-      await Roles.findOneAndRemove({ name: 'admin' })
+      await Roles.findOneAndDelete({ name: 'admin' })
 
       return await request(app)
         .post('/adm/register/?mail=false')

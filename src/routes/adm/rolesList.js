@@ -5,6 +5,7 @@
  */
 
 const { Roles } = require('../../models/roles')
+const Logger = require('../../services/logger')
 
 /**
  * Main profile function
@@ -26,7 +27,7 @@ module.exports = async (req, res) => {
     if (!response) { return res.status(422).json({ message: 'Failed to get roles' }) }
     return res.status(200).json({ roles: response })
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

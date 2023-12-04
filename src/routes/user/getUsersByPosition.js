@@ -5,6 +5,7 @@
  */
 
 const { Users } = require('../../models/users')
+const Logger = require('../../services/logger')
 
 /**
  * Main getUsersByPosition function
@@ -72,7 +73,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).json(result)
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

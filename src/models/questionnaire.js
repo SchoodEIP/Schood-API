@@ -67,7 +67,7 @@ const questionnaireSchema = new Schema({
 })
 
 // We create questionnaire collection from questionnaireSchema
-const Questionnaire = mongoose.model('questionnaires', questionnaireSchema)
+const Questionnaires = mongoose.model('questionnaires', questionnaireSchema)
 
 // We check if all required variables are here
 
@@ -87,4 +87,4 @@ const validateQuestionnaire = (questionnaire) => {
   return schema.validate(questionnaire)
 }
 
-module.exports = { Questionnaire, validateQuestionnaire, Types }
+module.exports = { Questionnaires, validateQuestionnaire, Types }
