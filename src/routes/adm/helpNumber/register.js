@@ -1,7 +1,7 @@
 /**
- * @memberof module:router~mainRouter~admRouter
+ * @memberof module:router~mainRouter~admRouter~helpNumbersRouter
  * @inner
- * @namespace helpNumber/register
+ * @namespace register
  */
 
 const { HelpNumbers, validateHelpNumbers } = require('../../../models/helpNumbers')
@@ -11,7 +11,7 @@ const Logger = require('../../../services/logger')
  * Main register function
  * @name POST /adm/helpNumber/register
  * @function
- * @memberof module:router~mainRouter~admRouter~helpNumber/register
+ * @memberof module:router~mainRouter~admRouter~helpNumbersRouter~register
  * @inner
  * @async
  * @param {Object} req

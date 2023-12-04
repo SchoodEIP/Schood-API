@@ -5,7 +5,7 @@
  */
 
 const { default: mongoose } = require('mongoose')
-const { Questionnaire } = require('../../../models/questionnaire')
+const { Questionnaires } = require('../../../models/questionnaire')
 const { validateAnswers, Answers } = require('../../../models/answers')
 const Logger = require('../../../services/logger')
 
@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
     }
 
     // Check if questionnaire exist and is currently valid
-    const questionnaire = await Questionnaire.findById(questionnaireId)
+    const questionnaire = await Questionnaires.findById(questionnaireId)
     const today = new Date()
     const startWeekToday = new Date(today.setDate(today.getDate() - today.getDay()))
     const endWeekToday = new Date(today.setDate(today.getDate() - today.getDay() + 6))
