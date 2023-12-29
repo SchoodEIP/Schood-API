@@ -4,7 +4,8 @@
  * @namespace questionnaire
  */
 
-const { Questionnaire, Types } = require('../../../models/questionnaire')
+const { Questionnaires, Types } = require('../../../models/questionnaire')
+const Logger = require('../../../services/logger')
 
 /**
  * Main update questionnaire function
@@ -22,7 +23,7 @@ module.exports = async (req, res) => {
   try {
     const questionnaireId = req.params.id
     // Verif received data
-    const questionnaire = await Questionnaire.findById(questionnaireId)
+    const questionnaire = await Questionnaires.findById(questionnaireId)
 
     if (new Date(questionnaire.fromDate) < new Date()) {
       return res.status(400).json({ message: 'You cannot modify a questionnaire from current or previous weeks' })
@@ -52,7 +53,7 @@ module.exports = async (req, res) => {
     // Send profile
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

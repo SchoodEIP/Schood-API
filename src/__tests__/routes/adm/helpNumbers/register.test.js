@@ -9,7 +9,7 @@ describe('Adm route tests', () => {
   let app
 
   beforeAll(async () => {
-    process.env.PROD = true
+    process.env.PROD = false
     app = await server.testServer()
   })
 
@@ -19,7 +19,7 @@ describe('Adm route tests', () => {
       const collection = collections[key]
       await collection.deleteMany()
     }
-    await dbDefault()
+    await dbDefault(true)
   })
 
   afterAll(async () => {
@@ -64,7 +64,8 @@ describe('Adm route tests', () => {
           name: 'test',
           telephone: '0102030405',
           email: 'test.mail@gmail.com',
-          helpNumbersCategory: helpNumbersCategory._id
+          helpNumbersCategory: helpNumbersCategory._id,
+          description: 'Random description'
         })
         .expect(200)
     })

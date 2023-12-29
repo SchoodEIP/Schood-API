@@ -10,6 +10,7 @@ const forgottenPassword = require('./forgottenPassword')
 const profile = require('./profile')
 const getUsersByPosition = require('./getUsersByPosition')
 const getAllUsers = require('./getAllUsers')
+const getClassUsers = require('./getClassUsers')
 
 const updateUser = require('./updateUser')
 const chatRouter = require('./chat/router')
@@ -18,6 +19,8 @@ const getHelpNumbersByCategory = require('./getHelpNumbersByCategory')
 const getAllHelpNumbersCategories = require('./getAllHelpNumbersCategories')
 
 const downloadFile = require('./downloadFile')
+
+const getFacility = require('./getFacility')
 
 /**
  * User router connection
@@ -29,6 +32,8 @@ const downloadFile = require('./downloadFile')
 router.use('/chat', auth, chatRouter)
 
 // Created router routes connection
+
+// user
 router.post('/login', login)
 router.post('/forgottenPassword', forgottenPassword)
 router.patch('/changePassword', auth, changePassword)
@@ -36,9 +41,17 @@ router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2, false), getUsersByPosition)
 router.get('/all', auth, access(2, false), getAllUsers)
 router.patch('/:id', auth, access(1), updateUser)
+
+// helpNumbers
 router.get('/helpNumbers', auth, getAllHelpNumbers)
 router.get('/helpNumbers/:id', auth, getHelpNumbersByCategory)
 router.get('/helpNumbersCategories', auth, getAllHelpNumbersCategories)
+
+// file
 router.get('/file/:id', auth, downloadFile)
+router.get('/class/:id', auth, access(1), getClassUsers)
+
+// facility
+router.get('/facility', auth, getFacility)
 
 module.exports = router

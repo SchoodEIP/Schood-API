@@ -16,6 +16,7 @@ const sanitizer = require('./middleware/sanitize')
 const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./swagger.yaml')
+const Logger = require('./services/logger')
 const webSocketHandler = require('./websockets/wsIndex')
 
 /**
@@ -58,7 +59,7 @@ async function startServer () {
       app.use(cors(corsOptions))
       app.use(express.json())
       app.use(express.urlencoded({ extended: true }))
-      if (process.env.PROD === 'false') {
+      if (process.env.PROD === 'true') {
         app.use(limiter)
       }
       // Init swagger
@@ -67,7 +68,7 @@ async function startServer () {
       app.use('/', sanitizer, router)
 
       // Start server
-      console.log('INFO: START HTTP SERVER' + ' (http://localhost:' + httpPort + ')')
+      Logger.info('INFO: START HTTP SERVER' + ' (http://localhost:' + httpPort + ')')
 
       const serverHttp = http.createServer(app)
       const httpWss = new WebSocketServer({ server: serverHttp })
@@ -84,7 +85,7 @@ async function startServer () {
           ca: fs.readFileSync('./ca.pem')
         }
 
-        console.log('INFO: START HTTPS SERVER' + ' (https://localhost:' + httpsPort + ')')
+        Logger.info('INFO: START HTTPS SERVER' + ' (https://localhost:' + httpsPort + ')')
         const serverHttps = https.createServer(options, app)
         const httpsWss = new WebSocketServer({ server: serverHttps })
         webSocketHandler(httpsWss)
@@ -92,7 +93,7 @@ async function startServer () {
       }
       console.log('=============================================')
     } catch (error) {
-      console.error('ERROR: index.js error : ', error)
+      Logger.error('ERROR: index.js error : ', error)
     }
   }
 }

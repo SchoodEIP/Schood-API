@@ -5,8 +5,9 @@
  */
 
 const { default: mongoose } = require('mongoose')
-const { Questionnaire } = require('../../../models/questionnaire')
+const { Questionnaires } = require('../../../models/questionnaire')
 const { Answers } = require('../../../models/answers')
+const Logger = require('../../../services/logger')
 
 /**
  * Main questionnaire function
@@ -30,7 +31,7 @@ module.exports = async (req, res) => {
     }
 
     // Check if questionnaire exist
-    const questionnaire = await Questionnaire.findById(questionnaireId)
+    const questionnaire = await Questionnaires.findById(questionnaireId)
     if (!questionnaire) {
       return res.status(400).json({ message: 'Invalid request' })
     }
@@ -40,7 +41,7 @@ module.exports = async (req, res) => {
     // Send answers
     return res.status(200).json(answers)
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }
