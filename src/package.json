@@ -58,12 +58,15 @@
     "standard": "^17.1.0",
     "supertest": "^6.3.3",
     "swagger-ui-express": "^5.0.0",
+    "ws": "^8.15.1",
     "yamljs": "^0.3.0"
   },
   "nodemonConfig": {
     "legacyWatch": true
   },
   "paths": {
-    "@/*": ["src/*"]
+    "@/*": [
+      "src/*"
+    ]
   }
 }

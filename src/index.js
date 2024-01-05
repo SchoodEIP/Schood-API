@@ -5,6 +5,7 @@ const cors = require('cors')
 const fs = require('fs')
 require('dotenv').config({ path: '../.env' })
 const RateLimit = require('express-rate-limit')
+const { WebSocketServer } = require('ws')
 
 const app = express()
 const httpPort = process.env.HTTP_EXPRESS_PORT
@@ -16,6 +17,7 @@ const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./swagger.yaml')
 const Logger = require('./services/logger')
+const webSocketHandler = require('./websockets/wsIndex')
 
 /**
  * Set limiter
@@ -67,7 +69,11 @@ async function startServer () {
 
       // Start server
       Logger.info('INFO: START HTTP SERVER' + ' (http://localhost:' + httpPort + ')')
-      http.createServer(app).listen(httpPort)
+
+      const serverHttp = http.createServer(app)
+      const httpWss = new WebSocketServer({ server: serverHttp })
+      webSocketHandler(httpWss)
+      serverHttp.listen(httpPort)
 
       if (process.env.HTTPS === 'true') {
         /**
@@ -80,7 +86,10 @@ async function startServer () {
         }
 
         Logger.info('INFO: START HTTPS SERVER' + ' (https://localhost:' + httpsPort + ')')
-        https.createServer(options, app).listen(httpsPort)
+        const serverHttps = https.createServer(options, app)
+        const httpsWss = new WebSocketServer({ server: serverHttps })
+        webSocketHandler(httpsWss)
+        serverHttps.listen(httpsPort)
       }
       console.log('=============================================')
     } catch (error) {
