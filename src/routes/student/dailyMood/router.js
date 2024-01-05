@@ -6,6 +6,7 @@ const express = require('express')
 const router = express.Router()
 
 const register = require('./register')
+const get = require('./get')
 
 /**
  * Main router connection
@@ -15,5 +16,6 @@ const register = require('./register')
  */
 
 router.post('/', register)
+router.get('/', get)
 
 module.exports = router
