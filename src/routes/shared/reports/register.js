@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
       }
     }
 
-    let date = new Date();
+    const date = new Date()
 
     const report = new Reports({
       userSignaled: new mongoose.Types.ObjectId(req.body.userSignaled),
@@ -55,7 +55,7 @@ module.exports = async (req, res) => {
     })
     await report.save()
 
-    await createNotificationForAllAdministrations("Un nouveau signalement a été créée", "Un nouveau signalement a été créée le " + date.toDateString() + " par " + req.user.firstname + " " + req.user.lastname, "reports", report._id, req.user.facility)
+    await createNotificationForAllAdministrations('Un nouveau signalement a été créée', 'Un nouveau signalement a été créée le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'reports', report._id, req.user.facility)
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
