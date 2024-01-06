@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
     date.setUTCHours(0, 0, 0, 0)
     const dailyMood = await DailyMoods.findOne({ date })
 
-    return res.status(200).json({mood: dailyMood && dailyMood.mood ? dailyMood.mood : 0})
+    return res.status(200).json({ mood: dailyMood && dailyMood.mood ? dailyMood.mood : 0 })
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })

@@ -29,44 +29,44 @@ module.exports = async (req, res) => {
     date.setUTCHours(0, 0, 0, 0)
 
     const agg = [
-        {
-            $match: {
-                date: date,
-                facility: req.user.facility
-            }
-        },
-        {
-            $lookup: {
-                from: "users",
-                localField: "user",
-                foreignField: "_id",
-                as: "user"
-            }
-        },
-        {
-            $unwind: {
-                path: "$user"
-            }
-        },
-        {
-            $match: {
-                "user.classes": new mongoose.Types.ObjectId(classId)
-            }
+      {
+        $match: {
+          date,
+          facility: req.user.facility
         }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      {
+        $unwind: {
+          path: '$user'
+        }
+      },
+      {
+        $match: {
+          'user.classes': new mongoose.Types.ObjectId(classId)
+        }
+      }
     ]
     const dailyMoods = await DailyMoods.aggregate(agg)
 
-    let result = 0;
+    let result = 0
     if (dailyMoods && dailyMoods.length > 0) {
-        let sumDailyMoods = 0
-        dailyMoods.forEach(dailyMood => {
-            sumDailyMoods += dailyMood.mood
-        });
-    
-        result = Math.round(sumDailyMoods / dailyMoods.length)
+      let sumDailyMoods = 0
+      dailyMoods.forEach(dailyMood => {
+        sumDailyMoods += dailyMood.mood
+      })
+
+      result = Math.round(sumDailyMoods / dailyMoods.length)
     }
 
-    return res.status(200).json({mood: result})
+    return res.status(200).json({ mood: result })
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
