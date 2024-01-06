@@ -6,6 +6,7 @@
 const { Chats, validateChats } = require('../../../models/chat')
 const { Users } = require('../../../models/users')
 const mongoose = require('mongoose')
+const { createNotification } = require('../../../services/notification')
 
 /**
  * Main add participants function

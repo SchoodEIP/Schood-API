@@ -8,7 +8,7 @@ const { validateAlerts, Alerts } = require('../../../models/alertSystem')
 const { Classes } = require('../../../models/classes')
 const mongoose = require('mongoose')
 const { Roles } = require('../../../models/roles')
-const { createNotificationForAllAdministrations, createNotificationForAllStudentOfClass, createNotificationForRole } = require('../../../services/notification')
+const { createNotificationForAllStudentOfClass, createNotificationForRole } = require('../../../services/notification')
 
 /**
  * Main register alert function

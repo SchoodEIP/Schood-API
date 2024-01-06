@@ -8,6 +8,7 @@ const { default: mongoose } = require('mongoose')
 const { validateRegister, Reports } = require('../../../models/reports')
 const { Users } = require('../../../models/users')
 const { Chats } = require('../../../models/chat')
+const { createNotificationForAllAdministrations } = require('../../../services/notification')
 
 /**
  * Main reports function
