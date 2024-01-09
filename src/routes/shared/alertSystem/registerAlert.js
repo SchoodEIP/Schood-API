@@ -84,7 +84,7 @@ module.exports = async (req, res) => {
 
     await alert.save()
 
-    return res.status(200).send(alert)
+    return res.status(200).json(alert)
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
