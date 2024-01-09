@@ -43,7 +43,6 @@ module.exports = async (req, res) => {
                 const answers1 = await Answers.findOne({questionnaire: questionnaires[0]._id})
                 const answers2 = await Answers.findOne({questionnaire: questionnaires[1]._id})
 
-                console.log(answers1)
                 if (answers1) {
                     result.q1 = answers1.answers.length * 100 / questionnaires[0].questions.length
                 }
