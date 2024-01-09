@@ -33,9 +33,9 @@ module.exports = async (req, res) => {
     user.lastname = req.body.lastname ? req.body.lastname : user.lastname
     user.email = req.body.email ? req.body.email : user.email
 
-    await user.save();
+    await user.save()
 
-    return res.status(200).send();
+    return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
     Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
