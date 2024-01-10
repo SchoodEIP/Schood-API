@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 const server = require('../../../serverUtils/testServer')
 const dbDefault = require('../../../../config/db.default')
-const { Questionnaire } = require('../../../../models/questionnaire')
+const { Questionnaires } = require('../../../../models/questionnaire')
 const { Users } = require('../../../../models/users')
 const { Roles } = require('../../../../models/roles')
 
@@ -11,7 +11,7 @@ describe('Teacher Questionnaire route tests', () => {
   let app
 
   beforeAll(async () => {
-    process.env.PROD = true
+    process.env.PROD = false
     app = await server.testServer()
   })
 
@@ -21,7 +21,7 @@ describe('Teacher Questionnaire route tests', () => {
       const collection = collections[key]
       await collection.deleteMany()
     }
-    await dbDefault()
+    await dbDefault(true)
   })
 
   afterAll(async () => {
@@ -64,7 +64,7 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaire.findOne()
+          questionnaireId = await Questionnaires.findOne()
           questionnaireId = questionnaireId._id
           role = await Roles.findOne({ name: 'student' })
           studentId = await Users.findOne({ role: role._id })

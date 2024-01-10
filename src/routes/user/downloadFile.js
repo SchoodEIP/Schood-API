@@ -4,6 +4,7 @@
  * @namespace downloadFile
  */
 const { Files } = require('../../models/file')
+const Logger = require('../../services/logger')
 
 /**
  * Main download file function
@@ -25,7 +26,6 @@ module.exports = async (req, res) => {
     const id = req.params.id
     if (!id) return res.status(400).json({ message: 'Invalid request' })
 
-    console.log('laaa')
     const file = await Files.findById(id)
     if (!file || file.length === 0) return res.status(400).json({ message: 'Invalid request' })
 
@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename="${file.name}"`)
     return res.status(200).send(file.binaryData)
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

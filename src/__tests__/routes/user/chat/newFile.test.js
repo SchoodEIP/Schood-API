@@ -10,7 +10,7 @@ describe('User route tests', () => {
   let app
 
   beforeAll(async () => {
-    process.env.PROD = true
+    process.env.PROD = false
     app = await server.testServer()
   })
 
@@ -20,7 +20,7 @@ describe('User route tests', () => {
       const collection = collections[key]
       await collection.deleteMany()
     }
-    await dbDefault()
+    await dbDefault(true)
   })
 
   afterAll(async () => {

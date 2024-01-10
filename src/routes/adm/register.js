@@ -11,6 +11,7 @@ const { sendMail } = require('../../services/mailer')
 
 const bcrypt = require('bcryptjs')
 const random = require('random-string-generator')
+const Logger = require('../../services/logger')
 
 /**
  * Main register function
@@ -86,7 +87,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

@@ -5,6 +5,7 @@ const cors = require('cors')
 const fs = require('fs')
 require('dotenv').config({ path: '../.env' })
 const RateLimit = require('express-rate-limit')
+const { WebSocketServer } = require('ws')
 
 const app = express()
 const httpPort = process.env.HTTP_EXPRESS_PORT
@@ -15,6 +16,8 @@ const sanitizer = require('./middleware/sanitize')
 const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./swagger.yaml')
+const Logger = require('./services/logger')
+const webSocketHandler = require('./websockets/wsIndex')
 
 /**
  * Set limiter
@@ -56,7 +59,7 @@ async function startServer () {
       app.use(cors(corsOptions))
       app.use(express.json())
       app.use(express.urlencoded({ extended: true }))
-      if (process.env.PROD === 'false') {
+      if (process.env.PROD === 'true') {
         app.use(limiter)
       }
       // Init swagger
@@ -65,8 +68,12 @@ async function startServer () {
       app.use('/', sanitizer, router)
 
       // Start server
-      console.log('INFO: START HTTP SERVER' + ' (http://localhost:' + httpPort + ')')
-      http.createServer(app).listen(httpPort)
+      Logger.info('INFO: START HTTP SERVER' + ' (http://localhost:' + httpPort + ')')
+
+      const serverHttp = http.createServer(app)
+      const httpWss = new WebSocketServer({ server: serverHttp })
+      webSocketHandler(httpWss)
+      serverHttp.listen(httpPort)
 
       if (process.env.HTTPS === 'true') {
         /**
@@ -78,12 +85,15 @@ async function startServer () {
           ca: fs.readFileSync('./ca.pem')
         }
 
-        console.log('INFO: START HTTPS SERVER' + ' (https://localhost:' + httpsPort + ')')
-        https.createServer(options, app).listen(httpsPort)
+        Logger.info('INFO: START HTTPS SERVER' + ' (https://localhost:' + httpsPort + ')')
+        const serverHttps = https.createServer(options, app)
+        const httpsWss = new WebSocketServer({ server: serverHttps })
+        webSocketHandler(httpsWss)
+        serverHttps.listen(httpsPort)
       }
       console.log('=============================================')
     } catch (error) {
-      console.error('ERROR: index.js error : ', error)
+      Logger.error('ERROR: index.js error : ', error)
     }
   }
 }

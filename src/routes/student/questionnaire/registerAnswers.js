@@ -5,8 +5,9 @@
  */
 
 const { default: mongoose } = require('mongoose')
-const { Questionnaire } = require('../../../models/questionnaire')
+const { Questionnaires } = require('../../../models/questionnaire')
 const { validateAnswers, Answers } = require('../../../models/answers')
+const Logger = require('../../../services/logger')
 
 /**
  * Main questionnaire function
@@ -30,7 +31,7 @@ module.exports = async (req, res) => {
     }
 
     // Check if questionnaire exist and is currently valid
-    const questionnaire = await Questionnaire.findById(questionnaireId)
+    const questionnaire = await Questionnaires.findById(questionnaireId)
     let today = new Date()
     const startWeekToday = new Date(today.setDate(today.getDate() - today.getDay()))
     const endWeekToday = new Date(today.setDate(today.getDate() - today.getDay() + 6))
@@ -82,7 +83,7 @@ module.exports = async (req, res) => {
     // Send profile
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

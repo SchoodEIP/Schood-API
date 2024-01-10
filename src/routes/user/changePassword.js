@@ -5,6 +5,7 @@
  */
 const { validatePassword } = require('../../models/users')
 const bcrypt = require('bcryptjs')
+const Logger = require('../../services/logger')
 
 /**
  * Main changePassword function
@@ -50,7 +51,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).json({ message: 'ok' })
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

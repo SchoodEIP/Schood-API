@@ -4,7 +4,8 @@
  * @namespace questionnaire
  */
 
-const { validateQuestionnaire, Questionnaire, Types } = require('../../../models/questionnaire')
+const { validateQuestionnaire, Questionnaires, Types } = require('../../../models/questionnaire')
+const Logger = require('../../../services/logger')
 
 /**
  * Main questionnaire function
@@ -24,7 +25,7 @@ module.exports = async (req, res) => {
     // Verif received data
     const { error } = validateQuestionnaire(req.body)
     if (error) {
-      console.log(error)
+      Logger.error(error)
       return res.status(400).json({ message: 'Invalid request' })
     }
 
@@ -34,7 +35,7 @@ module.exports = async (req, res) => {
     fromDate.setUTCHours(0, 0, 0, 0)
     toDate.setUTCHours(0, 0, 0, 0)
 
-    const check = await Questionnaire.findOne({ createdBy: req.user._id, fromDate, toDate })
+    const check = await Questionnaires.findOne({ createdBy: req.user._id, fromDate, toDate })
 
     if (check) {
       return res.status(400).json({ message: 'There is already a Questionnaire at this week for this teacher' })
@@ -44,7 +45,6 @@ module.exports = async (req, res) => {
     req.body.questions.forEach(question => {
       if (question.type === Types.MULTIPLE) {
         if (!question.answers) {
-          console.log('no answers')
           errorQuestions = true
         }
       }
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const questionnaire = new Questionnaire({
+    const questionnaire = new Questionnaires({
       title: req.body.title,
       fromDate,
       toDate,
@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
     // Send profile
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }

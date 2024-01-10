@@ -4,6 +4,7 @@
  * @namespace getChats
  */
 const { Chats } = require('../../../models/chat')
+const Logger = require('../../../services/logger')
 
 /**
  * Main login function
@@ -53,7 +54,7 @@ module.exports = async (req, res) => {
     const chats = await Chats.aggregate(agg)
     return res.status(200).json(chats)
   } catch (error) /* istanbul ignore next */ {
-    console.error(error)
+    Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }
