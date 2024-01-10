@@ -98,7 +98,7 @@ module.exports = async (req, res) => {
       await createNotificationForRole(role.name, 'Une nouvelle alerte a été créée', 'Une nouvelles alerte a été créée le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'alerts', alert._id, req.user.facility)
     }
 
-    return res.status(200).send(alert)
+    return res.status(200).json(alert)
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
