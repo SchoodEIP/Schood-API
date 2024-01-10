@@ -1,0 +1,16 @@
+name: "Update develop"
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+    Update_Server:
+        runs-on: ubuntu-latest
+        name: Update Develop
+        steps:
+            - name: Update Develop
+              uses: fjogeleit/http-request-action@v1
+              with:
+                url: 'http://20.111.49.79:8083/backend'
+                method: 'GET'
