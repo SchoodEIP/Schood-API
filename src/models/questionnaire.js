@@ -79,8 +79,8 @@ const validateQuestionnaire = (questionnaire) => {
       title: Joi.string().required(),
       type: Joi.string().valid(...Object.values(Types)).required(),
       answers: Joi.array().items({
-        position: Joi.number().required(),
-        title: Joi.string().required()
+        position: Joi.number(),
+        title: Joi.string()
       })
     }).required()
   })
