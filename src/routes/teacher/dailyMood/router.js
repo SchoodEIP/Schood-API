@@ -5,17 +5,15 @@
 const express = require('express')
 const router = express.Router()
 
-const register = require('./register')
-const get = require('./get')
+const getClassMood = require('./getClassMood')
 
 /**
  * Main router connection
- * @memberof module:router~mainRouter~studentRouter
+ * @memberof module:router~mainRouter~teacherRouter
  * @inner
  * @namespace dailyMoodRouter
  */
 
-router.post('/', register)
-router.get('/', get)
+router.get('/:id', getClassMood)
 
 module.exports = router

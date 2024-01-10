@@ -6,6 +6,7 @@
 
 const { validateQuestionnaire, Questionnaires, Types } = require('../../../models/questionnaire')
 const Logger = require('../../../services/logger')
+const { createNotificationForAllStudentOfClass } = require('../../../services/notification')
 
 /**
  * Main questionnaire function
@@ -29,7 +30,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const date = new Date(req.body.date)
+    let date = new Date(req.body.date)
     const fromDate = new Date(date.setDate(date.getDate() - date.getDay()))
     const toDate = new Date(date.setDate(date.getDate() - date.getDay() + 6))
     fromDate.setUTCHours(0, 0, 0, 0)
@@ -63,6 +64,14 @@ module.exports = async (req, res) => {
       createdBy: req.user._id
     })
     await questionnaire.save()
+
+    date = new Date()
+
+    for (let index = 0; index < req.body.classes.length; index++) {
+      const _class = req.body.classes[index]
+
+      await createNotificationForAllStudentOfClass(_class, 'Un nouveau questionnaire est disponible', 'Le questionnaire du ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname + ' est disponible', 'questionnaire', questionnaire._id, req.user.facility)
+    }
 
     // Send profile
     return res.status(200).send()

@@ -6,6 +6,7 @@
 const { Chats, validateChats } = require('../../../models/chat')
 const { Users } = require('../../../models/users')
 const Logger = require('../../../services/logger')
+const { createNotification } = require('../../../services/notification')
 
 /**
  * Main login function
@@ -49,14 +50,22 @@ module.exports = async (req, res) => {
       title = foundUsers.map(user => user.firstname + ' ' + user.lastname).join(',')
     }
 
+    const date = new Date()
     const newChat = new Chats({
       facility: req.user.facility,
-      date: new Date(),
+      date,
       createdBy: req.user._id,
       participants: [...req.body.participants, req.user._id],
       title
     })
     await newChat.save()
+
+    for (let index = 0; index < req.body.participants.length; index++) {
+      const participant = req.body.participants[index]
+
+      await createNotification(participant, 'Vous avez été ajouté a un chat', 'Vous avez été ajouté à un chat le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'chats', newChat._id, req.user.facility)
+    }
+    await createNotification(req.user._id, 'Vous avez été ajouté a un chat', 'Vous avez été ajouté à un chat le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'chats', newChat._id, req.user.facility)
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
