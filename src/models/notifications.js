@@ -38,6 +38,11 @@ const notificationsSchema = new Schema({
   },
   topicId: {
     type: mongoose.Types.ObjectId
+  },
+  facility: {
+    type: mongoose.Types.ObjectId,
+    ref: 'facilities',
+    required: true
   }
 })
 

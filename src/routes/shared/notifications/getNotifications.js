@@ -20,7 +20,7 @@ const { Notifications } = require('../../../models/notifications')
  */
 module.exports = async (req, res) => {
   try {
-    const notifications = await Notifications.find({ user: req.user._id })
+    const notifications = await Notifications.find({ user: req.user._id, facility: req.user.facility })
 
     return res.status(200).json(notifications)
   } catch (error) /* istanbul ignore next */ {

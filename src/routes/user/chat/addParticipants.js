@@ -6,6 +6,7 @@
 const { Chats, validateChats } = require('../../../models/chat')
 const { Users } = require('../../../models/users')
 const mongoose = require('mongoose')
+const { createNotification } = require('../../../services/notification')
 
 /**
  * Main add participants function
@@ -50,6 +51,13 @@ module.exports = async (req, res) => {
 
     chat.participants.push(...req.body.participants)
     await chat.save()
+
+    const date = new Date(chat.date)
+    for (let index = 0; index < req.body.participants.length; index++) {
+      const participant = req.body.participants[index]
+
+      await createNotification(participant, 'Vous avez été ajouté a un chat', 'Vous avez été ajouté à un chat le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'chats', chat._id, req.user.facility)
+    }
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {

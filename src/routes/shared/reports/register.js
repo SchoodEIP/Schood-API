@@ -8,6 +8,7 @@ const { default: mongoose } = require('mongoose')
 const { validateRegister, Reports } = require('../../../models/reports')
 const { Users } = require('../../../models/users')
 const { Chats } = require('../../../models/chat')
+const { createNotificationForAllAdministrations } = require('../../../services/notification')
 
 /**
  * Main reports function
@@ -42,16 +43,20 @@ module.exports = async (req, res) => {
       }
     }
 
+    const date = new Date()
+
     const report = new Reports({
       userSignaled: new mongoose.Types.ObjectId(req.body.userSignaled),
       signaledBy: new mongoose.Types.ObjectId(req.user._id),
-      createdAt: new Date(),
+      createdAt: date,
       message: req.body.message ? req.body.message : '',
       conversation: req.body.conversation ? new mongoose.Types.ObjectId(req.body.conversation) : null,
       type: req.body.type,
       facility: req.user.facility
     })
     await report.save()
+
+    await createNotificationForAllAdministrations('Un nouveau signalement a été créée', 'Un nouveau signalement a été créée le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'reports', report._id, req.user.facility)
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
