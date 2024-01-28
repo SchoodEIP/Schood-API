@@ -4,6 +4,7 @@
 
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const { deleteMessageFromUserInChat } = require('./message')
 const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
 
@@ -57,4 +58,23 @@ const validateChats = (chat) => {
   return schema.validate(chat)
 }
 
-module.exports = { Chats, validateChats }
+const removeUserFromChat = async (chat, user, res = null) => {
+  const idx = chat.participants.findIndex(u => u.equals(user._id))
+  if (idx === -1) return res ? res.status(422).json({ message: 'User not in chat' }) : null
+
+  chat.participants.splice(idx, 1)
+
+  if (chat.participants.length === 1) {
+    await Chats.findByIdAndDelete(chat._id)
+  } else {
+    if (chat.createdBy.equals(user._id)) {
+      chat.createdBy = chat.participants[0]
+    }
+    await deleteMessageFromUserInChat(chat, user)
+    await Chats.findByIdAndUpdate(chat._id, chat)
+  }
+
+  return res ? res.status(200).send() : null
+}
+
+module.exports = { Chats, validateChats, removeUserFromChat }

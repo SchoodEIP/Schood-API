@@ -69,6 +69,11 @@ module.exports = async (req, res) => {
         }
       },
       {
+        $match: {
+          active: true
+        }
+      },
+      {
         $project: {
           password: 0
         }

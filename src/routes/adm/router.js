@@ -9,8 +9,9 @@ const router = express.Router()
 const classesRouter = require('./classes/router')
 const helpNumbersRouter = require('./helpNumber/router')
 
-const register = require('./register')
-const csvRegisterUser = require('./csvRegisterUser')
+const register = require('./users/register')
+const csvRegisterUser = require('./users/csvRegisterUser')
+const deleteUser = require('./users/delete')
 const helpNumbersCategoryRegister = require('./helpNumbersCategory/register')
 const helpNumbersCategoryUpdate = require('./helpNumbersCategory/update')
 const rolesList = require('./rolesList')
@@ -34,5 +35,6 @@ router.post('/helpNumbersCategory/register', helpNumbersCategoryRegister)
 router.patch('/helpNumbersCategory/:id', helpNumbersCategoryUpdate)
 router.post('/register/', register)
 router.post('/csvRegisterUser', upload10Tmp.single('csv'), csvRegisterUser)
+router.delete('/deleteUser/:id', deleteUser)
 
 module.exports = router
