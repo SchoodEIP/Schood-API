@@ -19,7 +19,7 @@ async function dbConnection (databaseName, test = false) {
     Logger.info('INFO: Connected to database.')
 
     // Init default database informations
-    await dbDefault()
+    await dbDefault(test)
 
     return true
   } catch (error) {

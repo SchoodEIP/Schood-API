@@ -843,6 +843,43 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+    delete:
+      tags:
+        - adm
+      summary: Delete a Class
+      description: >
+        Delete a Class, given the id, also removes this in class in all users classes property
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the class to delete
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoClassForId'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/helpNumber/register:
     post:
       tags:
@@ -2534,12 +2571,6 @@ components:
         message:
           type: string
           example: 'Users not found: [64b15338a8c793949de08695, 64b15338a8c793949de08696]'
-    NotAllowed:
-      type: object
-      properties:
-        message:
-          type: string
-          example: 'Not allowed'
     UsersAlreadyInChat:
       type: object
       properties:
@@ -2576,6 +2607,12 @@ components:
         message:
           type: string
           example: 'Not allowed'
+    NoClassForId:
+      type: object
+      properties:
+        message:
+          type: string
+          example: No class correspond to this id
     failedRoles:
       type: object
       properties:
