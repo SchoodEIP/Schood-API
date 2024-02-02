@@ -997,6 +997,14 @@ paths:
       summary: Update a help numbers category
       description: >
         Update a HelpNumberCategory, given a non empty name.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the helpNumberCategory to update
       requestBody:
         required: true
         content:
@@ -1020,6 +1028,49 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/NameAlreadyUsed'
                   - $ref: '#/components/schemas/HelpNumberNotExist'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    delete:
+      tags:
+        - adm
+      summary: Delete a help numbers category
+      description: >
+        Delete a HelpNumberCategory, and move all related help numbers to the default category and create it if it does not exists.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the helpNumberCategory to delete
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '401':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteDefaultHelpNumberCategory'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoHelpNumberCategoryForId'
         '500':
           description: Internal Server Error
           content:
@@ -2570,12 +2621,18 @@ components:
         message:
           type: string
           example: 'User not found: 64b15338a8c793949de08695'
-    NotAllowed:
+    NoHelpNumberCategoryForId:
       type: object
       properties:
         message:
           type: string
-          example: 'Not allowed'
+          example: 'No HelpNumberCategory correspond to this id'
+    DeleteDefaultHelpNumberCategory:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Cannot delete the default HelpNumberCategory'
     failedRoles:
       type: object
       properties:
