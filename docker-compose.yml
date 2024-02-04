@@ -34,6 +34,7 @@ services:
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - PROD=${PROD}
       - HTTPS=${HTTPS}
+      - LOGGER=${LOGGER}
     volumes:
       - ./src:/app
 

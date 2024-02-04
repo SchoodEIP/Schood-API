@@ -74,7 +74,7 @@ describe('User route tests', () => {
       await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
 
       const message = (await Messages.find({}))[0]
-      await funcs.delete(`/user/chat/${chat._id}/messages/${message._id}`, 401, /json/, await funcs.login('teacher1@schood.fr', 'teacher123'))
+      await funcs.delete(`/user/chat/${chat._id}/messages/${message._id}`, {}, 401, /json/, await funcs.login('teacher1@schood.fr', 'teacher123'))
     })
 
     it('POST /user/chat/:id/messages/:messageId => Try delete message bad id', async () => {
@@ -96,7 +96,7 @@ describe('User route tests', () => {
       await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
 
       const message = (await Messages.find({}))[0]
-      await funcs.delete(`/user/chat/64692acf1874cb0532aa619d/messages/${message._id}`, 400, /json/)
+      await funcs.delete(`/user/chat/64692acf1874cb0532aa619d/messages/${message._id}`, {}, 400, /json/)
     })
 
     it('POST /user/chat/:id/messages/:messageId => Try delete message bad messageId', async () => {
@@ -117,7 +117,7 @@ describe('User route tests', () => {
       const chat = (await Chats.find({}))[0]
       await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
 
-      await funcs.delete(`/user/chat/${chat._id}/messages/64692acf1874cb0532aa619d`, 400, /json/)
+      await funcs.delete(`/user/chat/${chat._id}/messages/64692acf1874cb0532aa619d`, {}, 400, /json/)
     })
   })
 })
