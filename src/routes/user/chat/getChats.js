@@ -41,6 +41,7 @@ module.exports = async (req, res) => {
           facility: 1,
           date: 1,
           createdBy: 1,
+          title: 1,
           participants: {
             _id: 1,
             email: 1,
