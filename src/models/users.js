@@ -91,4 +91,23 @@ const validatePassword = (password) => {
   return schema.validate(password)
 }
 
-module.exports = { Users, validateUser, validateRegister, validatePassword }
+const aggregateUsersInClass = (facilityId, classId) => {
+  return [
+    {
+      $match: {
+        facility: facilityId
+      }
+    },
+    {
+      $match:
+        {
+          classes:
+            {
+              $eq: new mongoose.Types.ObjectId(classId)
+            }
+        }
+    }
+  ]
+}
+
+module.exports = { Users, validateUser, validateRegister, validatePassword, aggregateUsersInClass }

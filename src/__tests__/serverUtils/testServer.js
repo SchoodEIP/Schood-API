@@ -9,7 +9,7 @@ require('dotenv').config({ path: '../.env' })
 
 async function testServer () {
   Logger.displayed = false
-  await dbConnection('test')
+  await dbConnection('test', true)
   Logger.displayed = true
 
   app.use(express.json())
