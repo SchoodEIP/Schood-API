@@ -102,4 +102,23 @@ const validateDelete = (body) => {
   return schema.validate(body)
 }
 
-module.exports = { Users, validateUser, validateRegister, validatePassword, validateDelete }
+const aggregateUsersInClass = (facilityId, classId) => {
+  return [
+    {
+      $match: {
+        facility: facilityId
+      }
+    },
+    {
+      $match:
+        {
+          classes:
+            {
+              $eq: new mongoose.Types.ObjectId(classId)
+            }
+        }
+    }
+  ]
+}
+
+module.exports = { Users, validateUser, validateRegister, validatePassword, validateDelete, aggregateUsersInClass }

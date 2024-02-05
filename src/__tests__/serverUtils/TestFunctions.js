@@ -190,7 +190,7 @@ module.exports = class TestFunctions {
    * @param {Function} toExecute Function to execute after API call ended. Takes all the response as parameter, default null
    * @returns {JSON} The body of the response of the API call
    */
-  async delete (route, body, expectedCode = 200, contentType = null, token = null, toExecute = null) {
+  async delete (route, body = {}, expectedCode = 200, contentType = null, token = null, toExecute = null) {
     let res
 
     if (contentType) {

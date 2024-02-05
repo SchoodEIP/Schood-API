@@ -21,6 +21,10 @@ const helpNumbersCategoriesSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'facilities',
     required: true
+  },
+  default: {
+    type: Boolean,
+    default: false
   }
 })
 
