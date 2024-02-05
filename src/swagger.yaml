@@ -763,6 +763,42 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: []
+  /adm/deleteUser/{id}:
+    delete:
+      tags:
+        - adm
+      summary: Delete a user
+      description: >
+        Either deletes a user or set it inactive
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DeleteUser'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/class/register:
     post:
       tags:
@@ -2045,7 +2081,6 @@ components:
         topicId:
           type: string
           example: '64f112e13c0bc73031846e2c'
-
     newQuestionnaire:
       type: object
       properties:
@@ -2707,6 +2742,12 @@ components:
         message:
           type: string
           example: 'Not allowed'
+    DeleteUser:
+      type: object
+      properties:
+        deletePermanently:
+          type: boolean
+          example: true
     NoHelpNumberCategoryForId:
       type: object
       properties:

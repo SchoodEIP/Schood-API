@@ -50,6 +50,10 @@ const usersSchema = new Schema({
     type: Boolean,
     required: true,
     default: true
+  },
+  active: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -91,6 +95,13 @@ const validatePassword = (password) => {
   return schema.validate(password)
 }
 
+const validateDelete = (body) => {
+  const schema = Joi.object({
+    deletePermanently: Joi.boolean().required()
+  })
+  return schema.validate(body)
+}
+
 const aggregateUsersInClass = (facilityId, classId) => {
   return [
     {
@@ -110,4 +121,4 @@ const aggregateUsersInClass = (facilityId, classId) => {
   ]
 }
 
-module.exports = { Users, validateUser, validateRegister, validatePassword, aggregateUsersInClass }
+module.exports = { Users, validateUser, validateRegister, validatePassword, validateDelete, aggregateUsersInClass }

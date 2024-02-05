@@ -3,15 +3,15 @@
  * @inner
  * @namespace register
  */
-const { Classes } = require('../../models/classes')
-const { Roles } = require('../../models/roles')
-const { Users, validateRegister } = require('../../models/users')
+const { Classes } = require('../../../models/classes')
+const { Roles } = require('../../../models/roles')
+const { Users, validateRegister } = require('../../../models/users')
 
-const { sendMail } = require('../../services/mailer')
+const { sendMail } = require('../../../services/mailer')
 
 const bcrypt = require('bcryptjs')
 const random = require('random-string-generator')
-const Logger = require('../../services/logger')
+const Logger = require('../../../services/logger')
 
 /**
  * Main register function

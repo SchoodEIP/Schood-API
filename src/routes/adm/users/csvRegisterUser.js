@@ -3,15 +3,15 @@
  * @inner
  * @namespace csvRegisterUser
  */
-const { Users } = require('../../models/users')
+const { Users } = require('../../../models/users')
 const csvParser = require('csv-parser')
 const fs = require('fs')
-const { Roles } = require('../../models/roles')
+const { Roles } = require('../../../models/roles')
 const bcrypt = require('bcryptjs')
 const random = require('random-string-generator')
-const { Classes } = require('../../models/classes')
-const { sendMail } = require('../../services/mailer')
-const Logger = require('../../services/logger')
+const { Classes } = require('../../../models/classes')
+const { sendMail } = require('../../../services/mailer')
+const Logger = require('../../../services/logger')
 
 /**
  * Main csvRegisterUser function
