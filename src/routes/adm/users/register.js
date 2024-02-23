@@ -72,7 +72,8 @@ module.exports = async (req, res) => {
           lastname: req.body.lastname,
           role: role._id,
           classes,
-          facility: req.user.facility._id
+          facility: req.user.facility._id,
+          picture: req.body.picture ? req.body.picture : undefined
         })
 
         // Save the user
