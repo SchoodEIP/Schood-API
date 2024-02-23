@@ -700,6 +700,24 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /user/tokenCheck:
+    get:
+      tags:
+        - user
+      summary: Check if token valid
+      description: >
+        A simple route to check if the token is valid
+      responses:
+        '200':
+          description: Successful operation
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/register:
     post:
       tags:
