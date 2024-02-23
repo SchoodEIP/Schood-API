@@ -4,8 +4,8 @@
  * @namespace rolesList
  */
 
-const { Roles } = require('../../models/roles')
-const Logger = require('../../services/logger')
+const { Roles } = require('../../../models/roles')
+const Logger = require('../../../services/logger')
 
 /**
  * Main profile function

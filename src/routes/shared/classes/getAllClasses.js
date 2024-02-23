@@ -20,9 +20,12 @@ const Logger = require('../../../services/logger')
  */
 module.exports = async (req, res) => {
   try {
-    const classes = await Classes.find({ facility: req.user.facility._id })
-
-    return res.status(200).json(classes)
+    if (req.user.role.levelOfAccess === 1) {
+      return res.status(200).json(req.user.classes)
+    } else {
+      const classes = await Classes.find({ facility: req.user.facility._id })
+      return res.status(200).json(classes)
+    }
   } catch (error) /* istanbul ignore next */ {
     Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
