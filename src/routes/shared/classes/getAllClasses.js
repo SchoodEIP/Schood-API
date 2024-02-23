@@ -1,16 +1,16 @@
 /**
- * @memberof module:router~mainRouter~admRouter
+ * @memberof module:router~mainRouter~admRouter~classesRouter
  * @inner
- * @namespace class/getAllClasses
+ * @namespace getAllClasses
  */
 const { Classes } = require('../../../models/classes')
 const Logger = require('../../../services/logger')
 
 /**
  * Main register function
- * @name GET /adm/classes
- * @function
- * @memberof module:router~mainRouter~admRouter~classes/getAllClasses
+ * @name GET /shared/classes
+ * @functionsharedRouter
+ * @memberof module:router~mainRouter~admRouter~classesRouter~getAllClasses
  * @inner
  * @async
  * @param {Object} req

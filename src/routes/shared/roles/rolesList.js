@@ -1,5 +1,5 @@
 /**
- * @memberof module:router~mainRouter~admRouter
+ * @memberof module:router~mainRouter~sharedRouter~rolesRouter
  * @inner
  * @namespace rolesList
  */
@@ -9,9 +9,9 @@ const Logger = require('../../../services/logger')
 
 /**
  * Main profile function
- * @name GET /adm/rolesList
+ * @name GET /shared/rolesList
  * @function
- * @memberof module:router~mainRouter~admRouter~rolesList
+ * @memberof module:router~mainRouter~sharedRouter~rolesRouter~rolesList
  * @inner
  * @async
  * @param {Object} req
