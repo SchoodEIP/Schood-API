@@ -56,7 +56,7 @@ const usersSchema = new Schema({
     default: true
   },
   picture: {
-    type: string
+    type: String
   }
 })
 
