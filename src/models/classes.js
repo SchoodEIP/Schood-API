@@ -24,6 +24,9 @@ const classesSchema = new Schema({
   }
 })
 
+classesSchema.index({name: 1, facility: 1}, {unique: true});
+
+
 // We create classes collection from classesSchema
 const Classes = mongoose.model('classes', classesSchema)
 

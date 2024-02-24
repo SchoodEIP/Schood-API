@@ -23,7 +23,8 @@ const Level = Object.freeze({
 const facilitiesSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   address: {
     type: String,

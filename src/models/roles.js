@@ -14,7 +14,8 @@ const Schema = mongoose.Schema
 const rolesSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   levelOfAccess: {
     type: Number,
