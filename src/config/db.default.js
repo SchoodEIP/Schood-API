@@ -13,22 +13,23 @@ const initDefaultAnswers = require('./default/answers')
 const initDefaultChats = require('./default/chats')
 const initDefaultDailyMoods = require('./default/dailyMoods')
 const initDefaultMessages = require('./default/messages')
+const initDefaultReports = require('./default/reports')
 
 module.exports = async (test = false) => {
   try {
     if (test) Logger.displayed = false
-  
+
     // Init defaultRoles
     await initDefaultRoles()
-  
+
     // Check for facilities
     await initDefaultFacility()
-  
+
     // Init data for each facilities
     const facilities = await Facilities.find({})
     for (let index = 0; index < facilities.length; index++) {
-      const facility = facilities[index];
-      
+      const facility = facilities[index]
+
       if (process.env.PROD === 'false') {
         await initDefaultClasses(facility)
       }
@@ -42,6 +43,7 @@ module.exports = async (test = false) => {
         await initDefaultChats(facility)
         await initDefaultDailyMoods(facility)
         await initDefaultMessages(facility)
+        await initDefaultReports(facility)
       }
     }
     if (test) Logger.displayed = true

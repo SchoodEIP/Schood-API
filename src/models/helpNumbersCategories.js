@@ -28,7 +28,7 @@ const helpNumbersCategoriesSchema = new Schema({
   }
 })
 
-helpNumbersCategoriesSchema.index({name: 1, facility: 1}, {unique: true});
+helpNumbersCategoriesSchema.index({ name: 1, facility: 1 }, { unique: true })
 
 // We create facilities collection from facilitiesSchema
 const HelpNumbersCategories = mongoose.model('HelpNumbersCategories', helpNumbersCategoriesSchema)
