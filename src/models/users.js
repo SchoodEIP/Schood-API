@@ -54,6 +54,9 @@ const usersSchema = new Schema({
   active: {
     type: Boolean,
     default: true
+  },
+  picture: {
+    type: String
   }
 })
 

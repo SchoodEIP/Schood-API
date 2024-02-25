@@ -173,7 +173,8 @@ const processImport = async (csv, mail, currentUser) => {
         classes,
         role,
         password: await bcrypt.hash(password, 10),
-        facility: currentUser.facility
+        facility: currentUser.facility,
+        picture: val.picture ? val.picture : undefined
       })
       await user.save()
 
