@@ -35,6 +35,11 @@ const messagesSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'chats',
     required: true
+  },
+  facility: {
+    type: mongoose.Types.ObjectId,
+    ref: 'facilities',
+    required: true
   }
 })
 
