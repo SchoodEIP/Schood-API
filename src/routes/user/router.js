@@ -22,6 +22,7 @@ const downloadFile = require('./downloadFile')
 
 const getFacility = require('./getFacility')
 const modifyProfile = require('./modifyProfile')
+const tokenCheck = require('./tokenCheck')
 
 /**
  * User router connection
@@ -42,6 +43,7 @@ router.patch('/modifyProfile/:id', auth, modifyProfile)
 router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2, false), getUsersByPosition)
 router.get('/all', auth, access(2, false), getAllUsers)
+router.get('/tokenCheck', auth, tokenCheck)
 router.patch('/:id', auth, access(1), updateUser)
 
 // helpNumbers
