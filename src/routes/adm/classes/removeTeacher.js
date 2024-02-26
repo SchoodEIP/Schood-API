@@ -3,7 +3,7 @@
  * @inner
  * @namespace class/update
  */
-const { Classes, validateTeacher, getTeacher } = require('../../../models/classes')
+const { Classes, validateTeacher } = require('../../../models/classes')
 const Logger = require('../../../services/logger')
 const mongoose = require('mongoose')
 const { Users } = require('../../../models/users')
