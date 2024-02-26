@@ -32,11 +32,12 @@ describe('User route tests', () => {
 
   describe('deleteMessage route', () => {
     it('POST /user/chat/:id/messages/:messageId => Try delete message', async () => {
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const participants = {
+        title: "test",
         participants: [
-          (await funcs.getUser({ email: 'adm@schood.fr' }))._id,
-          (await funcs.getUser({ email: 'teacher1@schood.fr' }))._id
+          (await funcs.getUser({ email: 'jacqueline.delais.Schood1@schood.fr' }))._id,
+          (await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' }))._id
         ]
       }
       const body = {
@@ -46,21 +47,22 @@ describe('User route tests', () => {
       funcs.setToken(token)
       await funcs.post('/user/chat', participants)
 
-      const chat = (await Chats.find({}))[0]
+      const chat = await Chats.findOne({title: "test"})
       await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
 
-      const message = (await Messages.find({}))[0]
+      const message = await Messages.findOne({content: "Test"})
       await funcs.delete(`/user/chat/${chat._id}/messages/${message._id}`)
       expect(await funcs.getMessage({ _id: message._id })).toBeNull()
       expect((await funcs.getChat({ _id: chat._id })).messages.length).toEqual(0)
     })
 
-    it('POST /user/chat/:id/messages/:messageId => Try delete message bad user', async () => {
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+    it('POST /user/chat/:id/messages/:messageId => Try delete message multiple message', async () => {
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const participants = {
+        title: "test",
         participants: [
-          (await funcs.getUser({ email: 'adm@schood.fr' }))._id,
-          (await funcs.getUser({ email: 'teacher1@schood.fr' }))._id
+          (await funcs.getUser({ email: 'jacqueline.delais.Schood1@schood.fr' }))._id,
+          (await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' }))._id
         ]
       }
       const body = {
@@ -70,19 +72,46 @@ describe('User route tests', () => {
       funcs.setToken(token)
       await funcs.post('/user/chat', participants)
 
-      const chat = (await Chats.find({}))[0]
+      const chat = await Chats.findOne({title: "test"})
+      await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
+      await funcs.post(`/user/chat/${chat._id}/newMessage`, {content: "Test2"})
+
+      const message = await Messages.findOne({content: "Test"})
+      await funcs.delete(`/user/chat/${chat._id}/messages/${message._id}`)
+      expect(await funcs.getMessage({ _id: message._id })).toBeNull()
+      expect((await funcs.getChat({ _id: chat._id })).messages.length).toEqual(1)
+    })
+
+    it('POST /user/chat/:id/messages/:messageId => Try delete message bad user', async () => {
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
+      const participants = {
+        title: "test",
+        participants: [
+          (await funcs.getUser({ email: 'jacqueline.delais.Schood1@schood.fr' }))._id,
+          (await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' }))._id
+        ]
+      }
+      const body = {
+        content: 'Test'
+      }
+
+      funcs.setToken(token)
+      await funcs.post('/user/chat', participants)
+
+      const chat = await Chats.findOne({title: "test"})
       await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
 
-      const message = (await Messages.find({}))[0]
-      await funcs.delete(`/user/chat/${chat._id}/messages/${message._id}`, {}, 401, /json/, await funcs.login('teacher1@schood.fr', 'teacher123'))
+      const message = await Messages.findOne({content: "Test"})
+      await funcs.delete(`/user/chat/${chat._id}/messages/${message._id}`, {}, 401, /json/, await funcs.login('pierre.dubois.Schood1@schood.fr', 'Pierre_123'))
     })
 
     it('POST /user/chat/:id/messages/:messageId => Try delete message bad id', async () => {
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const participants = {
+        title: "test",
         participants: [
-          (await funcs.getUser({ email: 'adm@schood.fr' }))._id,
-          (await funcs.getUser({ email: 'teacher1@schood.fr' }))._id
+          (await funcs.getUser({ email: 'jacqueline.delais.Schood1@schood.fr' }))._id,
+          (await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' }))._id
         ]
       }
       const body = {
@@ -92,19 +121,20 @@ describe('User route tests', () => {
       funcs.setToken(token)
       await funcs.post('/user/chat', participants)
 
-      const chat = (await Chats.find({}))[0]
+      const chat = await Chats.findOne({title: "test"})
       await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
 
-      const message = (await Messages.find({}))[0]
+      const message = await Messages.findOne({content: "Test"})
       await funcs.delete(`/user/chat/64692acf1874cb0532aa619d/messages/${message._id}`, {}, 400, /json/)
     })
 
-    it('POST /user/chat/:id/messages/:messageId => Try delete message bad messageId', async () => {
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+    it('POST /user/chat/:id/messages/:messageId => Try delete message bad id2', async () => {
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const participants = {
+        title: "test",
         participants: [
-          (await funcs.getUser({ email: 'adm@schood.fr' }))._id,
-          (await funcs.getUser({ email: 'teacher1@schood.fr' }))._id
+          (await funcs.getUser({ email: 'jacqueline.delais.Schood1@schood.fr' }))._id,
+          (await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' }))._id
         ]
       }
       const body = {
@@ -114,10 +144,55 @@ describe('User route tests', () => {
       funcs.setToken(token)
       await funcs.post('/user/chat', participants)
 
-      const chat = (await Chats.find({}))[0]
+      const chat = await Chats.findOne({title: "test"})
+      await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
+
+      const message = await Messages.findOne({content: "Test"})
+      await funcs.delete(`/user/chat/test/messages/${message._id}`, {}, 400, /json/)
+    })
+
+    it('POST /user/chat/:id/messages/:messageId => Try delete message bad messageId', async () => {
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
+      const participants = {
+        title: "test",
+        participants: [
+          (await funcs.getUser({ email: 'jacqueline.delais.Schood1@schood.fr' }))._id,
+          (await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' }))._id
+        ]
+      }
+      const body = {
+        content: 'Test'
+      }
+
+      funcs.setToken(token)
+      await funcs.post('/user/chat', participants)
+
+      const chat = await Chats.findOne({title: "test"})
       await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
 
       await funcs.delete(`/user/chat/${chat._id}/messages/64692acf1874cb0532aa619d`, {}, 400, /json/)
+    })
+    
+    it('POST /user/chat/:id/messages/:messageId => Try delete message bad messageId2', async () => {
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
+      const participants = {
+        title: "test",
+        participants: [
+          (await funcs.getUser({ email: 'jacqueline.delais.Schood1@schood.fr' }))._id,
+          (await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' }))._id
+        ]
+      }
+      const body = {
+        content: 'Test'
+      }
+
+      funcs.setToken(token)
+      await funcs.post('/user/chat', participants)
+
+      const chat = await Chats.findOne({title: "test"})
+      await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
+
+      await funcs.delete(`/user/chat/${chat._id}/messages/test`, {}, 400, /json/)
     })
   })
 })

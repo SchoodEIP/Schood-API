@@ -30,7 +30,7 @@ describe('User route tests', () => {
 
   describe('getAllHelpNumbers route', () => {
     it('GET /user/helpNumbers => Try get all help numbers', async () => {
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const class_ = await funcs.getClass({ name: 200 })
 
       funcs.setToken(token)

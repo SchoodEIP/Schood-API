@@ -11,8 +11,10 @@
     "coveragePathIgnorePatterns": [
       "__tests__/serverUtils",
       "__tests__/fixtures",
-      "services/mailer",
-      "config/db.default"
+      "services/",
+      "config/db.default",
+      "config/db.config",
+      "config/default/"
     ],
     "transformIgnorePatterns": [
       "/node_modules/(?!my-package)(.*)"

@@ -30,33 +30,35 @@ describe('Admin route tests', () => {
 
   describe('Delete route', () => {
     it('DELETE /admin/facility/:id => Try delete good request permanently', async () => {
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
 
-      let facilty = await funcs.getFacility({})
+      let facilty = await funcs.getFacility({name: "Schood1"})
+      const facilityId = facilty._id
       await funcs.delete(`/admin/facility/${facilty._id}`, { deletePermanently: true })
 
-      facilty = await funcs.getFacility({})
+      facilty = await funcs.getFacility({name: "Schood1"})
       expect(facilty).toBeNull()
-      expect(await funcs.getUser({})).toBeNull()
-      expect(await funcs.getClass({})).toBeNull()
+      expect(await funcs.getUser({facility: facilityId})).toBeNull()
+      expect(await funcs.getClass({facility: facilityId})).toBeNull()
     })
 
     it('DELETE /admin/facility/:id => Try delete good request not permanently', async () => {
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
 
-      let facilty = await funcs.getFacility({})
+      let facilty = await funcs.getFacility({name: "Schood1"})
+      const facilityId = facilty._id
       await funcs.delete(`/admin/facility/${facilty._id}`, { deletePermanently: false })
 
-      facilty = await funcs.getFacility({})
+      facilty = await funcs.getFacility({name: "Schood1"})
       expect(facilty).not.toBeNull()
       expect(facilty.active).toBeFalsy()
 
-      const user = await funcs.getUser({})
+      const user = await funcs.getUser({facility: facilityId})
       expect(user).not.toBeNull()
 
-      const classToCheck = await funcs.getClass({})
+      const classToCheck = await funcs.getClass({facility: facilityId})
       expect(classToCheck).not.toBeNull()
     })
   })

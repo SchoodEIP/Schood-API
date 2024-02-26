@@ -28,8 +28,8 @@ module.exports = async (req, res) => {
     const id = req.params.id
     const messageId = req.params.messageId
 
-    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
-    if (!messageId && !mongoose.Types.ObjectId.isValid(messageId)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!messageId || !mongoose.Types.ObjectId.isValid(messageId)) return res.status(400).json({ message: 'Invalid request' })
 
     const message = await Messages.findById(messageId)
     if (!message || message.length === 0) return res.status(400).json({ message: 'Invalid request' })

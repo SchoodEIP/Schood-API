@@ -5,12 +5,15 @@ const router = require('../../routes/router')
 const { dbConnection } = require('../../config/db')
 const sanitizer = require('../../middleware/sanitize')
 const Logger = require('../../services/logger')
+const { default: mongoose } = require('mongoose')
 require('dotenv').config({ path: '../.env' })
 
 async function testServer () {
-  Logger.displayed = false
-  await dbConnection('test', true)
-  Logger.displayed = true
+  if (mongoose.connection.readyState === 0) {
+    Logger.displayed = false
+    await dbConnection('test', true)
+    Logger.displayed = process.env.LOGGER === 'true' ? true : false
+  }
 
   app.use(express.json())
 

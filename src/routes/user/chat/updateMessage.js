@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
     // Verif received id
     const id = req.params.id
 
-    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const message = await Messages.findOne({ _id: id, facility: req.user.facility })
     if (!message || message.length === 0) return res.status(400).json({ message: 'Not found' })

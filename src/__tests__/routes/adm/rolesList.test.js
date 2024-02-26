@@ -27,14 +27,14 @@ describe('Adm route tests', () => {
   })
 
   describe('RolesList route', () => {
-    it('GET /adm/rolesList => Get the roles list', async () => {
+    it('GET /shared/roles => Get the roles list', async () => {
       let key
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -42,7 +42,7 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       return await request(app)
-        .get('/adm/rolesList')
+        .get('/shared/roles/')
         .set({
           'x-auth-token': key
         })

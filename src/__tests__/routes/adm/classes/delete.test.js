@@ -30,7 +30,7 @@ describe('Adm route tests', () => {
 
   describe('Register route', () => {
     it('DELETE /adm/classes/:id => Try delete good request', async () => {
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       let teacher1 = await funcs.getUser({ name: 'teacher1' })
       let teacher2 = await funcs.getUser({ name: 'teacher2' })
       funcs.setToken(token)
