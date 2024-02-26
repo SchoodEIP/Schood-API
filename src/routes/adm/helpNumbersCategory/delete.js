@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
   try {
     const id = req.params.id
 
-    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const promiseToDelete = HelpNumbersCategories.findOne({ _id: id, facility: req.user.facility })
     const promiseDefaultCategory = HelpNumbersCategories.findOne({ name: 'Default', facility: req.user.facility })

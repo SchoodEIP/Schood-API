@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
   try {
     const id = req.params.id
 
-    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const agg = aggregateUsersInClass(req.user.facility, id)
     agg.push(
