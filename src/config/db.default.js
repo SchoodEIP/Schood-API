@@ -48,7 +48,6 @@ module.exports = async (test = false) => {
     }
     if (test) Logger.displayed = true
   } catch (error) {
-    console.error(error)
     Logger.error('ERROR: Init default data : ', error)
   }
 }
