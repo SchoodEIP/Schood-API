@@ -32,13 +32,13 @@ module.exports = async (req, res, next) => {
       .populate('role')
       .populate('classes')
     if (!user) {
-      return res.status(400).json({ message: 'Invalid token' })
+      return res.status(403).json({ message: 'Invalid token' })
     }
     req.user = user
 
     next()
   } catch (error) {
     Logger.error(error)
-    return res.status(400).json({ message: 'Invalid token' })
+    return res.status(403).json({ message: 'Invalid token' })
   }
 }

@@ -21,8 +21,14 @@ const helpNumbersCategoriesSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'facilities',
     required: true
+  },
+  default: {
+    type: Boolean,
+    default: false
   }
 })
+
+helpNumbersCategoriesSchema.index({ name: 1, facility: 1 }, { unique: true })
 
 // We create facilities collection from facilitiesSchema
 const HelpNumbersCategories = mongoose.model('HelpNumbersCategories', helpNumbersCategoriesSchema)

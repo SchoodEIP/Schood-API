@@ -63,6 +63,11 @@ const questionnaireSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'users',
     required: true
+  },
+  facility: {
+    type: mongoose.Types.ObjectId,
+    ref: 'facilities',
+    required: true
   }
 })
 

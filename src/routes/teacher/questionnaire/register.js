@@ -61,7 +61,8 @@ module.exports = async (req, res) => {
       toDate,
       questions: req.body.questions,
       classes: req.user.classes,
-      createdBy: req.user._id
+      createdBy: req.user._id,
+      facility: req.user.facility
     })
     await questionnaire.save()
 

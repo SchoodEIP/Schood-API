@@ -3,15 +3,15 @@
  * @inner
  * @namespace csvRegisterUser
  */
-const { Users } = require('../../models/users')
+const { Users } = require('../../../models/users')
 const csvParser = require('csv-parser')
 const fs = require('fs')
-const { Roles } = require('../../models/roles')
+const { Roles } = require('../../../models/roles')
 const bcrypt = require('bcryptjs')
 const random = require('random-string-generator')
-const { Classes } = require('../../models/classes')
-const { sendMail } = require('../../services/mailer')
-const Logger = require('../../services/logger')
+const { Classes } = require('../../../models/classes')
+const { sendMail } = require('../../../services/mailer')
+const Logger = require('../../../services/logger')
 
 /**
  * Main csvRegisterUser function
@@ -173,7 +173,8 @@ const processImport = async (csv, mail, currentUser) => {
         classes,
         role,
         password: await bcrypt.hash(password, 10),
-        facility: currentUser.facility
+        facility: currentUser.facility,
+        picture: val.picture ? val.picture : undefined
       })
       await user.save()
 

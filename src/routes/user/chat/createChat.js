@@ -55,7 +55,7 @@ module.exports = async (req, res) => {
       facility: req.user.facility,
       date,
       createdBy: req.user._id,
-      participants: [...req.body.participants, req.user._id],
+      participants: [...req.body.participants],
       title
     })
     await newChat.save()

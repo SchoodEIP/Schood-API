@@ -3,7 +3,7 @@
  * @inner
  * @namespace leaveChat
  */
-const { Chats } = require('../../../models/chat')
+const { Chats, removeUserFromChat } = require('../../../models/chat')
 const mongoose = require('mongoose')
 
 /**
@@ -30,16 +30,7 @@ module.exports = async (req, res) => {
     const chat = await Chats.findById(id)
     if (!chat || chat.lenght === 0) return res.status(400).json({ message: 'Invalid request' })
 
-    const idx = chat.participants.findIndex(u => u.equals(req.user._id))
-    if (idx === -1) return res.status(422).json({ message: 'User not in chat' })
-    chat.participants.splice(idx, 1)
-    if (chat.participants.length === 1) {
-      await Chats.findByIdAndDelete(id)
-    } else {
-      await chat.save()
-    }
-
-    return res.status(200).send()
+    return await removeUserFromChat(chat, req.user, res)
   } catch (error) /* istanbul ignore next */ {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })

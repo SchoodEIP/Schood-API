@@ -43,6 +43,11 @@ const notificationsSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'facilities',
     required: true
+  },
+  date: {
+    type: Date,
+    default: new Date(),
+    required: true
   }
 })
 

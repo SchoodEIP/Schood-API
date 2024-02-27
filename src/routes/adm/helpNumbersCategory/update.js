@@ -36,7 +36,6 @@ module.exports = async (req, res) => {
     if (tmp) return res.status(422).json({ message: 'This name is already used' })
 
     const helpNumbersCategory = await HelpNumbersCategories.findOne({ _id: id, facility: req.user.facility })
-    console.log(helpNumbersCategory)
     if (!helpNumbersCategory || helpNumbersCategory.length === 0) {
       return res.status(422).json({ message: 'This helpNumbersCategory do not exist' })
     }
