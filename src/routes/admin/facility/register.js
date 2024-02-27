@@ -31,7 +31,8 @@ module.exports = async (req, res) => {
       name: req.body.name,
       address: req.body.address,
       telephone: req.body.telephone,
-      level: req.body.level
+      level: req.body.level,
+      active: true
     })
 
     await facility.save()

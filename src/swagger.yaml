@@ -733,7 +733,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FacilityRegister'
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '200':
           description: Successful operation
@@ -1170,7 +1170,7 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
-  /admin/facility/register:
+  /admin/facility:
     post:
       tags:
         - admin
@@ -1182,7 +1182,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRegister'
+              $ref: '#/components/schemas/FacilityRegister'
       responses:
         '200':
           description: Successful operation
@@ -1201,6 +1201,41 @@ paths:
       security:
         - x-auth-token: []
   /admin/facility/{id}:
+    patch:
+      tags:
+        - admin
+      summary: Update a facility
+      description: >
+        Update a Facility, given a non empty name, a non empty address, a non empty telephone or a valid level.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacilityRegister'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '404':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacilityNotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
     delete:
       tags:
         - admin
@@ -1222,7 +1257,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/invalidRequest'
-        '422':
+        '404':
           description: Facility not found
           content:
             application/json:
