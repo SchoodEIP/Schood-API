@@ -1,5 +1,5 @@
 class Logger {
-  static displayed = process.env.LOGGER === 'true' ? true : false
+  static displayed = process.env.LOGGER === 'true'
 
   static info (...strings) {
     if (this.displayed) {

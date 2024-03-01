@@ -1,5 +1,5 @@
 function getConfig (databaseName, test = false) {
-  let connectionParams;
+  let connectionParams
   if (test) {
     connectionParams = {
       socketTimeoutMS: 1000,

@@ -39,11 +39,11 @@ describe('User route tests', () => {
 
       funcs.setToken(token)
       await funcs.post('/user/chat', {
-        title: "test",
+        title: 'test',
         participants: [userAdm._id, user1._id]
       })
 
-      let chat = await Chats.findOne({title: "test"})
+      let chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(2)
 
       await funcs.post(`/user/chat/${chat._id}/addParticipants`, { participants: [user2._id] })
@@ -60,11 +60,11 @@ describe('User route tests', () => {
 
       funcs.setToken(token)
       await funcs.post('/user/chat', {
-        title: "test",
+        title: 'test',
         participants: [userAdm._id, user1._id]
       })
 
-      let chat = await Chats.findOne({title: "test"})
+      let chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(2)
 
       await funcs.post(`/user/chat/${chat._id}/addParticipants`, { participants: [user2._id, user3._id] })
@@ -79,11 +79,11 @@ describe('User route tests', () => {
 
       funcs.setToken(token)
       await funcs.post('/user/chat', {
-        title: "test",
+        title: 'test',
         participants: [userAdm._id, user1._id]
       })
 
-      let chat = await Chats.findOne({title: "test"})
+      let chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(2)
 
       await funcs.post(`/user/chat/${chat._id}/addParticipants`, { participants: ['64692acf1874cb0532aa619d'] }, 422)
@@ -98,11 +98,11 @@ describe('User route tests', () => {
 
       funcs.setToken(token)
       await funcs.post('/user/chat', {
-        title: "test",
+        title: 'test',
         participants: [userAdm._id, user1._id]
       })
 
-      let chat = await Chats.findOne({title: "test"})
+      let chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(2)
 
       await funcs.post(`/user/chat/${chat._id}/addParticipants`, { participants: [] }, 400)
@@ -115,17 +115,17 @@ describe('User route tests', () => {
       const userAdm = await Users.findOne({ email: 'admin.Schood1@schood.fr' })
       const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
       const body = {
-        title: "test",
+        title: 'test',
         participants: [userAdm._id, user1._id]
       }
 
       funcs.setToken(token)
       await funcs.post('/user/chat', body)
 
-      let chat = await Chats.findOne({title: "test"})
+      let chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(2)
 
-      await funcs.post(`/user/chat/${chat._id}/addParticipants`, {participants: [user1._id]}, 422)
+      await funcs.post(`/user/chat/${chat._id}/addParticipants`, { participants: [user1._id] }, 422)
       chat = await funcs.getChat({ _id: chat._id })
       expect(chat.participants.length).toEqual(2)
     })
@@ -133,13 +133,13 @@ describe('User route tests', () => {
     it('POST /user/chat => Try add participant bad id', async () => {
       const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
-      await funcs.post(`/user/chat/test/addParticipants`, {}, 400)
+      await funcs.post('/user/chat/test/addParticipants', {}, 400)
     })
 
     it('POST /user/chat => Try add participant chat not exist', async () => {
       const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
-      await funcs.post(`/user/chat/65db3e48f5d74add96fd5709/addParticipants`, {}, 400)
+      await funcs.post('/user/chat/65db3e48f5d74add96fd5709/addParticipants', {}, 400)
     })
 
     it('POST /user/chat => Try add participant user not in chat', async () => {
@@ -149,11 +149,11 @@ describe('User route tests', () => {
 
       funcs.setToken(token)
       await funcs.post('/user/chat', {
-        title: "test",
+        title: 'test',
         participants: [user1._id]
       })
 
-      let chat = await Chats.findOne({title: "test"})
+      const chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(1)
 
       await funcs.post(`/user/chat/${chat._id}/addParticipants`, { participants: [user2._id] }, 400)
