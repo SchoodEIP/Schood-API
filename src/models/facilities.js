@@ -62,6 +62,16 @@ const validateFacilities = (facilities) => {
   )
 }
 
+const validateUpdate = (body) => {
+  const schema = Joi.object({
+    name: Joi.string(),
+    address: Joi.string(),
+    telephone: Joi.string().min(10).max(10).regex(/^[0-9]+$/),
+    level: Joi.number().integer().valid(...Object.values((Level)))
+  })
+  return schema.validate(body)
+}
+
 const validateDelete = (body) => {
   const schema = Joi.object({
     deletePermanently: Joi.boolean().required()
@@ -69,4 +79,4 @@ const validateDelete = (body) => {
   return schema.validate(body)
 }
 
-module.exports = { Facilities, validateFacilities, validateDelete }
+module.exports = { Facilities, validateFacilities, validateUpdate, validateDelete }

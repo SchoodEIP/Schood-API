@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
     if (error) return res.status(400).json({ message: 'Invalid request' })
 
     const facilityToDelete = await Facilities.findById(id)
-    if (!facilityToDelete || facilityToDelete.length === 0) return res.status(422).json({ message: 'Facility not found' })
+    if (!facilityToDelete || facilityToDelete.length === 0) return res.status(404).json({ message: 'Facility not found' })
 
     if (!req.body.deletePermanently) {
       facilityToDelete.active = false
