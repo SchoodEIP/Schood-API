@@ -62,7 +62,7 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaires.findOne({title: "test"})
+          questionnaireId = await Questionnaires.findOne({ title: 'test' })
           questionnaireId = questionnaireId._id
           await request(app)
             .patch('/teacher/questionnaire/' + questionnaireId)
@@ -115,7 +115,7 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaires.findOne({title: "test"})
+          questionnaireId = await Questionnaires.findOne({ title: 'test' })
           questionnaireId = questionnaireId._id
           await request(app)
             .patch('/teacher/questionnaire/' + questionnaireId)
@@ -167,7 +167,7 @@ describe('Teacher Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaires.findOne({title: "test"})
+          questionnaireId = await Questionnaires.findOne({ title: 'test' })
           questionnaireId = questionnaireId._id
           await request(app)
             .patch('/teacher/questionnaire/' + questionnaireId)

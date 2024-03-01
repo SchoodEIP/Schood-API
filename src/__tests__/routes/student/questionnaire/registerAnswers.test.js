@@ -62,7 +62,7 @@ describe('Student Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaires.findOne({title: "test"})
+          questionnaireId = await Questionnaires.findOne({ title: 'test' })
           questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')
@@ -181,7 +181,7 @@ describe('Student Questionnaire route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaires.findOne({title: "test"})
+          questionnaireId = await Questionnaires.findOne({ title: 'test' })
           questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')

@@ -36,7 +36,7 @@ describe('User route tests', () => {
       const user2 = await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' })
       const user3 = await funcs.getUser({ email: 'alice.johnson.Schood1@schood.fr' })
       const body = {
-        title: "test",
+        title: 'test',
         participants: [
           user1._id,
           user2._id,
@@ -46,11 +46,11 @@ describe('User route tests', () => {
 
       funcs.setToken(token)
       await funcs.post('/user/chat', body)
-      let chat = await Chats.findOne({title: "test"})
+      let chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(3)
 
       await funcs.post(`/user/chat/${chat._id}/leave`)
-      chat = await Chats.findOne({title: "test"})
+      chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(2)
     })
 
@@ -59,7 +59,7 @@ describe('User route tests', () => {
       const user1 = await funcs.getUser({ email: 'jacqueline.delais.Schood1@schood.fr' })
       const user2 = await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' })
       const body = {
-        title: "test", 
+        title: 'test',
         participants: [
           user1._id,
           user2._id
@@ -68,7 +68,7 @@ describe('User route tests', () => {
 
       funcs.setToken(token)
       await funcs.post('/user/chat', body)
-      let chat = await Chats.findOne({title: "test"})
+      let chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(2)
 
       await funcs.post(`/user/chat/${chat._id}/leave`)
@@ -81,7 +81,7 @@ describe('User route tests', () => {
       const user1 = await funcs.getUser({ email: 'jacqueline.delais.Schood1@schood.fr' })
       const user2 = await funcs.getUser({ email: 'pierre.dubois.Schood1@schood.fr' })
       const body = {
-        title: "test",
+        title: 'test',
         participants: [
           user1._id,
           user2._id
@@ -90,7 +90,7 @@ describe('User route tests', () => {
 
       funcs.setToken(token)
       await funcs.post('/user/chat', body)
-      let chat = await Chats.findOne({title: "test"})
+      let chat = await Chats.findOne({ title: 'test' })
       expect(chat.participants.length).toEqual(2)
 
       await funcs.post(`/user/chat/${chat._id}/leave`, {}, 422, null, await funcs.login('alice.johnson.Schood1@schood.fr', 'Alice_123'))

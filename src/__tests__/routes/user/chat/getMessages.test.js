@@ -52,7 +52,7 @@ describe('User route tests', () => {
           'x-auth-token': key
         })
         .send({
-          title: "test",
+          title: 'test',
           participants: [
             user1._id,
             user2._id
@@ -60,7 +60,7 @@ describe('User route tests', () => {
         })
         .expect(200)
 
-      const chat = await Chats.findOne({title: "test"})
+      const chat = await Chats.findOne({ title: 'test' })
 
       return await request(app)
         .get(`/user/chat/${chat._id}/messages`)
@@ -127,7 +127,7 @@ describe('User route tests', () => {
         .then((response) => {
           key = response.body.token
         })
-      
+
       return await request(app)
         .get('/user/chat/test/messages')
         .set({

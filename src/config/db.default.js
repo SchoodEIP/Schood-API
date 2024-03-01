@@ -46,7 +46,7 @@ module.exports = async (test = false) => {
         await initDefaultReports(facility)
       }
     }
-    if (test) Logger.displayed = process.env.LOGGER === 'true' ? true : false
+    if (test) Logger.displayed = process.env.LOGGER === 'true'
   } catch (error) {
     console.error(error)
     Logger.error('ERROR: Init default data : ', error)
