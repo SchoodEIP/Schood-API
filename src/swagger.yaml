@@ -733,7 +733,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FacilityRegister'
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '200':
           description: Successful operation
@@ -817,7 +817,7 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
-  /adm/class/register:
+  /adm/classes/register:
     post:
       tags:
         - adm
@@ -853,7 +853,7 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
-  /adm/class/{id}:
+  /adm/classes/{id}:
     patch:
       tags:
         - adm
@@ -926,6 +926,94 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NoClassForId'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/classes/{id}/addTeacher:
+    patch:
+      tags:
+        - adm
+      summary: Add a teacher to the Class
+      description: >
+        Add a teacher to the Class
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the class to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTeacher'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlreadyInClass'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/classes/{id}/removeTeacher:
+    patch:
+      tags:
+        - adm
+      summary: Remove a teacher of the Class
+      description: >
+        Remove a teacher of the Class
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the class to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTeacher'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Name already used
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotInClass'
         '500':
           description: Internal Server Error
           content:
@@ -1170,7 +1258,7 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
-  /admin/facility/register:
+  /admin/facility:
     post:
       tags:
         - admin
@@ -1182,7 +1270,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRegister'
+              $ref: '#/components/schemas/FacilityRegister'
       responses:
         '200':
           description: Successful operation
@@ -1201,6 +1289,41 @@ paths:
       security:
         - x-auth-token: []
   /admin/facility/{id}:
+    patch:
+      tags:
+        - admin
+      summary: Update a facility
+      description: >
+        Update a Facility, given a non empty name, a non empty address, a non empty telephone or a valid level.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacilityRegister'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '404':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacilityNotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
     delete:
       tags:
         - admin
@@ -1222,7 +1345,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/invalidRequest'
-        '422':
+        '404':
           description: Facility not found
           content:
             application/json:
@@ -2705,6 +2828,24 @@ components:
         message:
           type: string
           example: 'This name is already used'
+    UpdateTeacher:
+      type: object
+      properties:
+        teacherId:
+          type: string
+          example: '64b15338a8c793949de08695'
+    AlreadyInClass:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'User is already teacher of this class'
+    NotInClass:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'User is not a teacher of this class'
     UsersNotFound:
       type: object
       properties:

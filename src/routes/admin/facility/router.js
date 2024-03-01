@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const register = require('./register')
+const update = require('./update')
 const deleteFacility = require('./delete')
 
 /**
@@ -12,7 +13,8 @@ const deleteFacility = require('./delete')
  */
 
 // Created router routes connection
-router.post('/register', register)
+router.post('/', register)
+router.patch('/:id', update)
 router.delete('/:id', deleteFacility)
 
 module.exports = router

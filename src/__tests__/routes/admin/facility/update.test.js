@@ -28,36 +28,26 @@ describe('Admin route tests', () => {
     await mongoose.connection.close()
   })
 
-  describe('Delete route', () => {
-    it('DELETE /admin/facility/:id => Try delete good request permanently', async () => {
+  describe('Patch route', () => {
+    it('PATCH /admin/facility/:id => Try update bad request', async () => {
       const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
 
-      let facilty = await funcs.getFacility({ name: 'Schood1' })
-      expect(facilty).not.toBeNull()
-      const id = facilty._id
-      await funcs.delete(`/admin/facility/${id}`, { deletePermanently: true })
-
-      facilty = await funcs.getFacility({ _id: id })
-      expect(facilty).toBeNull()
-      expect(await funcs.getUser({ facility: id })).toBeNull()
-      expect(await funcs.getClass({ facility: id })).toBeNull()
+      await funcs.patch('/admin/facility/00aaa00000a000aa0a0a0000', {}, 404)
     })
 
-    it('DELETE /admin/facility/:id => Try delete good request not permanently', async () => {
+    it('PATCH /admin/facility/:id => Try update good request', async () => {
       const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
 
       let facilty = await funcs.getFacility({ name: 'Schood1' })
       expect(facilty).not.toBeNull()
       const id = facilty._id
-      await funcs.delete(`/admin/facility/${id}`, { deletePermanently: false })
+      await funcs.patch(`/admin/facility/${id}`, { name: 'Test' })
 
       facilty = await funcs.getFacility({ _id: id })
       expect(facilty).not.toBeNull()
-      expect(facilty.active).toBeFalsy()
-      expect(await funcs.getUser({ facility: id })).not.toBeNull()
-      expect(await funcs.getClass({ facility: id })).not.toBeNull()
+      expect(facilty.name).toBe('Test')
     })
   })
 })

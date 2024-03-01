@@ -15,7 +15,7 @@ module.exports = async (facility) => {
   const questionnairesToInit = [
     {
       title: 'Questionnaire Français',
-      fromDate: new Date('2024-02-18'),
+      fromDate: new Date('2024-02-19'),
       toDate: new Date('2024-02-25'),
       questions: [
         {
@@ -55,8 +55,8 @@ module.exports = async (facility) => {
     },
     {
       title: 'Questionnaire Mathématique',
-      fromDate: new Date('2024-02-18'),
-      toDate: new Date('2024-02-25'),
+      fromDate: new Date('2024-02-26'),
+      toDate: new Date('2024-03-03'),
       questions: [
         {
           title: 'Avez-vous des questions sur la dernière leçon ?',

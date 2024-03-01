@@ -39,13 +39,13 @@ const { Users } = require('../../../models/users')
 module.exports = async (req, res) => {
   try {
     const id = req.params.id
-    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const { error } = validateDelete(req.body)
     if (error) return res.status(400).json({ message: 'Invalid request' })
 
     const facilityToDelete = await Facilities.findById(id)
-    if (!facilityToDelete || facilityToDelete.length === 0) return res.status(422).json({ message: 'Facility not found' })
+    if (!facilityToDelete || facilityToDelete.length === 0) return res.status(404).json({ message: 'Facility not found' })
 
     if (!req.body.deletePermanently) {
       facilityToDelete.active = false
