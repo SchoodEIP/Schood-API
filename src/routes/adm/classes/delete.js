@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
   try {
     const id = req.params.id
 
-    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const classToDelete = await Classes.findById(id)
     if (!classToDelete || classToDelete.length === 0) return res.status(422).json({ message: 'No class correspond to this id' })
@@ -42,7 +42,6 @@ module.exports = async (req, res) => {
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
-    console.log(error)
     Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }

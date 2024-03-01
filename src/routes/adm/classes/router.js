@@ -8,6 +8,8 @@ const router = express.Router()
 
 const classRegister = require('./register')
 const classUpdate = require('./update')
+const classAddTeacher = require('./addTeacher')
+const classRemoveTeacher = require('./removeTeacher')
 const deleteClass = require('./delete')
 
 /**
@@ -21,6 +23,8 @@ const deleteClass = require('./delete')
 
 router.post('/register', classRegister)
 router.patch('/:id', classUpdate)
+router.patch('/:id/addTeacher', classAddTeacher)
+router.patch('/:id/removeTeacher', classRemoveTeacher)
 router.delete('/:id', deleteClass)
 
 module.exports = router

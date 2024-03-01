@@ -39,7 +39,7 @@ const { Users } = require('../../../models/users')
 module.exports = async (req, res) => {
   try {
     const id = req.params.id
-    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const { error } = validateDelete(req.body)
     if (error) return res.status(400).json({ message: 'Invalid request' })
