@@ -3,9 +3,7 @@ const mongoose = require('mongoose')
 
 const server = require('../../../serverUtils/testServer')
 const dbDefault = require('../../../../config/db.default')
-const { Questionnaires } = require('../../../../models/questionnaire')
 const { Users } = require('../../../../models/users')
-const { Roles } = require('../../../../models/roles')
 const { DailyMoods } = require('../../../../models/dailyMoods')
 
 describe('Teacher DailyMood route tests', () => {

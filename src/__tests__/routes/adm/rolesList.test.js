@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 
 const server = require('../../serverUtils/testServer')
 const dbDefault = require('../../../config/db.default')
-const { Roles } = require('../../../models/roles')
 
 describe('Adm route tests', () => {
   let app

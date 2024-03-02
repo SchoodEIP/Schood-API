@@ -42,7 +42,7 @@ describe('User route tests', () => {
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
 
       funcs.setToken(token)
-      const res = await funcs.get(`/user/class/test`, 400, /json/)
+      await funcs.get(`/user/class/test`, 400, /json/)
     })
   })
 })
