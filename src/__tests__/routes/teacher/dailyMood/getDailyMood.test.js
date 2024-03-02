@@ -46,13 +46,13 @@ describe('Teacher DailyMood route tests', () => {
           key2 = response.body.token
         })
 
-        await request(app)
+      await request(app)
         .post('/student/dailyMood/')
         .set({
-            'x-auth-token': key2
-          })
+          'x-auth-token': key2
+        })
         .send({
-            mood: 1
+          mood: 1
         })
         .expect(200)
       await request(app)
@@ -67,7 +67,7 @@ describe('Teacher DailyMood route tests', () => {
           key = response.body.token
         })
 
-      const user = await Users.findOne({email: 'pierre.dubois.Schood1@schood.fr'})
+      const user = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
       await request(app)
         .get('/teacher/dailyMood/' + user.classes[0])
@@ -77,28 +77,28 @@ describe('Teacher DailyMood route tests', () => {
         .expect(200)
     })
     it('GET /teacher/dailyMood/:id/ => Try good get dailyMood from class no mood', async () => {
-        let key
-        await request(app)
-          .post('/user/login')
-          .send({
-            email: 'pierre.dubois.Schood1@schood.fr',
-            password: 'Pierre_123'
-          })
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .then((response) => {
-            key = response.body.token
-          })
-  
-        await DailyMoods.deleteMany({})
-        const user = await Users.findOne({email: 'pierre.dubois.Schood1@schood.fr'})
-  
-        await request(app)
-          .get('/teacher/dailyMood/' + user.classes[0])
-          .set({
-            'x-auth-token': key
-          })
-          .expect(200)
-      })
+      let key
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'pierre.dubois.Schood1@schood.fr',
+          password: 'Pierre_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await DailyMoods.deleteMany({})
+      const user = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
+
+      await request(app)
+        .get('/teacher/dailyMood/' + user.classes[0])
+        .set({
+          'x-auth-token': key
+        })
+        .expect(200)
+    })
   })
 })

@@ -31,85 +31,85 @@ describe('Student dailyMood route tests', () => {
     it('GET /student/questionnaire/:id => Try good register dailyMood', async () => {
       let key
 
-        await request(app)
-            .post('/user/login')
-            .send({
-              email: 'alice.johnson.Schood1@schood.fr',
-              password: 'Alice_123'
-            })
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .then((response) => {
-              key = response.body.token
-            })
-        await request(app)
-            .post('/student/dailyMood/')
-            .set({
-              'x-auth-token': key
-            })
-            .send({
-                mood: 1
-            })
-            .expect(200)
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+      await request(app)
+        .post('/student/dailyMood/')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          mood: 1
+        })
+        .expect(200)
     })
 
     it('GET /student/questionnaire/:id => Try bad register dailyMood bad body', async () => {
-        let key
-  
-          await request(app)
-              .post('/user/login')
-              .send({
-                email: 'alice.johnson.Schood1@schood.fr',
-                password: 'Alice_123'
-              })
-              .expect('Content-Type', /json/)
-              .expect(200)
-              .then((response) => {
-                key = response.body.token
-              })
-          await request(app)
-              .post('/student/dailyMood/')
-              .set({
-                'x-auth-token': key
-              })
-              .send({
-              })
-              .expect('Content-Type', /json/)
-              .expect(400)
-      })
+      let key
 
-      it('GET /student/questionnaire/:id => Try good register dailyMood rewrite', async () => {
-        let key
-  
-          await request(app)
-              .post('/user/login')
-              .send({
-                email: 'alice.johnson.Schood1@schood.fr',
-                password: 'Alice_123'
-              })
-              .expect('Content-Type', /json/)
-              .expect(200)
-              .then((response) => {
-                key = response.body.token
-              })
-          await request(app)
-              .post('/student/dailyMood/')
-              .set({
-                'x-auth-token': key
-              })
-              .send({
-                mood: 1
-              })
-              .expect(200)
-            await request(app)
-              .post('/student/dailyMood/')
-              .set({
-                'x-auth-token': key
-              })
-              .send({
-                mood: 2
-              })
-              .expect(200)
-      })
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+      await request(app)
+        .post('/student/dailyMood/')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+        })
+        .expect('Content-Type', /json/)
+        .expect(400)
+    })
+
+    it('GET /student/questionnaire/:id => Try good register dailyMood rewrite', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+      await request(app)
+        .post('/student/dailyMood/')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          mood: 1
+        })
+        .expect(200)
+      await request(app)
+        .post('/student/dailyMood/')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          mood: 2
+        })
+        .expect(200)
+    })
   })
 })

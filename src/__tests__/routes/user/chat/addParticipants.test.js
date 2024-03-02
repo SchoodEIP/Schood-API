@@ -139,7 +139,7 @@ describe('User route tests', () => {
     it('POST /user/chat => Try add participant chat not exist', async () => {
       const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
-      await funcs.post('/user/chat/65db3e48f5d74add96fd5709/addParticipants', {participants: ["65db3e48f5d74add96fd5709"]}, 400)
+      await funcs.post('/user/chat/65db3e48f5d74add96fd5709/addParticipants', { participants: ['65db3e48f5d74add96fd5709'] }, 400)
     })
 
     it('POST /user/chat => Try add participant user not in chat', async () => {

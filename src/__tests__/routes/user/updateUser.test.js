@@ -372,7 +372,7 @@ describe('Adm route tests', () => {
         .expect(200)
 
       return request(app)
-        .patch(`/user/6460a74d0f190e2de1d22800`)
+        .patch('/user/6460a74d0f190e2de1d22800')
         .set({
           'x-auth-token': key
         })
@@ -422,7 +422,7 @@ describe('Adm route tests', () => {
         .expect(200)
 
       return request(app)
-        .patch(`/user/test`)
+        .patch('/user/test')
         .set({
           'x-auth-token': key
         })

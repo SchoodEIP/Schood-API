@@ -30,24 +30,24 @@ describe('Student dailyMood route tests', () => {
     it('GET /student/dailyMood/ => Try get dailyMood', async () => {
       let key
 
-        await request(app)
-            .post('/user/login')
-            .send({
-              email: 'alice.johnson.Schood1@schood.fr',
-              password: 'Alice_123'
-            })
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .then((response) => {
-              key = response.body.token
-            })
-        await request(app)
-            .get('/student/dailyMood/')
-            .set({
-              'x-auth-token': key
-            })
-            .expect('Content-Type', /json/)
-            .expect(200)
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+      await request(app)
+        .get('/student/dailyMood/')
+        .set({
+          'x-auth-token': key
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
     })
   })
 })
