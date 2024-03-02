@@ -139,5 +139,55 @@ describe('User route tests', () => {
         })
         .expect(400)
     })
+
+    it('POST /user/forgottenPassword => Try bad Objectid', async () => {
+      let key
+      const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await request(app)
+        .post('/user/chat')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test',
+          participants: [
+            user1._id,
+            user2._id
+          ]
+        })
+        .expect(200)
+
+      const chat = await Chats.findOne({ title: 'test' })
+
+      await request(app)
+        .post(`/user/chat/${chat._id}/newFile`)
+        .set({
+          'x-auth-token': key
+        })
+        .attach('file', '__tests__/fixtures/adm/csvRegisterUser/correct.csv')
+        .field('content', 'Test')
+        .expect(200)
+
+      return await request(app)
+        .get('/user/file/test')
+        .set({
+          'x-auth-token': key
+        })
+        .expect(400)
+    })
   })
 })

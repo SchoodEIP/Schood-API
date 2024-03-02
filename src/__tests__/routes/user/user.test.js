@@ -217,5 +217,52 @@ describe('User route tests', () => {
         .expect('Content-Type', /json/)
         .expect(403)
     })
+
+    it('POST /adm/register => Try user no access onlyMode', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .get('/teacher/dailyMood/test')
+        .set({
+          'x-auth-token': key
+        })
+        .expect('Content-Type', /json/)
+        .expect(403)
+    })
+
+    it('GET /user/tokenCheck => Try tokenCheck', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .get('/user/tokenCheck/')
+        .set({
+          'x-auth-token': key
+        })
+        .expect(200)
+    })
   })
 })

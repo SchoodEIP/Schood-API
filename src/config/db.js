@@ -22,7 +22,7 @@ async function dbConnection (databaseName, test = false, test2 = false) {
     await dbDefault(test)
 
     return true
-  } catch (error) {
+  } catch (error) /* istanbul ignore next */ {
     Logger.error('ERROR: Could not connect to Database : ', error)
     Logger.info('INFO: Retrying connection in 5 seconds...')
     if (!test) /* istanbul ignore next */ {

@@ -76,7 +76,7 @@ describe('User route tests', () => {
       await funcs.post(`/user/chat/${chat._id}/newMessage`, body)
       await funcs.post(`/user/chat/${chat._id}/newMessage`, { content: 'Test2' })
 
-      const message = await Messages.findOne({ content: 'Test' })
+      const message = await Messages.findOne({ content: 'Test2' })
       await funcs.delete(`/user/chat/${chat._id}/messages/${message._id}`)
       expect(await funcs.getMessage({ _id: message._id })).toBeNull()
       expect((await funcs.getChat({ _id: chat._id })).messages.length).toEqual(1)

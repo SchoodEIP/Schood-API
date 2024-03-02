@@ -128,5 +128,55 @@ describe('Adm route tests', () => {
         })
         .expect(422)
     })
+
+    it('POST /adm/classes/register => Try update wrong body', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .patch('/adm/classes/64cf86b80ebb40ecaa548205')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+        })
+        .expect(400)
+    })
+
+    it('POST /adm/classes/register => Try update wrong objectId', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .patch('/adm/classes/test')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+        })
+        .expect(400)
+    })
   })
 })

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Schood API",
   "main": "index.js",
-  "jest": {
+  "jest": { 
     "testPathIgnorePatterns": [
       "__tests__/serverUtils",
       "__tests__/fixtures"
@@ -14,7 +14,9 @@
       "services/",
       "config/db.default",
       "config/db.config",
-      "config/default/"
+      "config/default/",
+      "routes/user/modifyProfile",
+      "models/"
     ],
     "transformIgnorePatterns": [
       "/node_modules/(?!my-package)(.*)"

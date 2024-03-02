@@ -173,6 +173,7 @@ describe('Adm route tests', () => {
         })
         .send({
           email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
           lastname: 'studentTest',
           role: '6460a74d0f190e2de1d22800',
           classes: [
@@ -224,6 +225,7 @@ describe('Adm route tests', () => {
         })
         .send({
           email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
           lastname: 'studentTest',
           role: roleStudent._id,
           classes: [
@@ -275,6 +277,7 @@ describe('Adm route tests', () => {
         })
         .send({
           email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
           lastname: 'studentTest',
           role: roleStudent._id,
           classes: [
@@ -325,6 +328,7 @@ describe('Adm route tests', () => {
         })
         .send({
           email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
           lastname: 'studentTest',
           role: roleStudent._id,
           classes: [
@@ -333,6 +337,141 @@ describe('Adm route tests', () => {
         })
         .expect('Content-Type', /json/)
         .expect(400)
+    })
+
+    it('PATCH /user/:id => Try update user bad user', async () => {
+      let key
+      const roleStudent = await Roles.findOne({ name: 'student' })
+      const class200 = await Classes.findOne({ name: '200' })
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+      await request(app)
+        .post('/adm/register/?mail=false')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: roleStudent._id,
+          classes: [
+            class200._id
+          ]
+        })
+        .expect(200)
+
+      return request(app)
+        .patch(`/user/6460a74d0f190e2de1d22800`)
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: roleStudent._id,
+          classes: [
+            '6460a74d0f190e2de1d22800'
+          ]
+        })
+        .expect('Content-Type', /json/)
+        .expect(422)
+    })
+
+    it('PATCH /user/:id => Try update user bad user2', async () => {
+      let key
+      const roleStudent = await Roles.findOne({ name: 'student' })
+      const class200 = await Classes.findOne({ name: '200' })
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+      await request(app)
+        .post('/adm/register/?mail=false')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: roleStudent._id,
+          classes: [
+            class200._id
+          ]
+        })
+        .expect(200)
+
+      return request(app)
+        .patch(`/user/test`)
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: roleStudent._id,
+          classes: [
+            '6460a74d0f190e2de1d22800'
+          ]
+        })
+        .expect('Content-Type', /json/)
+        .expect(400)
+    })
+
+    it('PATCH /user/:id => Try update user low level', async () => {
+      let key
+      const roleStudent = await Roles.findOne({ name: 'student' })
+      const class200 = await Classes.findOne({ name: '200' })
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'marie.leclerc.Schood1@schood.fr',
+          password: 'Marie_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      const user = await Users.findOne({ email: 'marie.leclerc.Schood1@schood.fr' })
+      return request(app)
+        .patch(`/user/${user._id}`)
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: roleStudent._id,
+          classes: [
+            class200._id
+          ]
+        })
+        .expect(200)
     })
   })
 })
