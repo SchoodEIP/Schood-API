@@ -3,11 +3,10 @@ const mongoose = require('mongoose')
 
 const server = require('../../../serverUtils/testServer')
 const dbDefault = require('../../../../config/db.default')
-const { Questionnaires } = require('../../../../models/questionnaire')
 const { Users } = require('../../../../models/users')
-const { Roles } = require('../../../../models/roles')
+const { DailyMoods } = require('../../../../models/dailyMoods')
 
-describe('Teacher Questionnaire route tests', () => {
+describe('Teacher DailyMood route tests', () => {
   let app
 
   beforeAll(async () => {
@@ -29,12 +28,31 @@ describe('Teacher Questionnaire route tests', () => {
     await mongoose.connection.close()
   })
 
-  describe('getAnswersFromStudent route', () => {
-    it('GET /teacher/questionnaire/:id/answers/:id => Try good get students from questionnaire', async () => {
+  describe('getClassMood route', () => {
+    it('GET /teacher/dailyMood/:id/ => Try good get dailyMood from class', async () => {
       let key
-      let questionnaireId
-      let studentId
-      let role
+      let key2
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key2 = response.body.token
+        })
+
+      await request(app)
+        .post('/student/dailyMood/')
+        .set({
+          'x-auth-token': key2
+        })
+        .send({
+          mood: 1
+        })
+        .expect(200)
       await request(app)
         .post('/user/login')
         .send({
@@ -47,36 +65,16 @@ describe('Teacher Questionnaire route tests', () => {
           key = response.body.token
         })
 
+      const user = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
+
       await request(app)
-        .post('/teacher/questionnaire')
+        .get('/teacher/dailyMood/' + user.classes[0])
         .set({
           'x-auth-token': key
         })
-        .send({
-          title: 'test',
-          date: new Date().toUTCString(),
-          questions: [
-            {
-              title: 'Question1',
-              type: 'text'
-            }
-          ]
-        })
         .expect(200)
-        .then(async () => {
-          questionnaireId = await Questionnaires.findOne()
-          questionnaireId = questionnaireId._id
-          role = await Roles.findOne({ name: 'student' })
-          studentId = await Users.findOne({ role: role._id })
-          await request(app)
-            .get('/teacher/questionnaire/' + questionnaireId + '/answers/' + studentId._id)
-            .set({
-              'x-auth-token': key
-            })
-            .expect(200)
-        })
     })
-    it('GET /teacher/questionnaire/:id/answers/:id => Try bad get student answer from questionnaire', async () => {
+    it('GET /teacher/dailyMood/:id/ => Try good get dailyMood from class no mood', async () => {
       let key
       await request(app)
         .post('/user/login')
@@ -89,12 +87,16 @@ describe('Teacher Questionnaire route tests', () => {
         .then((response) => {
           key = response.body.token
         })
+
+      await DailyMoods.deleteMany({})
+      const user = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
+
       await request(app)
-        .get('/teacher/questionnaire/nope/answers/nope')
+        .get('/teacher/dailyMood/' + user.classes[0])
         .set({
           'x-auth-token': key
         })
-        .expect(400)
+        .expect(200)
     })
   })
 })

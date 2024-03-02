@@ -23,7 +23,7 @@ const ObjectId = require('mongoose').Types.ObjectId
 module.exports = async (req, res) => {
   try {
     const categoryId = req.params.id
-    if (!ObjectId.isValid(categoryId)) return res.status(400).json({ message: 'Wrong id' })
+    if (!categoryId || !ObjectId.isValid(categoryId)) return res.status(400).json({ message: 'Wrong id' })
 
     return res.status(200).json(await HelpNumbers.find(
       {

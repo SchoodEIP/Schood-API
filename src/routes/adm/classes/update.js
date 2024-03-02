@@ -3,6 +3,7 @@
  * @inner
  * @namespace class/update
  */
+const { default: mongoose } = require('mongoose')
 const { Classes, validateClasses } = require('../../../models/classes')
 const Logger = require('../../../services/logger')
 
@@ -25,7 +26,7 @@ module.exports = async (req, res) => {
     // Verif received data
     const id = req.params.id
 
-    if (!id) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const { error } = validateClasses(req.body)
     if (error) {

@@ -32,8 +32,8 @@ describe('Teacher Questionnaire route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'teacher1@schood.fr',
-          password: 'teacher123'
+          email: 'pierre.dubois.Schood1@schood.fr',
+          password: 'Pierre_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -73,8 +73,8 @@ describe('Teacher Questionnaire route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'teacher1@schood.fr',
-          password: 'teacher123'
+          email: 'pierre.dubois.Schood1@schood.fr',
+          password: 'Pierre_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -97,8 +97,8 @@ describe('Teacher Questionnaire route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'teacher1@schood.fr',
-          password: 'teacher123'
+          email: 'pierre.dubois.Schood1@schood.fr',
+          password: 'Pierre_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -144,8 +144,8 @@ describe('Teacher Questionnaire route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'teacher1@schood.fr',
-          password: 'teacher123'
+          email: 'pierre.dubois.Schood1@schood.fr',
+          password: 'Pierre_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)

@@ -3,6 +3,7 @@
  * @inner
  * @namespace downloadFile
  */
+const { default: mongoose } = require('mongoose')
 const { Files } = require('../../models/file')
 const Logger = require('../../services/logger')
 
@@ -24,7 +25,7 @@ module.exports = async (req, res) => {
   try {
     // Verif received id
     const id = req.params.id
-    if (!id) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const file = await Files.findById(id)
     if (!file || file.length === 0) return res.status(400).json({ message: 'Invalid request' })

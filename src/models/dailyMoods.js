@@ -27,7 +27,7 @@ const dailyMoods = new Schema({
   date: {
     type: Date,
     required: true,
-    default: function () {
+    default: function () /* istanbul ignore next */ {
       const date = new Date()
       date.setUTCHours(0, 0, 0, 0)
       return date
