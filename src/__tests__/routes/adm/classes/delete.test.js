@@ -70,14 +70,14 @@ describe('Adm route tests', () => {
       const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
 
-      await funcs.delete(`/adm/classes/test`, {}, 400)
+      await funcs.delete('/adm/classes/test', {}, 400)
     })
 
     it('DELETE /adm/classes/:id => Try delete bad class id', async () => {
       const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
 
-      await funcs.delete(`/adm/classes/65db3e47f5d74add96fd56a1`, {}, 422)
+      await funcs.delete('/adm/classes/65db3e47f5d74add96fd56a1', {}, 422)
     })
   })
 })

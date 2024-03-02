@@ -30,7 +30,7 @@ describe('Adm route tests', () => {
 
   describe('Register route', () => {
     it('POST /adm/classes/register => Try update good class', async () => {
-      const facility = await funcs.getFacility({name: "Schood1"})
+      const facility = await funcs.getFacility({ name: 'Schood1' })
       const teacherRole = await funcs.getRole({ name: 'teacher' })
       const class200 = await funcs.getClass({ name: '200', facility: facility._id })
       let teacher = await funcs.getUser({ classes: { $in: class200._id }, role: teacherRole._id })
@@ -50,34 +50,34 @@ describe('Adm route tests', () => {
     })
 
     it('POST /adm/classes/register => Try update bad body', async () => {
-      const facility = await funcs.getFacility({name: "Schood1"})
+      const facility = await funcs.getFacility({ name: 'Schood1' })
       const class200 = await funcs.getClass({ name: '200', facility: facility._id })
 
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       funcs.setToken(token)
-      
+
       await funcs.patch(`/adm/classes/${class200._id}/addTeacher`, { }, 400)
     })
 
     it('POST /adm/classes/register => Try update bad id', async () => {
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       funcs.setToken(token)
-      
-      await funcs.patch(`/adm/classes/test/addTeacher`, { }, 400)
+
+      await funcs.patch('/adm/classes/test/addTeacher', { }, 400)
     })
 
     it('POST /adm/classes/register => Try update wrong class', async () => {
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       funcs.setToken(token)
-      
-      await funcs.patch(`/adm/classes/65db3e5682c975c249bd532a/addTeacher`, { teacherId: "65db3e5682c975c249bd532a" }, 422)
+
+      await funcs.patch('/adm/classes/65db3e5682c975c249bd532a/addTeacher', { teacherId: '65db3e5682c975c249bd532a' }, 422)
     })
 
     it('POST /adm/classes/register => Try update bad user not teacher', async () => {
-      const facility = await funcs.getFacility({name: "Schood1"})
+      const facility = await funcs.getFacility({ name: 'Schood1' })
       const studentRole = await funcs.getRole({ name: 'student' })
       const class200 = await funcs.getClass({ name: '200', facility: facility._id })
-      let teacher = await funcs.getUser({ classes: { $in: class200._id }, role: studentRole._id })
+      const teacher = await funcs.getUser({ classes: { $in: class200._id }, role: studentRole._id })
 
       expect(teacher.classes.includes(class200._id)).toBe(true)
 
@@ -88,10 +88,10 @@ describe('Adm route tests', () => {
     })
 
     it('POST /adm/classes/register => Try update bad user already in class', async () => {
-      const facility = await funcs.getFacility({name: "Schood1"})
+      const facility = await funcs.getFacility({ name: 'Schood1' })
       const teacherRole = await funcs.getRole({ name: 'teacher' })
       const class200 = await funcs.getClass({ name: '200', facility: facility._id })
-      let teacher = await funcs.getUser({ classes: { $in: class200._id }, role: teacherRole._id })
+      const teacher = await funcs.getUser({ classes: { $in: class200._id }, role: teacherRole._id })
 
       expect(teacher.classes.includes(class200._id)).toBe(true)
 
