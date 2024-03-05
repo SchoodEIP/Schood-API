@@ -31,6 +31,11 @@ module.exports = async (req, res) => {
 
     const agg = [
       {
+        $match: {
+          facility: req.user.facility
+        }
+      },
+      {
         $lookup: {
           from: 'roles',
           localField: 'role',

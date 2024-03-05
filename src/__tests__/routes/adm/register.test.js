@@ -32,7 +32,7 @@ describe('Adm route tests', () => {
     it('POST /adm/register => Try register good student', async () => {
       const role = await funcs.getRole({ name: 'student' })
       const class_ = await funcs.getClass({ name: '200' })
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       const body = {
         email: 'schood.eip@gmail.com',
         firstname: 'studentTest',
@@ -50,7 +50,7 @@ describe('Adm route tests', () => {
     it('POST /adm/register => Try register bad body', async () => {
       const role = await funcs.getRole({ name: 'student' })
       const class_ = await funcs.getClass({ name: '200' })
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       const body = {
         email: 'schood.eip@gmail.com',
         lastname: 'studentTest',
@@ -65,7 +65,7 @@ describe('Adm route tests', () => {
     })
 
     it('POST /adm/register => Try register bad role', async () => {
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       const body = {
         email: 'schood.eip@gmail.com',
         firstname: 'studentTest',
@@ -84,7 +84,7 @@ describe('Adm route tests', () => {
       const role = await funcs.getRole({ name: 'student' })
       const class1 = await funcs.getClass({ name: '200' })
       const class2 = await funcs.getClass({ name: '201' })
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       const body = {
         email: 'schood.eip@gmail.com',
         firstname: 'studentTest',
@@ -102,7 +102,7 @@ describe('Adm route tests', () => {
 
     it('POST /adm/register => Try register bad class', async () => {
       const role = await funcs.getRole({ name: 'student' })
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       const body = {
         email: 'schood.eip@gmail.com',
         firstname: 'studentTest',
@@ -120,7 +120,7 @@ describe('Adm route tests', () => {
     it('POST /adm/register => Try register bad access level', async () => {
       const role = await funcs.getRole({ name: 'student' })
       const class_ = await funcs.getClass({ name: '200' })
-      const token = await funcs.login('student1@schood.fr', 'student123')
+      const token = await funcs.login('alice.johnson.Schood1@schood.fr', 'Alice_123')
       const body = {
         email: 'schood.eip@gmail.com',
         firstname: 'studentTest',

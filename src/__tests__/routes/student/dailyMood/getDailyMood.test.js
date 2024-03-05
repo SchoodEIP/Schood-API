@@ -1,10 +1,10 @@
 const request = require('supertest')
 const mongoose = require('mongoose')
 
-const server = require('../../serverUtils/testServer')
-const dbDefault = require('../../../config/db.default')
+const server = require('../../../serverUtils/testServer')
+const dbDefault = require('../../../../config/db.default')
 
-describe('Adm route tests', () => {
+describe('Student dailyMood route tests', () => {
   let app
 
   beforeAll(async () => {
@@ -26,26 +26,27 @@ describe('Adm route tests', () => {
     await mongoose.connection.close()
   })
 
-  describe('RolesList route', () => {
-    it('GET /shared/roles => Get the roles list', async () => {
+  describe('dailyMood route', () => {
+    it('GET /student/dailyMood/ => Try get dailyMood', async () => {
       let key
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'jacqueline.delais.Schood1@schood.fr',
-          password: 'Jacqueline_123'
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {
           key = response.body.token
         })
-      return await request(app)
-        .get('/shared/roles/')
+      await request(app)
+        .get('/student/dailyMood/')
         .set({
           'x-auth-token': key
         })
+        .expect('Content-Type', /json/)
         .expect(200)
     })
   })

@@ -35,8 +35,8 @@ describe('Adm route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -93,8 +93,8 @@ describe('Adm route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -145,8 +145,8 @@ describe('Adm route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)

@@ -54,7 +54,8 @@ module.exports = async (req, res) => {
       date: new Date(),
       user: req.user._id,
       file: newFile._id,
-      chat: chat._id
+      chat: chat._id,
+      facility: req.user.facility
     })
     if (req.body.content) newMessage.content = req.body.content
 
@@ -66,6 +67,7 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename="${newFile.originalName}"`)
     return res.status(200).send(newFile.binaryData)
   } catch (error) /* istanbul ignore next */ {
+    console.log(error)
     Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }

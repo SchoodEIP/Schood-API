@@ -30,14 +30,14 @@ describe('User route tests', () => {
   describe('getChats route', () => {
     it('GET /user/chat => Try get chats', async () => {
       let key
-      const user1 = await Users.findOne({ email: 'adm@schood.fr' })
-      const user2 = await Users.findOne({ email: 'teacher1@schood.fr' })
+      const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)

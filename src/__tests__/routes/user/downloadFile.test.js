@@ -32,14 +32,14 @@ describe('User route tests', () => {
     it('POST /user/downloadFile => Try good id', async () => {
       let key
       let id
-      const user1 = await Users.findOne({ email: 'adm@schood.fr' })
-      const user2 = await Users.findOne({ email: 'teacher1@schood.fr' })
+      const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -53,6 +53,7 @@ describe('User route tests', () => {
           'x-auth-token': key
         })
         .send({
+          title: 'test',
           participants: [
             user1._id,
             user2._id
@@ -60,7 +61,7 @@ describe('User route tests', () => {
         })
         .expect(200)
 
-      const chat = (await Chats.find({}))[0]
+      const chat = await Chats.findOne({ title: 'test' })
 
       await request(app)
         .post(`/user/chat/${chat._id}/newFile`)
@@ -91,14 +92,14 @@ describe('User route tests', () => {
 
     it('POST /user/forgottenPassword => Try bad id', async () => {
       let key
-      const user1 = await Users.findOne({ email: 'adm@schood.fr' })
-      const user2 = await Users.findOne({ email: 'teacher1@schood.fr' })
+      const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -112,6 +113,7 @@ describe('User route tests', () => {
           'x-auth-token': key
         })
         .send({
+          title: 'test',
           participants: [
             user1._id,
             user2._id
@@ -119,7 +121,7 @@ describe('User route tests', () => {
         })
         .expect(200)
 
-      const chat = (await Chats.find({}))[0]
+      const chat = await Chats.findOne({ title: 'test' })
 
       await request(app)
         .post(`/user/chat/${chat._id}/newFile`)
@@ -132,6 +134,56 @@ describe('User route tests', () => {
 
       return await request(app)
         .get('/user/file/64692acf1874cb0532aa619d')
+        .set({
+          'x-auth-token': key
+        })
+        .expect(400)
+    })
+
+    it('POST /user/forgottenPassword => Try bad Objectid', async () => {
+      let key
+      const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      await request(app)
+        .post('/user/chat')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          title: 'test',
+          participants: [
+            user1._id,
+            user2._id
+          ]
+        })
+        .expect(200)
+
+      const chat = await Chats.findOne({ title: 'test' })
+
+      await request(app)
+        .post(`/user/chat/${chat._id}/newFile`)
+        .set({
+          'x-auth-token': key
+        })
+        .attach('file', '__tests__/fixtures/adm/csvRegisterUser/correct.csv')
+        .field('content', 'Test')
+        .expect(200)
+
+      return await request(app)
+        .get('/user/file/test')
         .set({
           'x-auth-token': key
         })
