@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
     if (!classToUpdate) return res.status(422).json({ message: 'Class not found' })
 
     const userToUpdate = await Users.findById(req.body.teacherId)
-    if (!(await isTeacher(userToUpdate))) return res.status(422).json({ message: 'User is not a teacher' })
+    if (!userToUpdate || !(await isTeacher(userToUpdate))) return res.status(422).json({ message: 'User is not a teacher' })
 
     if (!userToUpdate.classes.includes(id)) return res.status(422).json({ message: 'User is not a teacher of this class' })
 

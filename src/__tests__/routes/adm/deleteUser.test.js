@@ -32,7 +32,7 @@ describe('Adm route tests', () => {
     it('DELETE /adm/deleteUser/:id => Try delete not permanently', async () => {
       const role = await funcs.getRole({ name: 'student' })
       const class_ = await funcs.getClass({ name: '200' })
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const bodyRegister = {
         email: 'schood.eip@gmail.com',
         firstname: 'studentTest',
@@ -59,7 +59,7 @@ describe('Adm route tests', () => {
     it('DELETE /adm/deleteUser/:id => Try delete permanently', async () => {
       const role = await funcs.getRole({ name: 'student' })
       const class_ = await funcs.getClass({ name: '200' })
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const bodyRegister = {
         email: 'schood.eip@gmail.com',
         firstname: 'studentTest',
@@ -86,7 +86,7 @@ describe('Adm route tests', () => {
     it('DELETE /adm/deleteUser/:id => Try delete wrong body', async () => {
       const role = await funcs.getRole({ name: 'student' })
       const class_ = await funcs.getClass({ name: '200' })
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const bodyRegister = {
         email: 'schood.eip@gmail.com',
         firstname: 'studentTest',

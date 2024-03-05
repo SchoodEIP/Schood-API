@@ -31,14 +31,14 @@ describe('User route tests', () => {
   describe('newFile route', () => {
     it('POST /user/chat/:id/newFile => Try new file', async () => {
       let key
-      const user1 = await Users.findOne({ email: 'adm@schood.fr' })
-      const user2 = await Users.findOne({ email: 'teacher1@schood.fr' })
+      const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -52,6 +52,7 @@ describe('User route tests', () => {
           'x-auth-token': key
         })
         .send({
+          title: 'test',
           participants: [
             user1._id,
             user2._id
@@ -59,7 +60,7 @@ describe('User route tests', () => {
         })
         .expect(200)
 
-      const chat = (await Chats.find({}))[0]
+      const chat = await Chats.findOne({ title: 'test' })
 
       return await request(app)
         .post(`/user/chat/${chat._id}/newFile`)
@@ -73,14 +74,14 @@ describe('User route tests', () => {
 
     it('POST /user/chat/:id/newFile => Try new file bad id', async () => {
       let key
-      const user1 = await Users.findOne({ email: 'adm@schood.fr' })
-      const user2 = await Users.findOne({ email: 'teacher1@schood.fr' })
+      const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -113,14 +114,14 @@ describe('User route tests', () => {
 
     it('POST /user/chat/:id/newFile => Try new file no content', async () => {
       let key
-      const user1 = await Users.findOne({ email: 'adm@schood.fr' })
-      const user2 = await Users.findOne({ email: 'teacher1@schood.fr' })
+      const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -134,6 +135,7 @@ describe('User route tests', () => {
           'x-auth-token': key
         })
         .send({
+          title: 'test',
           participants: [
             user1._id,
             user2._id
@@ -141,7 +143,7 @@ describe('User route tests', () => {
         })
         .expect(200)
 
-      const chat = (await Chats.find({}))[0]
+      const chat = await Chats.findOne({ title: 'test' })
 
       return await request(app)
         .post(`/user/chat/${chat._id}/newFile`)
@@ -155,14 +157,14 @@ describe('User route tests', () => {
 
     it('POST /user/chat/:id/newFile => Try new file bad params', async () => {
       let key
-      const user1 = await Users.findOne({ email: 'adm@schood.fr' })
-      const user2 = await Users.findOne({ email: 'teacher1@schood.fr' })
+      const user1 = await Users.findOne({ email: 'jacqueline.delais.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -196,14 +198,14 @@ describe('User route tests', () => {
 
     it('POST /user/chat/:id/newFile => Try new file, bad user', async () => {
       let key
-      const user1 = await Users.findOne({ email: 'admin@schood.fr' })
-      const user2 = await Users.findOne({ email: 'teacher1@schood.fr' })
+      const user1 = await Users.findOne({ email: 'admin.Schood1@schood.fr' })
+      const user2 = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -217,6 +219,7 @@ describe('User route tests', () => {
           'x-auth-token': key
         })
         .send({
+          title: 'test',
           participants: [
             user1._id,
             user2._id
@@ -224,13 +227,13 @@ describe('User route tests', () => {
         })
         .expect(200)
 
-      const chat = (await Chats.find({}))[0]
+      const chat = await Chats.findOne({ title: 'test' })
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'teacher2@schood.fr',
-          password: 'teacher123'
+          email: 'marie.leclerc.Schood1@schood.fr',
+          password: 'Marie_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)

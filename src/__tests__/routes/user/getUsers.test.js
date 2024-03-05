@@ -33,8 +33,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -57,8 +57,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -81,8 +81,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -105,8 +105,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -129,8 +129,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -153,8 +153,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -179,8 +179,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -203,8 +203,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
