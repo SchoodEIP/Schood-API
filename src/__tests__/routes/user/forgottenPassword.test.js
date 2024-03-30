@@ -31,7 +31,7 @@ describe('User route tests', () => {
       return await request(app)
         .post('/user/forgottenPassword/?mail=false')
         .send({
-          email: 'student1@schood.fr'
+          email: 'alice.johnson.Schood1@schood.fr'
         })
         .expect(200)
     })

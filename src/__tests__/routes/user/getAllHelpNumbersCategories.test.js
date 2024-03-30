@@ -33,8 +33,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)

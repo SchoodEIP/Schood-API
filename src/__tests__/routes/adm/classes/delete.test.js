@@ -30,7 +30,7 @@ describe('Adm route tests', () => {
 
   describe('Register route', () => {
     it('DELETE /adm/classes/:id => Try delete good request', async () => {
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       let teacher1 = await funcs.getUser({ name: 'teacher1' })
       let teacher2 = await funcs.getUser({ name: 'teacher2' })
       funcs.setToken(token)
@@ -64,6 +64,20 @@ describe('Adm route tests', () => {
       expect(teacher1.classes).not.toContain(classId)
       expect(teacher2.classes).not.toContain(classId)
       expect(testClass).toBeNull()
+    })
+
+    it('DELETE /adm/classes/:id => Try delete bad objectId', async () => {
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
+      funcs.setToken(token)
+
+      await funcs.delete('/adm/classes/test', {}, 400)
+    })
+
+    it('DELETE /adm/classes/:id => Try delete bad class id', async () => {
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
+      funcs.setToken(token)
+
+      await funcs.delete('/adm/classes/65db3e47f5d74add96fd56a1', {}, 422)
     })
   })
 })

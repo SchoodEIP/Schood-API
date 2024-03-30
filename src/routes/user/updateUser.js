@@ -3,6 +3,7 @@
  * @inner
  * @namespace updateUser
  */
+const { default: mongoose } = require('mongoose')
 const { Classes } = require('../../models/classes')
 const { Roles } = require('../../models/roles')
 const { Users, validateRegister } = require('../../models/users')
@@ -25,7 +26,7 @@ module.exports = async (req, res) => {
   try {
     // Verif received data
     const id = req.params.id
-    if (!id) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
     const { error } = validateRegister(req.body)
     if (error) {
       return res.status(400).json({ message: 'Invalid request' })
