@@ -37,6 +37,20 @@ module.exports = async (req, res) => {
       },
       {
         $lookup: {
+          from: 'titles',
+          localField: 'title',
+          foreignField: '_id',
+          as: 'title'
+        }
+      },
+      {
+        $unwind: {
+          path: '$title',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $lookup: {
           from: 'roles',
           localField: 'role',
           foreignField: '_id',

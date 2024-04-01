@@ -32,6 +32,10 @@ const usersSchema = new Schema({
     type: String,
     required: true
   },
+  title: {
+    type: mongoose.Types.ObjectId,
+    ref: 'titles',
+  },
   role: {
     type: mongoose.Types.ObjectId,
     ref: 'roles',
@@ -84,7 +88,8 @@ const validateRegister = (user) => {
     firstname: Joi.string().required(),
     lastname: Joi.string().required(),
     role: Joi.objectId().required(),
-    classes: Joi.array()
+    classes: Joi.array(),
+    title: Joi.objectId()
   })
   return schema.validate(user)
 }

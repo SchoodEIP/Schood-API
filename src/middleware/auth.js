@@ -31,6 +31,7 @@ module.exports = async (req, res, next) => {
     const user = await Users.findById(decoded._id)
       .populate('role')
       .populate('classes')
+      .populate('title')
     if (!user) {
       return res.status(403).json({ message: 'Invalid token' })
     }
