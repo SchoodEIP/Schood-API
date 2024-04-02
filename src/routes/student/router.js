@@ -7,6 +7,7 @@ const router = express.Router()
 
 const questionaireRouter = require('./questionnaire/router')
 const dailyMoodRouter = require('./dailyMood/router')
+const statisticsRouter = require('./statistics/router')
 
 /**
  * Main router connection
@@ -17,5 +18,6 @@ const dailyMoodRouter = require('./dailyMood/router')
 
 router.use('/questionnaire', questionaireRouter)
 router.use('/dailyMood', dailyMoodRouter)
+router.use('/statistics', statisticsRouter)
 
 module.exports = router
