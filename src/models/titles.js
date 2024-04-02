@@ -17,6 +17,11 @@ const titlesSchema = new Schema({
     required: true,
     unique: true
   },
+  facility: {
+    type: mongoose.Types.ObjectId,
+    ref: 'facilities',
+    required: true
+  },
 })
 
 // We create roles collection from titlesSchema
