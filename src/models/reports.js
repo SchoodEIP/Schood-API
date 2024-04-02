@@ -13,6 +13,13 @@ const Types = {
   SPAM: 'spam'
 }
 
+const Status = {
+  WAITING: 'waiting',
+  REFUSED: 'refused',
+  ONGOING: 'ongoing',
+  VALIDATED: 'validated'
+}
+
 // We create the Schema for Reports, and we set up the required variables
 
 /**
@@ -56,6 +63,12 @@ const reportsSchema = new Schema({
     default: Types[0],
     required: true
   },
+  status: {
+    type: String,
+    enum: Status,
+    default: Status[0],
+    required: true
+  },
   facility: {
     type: mongoose.Types.ObjectId,
     ref: 'facilities',
@@ -71,7 +84,8 @@ const validateRegister = (report) => {
     userSignaled: Joi.objectId().required(),
     message: Joi.string().allow(null, ''),
     conversation: Joi.objectId().allow(null, ''),
-    type: Joi.string().valid(...Object.values(Types)).required()
+    type: Joi.string().valid(...Object.values(Types)).required(),
+    status: Joi.string().valid(...Object.values(Status)),
   })
   return schema.validate(report)
 }
@@ -81,7 +95,8 @@ const validateModify = (report) => {
     userSignaled: Joi.objectId().allow(null, ''),
     message: Joi.string().allow(null, ''),
     conversation: Joi.objectId().allow(null, ''),
-    type: Joi.string().valid(...Object.values(Types)).required()
+    type: Joi.string().valid(...Object.values(Types)).required(),
+    status: Joi.string().valid(...Object.values(Status)),
   })
   return schema.validate(report)
 }

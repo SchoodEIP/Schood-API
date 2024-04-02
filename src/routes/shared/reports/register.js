@@ -52,6 +52,7 @@ module.exports = async (req, res) => {
       message: req.body.message ? req.body.message : '',
       conversation: req.body.conversation ? new mongoose.Types.ObjectId(req.body.conversation) : null,
       type: req.body.type,
+      status: req.body.status,
       facility: req.user.facility
     })
     await report.save()
