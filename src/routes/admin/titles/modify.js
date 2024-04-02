@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid request' })
     }
-    
+
     const title = await Titles.findById(id)
     if (!title) {
       return res.status(400).json({ message: 'Invalid request' })

@@ -34,7 +34,7 @@ const usersSchema = new Schema({
   },
   title: {
     type: mongoose.Types.ObjectId,
-    ref: 'titles',
+    ref: 'titles'
   },
   role: {
     type: mongoose.Types.ObjectId,

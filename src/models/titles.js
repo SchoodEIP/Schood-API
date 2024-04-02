@@ -21,10 +21,10 @@ const titlesSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'facilities',
     required: true
-  },
+  }
 })
 
 // We create roles collection from titlesSchema
 const Titles = mongoose.model('titles', titlesSchema)
 
-module.exports = {Titles}
+module.exports = { Titles }
