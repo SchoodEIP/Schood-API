@@ -20,8 +20,8 @@ const Logger = require('../../services/logger')
 module.exports = async (req, res) => {
   try {
     const path = process.env.APK_PATH
-    
-    return res.status(200).download(path, "schood.apk")
+
+    return res.status(200).download(path, 'schood.apk')
   } catch (error) /* istanbul ignore next */ {
     Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
