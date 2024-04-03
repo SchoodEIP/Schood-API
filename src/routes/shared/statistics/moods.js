@@ -5,7 +5,10 @@
  */
 
 const Logger = require('../../../services/logger')
+const mongoose = require('mongoose')
 const { DailyMoods } = require('../../../models/dailyMoods')
+const { isTeacher, Roles } = require('../../../models/roles')
+const { Users } = require('../../../models/users')
 
 /**
  * Main profile function
@@ -22,13 +25,20 @@ const { DailyMoods } = require('../../../models/dailyMoods')
  */
 module.exports = async (req, res) => {
   try {
-    const { fromDate, toDate } = req.body
+    const { fromDate, toDate, classFilter } = req.body
 
     if (!fromDate || !toDate) return res.status(400).json({ message: 'Date range missing' })
+    if (!classFilter) return res.status(400).json({ message: 'Class filter missing' })
+    if (!mongoose.Types.ObjectId.isValid(classFilter) && classFilter !== 'all') {
+      return res.status(400).json({ message: 'Class is wrong, either an id or \'all\' required' })
+    }
 
     const agg = buildAggregation(fromDate, toDate)
     const response = {}
-    const moods = await DailyMoods.find({ ...agg, user: req.user._id })
+
+    const userIdsFromClassFilter = await getUsersFromClassFilter(req.user, classFilter)
+    if (!userIdsFromClassFilter) return res.status(400).json({ message: 'User not in this class' })
+    const moods = await DailyMoods.find({ ...agg, user: { $in: userIdsFromClassFilter } })
     let average = 0
 
     for (const mood of moods) {
@@ -58,4 +68,19 @@ const buildAggregation = (fromDate, toDate) => {
     agg.date.$lte = convertedToDate
   }
   return agg
+}
+
+const getUsersFromClassFilter = async (user, classFilter) => {
+  const studentRole = await Roles.findOne({ name: 'student' })
+  const agg = { role: studentRole._id, facility: user.facility }
+  if (classFilter !== 'all') {
+    if (user.classes.some(c => c.equals(classFilter))) return null
+    agg.classes = classFilter
+    return (await Users.find(agg)).map((user) => user._id)
+  }
+  if (await isTeacher(user)) {
+    agg.classes = user.classes
+  }
+
+  return (await Users.find(agg)).map((user) => user._id)
 }
