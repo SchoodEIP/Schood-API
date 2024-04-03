@@ -5,8 +5,6 @@
  */
 
 const Logger = require('../../../services/logger')
-const { Questionnaires } = require('../../../models/questionnaire')
-const { Answers } = require('../../../models/answers')
 const { DailyMoods } = require('../../../models/dailyMoods')
 
 /**
