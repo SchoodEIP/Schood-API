@@ -27,13 +27,13 @@ describe('Facility route tests', () => {
   })
 
   describe('Register route', () => {
-    it('POST /admin/facility/register => Try good register', async () => {
+    it('POST /admin/facility => Try good register', async () => {
       let key
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -42,7 +42,7 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .post('/admin/facility')
         .set({
           'x-auth-token': key
         })
@@ -55,13 +55,13 @@ describe('Facility route tests', () => {
         .expect(200)
     })
 
-    it('POST /admin/facility/register => Try empty name', async () => {
+    it('POST /admin/facility => Try empty name', async () => {
       let key
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -70,7 +70,7 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .post('/admin/facility')
         .set({
           'x-auth-token': key
         })
@@ -83,13 +83,13 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try too short telephone', async () => {
+    it('POST /admin/facility => Try too short telephone', async () => {
       let key
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -98,7 +98,7 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .post('/admin/facility')
         .set({
           'x-auth-token': key
         })
@@ -111,13 +111,13 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try too long telephone', async () => {
+    it('POST /admin/facility => Try too long telephone', async () => {
       let key
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -126,7 +126,7 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .post('/admin/facility')
         .set({
           'x-auth-token': key
         })
@@ -139,13 +139,13 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try telephone with letter', async () => {
+    it('POST /admin/facility => Try telephone with letter', async () => {
       let key
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -154,7 +154,7 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .post('/admin/facility')
         .set({
           'x-auth-token': key
         })
@@ -167,13 +167,13 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try empty address', async () => {
+    it('POST /admin/facility => Try empty address', async () => {
       let key
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -182,7 +182,7 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .post('/admin/facility')
         .set({
           'x-auth-token': key
         })
@@ -195,13 +195,13 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try level < 0', async () => {
+    it('POST /admin/facility => Try level < 0', async () => {
       let key
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -210,7 +210,7 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .post('/admin/facility')
         .set({
           'x-auth-token': key
         })
@@ -223,13 +223,13 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try level > 4', async () => {
+    it('POST /admin/facility => Try level > 4', async () => {
       let key
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -238,7 +238,7 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .post('/admin/facility')
         .set({
           'x-auth-token': key
         })
@@ -251,13 +251,13 @@ describe('Facility route tests', () => {
         .expect(400)
     })
 
-    it('POST /admin/facility/register => Try bad form', async () => {
+    it('POST /admin/facility => Try bad form', async () => {
       let key
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -266,7 +266,7 @@ describe('Facility route tests', () => {
         })
 
       return await request(app)
-        .post('/admin/facility/register')
+        .post('/admin/facility')
         .set({
           'x-auth-token': key
         })

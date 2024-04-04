@@ -31,10 +31,14 @@ module.exports = async (req, res) => {
     }
 
     let date = new Date(req.body.date)
-    const fromDate = new Date(date.setDate(date.getDate() - date.getDay()))
-    const toDate = new Date(date.setDate(date.getDate() - date.getDay() + 6))
+
+    const fromDate = new Date(date)
+    fromDate.setDate(date.getDate() - date.getDay() + 1)
     fromDate.setUTCHours(0, 0, 0, 0)
-    toDate.setUTCHours(0, 0, 0, 0)
+
+    const toDate = new Date(date)
+    toDate.setDate(fromDate.getDate() + 6)
+    toDate.setUTCHours(23, 59, 59, 59)
 
     const check = await Questionnaires.findOne({ createdBy: req.user._id, fromDate, toDate })
 
@@ -61,7 +65,8 @@ module.exports = async (req, res) => {
       toDate,
       questions: req.body.questions,
       classes: req.user.classes,
-      createdBy: req.user._id
+      createdBy: req.user._id,
+      facility: req.user.facility
     })
     await questionnaire.save()
 

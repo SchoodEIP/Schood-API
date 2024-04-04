@@ -33,8 +33,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'adm@schood.fr',
-          password: 'adm123'
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -49,6 +49,30 @@ describe('User route tests', () => {
         })
         .expect('Content-Type', /json/)
         .expect(200)
+    })
+
+    it('GET /user/helpNumbers/:id => Try get help numbers bad objectid', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'jacqueline.delais.Schood1@schood.fr',
+          password: 'Jacqueline_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .get('/user/helpNumbers/test')
+        .set({
+          'x-auth-token': key
+        })
+        .expect('Content-Type', /json/)
+        .expect(400)
     })
   })
 })

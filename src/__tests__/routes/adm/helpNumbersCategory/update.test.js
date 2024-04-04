@@ -20,7 +20,7 @@ describe('Adm route tests', () => {
       const collection = collections[key]
       await collection.deleteMany()
     }
-    await dbDefault()
+    await dbDefault(true)
   })
 
   afterAll(async () => {
@@ -30,7 +30,7 @@ describe('Adm route tests', () => {
 
   describe('Register route', () => {
     it('PATCH /adm/helpNumbersCategory/:id => Try update good request', async () => {
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const body = { name: 'test' }
 
       funcs.setToken(token)
@@ -46,7 +46,7 @@ describe('Adm route tests', () => {
     })
 
     it('PATCH /adm/helpNumbersCategory/:id => Try update bad request', async () => {
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const body = { name: 'test' }
 
       funcs.setToken(token)
@@ -62,7 +62,7 @@ describe('Adm route tests', () => {
     })
 
     it('PATCH /adm/helpNumbersCategory/:id => Try update name already used', async () => {
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const body1 = { name: 'test' }
       const body2 = { name: 'notTest' }
 
@@ -79,7 +79,7 @@ describe('Adm route tests', () => {
     })
 
     it('PATCH /adm/helpNumbersCategory/:id => Try update invalid body', async () => {
-      const token = await funcs.login('adm@schood.fr', 'adm123')
+      const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       const body1 = { name: 'test' }
       const body2 = { test: 'notTest' }
 

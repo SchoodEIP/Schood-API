@@ -32,6 +32,7 @@ module.exports = async (req, res) => {
     user.firstname = req.body.firstname ? req.body.firstname : user.firstname
     user.lastname = req.body.lastname ? req.body.lastname : user.lastname
     user.email = req.body.email ? req.body.email : user.email
+    user.picture = req.body.picture ? req.body.picture : user.picture
 
     await user.save()
 

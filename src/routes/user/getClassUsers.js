@@ -4,7 +4,7 @@
  * @namespace getClassUsers
  */
 
-const { Users } = require('../../models/users')
+const { Users, aggregateUsersInClass } = require('../../models/users')
 const mongoose = require('mongoose')
 
 /**
@@ -23,30 +23,16 @@ module.exports = async (req, res) => {
   try {
     const id = req.params.id
 
-    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
-    console.log(id)
-    const agg = [
-      {
-        $match: {
-          facility: req.user.facility
-        }
-      },
-      {
-        $match:
-          {
-            classes:
-              {
-                $eq: new mongoose.Types.ObjectId(id)
-              }
-          }
-      },
+    const agg = aggregateUsersInClass(req.user.facility, id)
+    agg.push(
       {
         $project: {
           password: 0
         }
       }
-    ]
+    )
     const result = await Users.aggregate(agg)
 
     return res.status(200).json(result)

@@ -32,7 +32,7 @@ describe('Config tests', () => {
 
     it('Bad database connection', async () => {
       process.env.DB_HOST = 'Nope'
-      const val = await dbConnection('test', true)
+      const val = await dbConnection('test', true, true)
       expect(val).toBeFalsy()
     }, 31000)
 
@@ -56,7 +56,7 @@ describe('Config tests', () => {
     })
 
     it('admin exist', async () => {
-      const user = await Users.findOne({ email: 'admin@schood.fr' })
+      const user = await Users.findOne({ email: 'admin.Schood1@schood.fr' })
 
       expect(user).toBeTruthy()
       expect(user).not.toBeNull()
@@ -72,7 +72,7 @@ describe('Config tests', () => {
 
     describe('Check default user prod', () => {
       it('teacher1 exist', async () => {
-        const user = await Users.findOne({ email: 'teacher1@schood.fr' })
+        const user = await Users.findOne({ email: 'pierre.dubois.Schood1@schood.fr' })
 
         expect(user).toBeTruthy()
         expect(user).not.toBeNull()
@@ -80,7 +80,7 @@ describe('Config tests', () => {
       })
 
       it('teacher2 exist', async () => {
-        const user = await Users.findOne({ email: 'teacher2@schood.fr' })
+        const user = await Users.findOne({ email: 'marie.leclerc.Schood1@schood.fr' })
 
         expect(user).toBeTruthy()
         expect(user).not.toBeNull()
@@ -88,7 +88,7 @@ describe('Config tests', () => {
       })
 
       it('student1 exist', async () => {
-        const user = await Users.findOne({ email: 'student1@schood.fr' })
+        const user = await Users.findOne({ email: 'alice.johnson.Schood1@schood.fr' })
 
         expect(user).toBeTruthy()
         expect(user).not.toBeNull()
@@ -96,7 +96,7 @@ describe('Config tests', () => {
       })
 
       it('student2 exist', async () => {
-        const user = await Users.findOne({ email: 'student2@schood.fr' })
+        const user = await Users.findOne({ email: 'jean-pierre.lefevre.Schood1@schood.fr' })
 
         expect(user).toBeTruthy()
         expect(user).not.toBeNull()

@@ -23,7 +23,8 @@ const Level = Object.freeze({
 const facilitiesSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   address: {
     type: String,
@@ -37,6 +38,10 @@ const facilitiesSchema = new Schema({
     type: Number,
     enum: Level,
     required: true
+  },
+  active: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -57,4 +62,21 @@ const validateFacilities = (facilities) => {
   )
 }
 
-module.exports = { Facilities, validateFacilities }
+const validateUpdate = (body) => {
+  const schema = Joi.object({
+    name: Joi.string(),
+    address: Joi.string(),
+    telephone: Joi.string().min(10).max(10).regex(/^[0-9]+$/),
+    level: Joi.number().integer().valid(...Object.values((Level)))
+  })
+  return schema.validate(body)
+}
+
+const validateDelete = (body) => {
+  const schema = Joi.object({
+    deletePermanently: Joi.boolean().required()
+  })
+  return schema.validate(body)
+}
+
+module.exports = { Facilities, validateFacilities, validateUpdate, validateDelete }

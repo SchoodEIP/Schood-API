@@ -18,7 +18,7 @@ describe('User route tests', () => {
       const collection = collections[key]
       await collection.deleteMany()
     }
-    await dbDefault()
+    await dbDefault(true)
   })
 
   afterAll(async () => {
@@ -33,8 +33,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'student1@schood.fr',
-          password: 'student123'
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)

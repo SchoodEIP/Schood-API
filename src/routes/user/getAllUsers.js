@@ -31,6 +31,11 @@ module.exports = async (req, res) => {
 
     const agg = [
       {
+        $match: {
+          facility: req.user.facility
+        }
+      },
+      {
         $lookup: {
           from: 'roles',
           localField: 'role',
@@ -58,14 +63,13 @@ module.exports = async (req, res) => {
         }
       },
       {
-        $unwind: {
-          path: '$classes',
-          preserveNullAndEmptyArrays: true
+        $sort: {
+          'role.levelOfAccess': -1
         }
       },
       {
-        $sort: {
-          'role.levelOfAccess': -1
+        $match: {
+          active: true
         }
       },
       {

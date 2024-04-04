@@ -28,8 +28,8 @@ module.exports = async (req, res) => {
     const id = req.params.id
     const messageId = req.params.messageId
 
-    if (!id && !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
-    if (!messageId && !mongoose.Types.ObjectId.isValid(messageId)) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
+    if (!messageId || !mongoose.Types.ObjectId.isValid(messageId)) return res.status(400).json({ message: 'Invalid request' })
 
     const message = await Messages.findById(messageId)
     if (!message || message.length === 0) return res.status(400).json({ message: 'Invalid request' })
@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
     if (!chat || chat.length === 0) return res.status(400).json({ message: 'Invalid request' })
 
     for (let i = 0; i < chat.messages.length; ++i) {
-      if (chat.messages[i].equals(message._id)) {
+      if (String(chat.messages[i]) === String(message._id)) {
         chat.messages.splice(i, 1)
         break
       }

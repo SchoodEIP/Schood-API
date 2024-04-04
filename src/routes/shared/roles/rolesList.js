@@ -1,17 +1,17 @@
 /**
- * @memberof module:router~mainRouter~admRouter
+ * @memberof module:router~mainRouter~sharedRouter~rolesRouter
  * @inner
  * @namespace rolesList
  */
 
-const { Roles } = require('../../models/roles')
-const Logger = require('../../services/logger')
+const { Roles } = require('../../../models/roles')
+const Logger = require('../../../services/logger')
 
 /**
  * Main profile function
- * @name GET /adm/rolesList
+ * @name GET /shared/rolesList
  * @function
- * @memberof module:router~mainRouter~admRouter~rolesList
+ * @memberof module:router~mainRouter~sharedRouter~rolesRouter~rolesList
  * @inner
  * @async
  * @param {Object} req
@@ -24,7 +24,6 @@ module.exports = async (req, res) => {
   try {
     const response = await Roles.find()
 
-    if (!response) { return res.status(422).json({ message: 'Failed to get roles' }) }
     return res.status(200).json({ roles: response })
   } catch (error) /* istanbul ignore next */ {
     Logger.error(error)

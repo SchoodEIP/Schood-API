@@ -3,6 +3,7 @@
  * @inner
  * @namespace chat/getMessages
  */
+const { default: mongoose } = require('mongoose')
 const { Chats } = require('../../../models/chat')
 const { Messages } = require('../../../models/message')
 const Logger = require('../../../services/logger')
@@ -23,7 +24,7 @@ const Logger = require('../../../services/logger')
 module.exports = async (req, res) => {
   try {
     const id = req.params.id
-    if (!id) return res.status(400).json({ message: 'Invalid request' })
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const chat = await Chats.findById(id)
     if (!chat || chat.length === 0) return res.status(400).json({ message: 'Invalid request' })

@@ -27,14 +27,14 @@ describe('Adm route tests', () => {
   })
 
   describe('classes getAllClasses route', () => {
-    it('GET /adm/classes/ => Try get all class', async () => {
+    it('GET /shared/classes/ => Try get all class', async () => {
       let key
 
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -42,7 +42,7 @@ describe('Adm route tests', () => {
           key = response.body.token
         })
       return await request(app)
-        .get('/adm/classes/')
+        .get('/shared/classes/')
         .set({
           'x-auth-token': key
         })

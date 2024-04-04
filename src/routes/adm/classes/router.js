@@ -7,8 +7,10 @@ const express = require('express')
 const router = express.Router()
 
 const classRegister = require('./register')
-const getAllClasses = require('./getAllClasses')
 const classUpdate = require('./update')
+const classAddTeacher = require('./addTeacher')
+const classRemoveTeacher = require('./removeTeacher')
+const deleteClass = require('./delete')
 
 /**
  * Adm router connection
@@ -21,6 +23,8 @@ const classUpdate = require('./update')
 
 router.post('/register', classRegister)
 router.patch('/:id', classUpdate)
-router.get('/', getAllClasses)
+router.patch('/:id/addTeacher', classAddTeacher)
+router.patch('/:id/removeTeacher', classRemoveTeacher)
+router.delete('/:id', deleteClass)
 
 module.exports = router

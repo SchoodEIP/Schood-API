@@ -35,6 +35,11 @@ const messagesSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'chats',
     required: true
+  },
+  facility: {
+    type: mongoose.Types.ObjectId,
+    ref: 'facilities',
+    required: true
   }
 })
 
@@ -50,4 +55,13 @@ const validateMessages = (message) => {
   return schema.validate(message)
 }
 
-module.exports = { Messages, validateMessages }
+const deleteMessageFromUserInChat = async (chat, user) => {
+  for (const message of chat.messages) {
+    await Messages.deleteOne({
+      _id: message,
+      user: user._id
+    })
+  }
+}
+
+module.exports = { Messages, validateMessages, deleteMessageFromUserInChat }
