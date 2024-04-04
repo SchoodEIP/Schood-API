@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
   try {
     const isTeacher = req.user.role.levelOfAccess === 1
     const isStudent = req.user.role.levelOfAccess === 0
-    const studentRole = await Roles.findOne({name: 'student'})
+    const studentRole = await Roles.findOne({ name: 'student' })
 
     const result = { q1: 0, q2: 0 }
 
@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
       if (questionnaires.length > 0) {
         if (questionnaires.length === 1) {
           const answers = await Answers.find({ questionnaire: questionnaires[0]._id, facility: req.user.facility })
-          const students = await Users.find({ classes: {$in: questionnaires[0].classes}, facility: req.user.facility, role: studentRole._id })
+          const students = await Users.find({ classes: { $in: questionnaires[0].classes }, facility: req.user.facility, role: studentRole._id })
 
           if (answers) {
             result.q1 = answers.length * 100 / students.length
@@ -68,8 +68,8 @@ module.exports = async (req, res) => {
         } else if (questionnaires.length > 1) {
           const answers1 = await Answers.find({ questionnaire: questionnaires[0]._id, facility: req.user.facility })
           const answers2 = await Answers.find({ questionnaire: questionnaires[1]._id, facility: req.user.facility })
-          let students1 = await Users.find({ classes: { $in: questionnaires[0].classes }, facility: req.user.facility, role: studentRole._id })
-          let students2 = await Users.find({ classes: { $in: questionnaires[1].classes }, facility: req.user.facility, role: studentRole._id })
+          const students1 = await Users.find({ classes: { $in: questionnaires[0].classes }, facility: req.user.facility, role: studentRole._id })
+          const students2 = await Users.find({ classes: { $in: questionnaires[1].classes }, facility: req.user.facility, role: studentRole._id })
 
           if (answers1) {
             result.q1 = answers1.length * 100 / students1.length
