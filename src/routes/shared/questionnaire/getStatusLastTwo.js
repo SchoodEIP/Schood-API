@@ -57,7 +57,6 @@ module.exports = async (req, res) => {
     } else if (isTeacher) {
       const questionnaires = await Questionnaires.find({ createdBy: req.user._id }).sort({ toDate: -1 })
 
-      console.log("questionnaires:", questionnaires)
       if (questionnaires.length > 0) {
         if (questionnaires.length === 1) {
           const answers = await Answers.find({ questionnaire: questionnaires[0]._id, facility: req.user.facility })
