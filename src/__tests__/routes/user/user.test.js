@@ -33,8 +33,8 @@ describe('User route tests', () => {
       return await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -45,7 +45,7 @@ describe('User route tests', () => {
         .post('/user/login')
         .send({
           email: 'test',
-          password: 'admin123'
+          password: 'admin_123'
         })
         .expect(400)
     })
@@ -54,7 +54,7 @@ describe('User route tests', () => {
       return await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
+          email: 'admin.Schood1@schood.fr',
           password: 'test'
         })
         .expect(401)
@@ -88,7 +88,7 @@ describe('User route tests', () => {
           ]
         })
         .expect('Content-Type', /json/)
-        .expect(400)
+        .expect(403)
     })
 
     it('POST /adm/register => Try no token', async () => {
@@ -115,8 +115,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -143,7 +143,7 @@ describe('User route tests', () => {
           ]
         })
         .expect('Content-Type', /json/)
-        .expect(400)
+        .expect(403)
     })
 
     it('POST /adm/register => Try user no role', async () => {
@@ -152,8 +152,8 @@ describe('User route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -181,6 +181,88 @@ describe('User route tests', () => {
         })
         .expect('Content-Type', /json/)
         .expect(403)
+    })
+
+    it('POST /adm/register => Try user no access', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .post('/adm/register/?mail=false')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+          email: 'schood.eip@gmail.com',
+          firstname: 'studentTest',
+          lastname: 'studentTest',
+          role: 'nope',
+          classes: [
+            {
+              name: '200'
+            }
+          ]
+        })
+        .expect('Content-Type', /json/)
+        .expect(403)
+    })
+
+    it('POST /adm/register => Try user no access onlyMode', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .get('/teacher/dailyMood/test')
+        .set({
+          'x-auth-token': key
+        })
+        .expect('Content-Type', /json/)
+        .expect(403)
+    })
+
+    it('GET /user/tokenCheck => Try tokenCheck', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .get('/user/tokenCheck/')
+        .set({
+          'x-auth-token': key
+        })
+        .expect(200)
     })
   })
 })

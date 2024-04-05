@@ -30,7 +30,7 @@ describe('Adm route tests', () => {
 
   describe('Register route', () => {
     it('PATCH /adm/helpNumber/:id => Try update good request', async () => {
-      const token = await funcs.login('admin@schood.fr', 'admin123')
+      const token = await funcs.login('admin.Schood1@schood.fr', 'admin_123')
       funcs.setToken(token)
 
       await funcs.post('/adm/helpNumbersCategory/register', { name: 'testCategory' })

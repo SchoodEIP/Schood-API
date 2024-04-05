@@ -36,8 +36,8 @@ describe('Student Questionnaires route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'teacher1@schood.fr',
-          password: 'teacher123'
+          email: 'pierre.dubois.Schood1@schood.fr',
+          password: 'Pierre_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -62,13 +62,13 @@ describe('Student Questionnaires route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaires.findOne()
+          questionnaireId = await Questionnaires.findOne({ title: 'test' })
           questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')
             .send({
-              email: 'student1@schood.fr',
-              password: 'student123'
+              email: 'alice.johnson.Schood1@schood.fr',
+              password: 'Alice_123'
             })
             .expect('Content-Type', /json/)
             .expect(200)
@@ -110,8 +110,8 @@ describe('Student Questionnaires route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'student1@schood.fr',
-          password: 'student123'
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -127,7 +127,7 @@ describe('Student Questionnaires route tests', () => {
           answers: [
             {
               question: '64f258afe6d3d02761a011ed',
-              answers: 'Test'
+              answers: ['Test']
             }
           ]
         })
@@ -138,8 +138,8 @@ describe('Student Questionnaires route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'student1@schood.fr',
-          password: 'student123'
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -169,8 +169,8 @@ describe('Student Questionnaires route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'teacher1@schood.fr',
-          password: 'teacher123'
+          email: 'pierre.dubois.Schood1@schood.fr',
+          password: 'Pierre_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -195,13 +195,13 @@ describe('Student Questionnaires route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaires.findOne()
+          questionnaireId = await Questionnaires.findOne({ title: 'test' })
           questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')
             .send({
-              email: 'student1@schood.fr',
-              password: 'student123'
+              email: 'alice.johnson.Schood1@schood.fr',
+              password: 'Alice_123'
             })
             .expect('Content-Type', /json/)
             .expect(200)
@@ -217,7 +217,7 @@ describe('Student Questionnaires route tests', () => {
               answers: [
                 {
                   question: questionId,
-                  answers: 'Test'
+                  answers: ['Test']
                 }
               ]
             })
@@ -232,8 +232,8 @@ describe('Student Questionnaires route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'teacher1@schood.fr',
-          password: 'teacher123'
+          email: 'pierre.dubois.Schood1@schood.fr',
+          password: 'Pierre_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -258,13 +258,13 @@ describe('Student Questionnaires route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaires.findOne()
+          questionnaireId = await Questionnaires.findOne({ title: 'test' })
           questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')
             .send({
-              email: 'student1@schood.fr',
-              password: 'student123'
+              email: 'alice.johnson.Schood1@schood.fr',
+              password: 'Alice_123'
             })
             .expect('Content-Type', /json/)
             .expect(200)
@@ -303,8 +303,8 @@ describe('Student Questionnaires route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'teacher1@schood.fr',
-          password: 'teacher123'
+          email: 'pierre.dubois.Schood1@schood.fr',
+          password: 'Pierre_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -329,13 +329,13 @@ describe('Student Questionnaires route tests', () => {
         })
         .expect(200)
         .then(async () => {
-          questionnaireId = await Questionnaires.findOne()
+          questionnaireId = await Questionnaires.findOne({ title: 'test' })
           questionId = questionnaireId.questions[0]._id
           await request(app)
             .post('/user/login')
             .send({
-              email: 'student1@schood.fr',
-              password: 'student123'
+              email: 'alice.johnson.Schood1@schood.fr',
+              password: 'Alice_123'
             })
             .expect('Content-Type', /json/)
             .expect(200)
@@ -365,7 +365,7 @@ describe('Student Questionnaires route tests', () => {
               answers: [
                 {
                   question: '64f258afe6d3d02761a011ed',
-                  answers: 'Test'
+                  answers: ['Test']
                 }
               ]
             })

@@ -33,8 +33,8 @@ describe('Adm route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -58,8 +58,8 @@ describe('Adm route tests', () => {
       await request(app)
         .post('/user/login')
         .send({
-          email: 'admin@schood.fr',
-          password: 'admin123'
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -86,6 +86,31 @@ describe('Adm route tests', () => {
           name: 'test'
         })
         .expect(422)
+    })
+
+    it('POST /adm/classes/register => Try register bad body', async () => {
+      let key
+
+      await request(app)
+        .post('/user/login')
+        .send({
+          email: 'admin.Schood1@schood.fr',
+          password: 'admin_123'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          key = response.body.token
+        })
+
+      return await request(app)
+        .post('/adm/classes/register')
+        .set({
+          'x-auth-token': key
+        })
+        .send({
+        })
+        .expect(400)
     })
   })
 })

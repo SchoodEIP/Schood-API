@@ -2233,10 +2233,10 @@ components:
       properties:
         email:
           type: string
-          example: 'admin@schood.fr'
+          example: 'admin.Schood1@schood.fr'
         password:
           type: string
-          example: 'admin123'
+          example: 'admin_123'
     UserChangePassword:
       type: object
       properties:
@@ -2251,7 +2251,7 @@ components:
       properties:
         email:
           type: string
-          example: 'admin@schood.fr'
+          example: 'admin.Schood1@schood.fr'
     FacilityRegister:
       type: object
       properties:
@@ -2439,7 +2439,7 @@ components:
                 example: '64f112e13c0bc73031846e2c'
               email:
                 type: string
-                example: 'teacher1@schood.fr'
+                example: 'pierre.dubois.Schood1@schood.fr'
               firstname:
                 type: string
                 example: 'teacher1'
@@ -2559,7 +2559,7 @@ components:
                 example: '64f112e13c0bc73031846e2c'
               email:
                 type: string
-                example: 'teacher1@schood.fr'
+                example: 'pierre.dubois.Schood1@schood.fr'
               firstname:
                 type: string
                 example: 'teacher1'

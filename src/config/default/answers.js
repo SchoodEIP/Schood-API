@@ -15,7 +15,7 @@ module.exports = async (facility) => {
   const answersToInit = [
     {
       questionnaire: questionnaireFR._id,
-      date: new Date('2024-02-21'),
+      date: new Date('2024-04-04'),
       answers: [
         {
           question: questionnaireFR.questions[0]._id,
@@ -34,7 +34,7 @@ module.exports = async (facility) => {
     },
     {
       questionnaire: questionnaireFR._id,
-      date: new Date('2024-02-20'),
+      date: new Date('2024-04-04'),
       answers: [
         {
           question: questionnaireFR.questions[0]._id,
@@ -53,7 +53,7 @@ module.exports = async (facility) => {
     },
     {
       questionnaire: questionnaireMA._id,
-      date: new Date('2024-02-27'),
+      date: new Date('2024-04-04'),
       answers: [
         {
           question: questionnaireMA.questions[0]._id,

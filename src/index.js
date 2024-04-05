@@ -42,7 +42,11 @@ const corsOptions = {
     'http://schood.fr',
     'https://schood.fr',
     'http://schood.fr:8081',
-    'https://schood.fr:8081'
+    'https://schood.fr:8081',
+    'http://demo.schood.fr',
+    'https://demo.schood.fr',
+    'http://demo.schood.fr:8081',
+    'https://demo.schood.fr:8081'
   ],
   optionsSuccessStatus: 200,
   allowedHeaders: ['Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Cache-Control, x-auth-token'],
