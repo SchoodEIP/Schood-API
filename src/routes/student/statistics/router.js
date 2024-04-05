@@ -15,7 +15,7 @@ const answers = require('./questionnairesAnswers')
  * @namespace statisticsRouter
  */
 
-router.get('/moods', moods)
-router.get('/answers', answers)
+router.post('/moods', moods)
+router.post('/answers', answers)
 
 module.exports = router
