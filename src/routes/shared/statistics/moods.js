@@ -1,7 +1,7 @@
 /**
  * @memberof module:router~mainRouter~sharedRouter~statisticsRouter
  * @inner
- * @namespace getQuestionnaires
+ * @namespace moods
  */
 
 const Logger = require('../../../services/logger')
@@ -9,18 +9,19 @@ const mongoose = require('mongoose')
 const { DailyMoods } = require('../../../models/dailyMoods')
 const { isTeacher, Roles } = require('../../../models/roles')
 const { Users } = require('../../../models/users')
+const { Classes } = require('../../../models/classes')
 
 /**
- * Main profile function
- * @name GET /shared/rolesList
+ * Main moods statistics function
+ * @name GET /shared/statistics/moods
  * @function
- * @memberof module:router~mainRouter~sharedRouter~rolesRouter~rolesList
+ * @memberof module:router~mainRouter~sharedRouter~statisticsRouter~moods
  * @inner
  * @async
  * @param {Object} req
  * @param {Object} res
- * @returns 200 if OK and return the number of answers
- * @returns 422 if an errors occurs on fetching roles
+ * @returns 200 if OK and return the average mood percentage and the average mood for each date
+ * @returns 400 if one of the parameter is missing or is wrong
  * @returns 500 if Internal Server Error
  */
 module.exports = async (req, res) => {
@@ -32,12 +33,16 @@ module.exports = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(classFilter) && classFilter !== 'all') {
       return res.status(400).json({ message: 'Class is wrong, either an id or \'all\' required' })
     }
+    if (classFilter !== 'all') {
+      const _class = await Classes.findOne({ _id: classFilter, facility: req.user.facility })
+      if (!_class) return res.status(400).json({ message: 'Class filtered is not an existing class' })
+    }
 
     const agg = buildAggregation(fromDate, toDate)
     const response = {}
 
     const userIdsFromClassFilter = await getUsersFromClassFilter(req.user, classFilter)
-    if (!userIdsFromClassFilter) return res.status(400).json({ message: 'User not in this class' })
+    if (!userIdsFromClassFilter) return res.status(400).json({ message: 'User is not part of this class' })
     const moods = await DailyMoods.find({ ...agg, user: { $in: userIdsFromClassFilter } })
     let average = 0
 
@@ -73,13 +78,15 @@ const buildAggregation = (fromDate, toDate) => {
 const getUsersFromClassFilter = async (user, classFilter) => {
   const studentRole = await Roles.findOne({ name: 'student' })
   const agg = { role: studentRole._id, facility: user.facility }
+
   if (classFilter !== 'all') {
-    if (user.classes.some(c => c.equals(classFilter))) return null
+    if (await isTeacher(user) && !(user.classes.some(c => c.equals(classFilter)))) return null
     agg.classes = classFilter
     return (await Users.find(agg)).map((user) => user._id)
   }
+
   if (await isTeacher(user)) {
-    agg.classes = user.classes
+    agg.classes = { $in: user.classes.map((c) => c._id) }
   }
 
   return (await Users.find(agg)).map((user) => user._id)
