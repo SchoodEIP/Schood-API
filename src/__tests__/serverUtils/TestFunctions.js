@@ -10,6 +10,7 @@ const { HelpNumbersCategories } = require('../../models/helpNumbersCategories')
 const { Messages } = require('../../models/message')
 const { Questionnaires } = require('../../models/questionnaire')
 const { Users } = require('../../models/users')
+const { Moods } = require('../../models/moods')
 
 module.exports = class TestFunctions {
   token
@@ -319,5 +320,9 @@ module.exports = class TestFunctions {
    */
   async getUser (filter) {
     return Users.findOne(filter)
+  }
+
+  async getMood (filter) {
+    return Moods.findOne(filter)
   }
 }
