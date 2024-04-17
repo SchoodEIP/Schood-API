@@ -78,7 +78,6 @@ const buildAggregationQuestionnaires = async (fromDate, toDate, user, classFilte
   if (toDate && convertedToDate !== null) {
     agg.toDate.$lte = convertedToDate
   }
-  console.log(agg)
   return agg
 }
 

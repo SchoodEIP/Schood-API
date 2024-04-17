@@ -5,7 +5,7 @@
 const express = require('express')
 const router = express.Router()
 
-const moods = require('./moods')
+const dailyMoods = require('./dailyMoods')
 const answers = require('./questionnairesAnswers')
 
 /**
@@ -15,7 +15,7 @@ const answers = require('./questionnairesAnswers')
  * @namespace statisticsRouter
  */
 
-router.post('/moods', moods)
+router.post('/dailyMoods', dailyMoods)
 router.post('/answers', answers)
 
 module.exports = router

@@ -7,7 +7,7 @@ const router = express.Router()
 
 const numberQuestionnaires = require('./numberQuestionnaires')
 const numberAnswersQuestionnaires = require('./numberAnswersQuestionnaires')
-const moods = require('./moods')
+const dailyMoods = require('./dailyMoods')
 const answers = require('./questionnairesAnswers')
 
 /**
@@ -19,7 +19,7 @@ const answers = require('./questionnairesAnswers')
 
 router.post('/numberQuestionnaires', numberQuestionnaires)
 router.post('/numberAnswersQuestionnaires', numberAnswersQuestionnaires)
-router.post('/moods', moods)
+router.post('/dailyMoods', dailyMoods)
 router.post('/answers', answers)
 
 module.exports = router
