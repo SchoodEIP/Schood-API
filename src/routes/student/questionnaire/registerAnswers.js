@@ -32,11 +32,15 @@ module.exports = async (req, res) => {
 
     // Check if questionnaire exist and is currently valid
     const questionnaire = await Questionnaires.findById(questionnaireId)
-    let today = new Date()
-    const startWeekToday = new Date(today.setDate(today.getDate() - today.getDay()))
-    const endWeekToday = new Date(today.setDate(today.getDate() - today.getDay() + 6))
+
+    const startWeekToday = new Date()
+    startWeekToday.setDate(startWeekToday.getDate() - startWeekToday.getDay() + 1)
+
+    const endWeekToday = new Date(startWeekToday)
+    endWeekToday.setDate(endWeekToday.getDate() + 6)
+
     startWeekToday.setUTCHours(0, 0, 0, 0)
-    endWeekToday.setUTCHours(0, 0, 0, 0)
+    endWeekToday.setUTCHours(23, 59, 59, 59)
     if (!questionnaire || new Date(questionnaire.fromDate) < startWeekToday || new Date(questionnaire.toDate) > endWeekToday) {
       return res.status(400).json({ message: 'Invalid request' })
     }
@@ -69,7 +73,7 @@ module.exports = async (req, res) => {
     }
 
     // Save answers
-    today = new Date()
+    const today = new Date()
     today.setUTCHours(0, 0, 0, 0)
     const answers = new Answers({
       questionnaire: questionnaireId,
