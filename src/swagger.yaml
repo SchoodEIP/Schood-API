@@ -1646,6 +1646,94 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /student/mood/:
+    get:
+      tags:
+        - student
+      summary: Get student's moods
+      description: >
+        Get all moods from the student which made the request
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mood'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    post:
+      tags:
+        - student
+      summary: Register mood
+      description: >
+        Register a mood between 0 and 5, a comment and if it is annonymous
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newMood'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    patch:
+      tags:
+        - student
+      summary: Update mood
+      description: >
+        Update the last mood with a mood between 0 and 5, a comment and if it is annonymous
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newMood'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /shared/questionnaire/:
     get:
       tags:
@@ -2156,6 +2244,42 @@ components:
         mood:
           type: number
           example: 0
+    Mood:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64b15338a8c793949de08695'
+        user:
+          type: string
+          example: '64692acf1874cb0532aa619d'
+        mood:
+          type: number
+          example: 0
+        date:
+          type: string
+          example: '2024-04-17T13:54:28.248Z'
+        comment:
+          type: string
+          example: 'Test comment'
+        annonymous:
+          type: boolean
+          example: true
+        facility:
+          type: string
+          example: '64b15338a8c793949de08695'
+    newMood:
+      type: object
+      properties:
+        mood:
+          type: number
+          example: 0
+        annonymous:
+          type: boolean
+          example: true
+        comment:
+          type: string
+          example: 'Test comment'
     UserRegister:
       type: object
       properties:
