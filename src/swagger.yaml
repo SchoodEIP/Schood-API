@@ -226,35 +226,6 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
-  /adm/rolesList:
-    get:
-      tags:
-        - adm
-      summary: Get the roles list
-      description: >
-        Send a json containing roles information
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RolesList'
-        '422':
-          description: Failed to get roles
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/failedRoles'
-
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalServerError'
-      security:
-        - x-auth-token: []
   /user/getAllHelpNumbersCategories:
     get:
       tags:
@@ -718,6 +689,36 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+
+  /adm/rolesList:
+    get:
+      tags:
+        - adm
+      summary: Get the roles list
+      description: >
+        Send a json containing roles information
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolesList'
+        '422':
+          description: Failed to get roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/failedRoles'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: []
   /adm/register:
     post:
       tags:
@@ -1258,6 +1259,7 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+
   /admin/facility:
     post:
       tags:
@@ -1359,6 +1361,7 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+
   /teacher/questionnaire/:
     post:
       tags:
@@ -1506,6 +1509,7 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+
   /student/questionnaire/{id}:
     post:
       tags:
@@ -1734,6 +1738,75 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /student/statistics/moods:
+    get:
+      tags:
+        - student
+      summary: Get statistics about mood
+      description: >
+        Get statistics about mood in a certain date range
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/statisticsMoodsStudentBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/statisticsMoodsStudentResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /student/statistics/answers:
+    get:
+      tags:
+        - student
+      summary: Get statistics about questionnaires answers
+      description: >
+        Get statistics about questionnaires answers in a certain date range
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/statisticsAnswersStudentBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/statisticsAnswersStudentResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+
   /shared/questionnaire/:
     get:
       tags:
@@ -2110,6 +2183,74 @@ paths:
       responses:
         '200':
           description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /shared/statistics/moods:
+    get:
+      tags:
+        - shared
+      summary: Get statistics about mood
+      description: >
+        Get statistics about mood in a certain date range
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/statisticsMoodsSharedBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/statisticsMoodsSharedResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /shared/statistics/answers:
+    get:
+      tags:
+        - shared
+      summary: Get statistics about questionnaires answers
+      description: >
+        Get statistics about questionnaires answers in a certain date range
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/statisticsAnswersSharedBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/statisticsAnswersSharedResponse'
         '400':
           description: Invalid request
           content:
@@ -3054,6 +3195,90 @@ components:
       properties:
         message:
           type: string
+    statisticsMoodsStudentBody:
+      type: object
+      properties:
+        fromDate:
+          type: string
+          example: '2024-02-18T00:00:00.000Z'
+        toDate:
+          type: string
+          example: '2024-02-18T00:00:00.000Z'
+    statisticsMoodsStudentResponse:
+      type: object
+      properties:
+        '2024-02-24':
+          type: number
+          example: 2
+        '2024-02-25':
+          type: number
+          example: 4
+        averagePercentage:
+          type: number
+          example: 45
+    statisticsAnswersStudentBody:
+      type: object
+      properties:
+        fromDate:
+          type: string
+          example: '2024-02-18T00:00:00.000Z'
+        toDate:
+          type: string
+          example: '2024-02-18T00:00:00.000Z'
+    statisticsAnswersStudentResponse:
+      type: object
+      properties:
+        '2024-02-24':
+          type: number
+          example: 33.333333
+        '2024-02-25':
+          type: number
+          example: 50
+    statisticsMoodsSharedBody:
+      type: object
+      properties:
+        fromDate:
+          type: string
+          example: '2024-02-18T00:00:00.000Z'
+        toDate:
+          type: string
+          example: '2024-02-18T00:00:00.000Z'
+        classFilter:
+          type: string
+          example: 'all | 64f022f6dd93e0f80e6cb3ec'
+    statisticsMoodsSharedResponse:
+      type: object
+      properties:
+        '2024-02-24':
+          type: number
+          example: 2
+        '2024-02-25':
+          type: number
+          example: 4
+        averagePercentage:
+          type: number
+          example: 45
+    statisticsAnswersSharedBody:
+      type: object
+      properties:
+        fromDate:
+          type: string
+          example: '2024-02-18T00:00:00.000Z'
+        toDate:
+          type: string
+          example: '2024-02-18T00:00:00.000Z'
+        classFilter:
+          type: string
+          example: 'all | 64f022f6dd93e0f80e6cb3ec'
+    statisticsAnswersSharedResponse:
+      type: object
+      properties:
+        '2024-02-24':
+          type: number
+          example: 33.333333
+        '2024-02-25':
+          type: number
+          example: 50
     ok:
       type: object
       properties:
