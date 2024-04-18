@@ -9,6 +9,7 @@ const numberQuestionnaires = require('./numberQuestionnaires')
 const numberAnswersQuestionnaires = require('./numberAnswersQuestionnaires')
 const dailyMoods = require('./dailyMoods')
 const answers = require('./questionnairesAnswers')
+const moods = require('./moods')
 
 /**
  * Main router connection
@@ -21,5 +22,6 @@ router.post('/numberQuestionnaires', numberQuestionnaires)
 router.post('/numberAnswersQuestionnaires', numberAnswersQuestionnaires)
 router.post('/dailyMoods', dailyMoods)
 router.post('/answers', answers)
+router.post('/moods', moods)
 
 module.exports = router
