@@ -41,7 +41,7 @@ describe('Shared route tests', () => {
       const res = await funcs.post('/shared/statistics/dailyMoods', body)
 
       expect(Object.keys(res).length).toBe(5)
-      expect(res['2024-02-24']).toBe(3)
+      expect(res['2024-02-24']).toStrictEqual({ average: 2, moods: [1, 3] })
       expect(res.averagePercentage).toBe(40)
     })
 
@@ -59,7 +59,7 @@ describe('Shared route tests', () => {
       const res = await funcs.post('/shared/statistics/dailyMoods', body)
 
       expect(Object.keys(res).length).toBe(5)
-      expect(res['2024-02-24']).toBe(1)
+      expect(res['2024-02-24']).toStrictEqual({ average: 1, moods: [1] })
       expect(res.averagePercentage).toBe(40)
     })
 
@@ -75,7 +75,7 @@ describe('Shared route tests', () => {
       const res = await funcs.post('/shared/statistics/dailyMoods', body)
 
       expect(Object.keys(res).length).toBe(5)
-      expect(res['2024-02-24']).toBe(3)
+      expect(res['2024-02-24']).toStrictEqual({ average: 2, moods: [1, 3] })
       expect(res.averagePercentage).toBe(40)
     })
 
@@ -93,7 +93,7 @@ describe('Shared route tests', () => {
       const res = await funcs.post('/shared/statistics/dailyMoods', body)
 
       expect(Object.keys(res).length).toBe(5)
-      expect(res['2024-02-24']).toBe(1)
+      expect(res['2024-02-24']).toStrictEqual({ average: 1, moods: [1] })
       expect(res.averagePercentage).toBe(40)
     })
 

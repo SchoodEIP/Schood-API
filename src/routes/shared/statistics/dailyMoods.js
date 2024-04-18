@@ -1,7 +1,7 @@
 /**
  * @memberof module:router~mainRouter~sharedRouter~statisticsRouter
  * @inner
- * @namespace moods
+ * @namespace dailyMoods
  */
 
 const Logger = require('../../../services/logger')
@@ -12,10 +12,10 @@ const { Users } = require('../../../models/users')
 const { Classes } = require('../../../models/classes')
 
 /**
- * Main moods statistics function
- * @name GET /shared/statistics/moods
+ * Main dailyMoods statistics function
+ * @name GET /shared/statistics/dailyMoods
  * @function
- * @memberof module:router~mainRouter~sharedRouter~statisticsRouter~moods
+ * @memberof module:router~mainRouter~sharedRouter~statisticsRouter~dailyMoods
  * @inner
  * @async
  * @param {Object} req
@@ -45,13 +45,20 @@ module.exports = async (req, res) => {
     if (!userIdsFromClassFilter) return res.status(400).json({ message: 'User is not part of this class' })
     const moods = await DailyMoods.find({ ...agg, user: { $in: userIdsFromClassFilter } })
     let average = 0
+    let numberMoods = 0
 
     for (const mood of moods) {
       const date = (new Date(mood.date)).toISOString().split('T')[0]
-      response[date] = mood.mood
+      if (!response[date]) response[date] = { moods: [], average: 0 }
+      response[date].moods.push(mood.mood)
+      response[date].average += mood.mood
       average += mood.mood
+      numberMoods += 1
     }
-    response.averagePercentage = moods.length > 0 ? average / moods.length * 20 : 'NaN'
+    for (const date of Object.keys(response)) {
+      response[date].average /= response[date].moods.length
+    }
+    response.averagePercentage = numberMoods > 0 ? average / numberMoods * 20 : 'NaN'
 
     return res.status(200).json(response)
   } catch (error) /* istanbul ignore next */ {
