@@ -40,7 +40,6 @@ module.exports = async (req, res) => {
         mood = moods[i]
       }
     }
-    console.log(req.body)
 
     mood.mood = req.body.mood
     mood.annonymous = req.body.annonymous
