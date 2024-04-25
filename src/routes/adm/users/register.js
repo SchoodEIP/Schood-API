@@ -12,6 +12,7 @@ const { sendMail } = require('../../../services/mailer')
 const bcrypt = require('bcryptjs')
 const random = require('random-string-generator')
 const Logger = require('../../../services/logger')
+const { Titles } = require('../../../models/titles')
 
 /**
  * Main register function
@@ -60,6 +61,15 @@ module.exports = async (req, res) => {
       classes.push(class_._id)
     }
 
+    // Check title
+    if (role.levelOfAccess === 1 && req.body.title) {
+      const title = await Titles.findById(req.body.title)
+
+      if (!title) {
+        return res.status(400).json({ message: 'Invalid title' })
+      }
+    }
+
     // Generating the hash for the password
     const password = random(10, 'alphanumeric')
     await bcrypt.hash(password, 10)
@@ -73,7 +83,8 @@ module.exports = async (req, res) => {
           role: role._id,
           classes,
           facility: req.user.facility._id,
-          picture: req.body.picture ? req.body.picture : undefined
+          picture: req.body.picture ? req.body.picture : undefined,
+          title: req.body.title ? req.body.title : undefined
         })
 
         // Save the user
