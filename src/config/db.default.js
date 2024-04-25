@@ -18,7 +18,7 @@ const initDefaultMoods = require('./default/moods')
 
 module.exports = async (test = false) => {
   try {
-    // if (test) Logger.displayed = false
+    if (test) Logger.displayed = false
 
     // Init defaultRoles
     await initDefaultRoles()
@@ -48,7 +48,7 @@ module.exports = async (test = false) => {
         await initDefaultMoods(facility)
       }
     }
-    // if (test) Logger.displayed = process.env.LOGGER === 'true'
+    if (test) Logger.displayed = process.env.LOGGER === 'true'
   } catch (error) {
     Logger.error('ERROR: Init default data : ', error)
   }
