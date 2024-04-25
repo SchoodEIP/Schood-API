@@ -12,6 +12,7 @@ const random = require('random-string-generator')
 const { Classes } = require('../../../models/classes')
 const { sendMail } = require('../../../services/mailer')
 const Logger = require('../../../services/logger')
+const { Titles } = require('../../../models/titles')
 
 /**
  * Main csvRegisterUser function
@@ -85,7 +86,7 @@ const convertCsv = async (filepath) => {
  * @returns {boolean} Returns True if there is an error, False otherwise
  */
 const checkCsvHeader = (row) => {
-  const keys = ['firstname', 'lastname', 'email', 'role', 'class', 'classes']
+  const keys = ['firstname', 'lastname', 'email', 'role', 'class', 'classes', 'title', 'picture']
 
   for (const key of Object.keys(row)) {
     if (!keys.includes(key)) { return true }
@@ -122,6 +123,10 @@ const checkCsvBody = async (csv) => {
       if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className)) { addError('Class is not valid', index) }
     })
     if (row.role === 'student' && row.classes.length > 1) addError('Student can only have one class', index)
+
+    if (row.role === 'teacher' && row.title && !await Titles.findById(row.title)) {
+      addError('Title does not exists', index)
+    }
 
     if (await Users.findOne({ email: row.email })) {
       addError('User already exists', index)
@@ -174,7 +179,8 @@ const processImport = async (csv, mail, currentUser) => {
         role,
         password: await bcrypt.hash(password, 10),
         facility: currentUser.facility,
-        picture: val.picture ? val.picture : undefined
+        picture: val.picture ? val.picture : undefined,
+        title: val.title ? val.title : undefined
       })
       await user.save()
 
