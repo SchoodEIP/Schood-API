@@ -1023,6 +1023,46 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /adm/classes/{id}/updateStudent:
+    patch:
+      tags:
+        - adm
+      summary: Modify the class of a student
+      description: >
+        Modify the class of a student
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the new class of the student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStudent'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Several errors
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/helpNumber/register:
     post:
       tags:
@@ -2970,6 +3010,12 @@ components:
           type: string
           example: 'This name is already used'
     UpdateTeacher:
+      type: object
+      properties:
+        teacherId:
+          type: string
+          example: '64b15338a8c793949de08695'
+    UpdateStudent:
       type: object
       properties:
         teacherId:
