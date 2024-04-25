@@ -35,7 +35,6 @@ const moods = new Schema({
   },
   comment: {
     type: String,
-    required: true,
     default: ''
   },
   annonymous: {
@@ -63,4 +62,16 @@ const validateRegister = (mood) => {
   return schema.validate(mood)
 }
 
-module.exports = { Moods, validateRegister }
+const sanitizeMood = (mood) => {
+  return {
+    _id: mood._id,
+    user: mood.user,
+    mood: mood.mood,
+    date: mood.date,
+    comment: mood.comment,
+    annonymous: mood.annonymous,
+    facility: mood.facility
+  }
+}
+
+module.exports = { Moods, validateRegister, sanitizeMood }
