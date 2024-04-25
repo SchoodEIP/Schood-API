@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const title = await Titles.findById(id)
+    let title = await Titles.findById(id)
     if (!title) {
       return res.status(400).json({ message: 'Invalid request' })
     }
