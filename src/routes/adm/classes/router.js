@@ -11,6 +11,7 @@ const classUpdate = require('./update')
 const classAddTeacher = require('./addTeacher')
 const classRemoveTeacher = require('./removeTeacher')
 const deleteClass = require('./delete')
+const updateStudent = require('./updateStudent')
 
 /**
  * Adm router connection
@@ -22,6 +23,7 @@ const deleteClass = require('./delete')
 // Created router routes connection
 
 router.post('/register', classRegister)
+router.patch('/:id/updateStudent', updateStudent)
 router.patch('/:id', classUpdate)
 router.patch('/:id/addTeacher', classAddTeacher)
 router.patch('/:id/removeTeacher', classRemoveTeacher)

@@ -67,7 +67,6 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename="${newFile.originalName}"`)
     return res.status(200).send(newFile.binaryData)
   } catch (error) /* istanbul ignore next */ {
-    console.log(error)
     Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
   }
