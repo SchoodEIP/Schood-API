@@ -25,11 +25,13 @@ module.exports = async (req, res) => {
     const questionnaire = await Questionnaires.findById(questionnaireId).populate('createdBy classes')
 
     // Remove unnecessary data
-    questionnaire.createdBy.password = undefined
-    questionnaire.createdBy.classes = undefined
-    questionnaire.createdBy.firstConnexion = undefined
-    questionnaire.createdBy.facility = undefined
-    questionnaire.createdBy.role = undefined
+    if (questionnaire.createdBy) {
+      questionnaire.createdBy.password = undefined
+      questionnaire.createdBy.classes = undefined
+      questionnaire.createdBy.firstConnexion = undefined
+      questionnaire.createdBy.facility = undefined
+      questionnaire.createdBy.role = undefined
+    }
     questionnaire.classes.forEach(class_ => {
       class_.facility = undefined
     })

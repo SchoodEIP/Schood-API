@@ -39,15 +39,19 @@ module.exports = async (req, res) => {
 
     // Remove unnecessary data
     questionnaires.forEach(questionnaire => {
-      questionnaire.questions = undefined
-      questionnaire.createdBy.password = undefined
-      questionnaire.createdBy.classes = undefined
-      questionnaire.createdBy.firstConnexion = undefined
-      questionnaire.createdBy.facility = undefined
-      questionnaire.createdBy.role = undefined
-      questionnaire.classes.forEach(class_ => {
-        class_.facility = undefined
-      })
+      if (questionnaire) {
+        questionnaire.questions = undefined
+        if (questionnaire.createdBy) {
+          questionnaire.createdBy.password = undefined
+          questionnaire.createdBy.classes = undefined
+          questionnaire.createdBy.firstConnexion = undefined
+          questionnaire.createdBy.facility = undefined
+          questionnaire.createdBy.role = undefined
+        }
+        questionnaire.classes.forEach(class_ => {
+          class_.facility = undefined
+        })
+      }
     })
 
     // Send questionnaires
