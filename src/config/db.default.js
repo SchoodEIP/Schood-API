@@ -14,6 +14,7 @@ const initDefaultChats = require('./default/chats')
 const initDefaultDailyMoods = require('./default/dailyMoods')
 const initDefaultMessages = require('./default/messages')
 const initDefaultReports = require('./default/reports')
+const initDefaultTitles = require('./default/titles')
 
 module.exports = async (test = false) => {
   try {
@@ -30,6 +31,7 @@ module.exports = async (test = false) => {
     for (let index = 0; index < facilities.length; index++) {
       const facility = facilities[index]
 
+      await initDefaultTitles(facility)
       if (process.env.PROD === 'false') {
         await initDefaultClasses(facility)
       }

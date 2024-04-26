@@ -14,8 +14,7 @@ const Schema = mongoose.Schema
 const titlesSchema = new Schema({
   name: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   facility: {
     type: mongoose.Types.ObjectId,
@@ -23,6 +22,8 @@ const titlesSchema = new Schema({
     required: true
   }
 })
+
+titlesSchema.index({ name: 1, facility: 1 }, { unique: true })
 
 // We create roles collection from titlesSchema
 const Titles = mongoose.model('titles', titlesSchema)
