@@ -15,6 +15,7 @@ const initDefaultDailyMoods = require('./default/dailyMoods')
 const initDefaultMessages = require('./default/messages')
 const initDefaultReports = require('./default/reports')
 const initDefaultTitles = require('./default/titles')
+const initDefaultMoods = require('./default/moods')
 
 module.exports = async (test = false) => {
   try {
@@ -46,6 +47,7 @@ module.exports = async (test = false) => {
         await initDefaultDailyMoods(facility)
         await initDefaultMessages(facility)
         await initDefaultReports(facility)
+        await initDefaultMoods(facility)
       }
     }
     if (test) Logger.displayed = process.env.LOGGER === 'true'

@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     const isStudent = req.user.role.levelOfAccess === 0
     const studentRole = await Roles.findOne({ name: 'student' })
 
-    const result = { q1: {completion: 0, id: "", title: ""}, q2: {completion: 0, id: "", title: ""} }
+    const result = { q1: { completion: 0, id: '', title: '' }, q2: { completion: 0, id: '', title: '' } }
 
     if (isStudent) {
       const classes = req.user.classes.map((class_) => String(class_._id))

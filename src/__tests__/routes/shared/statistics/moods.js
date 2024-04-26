@@ -28,8 +28,8 @@ describe('Shared route tests', () => {
     await mongoose.connection.close()
   })
 
-  describe('Statistics dailyMoods route', () => {
-    it('POST /shared/statistics/dailyMoods => Try good request teacher all', async () => {
+  describe('Statistics moods route', () => {
+    it('POST /shared/statistics/moods => Try good request teacher all', async () => {
       const token = await funcs.login('pierre.dubois.Schood1@schood.fr', 'Pierre_123')
       funcs.setToken(token)
 
@@ -38,14 +38,14 @@ describe('Shared route tests', () => {
         toDate: '2024-02-26T23:59:59.000Z',
         classFilter: 'all'
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body)
+      const res = await funcs.post('/shared/statistics/moods', body)
 
       expect(Object.keys(res).length).toBe(5)
       expect(res['2024-02-24']).toStrictEqual({ average: 2, moods: [1, 3] })
       expect(res.averagePercentage).toBe(40)
     })
 
-    it('POST /shared/statistics/dailyMoods => Try good request teacher one class', async () => {
+    it('POST /shared/statistics/moods => Try good request teacher one class', async () => {
       const token = await funcs.login('pierre.dubois.Schood1@schood.fr', 'Pierre_123')
       funcs.setToken(token)
 
@@ -56,14 +56,14 @@ describe('Shared route tests', () => {
         toDate: '2024-02-26T23:59:59.000Z',
         classFilter: _class
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body)
+      const res = await funcs.post('/shared/statistics/moods', body)
 
       expect(Object.keys(res).length).toBe(5)
       expect(res['2024-02-24']).toStrictEqual({ average: 1, moods: [1] })
       expect(res.averagePercentage).toBe(40)
     })
 
-    it('POST /shared/statistics/dailyMoods => Try good request adm all', async () => {
+    it('POST /shared/statistics/moods => Try good request adm all', async () => {
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       funcs.setToken(token)
 
@@ -72,14 +72,14 @@ describe('Shared route tests', () => {
         toDate: '2024-02-26T23:59:59.000Z',
         classFilter: 'all'
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body)
+      const res = await funcs.post('/shared/statistics/moods', body)
 
       expect(Object.keys(res).length).toBe(5)
       expect(res['2024-02-24']).toStrictEqual({ average: 2, moods: [1, 3] })
       expect(res.averagePercentage).toBe(40)
     })
 
-    it('POST /shared/statistics/dailyMoods => Try good request adm one class', async () => {
+    it('POST /shared/statistics/moods => Try good request adm one class', async () => {
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       funcs.setToken(token)
 
@@ -90,30 +90,30 @@ describe('Shared route tests', () => {
         toDate: '2024-02-26T23:59:59.000Z',
         classFilter: _class
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body)
+      const res = await funcs.post('/shared/statistics/moods', body)
 
       expect(Object.keys(res).length).toBe(5)
       expect(res['2024-02-24']).toStrictEqual({ average: 1, moods: [1] })
       expect(res.averagePercentage).toBe(40)
     })
 
-    it('POST /shared/statistics/dailyMoods => Try good request no dailyMood register', async () => {
+    it('POST /shared/statistics/moods => Try good request no dailyMood register', async () => {
       const token = await funcs.login('marie.leclerc.Schood1@schood.fr', 'Marie_123')
       funcs.setToken(token)
 
-      mongoose.connection.collections.dailymoods.deleteMany()
+      mongoose.connection.collections.moods.deleteMany()
 
       const body = {
         fromDate: '2024-02-18T00:00:00.000Z',
         toDate: '2024-02-26T23:59:59.000Z',
         classFilter: 'all'
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body)
+      const res = await funcs.post('/shared/statistics/moods', body)
 
       expect(res.averagePercentage).toBe('NaN')
     })
 
-    it('POST /shared/statistics/dailyMoods => Try bad request fromDate missing', async () => {
+    it('POST /shared/statistics/moods => Try bad request fromDate missing', async () => {
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       funcs.setToken(token)
 
@@ -121,12 +121,12 @@ describe('Shared route tests', () => {
         toDate: '2024-02-26T23:59:59.000Z',
         classFilter: 'all'
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body, 400)
+      const res = await funcs.post('/shared/statistics/moods', body, 400)
 
       expect(res.message).toBe('Date range missing')
     })
 
-    it('POST /shared/statistics/dailyMoods => Try bad request toDate missing', async () => {
+    it('POST /shared/statistics/moods => Try bad request toDate missing', async () => {
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       funcs.setToken(token)
 
@@ -134,12 +134,12 @@ describe('Shared route tests', () => {
         fromDate: '2024-02-26T23:59:59.000Z',
         classFilter: 'all'
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body, 400)
+      const res = await funcs.post('/shared/statistics/moods', body, 400)
 
       expect(res.message).toBe('Date range missing')
     })
 
-    it('POST /shared/statistics/dailyMoods => Try bad request classFilter missing', async () => {
+    it('POST /shared/statistics/moods => Try bad request classFilter missing', async () => {
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       funcs.setToken(token)
 
@@ -147,12 +147,12 @@ describe('Shared route tests', () => {
         fromDate: '2024-02-26T23:59:59.000Z',
         toDate: '2024-02-26T23:59:59.000Z'
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body, 400)
+      const res = await funcs.post('/shared/statistics/moods', body, 400)
 
       expect(res.message).toBe('Class filter missing')
     })
 
-    it('POST /shared/statistics/dailyMoods => Try bad request wrong classFilter', async () => {
+    it('POST /shared/statistics/moods => Try bad request wrong classFilter', async () => {
       const token = await funcs.login('jacqueline.delais.Schood1@schood.fr', 'Jacqueline_123')
       funcs.setToken(token)
 
@@ -161,12 +161,12 @@ describe('Shared route tests', () => {
         toDate: '2024-02-26T23:59:59.000Z',
         classFilter: '65db3e5682c975c249bd532a'
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body, 400)
+      const res = await funcs.post('/shared/statistics/moods', body, 400)
 
       expect(res.message).toBe('Class filtered is not an existing class')
     })
 
-    it('POST /shared/statistics/dailyMoods => Try bad request user not part of this class', async () => {
+    it('POST /shared/statistics/moods => Try bad request user not part of this class', async () => {
       const token = await funcs.login('marie.leclerc.Schood1@schood.fr', 'Marie_123')
       funcs.setToken(token)
 
@@ -177,7 +177,7 @@ describe('Shared route tests', () => {
         toDate: '2024-02-26T23:59:59.000Z',
         classFilter: _class
       }
-      const res = await funcs.post('/shared/statistics/dailyMoods', body, 400)
+      const res = await funcs.post('/shared/statistics/moods', body, 400)
 
       expect(res.message).toBe('User is not part of this class')
     })

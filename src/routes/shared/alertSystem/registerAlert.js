@@ -28,7 +28,6 @@ module.exports = async (req, res) => {
     // Verif received data
     const { error } = validateAlerts(req.body)
     if (error) {
-      console.log(error)
       return res.status(400).json({ message: 'Invalid request' })
     }
 

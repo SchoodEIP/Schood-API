@@ -49,6 +49,13 @@ const validateTeacher = (body) => {
   return schema.validate(body)
 }
 
+const validateStudent = (body) => {
+  const schema = Joi.object({
+    studentId: Joi.objectId().required()
+  })
+  return schema.validate(body)
+}
+
 const getTeacher = async (classId) => {
   const teacherRole = await Roles.findOne({ name: 'teacher' })
   if (!teacherRole || teacherRole.length === 0) return null
@@ -56,4 +63,18 @@ const getTeacher = async (classId) => {
   return await Users.findOne({ classes: { $in: classId }, role: teacherRole })
 }
 
-module.exports = { Classes, validateClasses, validateTeacher, getTeacher }
+const getStudent = async (classId) => {
+  const studentRole = await Roles.findOne({ name: 'student' })
+  if (!studentRole || studentRole.length === 0) return null
+
+  return await Users.findOne({ classes: { $in: classId }, role: studentRole })
+}
+
+module.exports = {
+  Classes,
+  validateClasses,
+  validateTeacher,
+  getTeacher,
+  validateStudent,
+  getStudent
+}

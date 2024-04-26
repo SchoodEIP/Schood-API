@@ -1,21 +1,21 @@
 /**
  * @memberof module:router~mainRouter~sharedRouter~statisticsRouter
  * @inner
- * @namespace dailyMoods
+ * @namespace moods
  */
 
 const Logger = require('../../../services/logger')
 const mongoose = require('mongoose')
-const { DailyMoods } = require('../../../models/dailyMoods')
 const { isTeacher, Roles } = require('../../../models/roles')
 const { Users } = require('../../../models/users')
 const { Classes } = require('../../../models/classes')
+const { Moods } = require('../../../models/moods')
 
 /**
- * Main dailyMoods statistics function
- * @name GET /shared/statistics/dailyMoods
+ * Main moods statistics function
+ * @name GET /shared/statistics/moods
  * @function
- * @memberof module:router~mainRouter~sharedRouter~statisticsRouter~dailyMoods
+ * @memberof module:router~mainRouter~sharedRouter~statisticsRouter~moods
  * @inner
  * @async
  * @param {Object} req
@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
 
     const userIdsFromClassFilter = await getUsersFromClassFilter(req.user, classFilter)
     if (!userIdsFromClassFilter) return res.status(400).json({ message: 'User is not part of this class' })
-    const moods = await DailyMoods.find({ ...agg, user: { $in: userIdsFromClassFilter } })
+    const moods = await Moods.find({ ...agg, user: { $in: userIdsFromClassFilter } })
     let average = 0
     let numberMoods = 0
 

@@ -1023,6 +1023,46 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /adm/classes/{id}/updateStudent:
+    patch:
+      tags:
+        - adm
+      summary: Modify the class of a student
+      description: >
+        Modify the class of a student
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: >
+            Id of the new class of the student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStudent'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: Several errors
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /adm/helpNumber/register:
     post:
       tags:
@@ -1650,13 +1690,101 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
-  /student/statistics/moods:
+  /student/mood/:
     get:
       tags:
         - student
-      summary: Get statistics about mood
+      summary: Get student's moods
       description: >
-        Get statistics about mood in a certain date range
+        Get all moods from the student which made the request
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mood'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    post:
+      tags:
+        - student
+      summary: Register mood
+      description: >
+        Register a mood between 0 and 5, a comment and if it is annonymous
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newMood'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+    patch:
+      tags:
+        - student
+      summary: Update mood
+      description: >
+        Update the last mood with a mood between 0 and 5, a comment and if it is annonymous
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newMood'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /student/statistics/dailyMoods:
+    post:
+      tags:
+        - student
+      summary: Get statistics about dailyMoods
+      description: >
+        Get statistics about dailyMoods in a certain date range
       requestBody:
         required: true
         content:
@@ -1684,8 +1812,42 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /student/statistics/moods:
+    post:
+      tags:
+        - student
+      summary: Get statistics about mood
+      description: >
+        Get statistics about mood in a certain date range
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/statisticsMoodsStudentBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/statisticsMoodsSharedResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /student/statistics/answers:
-    get:
+    post:
       tags:
         - student
       summary: Get statistics about questionnaires answers
@@ -2109,8 +2271,42 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /shared/statistics/dailyMoods:
+    post:
+      tags:
+        - shared
+      summary: Get statistics about dailyMoods
+      description: >
+        Get statistics about dailyMoods in a certain date range
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/statisticsMoodsSharedBody'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/statisticsMoodsSharedResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
   /shared/statistics/moods:
-    get:
+    post:
       tags:
         - shared
       summary: Get statistics about mood
@@ -2144,7 +2340,7 @@ paths:
       security:
         - x-auth-token: [ ]
   /shared/statistics/answers:
-    get:
+    post:
       tags:
         - shared
       summary: Get statistics about questionnaires answers
@@ -2297,6 +2493,42 @@ components:
         mood:
           type: number
           example: 0
+    Mood:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64b15338a8c793949de08695'
+        user:
+          type: string
+          example: '64692acf1874cb0532aa619d'
+        mood:
+          type: number
+          example: 0
+        date:
+          type: string
+          example: '2024-04-17T13:54:28.248Z'
+        comment:
+          type: string
+          example: 'Test comment'
+        annonymous:
+          type: boolean
+          example: true
+        facility:
+          type: string
+          example: '64b15338a8c793949de08695'
+    newMood:
+      type: object
+      properties:
+        mood:
+          type: number
+          example: 0
+        annonymous:
+          type: boolean
+          example: true
+        comment:
+          type: string
+          example: 'Test comment'
     UserRegister:
       type: object
       properties:
@@ -2975,6 +3207,12 @@ components:
         teacherId:
           type: string
           example: '64b15338a8c793949de08695'
+    UpdateStudent:
+      type: object
+      properties:
+        teacherId:
+          type: string
+          example: '64b15338a8c793949de08695'
     AlreadyInClass:
       type: object
       properties:
@@ -3126,11 +3364,29 @@ components:
       type: object
       properties:
         '2024-02-24':
-          type: number
-          example: 2
+          type: object
+          properties:
+            moods:
+              type: array
+              items:
+                type: number
+                example: 2
+            average:
+              type: number
+              example: 2
+              description: Average mood of this date
         '2024-02-25':
-          type: number
-          example: 4
+          type: object
+          properties:
+            moods:
+              type: array
+              items:
+                type: number
+                example: 4
+            average:
+              type: number
+              example: 4
+              description: Average mood of this date
         averagePercentage:
           type: number
           example: 45
