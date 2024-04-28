@@ -7,21 +7,21 @@ module.exports = async (facility) => {
   const titles = await Titles.find({})
   const titlesToInit = [
     {
-        name: 'Administrateur',
-        facility: facility._id
+      name: 'Administrateur',
+      facility: facility._id
     },
     {
-        name: 'Administrateur Scolaire',
-        facility: facility._id
+      name: 'Administrateur Scolaire',
+      facility: facility._id
     },
     {
-        name: 'Mathématiques',
-        facility: facility._id
+      name: 'Mathématiques',
+      facility: facility._id
     },
     {
-        name: 'Français',
-        facility: facility._id
-    },
+      name: 'Français',
+      facility: facility._id
+    }
   ]
 
   for (let index = 0; index < titlesToInit.length; index++) {
