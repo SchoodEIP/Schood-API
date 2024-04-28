@@ -37,6 +37,8 @@ module.exports = async (req, res) => {
       }).sort({ date: -1 }).populate('createdBy classes')
     }
 
+    let result = []
+
     // Remove unnecessary data
     questionnaires.forEach(questionnaire => {
       if (questionnaire) {
@@ -51,11 +53,23 @@ module.exports = async (req, res) => {
         questionnaire.classes.forEach(class_ => {
           class_.facility = undefined
         })
+
+        const r = result.find((r) => new Date(r.fromDate).getTime() === new Date(questionnaire.fromDate).getTime() && new Date(r.toDate).getTime() === new Date(questionnaire.toDate).getTime())
+
+        if (!r) {
+          result.push({
+            fromDate: questionnaire.fromDate,
+            toDate: questionnaire.toDate,
+            questionnaires: [questionnaire]
+          })
+        } else {
+          r.questionnaires.push(questionnaire)
+        }
       }
     })
 
     // Send questionnaires
-    return res.status(200).json(questionnaires)
+    return res.status(200).json(result)
   } catch (error) /* istanbul ignore next */ {
     Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
