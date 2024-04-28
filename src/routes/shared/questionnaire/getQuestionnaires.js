@@ -68,6 +68,10 @@ module.exports = async (req, res) => {
       }
     })
 
+    result.sort((a, b) => {
+      return new Date(b.fromDate).getTime() - new Date(a.toDate).getTime() 
+    })
+
     // Send questionnaires
     return res.status(200).json(result)
   } catch (error) /* istanbul ignore next */ {

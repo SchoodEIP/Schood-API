@@ -95,7 +95,7 @@ async function startServer () {
         webSocketHandler(httpsWss)
         serverHttps.listen(httpsPort)
       }
-      console.log('=============================================')
+      console.info('=============================================')
     } catch (error) {
       Logger.error('ERROR: index.js error : ', error)
     }
