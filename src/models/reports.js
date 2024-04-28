@@ -56,6 +56,11 @@ const reportsSchema = new Schema({
     default: Types[0],
     required: true
   },
+  seen: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
   facility: {
     type: mongoose.Types.ObjectId,
     ref: 'facilities',
@@ -86,4 +91,4 @@ const validateModify = (report) => {
   return schema.validate(report)
 }
 
-module.exports = { Reports, validateRegister, validateModify }
+module.exports = { Reports, validateRegister, validateModify, Types }

@@ -6,6 +6,7 @@ const fs = require('fs')
 require('dotenv').config({ path: '../.env' })
 const RateLimit = require('express-rate-limit')
 const { WebSocketServer } = require('ws')
+const cron = require('node-cron')
 
 const app = express()
 const httpPort = process.env.HTTP_EXPRESS_PORT
@@ -18,6 +19,7 @@ const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./swagger.yaml')
 const Logger = require('./services/logger')
 const webSocketHandler = require('./websockets/wsIndex')
+const analyze = require('./jobs/analyze/index')
 
 /**
  * Set limiter
@@ -95,6 +97,13 @@ async function startServer () {
         webSocketHandler(httpsWss)
         serverHttps.listen(httpsPort)
       }
+      // Cron which executes the function every day at midnight at Paris Time Zone
+      cron.schedule('0 0 0 * * *', () => {
+        analyze()
+      }, {
+        scheduled: true,
+        timezone: 'Europe/Paris'
+      })
       console.log('=============================================')
     } catch (error) {
       Logger.error('ERROR: index.js error : ', error)

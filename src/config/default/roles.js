@@ -7,6 +7,10 @@ module.exports = async () => {
   const roles = await Roles.find({})
   const rolesToInit = [
     {
+      name: 'job',
+      levelOfAccess: -1
+    },
+    {
       name: 'student',
       levelOfAccess: 0
     },
