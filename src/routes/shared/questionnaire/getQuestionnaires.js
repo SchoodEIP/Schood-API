@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
       }).sort({ date: -1 }).populate('createdBy classes')
     }
 
-    let result = []
+    const result = []
 
     // Remove unnecessary data
     questionnaires.forEach(questionnaire => {

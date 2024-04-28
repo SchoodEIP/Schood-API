@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
       path: 'createdBy',
       populate: [
         {
-          path: "title"
+          path: 'title'
         }
       ]
     })
