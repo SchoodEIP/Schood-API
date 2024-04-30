@@ -29,6 +29,6 @@ router.use('/notifications', notificationsRouter)
 router.use('/classes', access(1, false), classesRouter)
 router.use('/roles', access(1, false), rolesRouter)
 router.use('/statistics', access(1, false), statisticsRouter)
-router.use('/titles', access(1, false), titlesRouter)
+router.use('/titles', access(2, false), titlesRouter)
 
 module.exports = router
