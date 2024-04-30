@@ -44,15 +44,29 @@ module.exports = async (req, res) => {
           title: 1,
           participants: {
             _id: 1,
-            email: 1,
             firstname: 1,
-            lastname: 1
+            lastname: 1,
+            title: 1,
+            picture: 1
           }
         }
       }
     ]
 
     const chats = await Chats.aggregate(agg)
+
+    chats.forEach(chat => {
+      chat.participants.sort((a, b) => {
+        if (a.firstname < b.firstname) {
+          return -1;
+        }
+        if (a.firstname > b.firstname) {
+          return 1;
+        }
+        return 0;
+      })
+    });
+
     return res.status(200).json(chats)
   } catch (error) /* istanbul ignore next */ {
     Logger.error(error)
