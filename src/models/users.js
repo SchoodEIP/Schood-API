@@ -89,6 +89,7 @@ const validateRegister = (user) => {
     lastname: Joi.string().required(),
     role: Joi.objectId().required(),
     classes: Joi.array(),
+    picture: Joi.string(),
     title: Joi.objectId()
   })
   return schema.validate(user)
