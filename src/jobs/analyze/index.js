@@ -7,7 +7,6 @@ const analyzeMessages = require('./analyzeMessages')
 const analyzeQuestionnaireAnswers = require('./analyzeQuestionnaireAnswers')
 const analyzeMoods = require('./analyzeMoods')
 const analyzeQuestionnaireAnswerFrequency = require('./analyzeQuestionnaireAnswerFrequency')
-const analyzeDailyMoodsAnswerFrequency = require('./analyzeDailyMoodsAnswerFrequency')
 const analyzeMoodRate = require('./analyzeMoodRate')
 
 let prohibitedWords
@@ -43,7 +42,6 @@ const analyzeFacility = async (facility) => {
     analyzes.push(analyzeQuestionnaireAnswers(user, prohibitedWords))
     analyzes.push(analyzeMoods(user, prohibitedWords))
     analyzes.push(analyzeQuestionnaireAnswerFrequency(user))
-    analyzes.push(analyzeDailyMoodsAnswerFrequency(user))
     analyzes.push(analyzeMoodRate(user))
   }
   await Promise.all(analyzes)

@@ -2,8 +2,27 @@ const { Reports, Types } = require('../../models/reports')
 const { Users } = require('../../models/users')
 const Logger = require('../../services/logger')
 const { DailyMoods } = require('../../models/dailyMoods')
+const { Facilities } = require('../../models/facilities')
+const { Roles } = require('../../models/roles')
 
-module.exports = async (user) => {
+module.exports = async () => {
+  const facilities = await Facilities.find({})
+  const studentRole = await Roles.findOne({ name: 'student' })
+  const promises = []
+
+  for (const facility of facilities) {
+    const users = await Users.find({ role: studentRole._id, facility: facility._id });
+    if (!users) continue
+
+    for (const user of users) {
+      if (user.createdAt > Date.now() - (1000 * 60 * 60 * 24 * 7)) continue
+      promises.push(analyzeFrequency(user))
+    }
+  }
+  await Promise.all(promises)
+}
+
+const analyzeFrequency = async (user) => {
   const fromDate = new Date()
   fromDate.setDate(fromDate.getDate() - fromDate.getDay() - 6)
   fromDate.setUTCHours(0, 0, 0, 0)
@@ -24,7 +43,7 @@ const createReport = async (user) => {
     facility: user.facility,
     signaledBy: reporter._id,
     userSignaled: user._id,
-    message: 'This user has not given his/her dailyMood for enough days last week',
+    message: 'Cet utilisateur n\'a pas envoyé suffisamment de ressentis quotidiens durant la dernière semaine.',
     seen: false
   })
   if (checkReport) return
@@ -33,7 +52,7 @@ const createReport = async (user) => {
     userSignaled: user._id,
     signaledBy: reporter._id,
     createdAt: new Date(),
-    message: 'This user has not given his/her dailyMood for enough days last week',
+    message: 'Cet utilisateur n\'a pas envoyé suffisamment de ressentis quotidiens durant la dernière semaine.',
     type: Types.OTHER,
     facility: user.facility
   })

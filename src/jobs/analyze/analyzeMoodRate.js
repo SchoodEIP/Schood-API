@@ -36,7 +36,7 @@ const createReport = async (user) => {
     facility: user.facility,
     signaledBy: reporter._id,
     userSignaled: user._id,
-    message: 'This user seems to have a low mood average',
+    message: 'Cet utilisateur semble avoir un ressentis moyen faible.',
     seen: false
   })
   if (checkReport) return
@@ -45,7 +45,7 @@ const createReport = async (user) => {
     userSignaled: user._id,
     signaledBy: reporter._id,
     createdAt: new Date(),
-    message: 'This user seems to have a low mood average',
+    message: 'Cet utilisateur semble avoir un ressentis moyen faible.',
     type: Types.OTHER,
     facility: user.facility
   })

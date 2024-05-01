@@ -20,6 +20,7 @@ const swaggerDocument = YAML.load('./swagger.yaml')
 const Logger = require('./services/logger')
 const webSocketHandler = require('./websockets/wsIndex')
 const analyze = require('./jobs/analyze/index')
+const analyzeDailyMoodsAnswerFrequency = require('./jobs/analyze/analyzeDailyMoodsAnswerFrequency')
 
 /**
  * Set limiter
@@ -100,6 +101,12 @@ async function startServer () {
       // Cron which executes the function every day at midnight at Paris Time Zone
       cron.schedule('0 0 0 * * *', () => {
         analyze()
+      }, {
+        scheduled: true,
+        timezone: 'Europe/Paris'
+      })
+      cron.schedule('0 0 * * 0', () => {
+        analyzeDailyMoodsAnswerFrequency()
       }, {
         scheduled: true,
         timezone: 'Europe/Paris'

@@ -64,6 +64,8 @@ const usersSchema = new Schema({
   }
 })
 
+usersSchema.set('timestamps', true)
+
 // We generate an auth token for user
 usersSchema.methods.generateAuthToken = function () {
   return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
