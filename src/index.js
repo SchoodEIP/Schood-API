@@ -111,7 +111,7 @@ async function startServer () {
         scheduled: true,
         timezone: 'Europe/Paris'
       })
-      console.log('=============================================')
+      console.info('=============================================')
     } catch (error) {
       Logger.error('ERROR: index.js error : ', error)
     }

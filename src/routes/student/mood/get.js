@@ -21,7 +21,7 @@ const { Moods, sanitizeMood } = require('../../../models/moods')
  */
 module.exports = async (req, res) => {
   try {
-    const moods = await Moods.find({ user: req.user._id })
+    const moods = await Moods.find({ user: req.user._id }).sort({date: -1})
 
     return res.status(200).json(moods.map((mood) => sanitizeMood(mood)))
   } catch (error) /* istanbul ignore next */ {

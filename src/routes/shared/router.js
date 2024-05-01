@@ -12,6 +12,7 @@ const alertSystemRouter = require('./alertSystem/router')
 const classesRouter = require('./classes/router')
 const rolesRouter = require('./roles/router')
 const statisticsRouter = require('./statistics/router')
+const titlesRouter = require('./titles/router')
 const access = require('../../middleware/access')
 
 /**
@@ -28,5 +29,6 @@ router.use('/notifications', notificationsRouter)
 router.use('/classes', access(1, false), classesRouter)
 router.use('/roles', access(1, false), rolesRouter)
 router.use('/statistics', access(1, false), statisticsRouter)
+router.use('/titles', access(2, false), titlesRouter)
 
 module.exports = router
