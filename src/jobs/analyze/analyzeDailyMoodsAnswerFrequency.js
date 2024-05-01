@@ -11,7 +11,7 @@ module.exports = async () => {
   const promises = []
 
   for (const facility of facilities) {
-    const users = await Users.find({ role: studentRole._id, facility: facility._id });
+    const users = await Users.find({ role: studentRole._id, facility: facility._id })
     if (!users) continue
 
     for (const user of users) {
