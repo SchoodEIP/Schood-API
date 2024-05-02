@@ -64,11 +64,13 @@ const buildAggregationQuestionnaires = (fromDate, toDate) => {
 
 const createResponse = (questionnaires, answers) => {
   const daysPercentage = {}
+  const answeredQuestions = {}
+  let nbQuestions = 0
 
   questionnaires.forEach((questionnaire) => {
-    const answeredQuestions = {}
     for (const question of questionnaire.questions) {
       // Assign each question answered to the related date
+      nbQuestions += 1
       for (const answer of answers) {
         const questionIds = getQuestionIdsFromAnswer(answer)
         if (questionIds.some(id => id.equals(question._id))) {
@@ -78,12 +80,12 @@ const createResponse = (questionnaires, answers) => {
         }
       }
     }
-    // Compute the percentage of answer for the question and assign it to the related date
-    for (const day of Object.keys(answeredQuestions)) {
-      if (!daysPercentage[day]) daysPercentage[day] = 0
-      daysPercentage[day] += (answeredQuestions[day].length / questionnaire.questions.length * 100) / questionnaires.length
-    }
   })
+  // Compute the percentage of answer for the question and assign it to the related date
+  for (const day of Object.keys(answeredQuestions)) {
+    if (!daysPercentage[day]) daysPercentage[day] = 0
+    daysPercentage[day] += (answeredQuestions[day].length / nbQuestions * 100)
+  }
 
   return daysPercentage
 }
