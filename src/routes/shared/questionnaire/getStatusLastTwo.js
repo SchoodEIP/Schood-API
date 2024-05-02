@@ -26,9 +26,9 @@ module.exports = async (req, res) => {
   try {
     const isTeacher = req.user.role.levelOfAccess === 1
     const isStudent = req.user.role.levelOfAccess === 0
-    const studentRole = await Roles.findOne({name: 'student'})
+    const studentRole = await Roles.findOne({ name: 'student' })
 
-    const result = { q1: 0, q2: 0 }
+    const result = { q1: { completion: 0, id: '', title: '' }, q2: { completion: 0, id: '', title: '' } }
 
     if (isStudent) {
       const classes = req.user.classes.map((class_) => String(class_._id))
@@ -39,18 +39,24 @@ module.exports = async (req, res) => {
           const answers = await Answers.findOne({ questionnaire: questionnaires[0]._id })
 
           if (answers) {
-            result.q1 = answers.answers.length * 100 / questionnaires[0].questions.length
+            result.q1.completion = answers.answers.length * 100 / questionnaires[0].questions.length
+            result.q1.id = questionnaires[0]._id
+            result.q1.title = questionnaires[0].title
           }
         } else if (questionnaires.length > 1) {
           const answers1 = await Answers.findOne({ questionnaire: questionnaires[0]._id })
           const answers2 = await Answers.findOne({ questionnaire: questionnaires[1]._id })
 
           if (answers1) {
-            result.q1 = answers1.answers.length * 100 / questionnaires[0].questions.length
+            result.q1.completion = answers1.answers.length * 100 / questionnaires[0].questions.length
+            result.q1.id = questionnaires[0]._id
+            result.q1.title = questionnaires[0].title
           }
 
           if (answers2) {
-            result.q2 = answers2.answers.length * 100 / questionnaires[1].questions.length
+            result.q2.completion = answers2.answers.length * 100 / questionnaires[1].questions.length
+            result.q2.id = questionnaires[1]._id
+            result.q2.title = questionnaires[1].title
           }
         }
       }
@@ -60,23 +66,29 @@ module.exports = async (req, res) => {
       if (questionnaires.length > 0) {
         if (questionnaires.length === 1) {
           const answers = await Answers.find({ questionnaire: questionnaires[0]._id, facility: req.user.facility })
-          const students = await Users.find({ classes: {$in: questionnaires[0].classes}, facility: req.user.facility, role: studentRole._id })
+          const students = await Users.find({ classes: { $in: questionnaires[0].classes }, facility: req.user.facility, role: studentRole._id })
 
           if (answers) {
-            result.q1 = answers.length * 100 / students.length
+            result.q1.completion = answers.length * 100 / students.length
+            result.q1.id = questionnaires[0]._id
+            result.q1.title = questionnaires[0].title
           }
         } else if (questionnaires.length > 1) {
           const answers1 = await Answers.find({ questionnaire: questionnaires[0]._id, facility: req.user.facility })
           const answers2 = await Answers.find({ questionnaire: questionnaires[1]._id, facility: req.user.facility })
-          let students1 = await Users.find({ classes: { $in: questionnaires[0].classes }, facility: req.user.facility, role: studentRole._id })
-          let students2 = await Users.find({ classes: { $in: questionnaires[1].classes }, facility: req.user.facility, role: studentRole._id })
+          const students1 = await Users.find({ classes: { $in: questionnaires[0].classes }, facility: req.user.facility, role: studentRole._id })
+          const students2 = await Users.find({ classes: { $in: questionnaires[1].classes }, facility: req.user.facility, role: studentRole._id })
 
           if (answers1) {
-            result.q1 = answers1.length * 100 / students1.length
+            result.q1.completion = answers1.length * 100 / students1.length
+            result.q1.id = questionnaires[0]._id
+            result.q1.title = questionnaires[0].title
           }
 
           if (answers2) {
-            result.q2 = answers2.length * 100 / students2.length
+            result.q2.completion = answers2.length * 100 / students2.length
+            result.q2.id = questionnaires[1]._id
+            result.q2.title = questionnaires[1].title
           }
         }
       }

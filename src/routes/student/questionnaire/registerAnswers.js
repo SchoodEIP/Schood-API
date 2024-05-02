@@ -27,30 +27,35 @@ module.exports = async (req, res) => {
     // Verif received data
     const questionnaireId = req.params.id
     if (!mongoose.Types.ObjectId.isValid(questionnaireId)) {
-      return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request1' })
     }
 
     // Check if questionnaire exist and is currently valid
     const questionnaire = await Questionnaires.findById(questionnaireId)
-    let today = new Date()
-    const startWeekToday = new Date(today.setDate(today.getDate() - today.getDay()))
-    const endWeekToday = new Date(today.setDate(today.getDate() - today.getDay() + 6))
+
+    const startWeekToday = new Date()
+    startWeekToday.setUTCDate(startWeekToday.getUTCDate() - (startWeekToday.getDay() === 0 ? 6 : startWeekToday.getDay() + 1))
+
+    const endWeekToday = new Date(startWeekToday)
+    endWeekToday.setUTCDate(endWeekToday.getUTCDate() + 6)
+
     startWeekToday.setUTCHours(0, 0, 0, 0)
-    endWeekToday.setUTCHours(0, 0, 0, 0)
-    if (!questionnaire || new Date(questionnaire.fromDate) < startWeekToday || new Date(questionnaire.toDate) > endWeekToday) {
-      return res.status(400).json({ message: 'Invalid request' })
+    endWeekToday.setUTCHours(23, 59, 59, 59)
+
+    if (!questionnaire || new Date(questionnaire.fromDate).getTime() < startWeekToday.getTime() || new Date(questionnaire.toDate).getTime() > endWeekToday.getTime()) {
+      return res.status(400).json({ message: 'Invalid request2' })
     }
 
     // Check if not already answered
     const answersCheck = await Answers.findOne({ questionnaire: questionnaireId, createdBy: req.user._id })
     if (answersCheck) {
-      return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request3' })
     }
 
     // Check if answers valid
     const { error } = validateAnswers(req.body)
     if (error) {
-      return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request4' })
     }
     let errorAnswers = false
     req.body.answers.forEach(answer => {
@@ -65,11 +70,11 @@ module.exports = async (req, res) => {
       }
     })
     if (errorAnswers) {
-      return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request5' })
     }
 
     // Save answers
-    today = new Date()
+    const today = new Date()
     today.setUTCHours(0, 0, 0, 0)
     const answers = new Answers({
       questionnaire: questionnaireId,

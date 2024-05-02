@@ -6,6 +6,7 @@ const express = require('express')
 const router = express.Router()
 
 const facilityRouter = require('./facility/router')
+const titlesRouter = require('./titles/router')
 
 /**
  * Main router connection
@@ -14,5 +15,6 @@ const facilityRouter = require('./facility/router')
  * @namespace adminRouter
  */
 router.use('/facility', facilityRouter)
+router.use('/title', titlesRouter)
 
 module.exports = router

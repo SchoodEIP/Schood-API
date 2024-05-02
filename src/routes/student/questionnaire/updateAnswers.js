@@ -32,11 +32,16 @@ module.exports = async (req, res) => {
 
     // Check if questionnaire exist and is currently valid
     const questionnaire = await Questionnaires.findById(questionnaireId)
-    const today = new Date()
-    const startWeekToday = new Date(today.setDate(today.getDate() - today.getDay()))
-    const endWeekToday = new Date(today.setDate(today.getDate() - today.getDay() + 6))
+
+    const startWeekToday = new Date()
+    startWeekToday.setUTCDate(startWeekToday.getUTCDate() - (startWeekToday.getDay() === 0 ? 6 : startWeekToday.getDay() + 1))
+
+    const endWeekToday = new Date(startWeekToday)
+    endWeekToday.setUTCDate(endWeekToday.getUTCDate() + 6)
+
     startWeekToday.setUTCHours(0, 0, 0, 0)
-    endWeekToday.setUTCHours(0, 0, 0, 0)
+    endWeekToday.setUTCHours(23, 59, 59, 59)
+
     if (!questionnaire || new Date(questionnaire.fromDate) < startWeekToday || new Date(questionnaire.toDate) > endWeekToday) {
       return res.status(400).json({ message: 'Invalid request' })
     }

@@ -32,6 +32,10 @@ const usersSchema = new Schema({
     type: String,
     required: true
   },
+  title: {
+    type: mongoose.Types.ObjectId,
+    ref: 'titles'
+  },
   role: {
     type: mongoose.Types.ObjectId,
     ref: 'roles',
@@ -60,6 +64,8 @@ const usersSchema = new Schema({
   }
 })
 
+usersSchema.set('timestamps', true)
+
 // We generate an auth token for user
 usersSchema.methods.generateAuthToken = function () {
   return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
@@ -84,7 +90,9 @@ const validateRegister = (user) => {
     firstname: Joi.string().required(),
     lastname: Joi.string().required(),
     role: Joi.objectId().required(),
-    classes: Joi.array()
+    classes: Joi.array(),
+    picture: Joi.string(),
+    title: Joi.objectId()
   })
   return schema.validate(user)
 }
