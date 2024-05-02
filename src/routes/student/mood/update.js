@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const moods = await Moods.find({ user: req.user._id }).sort({date: -1})
+    const moods = await Moods.find({ user: req.user._id }).sort({ date: -1 })
     if (!moods || moods.length === 0) return res.status(422).json({ message: 'No moods found' })
 
     const date = new Date()

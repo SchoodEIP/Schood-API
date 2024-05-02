@@ -23,7 +23,7 @@ const createReport = async (user, message) => {
     facility: user.facility,
     signaledBy: reporter._id,
     userSignaled: user._id,
-    message: 'This user seems to have sent some bad words to another person in his/her message',
+    message: 'Cet utilisateur semble avoir utilisé des vulgarités dans ses messages à une autre personne.',
     seen: false
   })
   if (checkReport) return
@@ -32,7 +32,7 @@ const createReport = async (user, message) => {
     userSignaled: user._id,
     signaledBy: reporter._id,
     createdAt: new Date(),
-    message: 'This user seems to have sent some bad words to another person in his/her message',
+    message: 'Cet utilisateur semble avoir utilisé des vulgarités dans ses messages à une autre personne.',
     conversation: message.chat,
     type: Types.BADCOMPORTMENT,
     facility: user.facility

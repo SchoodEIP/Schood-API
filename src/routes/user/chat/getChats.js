@@ -58,14 +58,14 @@ module.exports = async (req, res) => {
     chats.forEach(chat => {
       chat.participants.sort((a, b) => {
         if (a.firstname < b.firstname) {
-          return -1;
+          return -1
         }
         if (a.firstname > b.firstname) {
-          return 1;
+          return 1
         }
-        return 0;
+        return 0
       })
-    });
+    })
 
     return res.status(200).json(chats)
   } catch (error) /* istanbul ignore next */ {

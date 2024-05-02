@@ -42,7 +42,7 @@ const createReport = async (user) => {
     facility: user.facility,
     signaledBy: reporter._id,
     userSignaled: user._id,
-    message: 'This user has not answered enough questions in the last 2 finished questionnaires',
+    message: 'Cet utilisateur n\'a pas répondu a assez de questions dans les deux derniers questionnaires terminés',
     seen: false
   })
   if (checkReport) return
@@ -51,7 +51,7 @@ const createReport = async (user) => {
     userSignaled: user._id,
     signaledBy: reporter._id,
     createdAt: new Date(),
-    message: 'This user has not answered enough questions in the last 2 finished questionnaires',
+    message: 'Cet utilisateur n\'a pas répondu a assez de questions dans les deux derniers questionnaires terminés',
     type: Types.OTHER,
     facility: user.facility
   })
