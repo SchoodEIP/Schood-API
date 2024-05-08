@@ -59,7 +59,7 @@
     "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
     "random-string-generator": "^1.0.1",
-    "semver": "^7.6.0",
+    "semver": "^7.6.1",
     "standard": "^17.1.0",
     "supertest": "^7.0.0",
     "swagger-ui-express": "^5.0.0",
