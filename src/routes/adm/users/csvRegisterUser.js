@@ -29,7 +29,11 @@ const { Titles } = require('../../../models/titles')
  */
 module.exports = async (req, res) => {
   try {
-    const mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
+    let mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
+    
+    if (!req.query.mail) {
+      mail = true;
+    }
     // Verify received data
     if (req.file.size === 0) { return res.status(422).json({ message: 'The file is empty' }) }
 

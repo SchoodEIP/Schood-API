@@ -30,7 +30,11 @@ const { Titles } = require('../../../models/titles')
 module.exports = async (req, res) => {
   try {
     /* istanbul ignore next */
-    const mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
+    let mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
+
+    if (!req.query.mail) {
+      mail = true;
+    }
 
     // Verif received data
     const { error } = validateRegister(req.body)
