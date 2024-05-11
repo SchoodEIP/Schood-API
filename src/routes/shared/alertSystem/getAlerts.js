@@ -31,7 +31,8 @@ module.exports = async (req, res) => {
         {
           role: req.user.role._id
         }
-      ]
+      ],
+      facility: req.user.facility
     }).sort({ createdAt: -1 }).populate('createdBy').populate({
       path: 'createdBy',
       populate: [
