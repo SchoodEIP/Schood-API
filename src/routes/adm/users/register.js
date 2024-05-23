@@ -36,6 +36,11 @@ module.exports = async (req, res) => {
       mail = true;
     }
 
+    const userCheck = await Users.find({email: req.body.email})
+    if (userCheck) {
+      return res.status(400).json({ message: 'Invalid request' })
+    }
+
     // Verif received data
     const { error } = validateRegister(req.body)
     if (error) {
