@@ -74,6 +74,18 @@ module.exports = async (req, res) => {
       }
     }
 
+    let picture;
+    if (req.file) {
+      await new Promise((resolve, reject) => {
+        cloudinary.v2.uploader.upload(req.file.path, {
+          use_filename: true
+        }).then((result) => {
+          picture = result.secure_url
+          resolve();
+        })
+      })
+    }
+
     // Generating the hash for the password
     const password = random(10, 'alphanumeric')
     await bcrypt.hash(password, 10)
@@ -87,7 +99,7 @@ module.exports = async (req, res) => {
           role: role._id,
           classes,
           facility: req.user.facility._id,
-          picture: req.body.picture ? req.body.picture : undefined,
+          picture: picture ? picture : undefined,
           title: req.body.title ? req.body.title : undefined
         })
 

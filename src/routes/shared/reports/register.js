@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
     })
     await report.save()
 
-    await createNotificationForAllAdministrations('Un nouveau signalement a été créé', 'Un nouveau signalement a été créé le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'reports', report._id, req.user.facility)
+    await createNotificationForAllAdministrations('Un nouveau signalement a été créé', 'Un nouveau signalement a été créé le ' + date.toLocaleDateString('fr-FR') + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'reports', report._id, req.user.facility)
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {

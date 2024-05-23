@@ -85,7 +85,7 @@ module.exports = async (facility) => {
         const teacher = await Users.findById(questionnaireToInit.createdBy)
         const date = questionnaireToInit.fromDate
 
-        await createNotificationForAllStudentOfClass(_class, 'Un nouveau questionnaire est disponible', 'Le questionnaire du ' + date.toDateString() + ' par ' + teacher.firstname + ' ' + teacher.lastname + ' est disponible', 'questionnaire', questionnaire._id, facility._id)
+        await createNotificationForAllStudentOfClass(_class, 'Un nouveau questionnaire est disponible', 'Le questionnaire du ' + date.toLocaleDateString('fr-FR') + ' par ' + teacher.firstname + ' ' + teacher.lastname + ' est disponible', 'questionnaire', questionnaire._id, facility._id)
       }
     }
   }

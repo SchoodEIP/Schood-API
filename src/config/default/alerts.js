@@ -44,10 +44,10 @@ module.exports = async (facility) => {
         for (let index = 0; index < alertToInit.classes.length; index++) {
           const _class = alertToInit.classes[index]
 
-          await createNotificationForAllStudentOfClass(_class, 'Une nouvelle alerte a été créée', 'Une nouvelles alerte a été créée le ' + date.toDateString() + ' par ' + adminUser.firstname + ' ' + adminUser.lastname, 'alerts', alert._id, facility._id)
+          await createNotificationForAllStudentOfClass(_class, 'Une nouvelle alerte a été créée', 'Une nouvelles alerte a été créée le ' + date.toLocaleDateString('fr-FR') + ' par ' + adminUser.firstname + ' ' + adminUser.lastname, 'alerts', alert._id, facility._id)
         }
       } else {
-        await createNotificationForRole(teacherRole.name, 'Une nouvelle alerte a été créée', 'Une nouvelles alerte a été créée le ' + date.toDateString() + ' par ' + adminUser.firstname + ' ' + adminUser.lastname, 'alerts', alert._id, facility._id)
+        await createNotificationForRole(teacherRole.name, 'Une nouvelle alerte a été créée', 'Une nouvelles alerte a été créée le ' + date.toDateString('fr-FR') + ' par ' + adminUser.firstname + ' ' + adminUser.lastname, 'alerts', alert._id, facility._id)
       }
     }
   }
