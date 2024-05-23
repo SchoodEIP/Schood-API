@@ -38,25 +38,25 @@ module.exports = async (req, res) => {
 
     const userCheck = await Users.find({email: req.body.email})
     if (userCheck) {
-      return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Un utilisateur avec cet email existe déjà' })
     }
 
     // Verif received data
     const { error } = validateRegister(req.body)
     if (error) {
-      return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Requête invalide' })
     }
 
     // Check if role exist
     const role = await Roles.findById(req.body.role)
     if (!role || role === undefined || role.length === 0) {
-      return res.status(400).json({ message: 'Invalid role' })
+      return res.status(400).json({ message: 'Role invalide' })
     }
 
     // Check if the nb of classes for student is greater than 1
     const classesRequest = req.body.classes
     if (role.name === 'student' && classesRequest.length > 1) {
-      return res.status(400).json({ message: 'Student can only have 1 class' })
+      return res.status(400).json({ message: "Un étudiant ne peut avoir qu'une classe" })
     }
 
     // Check classes
@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
       const class_ = await Classes.findById(element)
 
       if (!class_ || class_ === undefined || class_.length === 0) {
-        return res.status(400).json({ message: 'Invalid class' })
+        return res.status(400).json({ message: 'Classe introuvable' })
       }
       classes.push(class_._id)
     }
@@ -75,7 +75,7 @@ module.exports = async (req, res) => {
       const title = await Titles.findById(req.body.title)
 
       if (!title) {
-        return res.status(400).json({ message: 'Invalid title' })
+        return res.status(400).json({ message: 'Titre introuvable' })
       }
     }
 
@@ -114,7 +114,7 @@ module.exports = async (req, res) => {
         /* istanbul ignore next */
         if (mail) {
           const message = 'email: ' + req.body.email + ' | password: ' + password
-          sendMail(req.body.email, 'Schood Account Created', message)
+          sendMail(req.body.email, 'Compte schood créé', message)
         }
       })
 
