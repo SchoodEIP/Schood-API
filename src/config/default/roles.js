@@ -8,24 +8,29 @@ module.exports = async () => {
   const rolesToInit = [
     {
       name: 'job',
+      frenchName: 'job',
       levelOfAccess: -1
     },
     {
       name: 'student',
+      frenchName: 'Étudiant',
       levelOfAccess: 0
     },
     {
       name: 'teacher',
+      frenchName: 'Professeur',
       levelOfAccess: 1
     },
     {
       name: 'administration',
+      frenchName: 'Administration',
       levelOfAccess: 2
     },
     {
       name: 'admin',
+      frenchName: 'Admin',
       levelOfAccess: 3
-    }
+    } 
   ]
 
   for (let index = 0; index < rolesToInit.length; index++) {
