@@ -8,7 +8,7 @@ module.exports = async (facility) => {
 
   const helpNumbersCategoriesToInit = [
     {
-      name: 'Default',
+      name: 'Autres',
       facility: facility._id,
       default: true
     },

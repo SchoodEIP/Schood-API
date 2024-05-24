@@ -30,14 +30,14 @@ module.exports = async (req, res) => {
     if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
 
     const promiseToDelete = HelpNumbersCategories.findOne({ _id: id, facility: req.user.facility })
-    const promiseDefaultCategory = HelpNumbersCategories.findOne({ name: 'Default', facility: req.user.facility })
+    const promiseDefaultCategory = HelpNumbersCategories.findOne({ name: 'Autres', facility: req.user.facility })
     let [toDelete, defaultCategory] = await Promise.all([promiseToDelete, promiseDefaultCategory])
 
     if (!toDelete || toDelete.length === 0) return res.status(422).json({ message: 'No HelpNumberCategory correspond to this id' })
     if (toDelete.default) return res.status(401).json({ message: 'Cannot delete the default HelpNumberCategory' })
     if (!defaultCategory || defaultCategory.length === 0) {
       defaultCategory = new HelpNumbersCategories({
-        name: 'Default',
+        name: 'Autres',
         facility: req.user.facility._id,
         default: true
       })
