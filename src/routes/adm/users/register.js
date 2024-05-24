@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
       mail = true;
     }
 
-    const userCheck = await Users.find({email: req.body.email})
+    const userCheck = await Users.findOne({email: req.body.email})
     if (userCheck) {
       return res.status(400).json({ message: 'Un utilisateur avec cet email existe déjà' })
     }
