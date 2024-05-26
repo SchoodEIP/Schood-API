@@ -44,7 +44,10 @@ module.exports = async (req, res) => {
 
     if (req.body.name) helpNumberToUpdate.name = req.body.name
     if (req.body.telephone) helpNumberToUpdate.telephone = req.body.telephone
+    if (req.body.timetable) helpNumberToUpdate.timetable = req.body.timetable
     if (req.body.email) helpNumberToUpdate.email = req.body.email
+    if (req.body.informations) helpNumberToUpdate.informations = req.body.informations
+    if (req.body.address) helpNumberToUpdate.address = req.body.address
     if (req.body.description) helpNumberToUpdate.description = req.body.description
     if (req.body.helpNumbersCategory && mongoose.Types.ObjectId.isValid(req.body.helpNumbersCategory)) {
       const cat = HelpNumbersCategories.findOne({ id: req.body.helpNumbersCategory })

@@ -20,7 +20,16 @@ const helpNumbersSchema = new Schema({
   telephone: {
     type: String
   },
+  timetable: {
+    type: String
+  },
   email: {
+    type: String
+  },
+  informations: {
+    type: String
+  },
+  address: {
     type: String
   },
   helpNumbersCategory: {
@@ -48,8 +57,11 @@ const HelpNumbers = mongoose.model('helpNumbers', helpNumbersSchema)
 const validateHelpNumbers = (helpNumber) => {
   const schema = Joi.object({
     name: Joi.string().required(),
-    email: Joi.string().optional(),
     telephone: Joi.string().min(10).max(10).regex(/^[0-9]+$/).optional(),
+    timetable: Joi.string().optional(),
+    email: Joi.string().optional(),
+    informations: Joi.string().optional(),
+    address: Joi.string().optional(),
     helpNumbersCategory: Joi.required(),
     description: Joi.string().optional()
   })
