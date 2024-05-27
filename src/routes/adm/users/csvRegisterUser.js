@@ -29,14 +29,18 @@ const { Titles } = require('../../../models/titles')
  */
 module.exports = async (req, res) => {
   try {
-    const mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
+    let mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
+    
+    if (!req.query.mail) {
+      mail = true;
+    }
     // Verify received data
-    if (req.file.size === 0) { return res.status(422).json({ message: 'The file is empty' }) }
+    if (req.file.size === 0) { return res.status(422).json({ message: 'Le fichier est vide' }) }
 
     const csv = await convertCsv(req.file.path)
-    if (!csv || csv.length === 0) { return res.status(422).json({ message: 'Invalid request' }) }
+    if (!csv || csv.length === 0) { return res.status(422).json({ message: 'Requête invalide' }) }
 
-    if (checkCsvHeader(csv[0])) { return res.status(422).json({ message: 'Csv header is not valid' }) }
+    if (checkCsvHeader(csv[0])) { return res.status(422).json({ message: 'Le header du csv est invalide' }) }
 
     const error = await checkCsvBody(csv)
     if (error.length !== 0) {
@@ -114,26 +118,26 @@ const checkCsvBody = async (csv) => {
 
   const emails = []
   for (const [index, row] of csv.entries()) {
-    if (row.firstname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.firstname)) addError('Firstname is not valid', index)
-    if (row.lastname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.lastname)) addError('Lastname is not valid', index)
-    if (row.email.length === 0 || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(row.email)) addError('Email is not valid', index)
-    if (row.role.length === 0 || !['student', 'teacher', 'administration'].includes(row.role.toLowerCase())) addError('Role is not valid', index)
-    if (row.classes.length === 0) addError('Class is not valid', index)
+    if (row.firstname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.firstname)) addError("Le prénom n'est pas valide", index)
+    if (row.lastname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.lastname)) addError("Le nom de famille n'est pas valide", index)
+    if (row.email.length === 0 || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(row.email)) addError("L'email n'est pas valide", index)
+    if (row.role.length === 0 || !['student', 'teacher', 'administration'].includes(row.role.toLowerCase())) addError("Le rôle n'est pas valide", index)
+    if (row.classes.length === 0) addError("La classe n'est pas valide", index)
     row.classes.forEach((className) => {
-      if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className)) { addError('Class is not valid', index) }
+      if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className)) { addError("La classe n'est pas valide", index) }
     })
-    if (row.role === 'student' && row.classes.length > 1) addError('Student can only have one class', index)
+    if (row.role === 'student' && row.classes.length > 1) addError("Un étudiant ne peut avoir qu'une classe", index)
 
     if (row.role === 'teacher' && row.title && !await Titles.findById(row.title)) {
-      addError('Title does not exists', index)
+      addError("Le titre n'existe pas", index)
     }
 
     if (await Users.findOne({ email: row.email })) {
-      addError('User already exists', index)
+      addError("Un utilisateur avec cet email existe déjà", index)
     }
 
     if (emails.includes(row.email)) {
-      addError('A different user in the csv already have this email', index)
+      addError("Un autre utilisateur a déjà cet email dans le csv", index)
     } else {
       emails.push(row.email)
     }
@@ -141,7 +145,7 @@ const checkCsvBody = async (csv) => {
     for (const class_ of row.classes) {
       const foundClass = await Classes.findOne({ name: class_ })
       if (!foundClass) {
-        addError(`${class_} class does not exist`, index)
+        addError(`La classe ${class_} n'existe pas`, index)
       }
     }
   }
@@ -187,7 +191,7 @@ const processImport = async (csv, mail, currentUser) => {
       /* istanbul ignore next */
       if (mail) {
         const message = 'email: ' + val.email + ' | password: ' + password
-        sendMail(val.email, 'Schood Account Created', message)
+        sendMail(val.email, 'Compte Schood créé', message)
       }
     }
   } catch (e) /* istanbul ignore next */ {

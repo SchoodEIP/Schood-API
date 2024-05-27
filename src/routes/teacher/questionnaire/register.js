@@ -75,7 +75,7 @@ module.exports = async (req, res) => {
     for (let index = 0; index < req.user.classes.length; index++) {
       const _class = req.user.classes[index]
 
-      await createNotificationForAllStudentOfClass(_class, 'Un nouveau questionnaire est disponible', 'Le questionnaire du ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname + ' est disponible', 'questionnaire', questionnaire._id, req.user.facility)
+      await createNotificationForAllStudentOfClass(_class, 'Un nouveau questionnaire est disponible', 'Le questionnaire du ' + date.toLocaleDateString('fr-FR') + ' par ' + req.user.firstname + ' ' + req.user.lastname + ' est disponible', 'questionnaire', questionnaire._id, req.user.facility)
     }
 
     // Send profile

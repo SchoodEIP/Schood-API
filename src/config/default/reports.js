@@ -14,7 +14,7 @@ module.exports = async (facility) => {
 
   const reportsToInit = [
     {
-      userSignaled: student1User,
+      usersSignaled: [student1User],
       signaledBy: teacher1User,
       createdAt: new Date('2024-02-24'),
       message: 'Ceci est un signalement de test',
@@ -22,7 +22,7 @@ module.exports = async (facility) => {
       facility: facility._id
     },
     {
-      userSignaled: student2User,
+      usersSignaled: [student2User],
       signaledBy: teacher2User,
       createdAt: new Date('2024-02-24'),
       message: 'Ceci est un signalement de test2',
@@ -41,7 +41,7 @@ module.exports = async (facility) => {
       const reporter = await Users.findById(reportToInit.signaledBy)
       const date = new Date(reportToInit.createdAt)
 
-      await createNotificationForAllAdministrations('Un nouveau signalement a été créé', 'Un nouveau signalement a été créé le ' + date.toDateString() + ' par ' + reporter.firstname + ' ' + reporter.lastname, 'reports', report._id, facility._id)
+      await createNotificationForAllAdministrations('Un nouveau signalement a été créé', 'Un nouveau signalement a été créé le ' + date.toLocaleDateString('fr-FR') + ' par ' + reporter.firstname + ' ' + reporter.lastname, 'reports', report._id, facility._id)
     }
   }
 }

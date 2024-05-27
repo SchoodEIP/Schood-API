@@ -24,6 +24,7 @@ const getFacility = require('./getFacility')
 const modifyProfile = require('./modifyProfile')
 const tokenCheck = require('./tokenCheck')
 const downloadApk = require('./downloadApk')
+const { upload10Tmp } = require('../../utils/multer')
 
 /**
  * User router connection
@@ -40,7 +41,7 @@ router.use('/chat', auth, chatRouter)
 router.post('/login', login)
 router.post('/forgottenPassword', forgottenPassword)
 router.patch('/changePassword', auth, changePassword)
-router.patch('/modifyProfile/:id', auth, modifyProfile)
+router.patch('/modifyProfile/:id', auth, upload10Tmp.single('file'), modifyProfile)
 router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2, false), getUsersByPosition)
 router.get('/all', auth, access(2, false), getAllUsers)

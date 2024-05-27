@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
     // Get the auth token from the header
     const token = req.header('x-auth-token') || req.header('X-Auth-Token')
     if (!token) {
-      return res.status(403).json({ message: 'Access Denied' })
+      return res.status(401).json({ message: 'Access Denied' })
     }
 
     // Verify the auth token with jwt
@@ -33,13 +33,13 @@ module.exports = async (req, res, next) => {
       .populate('classes')
       .populate('title')
     if (!user) {
-      return res.status(403).json({ message: 'Invalid token' })
+      return res.status(401).json({ message: 'Invalid token' })
     }
     req.user = user
 
     next()
   } catch (error) {
     Logger.error(error)
-    return res.status(403).json({ message: 'Invalid token' })
+    return res.status(401).json({ message: 'Invalid token' })
   }
 }

@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
     const questionnaire = await Questionnaires.findById(questionnaireId)
 
     const startWeekToday = new Date()
-    startWeekToday.setUTCDate(startWeekToday.getUTCDate() - (startWeekToday.getDay() === 0 ? 6 : startWeekToday.getDay() + 1))
+    startWeekToday.setUTCDate(startWeekToday.getUTCDate() + ((startWeekToday.getDay() === 0 ? -6 : 1) - startWeekToday.getDay()))
 
     const endWeekToday = new Date(startWeekToday)
     endWeekToday.setUTCDate(endWeekToday.getUTCDate() + 6)
@@ -49,6 +49,7 @@ module.exports = async (req, res) => {
     // Check if not already answered
     const answersCheck = await Answers.findOne({ questionnaire: questionnaireId, createdBy: req.user._id })
     if (answersCheck) {
+      console.log(answersCheck)
       return res.status(400).json({ message: 'Invalid request3' })
     }
 

@@ -50,7 +50,7 @@ describe('Adm route tests', () => {
 
       await funcs.delete(`/adm/helpNumbersCategory/${helpNumbersCategory._id}`)
 
-      const defaultCat = await funcs.getHelpNumberCategory({ name: 'Default' })
+      const defaultCat = await funcs.getHelpNumberCategory({ name: 'Autres' })
       helpNumber = await funcs.getHelpNumber({ name: 'test' })
       expect(helpNumber.helpNumbersCategory).not.toEqual(helpNumbersCategory._id)
       expect(defaultCat).not.toBeNull()

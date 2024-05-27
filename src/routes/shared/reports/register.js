@@ -31,9 +31,13 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const user = await Users.findById(req.body.userSignaled)
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid request' })
+    for (let index = 0; index < req.body.usersSignaled.length; index++) {
+      const userSignaled = req.body.usersSignaled[index];
+      
+      const user = await Users.findById(userSignaled)
+      if (!user) {
+        return res.status(400).json({ message: 'Invalid request' })
+      }
     }
 
     if (req.body.conversation) {
@@ -46,7 +50,7 @@ module.exports = async (req, res) => {
     const date = new Date()
 
     const report = new Reports({
-      userSignaled: new mongoose.Types.ObjectId(req.body.userSignaled),
+      usersSignaled: req.body.usersSignaled.map((user) => new mongoose.Types.ObjectId(user)),
       signaledBy: new mongoose.Types.ObjectId(req.user._id),
       createdAt: date,
       message: req.body.message ? req.body.message : '',
@@ -56,7 +60,7 @@ module.exports = async (req, res) => {
     })
     await report.save()
 
-    await createNotificationForAllAdministrations('Un nouveau signalement a été créé', 'Un nouveau signalement a été créé le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'reports', report._id, req.user.facility)
+    await createNotificationForAllAdministrations('Un nouveau signalement a été créé', 'Un nouveau signalement a été créé le ' + date.toLocaleDateString('fr-FR') + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'reports', report._id, req.user.facility)
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {

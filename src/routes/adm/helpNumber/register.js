@@ -41,7 +41,10 @@ module.exports = async (req, res) => {
     const newHelpNumber = new HelpNumbers({
       name: req.body.name,
       telephone: req.body.telephone,
+      timetable: req.body.timetable,
       email: req.body.email,
+      informations: req.body.informations,
+      address: req.body.address,
       helpNumbersCategory: req.body.helpNumbersCategory,
       description: req.body.description,
       facility: req.user.facility._id

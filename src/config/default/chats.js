@@ -41,7 +41,7 @@ module.exports = async (facility) => {
         const createdBy = await Users.findById(chatToInit.createdBy)
         const date = chatToInit.date
 
-        await createNotification(participant, 'Vous avez été ajouté a un chat', 'Vous avez été ajouté à un chat le ' + date.toDateString() + ' par ' + createdBy.firstname + ' ' + createdBy.lastname, 'chats', chat._id, facility._id)
+        await createNotification(participant, 'Vous avez été ajouté a un chat', 'Vous avez été ajouté à un chat le ' + date.toLocaleDateString('fr-FR') + ' par ' + createdBy.firstname + ' ' + createdBy.lastname, 'chats', chat._id, facility._id)
       }
     }
   }

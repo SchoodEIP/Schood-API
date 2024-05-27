@@ -31,10 +31,14 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    if (req.body.userSignaled) {
-      const user = await Users.findById(req.body.userSignaled)
-      if (!user) {
-        return res.status(400).json({ message: 'Invalid request' })
+    if (req.body.usersSignaled) {
+      for (let index = 0; index < req.body.usersSignaled.length; index++) {
+        const userSignaled = req.body.usersSignaled[index];
+        
+        const user = await Users.findById(userSignaled)
+        if (!user) {
+          return res.status(400).json({ message: 'Invalid request' })
+        }
       }
     }
 
@@ -59,7 +63,7 @@ module.exports = async (req, res) => {
       }
     }
 
-    report.userSignaled = req.body.userSignaled ? new mongoose.Types.ObjectId(req.body.userSignaled) : report.userSignaled
+    report.usersSignaled = req.body.usersSignaled ? req.body.usersSignaled.map((user) => new mongoose.Types.ObjectId(user)) : report.usersSignaled
     report.modifiedAt = new Date()
     report.modifiedBy = req.user._id
     report.message = req.body.message ? req.body.message : report.message
