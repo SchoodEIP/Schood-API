@@ -33,10 +33,10 @@ module.exports = async (req, res) => {
     let mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
 
     if (!req.query.mail) {
-      mail = true;
+      mail = true
     }
 
-    const userCheck = await Users.findOne({email: req.body.email})
+    const userCheck = await Users.findOne({ email: req.body.email })
     if (userCheck) {
       return res.status(400).json({ message: 'Un utilisateur avec cet email existe déjà' })
     }
@@ -79,14 +79,14 @@ module.exports = async (req, res) => {
       }
     }
 
-    let picture;
+    let picture
     if (req.file) {
       await new Promise((resolve, reject) => {
         cloudinary.v2.uploader.upload(req.file.path, {
           use_filename: true
         }).then((result) => {
           picture = result.secure_url
-          resolve();
+          resolve()
         })
       })
     }
@@ -104,7 +104,7 @@ module.exports = async (req, res) => {
           role: role._id,
           classes,
           facility: req.user.facility._id,
-          picture: picture ? picture : undefined,
+          picture: picture || undefined,
           title: req.body.title ? req.body.title : undefined
         })
 

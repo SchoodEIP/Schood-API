@@ -32,8 +32,8 @@ module.exports = async (req, res) => {
     }
 
     for (let index = 0; index < req.body.usersSignaled.length; index++) {
-      const userSignaled = req.body.usersSignaled[index];
-      
+      const userSignaled = req.body.usersSignaled[index]
+
       const user = await Users.findById(userSignaled)
       if (!user) {
         return res.status(400).json({ message: 'Invalid request' })

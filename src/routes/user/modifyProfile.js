@@ -5,7 +5,7 @@
  */
 const { Users } = require('../../models/users')
 const Logger = require('../../services/logger')
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary')
 /**
  * Main modifyProfile function
  * @name PATCH /user/modifyProfile
@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
         }).then((result) => {
           user.picture = result.secure_url
           console.log(result)
-          resolve();
+          resolve()
         })
       })
     }
