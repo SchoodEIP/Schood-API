@@ -2683,7 +2683,7 @@ components:
       items:
         type: object
         properties:
-          userSignaled:
+          usersSignaled:
             type: string
             example: '64f112e13c0bc73031846e2c'
           message:
@@ -2703,7 +2703,7 @@ components:
           _id:
             type: string
             example: '64f112e13c0bc73031846e2c'
-          userSignaled:
+          usersSignaled:
             type: string
             example: '64f112e13c0bc73031846e2c'
           signaledBy:

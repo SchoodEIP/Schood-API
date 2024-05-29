@@ -22,7 +22,7 @@ const Logger = require('../../../services/logger')
  */
 module.exports = async (req, res) => {
   try {
-    const response = await Roles.find()
+    const response = await Roles.find({ name: { $nin: ['job'] } })
 
     return res.status(200).json({ roles: response })
   } catch (error) /* istanbul ignore next */ {

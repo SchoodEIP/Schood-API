@@ -28,7 +28,7 @@ router.use('/classes', classesRouter)
 router.use('/helpNumber', helpNumbersRouter)
 router.use('/helpNumbersCategory', helpNumberCategoriesRouter)
 
-router.post('/register/', register)
+router.post('/register/', upload10Tmp.single('file'), register)
 router.post('/csvRegisterUser', upload10Tmp.single('csv'), csvRegisterUser)
 router.delete('/deleteUser/:id', deleteUser)
 

@@ -41,14 +41,14 @@ const createReport = async (user) => {
   const checkReport = await Reports.findOne({
     facility: user.facility,
     signaledBy: reporter._id,
-    userSignaled: user._id,
+    usersSignaled: [user._id],
     message: 'Cet utilisateur n\'a pas répondu a assez de questions dans les deux derniers questionnaires terminés',
     seen: false
   })
   if (checkReport) return
 
   const report = new Reports({
-    userSignaled: user._id,
+    usersSignaled: [user._id],
     signaledBy: reporter._id,
     createdAt: new Date(),
     message: 'Cet utilisateur n\'a pas répondu a assez de questions dans les deux derniers questionnaires terminés',

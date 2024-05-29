@@ -5,7 +5,7 @@
  */
 const { Users } = require('../../models/users')
 const Logger = require('../../services/logger')
-
+const cloudinary = require('cloudinary')
 /**
  * Main modifyProfile function
  * @name PATCH /user/modifyProfile
@@ -29,10 +29,21 @@ module.exports = async (req, res) => {
 
     const user = await Users.findById(userId)
 
+    if (req.file) {
+      await new Promise((resolve, reject) => {
+        cloudinary.v2.uploader.upload(req.file.path, {
+          use_filename: true
+        }).then((result) => {
+          user.picture = result.secure_url
+          console.log(result)
+          resolve()
+        })
+      })
+    }
+
     user.firstname = req.body.firstname ? req.body.firstname : user.firstname
     user.lastname = req.body.lastname ? req.body.lastname : user.lastname
     user.email = req.body.email ? req.body.email : user.email
-    user.picture = req.body.picture ? req.body.picture : user.picture
 
     await user.save()
 

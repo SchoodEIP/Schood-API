@@ -63,9 +63,9 @@ module.exports = async (req, res) => {
     for (let index = 0; index < req.body.participants.length; index++) {
       const participant = req.body.participants[index]
 
-      await createNotification(participant, 'Vous avez été ajouté a un chat', 'Vous avez été ajouté à un chat le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'chats', newChat._id, req.user.facility)
+      await createNotification(participant, 'Vous avez été ajouté a un chat', 'Vous avez été ajouté à un chat le ' + date.toLocaleDateString('fr-FR') + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'chats', newChat._id, req.user.facility)
     }
-    await createNotification(req.user._id, 'Vous avez été ajouté a un chat', 'Vous avez été ajouté à un chat le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'chats', newChat._id, req.user.facility)
+    await createNotification(req.user._id, 'Vous avez été ajouté a un chat', 'Vous avez été ajouté à un chat le ' + date.toLocaleDateString('fr-FR') + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'chats', newChat._id, req.user.facility)
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {

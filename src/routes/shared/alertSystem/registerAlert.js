@@ -89,12 +89,12 @@ module.exports = async (req, res) => {
       for (let index = 0; index < req.body.classes.length; index++) {
         const _class = req.body.classes[index]
 
-        await createNotificationForAllStudentOfClass(_class, 'Une nouvelle alerte a été créée', 'Une nouvelles alerte a été créée le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'alerts', alert._id, req.user.facility)
+        await createNotificationForAllStudentOfClass(_class, 'Une nouvelle alerte a été créée', 'Une nouvelles alerte a été créée le ' + date.toLocaleDateString('fr-FR') + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'alerts', alert._id, req.user.facility)
       }
     } else {
       const role = await Roles.findById(req.body.role)
 
-      await createNotificationForRole(role.name, 'Une nouvelle alerte a été créée', 'Une nouvelles alerte a été créée le ' + date.toDateString() + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'alerts', alert._id, req.user.facility)
+      await createNotificationForRole(role.name, 'Une nouvelle alerte a été créée', 'Une nouvelles alerte a été créée le ' + date.toLocaleDateString('fr-FR') + ' par ' + req.user.firstname + ' ' + req.user.lastname, 'alerts', alert._id, req.user.facility)
     }
 
     return res.status(200).json(alert)

@@ -16,15 +16,15 @@ const Types = {
 // We create the Schema for Reports, and we set up the required variables
 
 /**
- * Reports schema, containing userSignaled, signaledBy, createdAt, message and conversation
+ * Reports schema, containing usersSignaled, signaledBy, createdAt, message and conversation
  * @constructor Reports
  */
 const reportsSchema = new Schema({
-  userSignaled: {
+  usersSignaled: [{
     type: mongoose.Types.ObjectId,
     ref: 'users',
     required: true
-  },
+  }],
   signaledBy: {
     type: mongoose.Types.ObjectId,
     ref: 'users',
@@ -73,7 +73,7 @@ const Reports = mongoose.model('reports', reportsSchema)
 
 const validateRegister = (report) => {
   const schema = Joi.object({
-    userSignaled: Joi.objectId().required(),
+    usersSignaled: Joi.array().items(Joi.objectId().required()).min(1).required(),
     message: Joi.string().allow(null, ''),
     conversation: Joi.objectId().allow(null, ''),
     type: Joi.string().valid(...Object.values(Types)).required()
@@ -83,7 +83,7 @@ const validateRegister = (report) => {
 
 const validateModify = (report) => {
   const schema = Joi.object({
-    userSignaled: Joi.objectId().allow(null, ''),
+    usersSignaled: Joi.array().items(Joi.objectId().required()).min(1).required(),
     message: Joi.string().allow(null, ''),
     conversation: Joi.objectId().allow(null, ''),
     type: Joi.string().valid(...Object.values(Types)).required()

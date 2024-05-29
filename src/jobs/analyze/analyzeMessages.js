@@ -22,14 +22,14 @@ const createReport = async (user, message) => {
   const checkReport = await Reports.findOne({
     facility: user.facility,
     signaledBy: reporter._id,
-    userSignaled: user._id,
+    usersSignaled: [user._id],
     message: 'Cet utilisateur semble avoir utilisé des vulgarités dans ses messages à une autre personne.',
     seen: false
   })
   if (checkReport) return
 
   const report = new Reports({
-    userSignaled: user._id,
+    usersSignaled: [user._id],
     signaledBy: reporter._id,
     createdAt: new Date(),
     message: 'Cet utilisateur semble avoir utilisé des vulgarités dans ses messages à une autre personne.',

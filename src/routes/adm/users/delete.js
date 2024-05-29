@@ -69,7 +69,7 @@ const removeUserFromCollections = async (user) => {
     DailyMoods.deleteMany({ user: user._id }),
     Notifications.deleteMany({ user: user._id }),
     Questionnaires.deleteMany({ createdBy: user._id }),
-    Reports.deleteMany({ userSignaled: user._id }),
+    Reports.deleteMany({ usersSignaled: { $in: user._id } }),
     Reports.deleteMany({ signaledBy: user._id })
   ]
 
