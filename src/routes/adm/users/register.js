@@ -13,7 +13,7 @@ const bcrypt = require('bcryptjs')
 const random = require('random-string-generator')
 const Logger = require('../../../services/logger')
 const { Titles } = require('../../../models/titles')
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary')
 
 /**
  * Main register function
