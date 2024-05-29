@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     let mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
 
     if (!req.query.mail) {
-      mail = true;
+      mail = true
     }
 
     const email = req.body.email

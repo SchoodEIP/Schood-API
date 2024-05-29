@@ -51,7 +51,7 @@ module.exports = async (facility) => {
       facility: facility._id,
       title: mathsTitle._id,
       classes: [class200._id, class201._id],
-      picture: "https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png"
+      picture: 'https://res.cloudinary.com/def3ztvli/image/upload/v1716431987/d959d8e47a1e9fd2293f1b5f9c61a729_gxlcep.png'
     },
     {
       email: 'marie.leclerc',
@@ -61,7 +61,7 @@ module.exports = async (facility) => {
       title: frenchTitle._id,
       facility: facility._id,
       classes: [class200._id],
-      picture: "https://res.cloudinary.com/def3ztvli/image/upload/v1716432236/f63a229b2d13491d9e5391542bb0786e_gjgqoe.png"
+      picture: 'https://res.cloudinary.com/def3ztvli/image/upload/v1716432236/f63a229b2d13491d9e5391542bb0786e_gjgqoe.png'
     },
     {
       email: 'alice.johnson',
@@ -70,7 +70,7 @@ module.exports = async (facility) => {
       role: student._id,
       facility: facility._id,
       classes: [class200._id],
-      picture: "https://res.cloudinary.com/def3ztvli/image/upload/v1716432465/1c0406f8b439ef28adcabbbca968a92f_ge4aa0.png"
+      picture: 'https://res.cloudinary.com/def3ztvli/image/upload/v1716432465/1c0406f8b439ef28adcabbbca968a92f_ge4aa0.png'
     },
     {
       email: 'jean-pierre.lefevre',
@@ -79,7 +79,7 @@ module.exports = async (facility) => {
       role: student._id,
       facility: facility._id,
       classes: [class201._id],
-      picture: "https://res.cloudinary.com/def3ztvli/image/upload/v1716432520/43fc458bcfeb963b3fe9f46b89c9423e_chubor.png"
+      picture: 'https://res.cloudinary.com/def3ztvli/image/upload/v1716432520/43fc458bcfeb963b3fe9f46b89c9423e_chubor.png'
     },
     {
       email: 'jacqueline.delais',
@@ -88,7 +88,7 @@ module.exports = async (facility) => {
       facility: facility._id,
       role: adm._id,
       title: admTitle._id,
-      picture: "https://res.cloudinary.com/def3ztvli/image/upload/v1716432346/1a4edab00d40ab5f008893184a2ce487_nbwawv.jpg"
+      picture: 'https://res.cloudinary.com/def3ztvli/image/upload/v1716432346/1a4edab00d40ab5f008893184a2ce487_nbwawv.jpg'
     }
   ]
 

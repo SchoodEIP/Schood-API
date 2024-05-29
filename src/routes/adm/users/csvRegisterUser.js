@@ -30,9 +30,9 @@ const { Titles } = require('../../../models/titles')
 module.exports = async (req, res) => {
   try {
     let mail = Boolean((req.query.mail || '').replace(/\s*(false|null|undefined|0)\s*/i, ''))
-    
+
     if (!req.query.mail) {
-      mail = true;
+      mail = true
     }
     // Verify received data
     if (req.file.size === 0) { return res.status(422).json({ message: 'Le fichier est vide' }) }
@@ -133,11 +133,11 @@ const checkCsvBody = async (csv) => {
     }
 
     if (await Users.findOne({ email: row.email })) {
-      addError("Un utilisateur avec cet email existe déjà", index)
+      addError('Un utilisateur avec cet email existe déjà', index)
     }
 
     if (emails.includes(row.email)) {
-      addError("Un autre utilisateur a déjà cet email dans le csv", index)
+      addError('Un autre utilisateur a déjà cet email dans le csv', index)
     } else {
       emails.push(row.email)
     }

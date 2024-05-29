@@ -30,7 +30,7 @@ module.exports = async () => {
       name: 'admin',
       frenchName: 'Admin',
       levelOfAccess: 3
-    } 
+    }
   ]
 
   for (let index = 0; index < rolesToInit.length; index++) {

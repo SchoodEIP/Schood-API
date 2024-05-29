@@ -17,7 +17,7 @@ const sendMail = (to, subject, text) => {
     text
   }
 
-  console.log("mailOptions:", mailOptions)
+  console.log('mailOptions:', mailOptions)
 
   transporter.sendMail(mailOptions, function (error) {
     if (error) {
