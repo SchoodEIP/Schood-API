@@ -70,6 +70,46 @@ module.exports = async (facility) => {
       classes: [class200._id],
       createdBy: teacher2User._id,
       facility: facility._id
+    },
+    {
+      title: 'Questionnaire Hebdomadaire',
+      fromDate: new Date('2024-05-27'),
+      toDate: new Date('2024-06-02'),
+      questions: [
+        {
+          title: 'Quel age avez-vous ?',
+          type: 'text'
+        },
+        {
+          title: 'Comment vous sentez-vous ?',
+          type: 'emoji'
+        },
+        {
+          title: "C'est temps-ci, vous êtes plutôt ?",
+          type: 'multiple',
+          answers: [
+            {
+              position: 1,
+              title: 'Heureux'
+            },
+            {
+              position: 2,
+              title: 'Triste'
+            },
+            {
+              position: 3,
+              title: 'En colère'
+            },
+            {
+              position: 4,
+              title: 'Déprimé'
+            }
+          ]
+        }
+      ],
+      classes: [class200._id, class201._id],
+      createdBy: teacher1User._id,
+      facility: facility._id
     }
   ]
 
