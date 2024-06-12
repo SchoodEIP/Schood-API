@@ -13,7 +13,7 @@ const { Reports } = require('../../models/reports')
 const regular = 'Helvetica'
 const bold = 'Helvetica-Bold'
 const oblique = 'Helvetica-Oblique'
-// noinspection JSUnusedLocalSymbols
+// eslint-disable-next-line no-unused-vars
 const boldOblique = 'Helvetica-BoldOblique'
 
 const messages = async (doc, reports) => {
