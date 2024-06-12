@@ -1299,6 +1299,39 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /adm/studentAnalysisReport:
+    get:
+      tags:
+        - adm
+      summary: Download the PDF file for the student analysis report
+      description: >
+        Download the PDF file for the student analysis report.
+      parameters:
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Date from which the report will start.
+          example: "2024-06-13T13:28:29.365Z"
+        - name: too
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Date which will define the end of the report.
+          example: "2024-06-13T13:28:29.365Z"
+      responses:
+        '200':
+          description: Successful operation
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
 
   /admin/facility:
     post:
