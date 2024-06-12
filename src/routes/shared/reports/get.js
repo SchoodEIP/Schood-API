@@ -21,8 +21,14 @@ const { Reports } = require('../../../models/reports')
  */
 module.exports = async (req, res) => {
   try {
-    const query = {
+    const id = req.query.id;
+
+    let query = {
       facility: req.user.facility
+    }
+
+    if (id && req.user.role.levelOfAccess === 2) {
+      query.signaledBy = id;
     }
 
     if (req.user.role.levelOfAccess <= 1) {

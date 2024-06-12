@@ -10,6 +10,7 @@ const { Answers } = require('../../../models/answers')
 const { isTeacher } = require('../../../models/roles')
 const mongoose = require('mongoose')
 const { Classes } = require('../../../models/classes')
+const { Users } = require('../../../models/users')
 
 /**
  * Main statistics answers function
@@ -27,6 +28,7 @@ const { Classes } = require('../../../models/classes')
 module.exports = async (req, res) => {
   try {
     const { fromDate, toDate, classFilter } = req.body
+    const id = req.query.id
 
     if (!fromDate || !toDate) return res.status(400).json({ message: 'Date range missing' })
     if (!classFilter) return res.status(400).json({ message: 'Class filter missing' })
@@ -39,7 +41,7 @@ module.exports = async (req, res) => {
       if (!_class) return res.status(400).json({ message: 'Class filtered is not an existing class' })
     }
 
-    const aggQuestionnaires = await buildAggregationQuestionnaires(fromDate, toDate, req.user, classFilter)
+    const aggQuestionnaires = await buildAggregationQuestionnaires(fromDate, toDate, req.user, classFilter, id)
     if (!aggQuestionnaires) return res.status(400).json({ message: 'User is not part of this class' })
 
     const questionnaires = await Questionnaires.find(aggQuestionnaires)
@@ -55,16 +57,21 @@ module.exports = async (req, res) => {
   }
 }
 
-const buildAggregationQuestionnaires = async (fromDate, toDate, user, classFilter) => {
+const buildAggregationQuestionnaires = async (fromDate, toDate, user, classFilter, id) => {
   const agg = { facility: user.facility, fromDate: {}, toDate: {} }
-  if (await isTeacher(user)) {
+  if (id && user.role.levelOfAccess === 2) {
+    agg.createdBy = id;
+  } else if (await isTeacher(user)) {
     agg.createdBy = user._id
   }
   if (classFilter !== 'all') {
     if (await isTeacher(user) && !(user.classes.some(c => c.equals(classFilter)))) return null
     agg.classes = { $in: classFilter }
   } else {
-    if (await isTeacher(user)) {
+    if (id && user.role.levelOfAccess === 2) {
+      const userTmp = await Users.findById(id);
+      agg.classes = {$in: userTMP.classes};
+    } else if (await isTeacher(user)) {
       agg.classes = { $in: user.classes.map((c) => c._id) }
     }
   }
