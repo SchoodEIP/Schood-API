@@ -21,9 +21,15 @@ const chatsSchema = new Schema({
     required: true
   },
   participants: [{
-    type: mongoose.Types.ObjectId,
-    ref: 'users',
-    required: true
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: 'users',
+      required: true
+    },
+    canSeeAfter: {
+      type: Date,
+      default: new Date()
+    }
   }],
   date: {
     type: Date,
@@ -52,7 +58,7 @@ const Chats = mongoose.model('chats', chatsSchema)
 
 const validateChats = (chat) => {
   const schema = Joi.object({
-    participants: Joi.array().items(Joi.objectId().required()).min(1).required(),
+    participants: Joi.array().required(),
     title: Joi.string()
   })
   return schema.validate(chat)

@@ -23,16 +23,16 @@ module.exports = async (req, res) => {
     const agg = [
       {
         $match: {
-          participants: req.user._id,
+          "participants.user": req.user._id,
           facility: req.user.facility
         }
       },
       {
         $lookup: {
           from: 'users',
-          localField: 'participants',
+          localField: 'participants.user',
           foreignField: '_id',
-          as: 'participants'
+          as: 'participants.user'
         }
       },
       {
@@ -57,10 +57,10 @@ module.exports = async (req, res) => {
 
     chats.forEach(chat => {
       chat.participants.sort((a, b) => {
-        if (a.firstname < b.firstname) {
+        if (a.user.firstname < b.user.firstname) {
           return -1
         }
-        if (a.firstname > b.firstname) {
+        if (a.user.firstname > b.user.firstname) {
           return 1
         }
         return 0

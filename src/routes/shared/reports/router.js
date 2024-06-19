@@ -10,6 +10,7 @@ const modify = require('./modify')
 const delete_ = require('./delete')
 const get = require('./get')
 const access = require('../../../middleware/access')
+const processing = require('./processing')
 
 /**
  * Main router connection
@@ -19,6 +20,7 @@ const access = require('../../../middleware/access')
  */
 
 router.post('/', register)
+router.post('/processing', access(2, true), processing)
 router.patch('/:id', modify)
 router.delete('/:id', access(2, true), delete_)
 router.get('/', get)

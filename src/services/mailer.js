@@ -1,6 +1,9 @@
 const nodemailer = require('nodemailer')
 const Logger = require('./logger')
 
+const viewPath =  path.resolve(__dirname, './templates/views/');
+const partialsPath = path.resolve(__dirname, './templates/partials');
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -9,15 +12,36 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-const sendMail = (to, subject, text) => {
-  const mailOptions = {
-    from: process.env.MAIL,
-    to,
-    subject,
-    text
-  }
+transporter.use('compile', hbs({
+  viewEngine: {
+    extName: '.handlebars',
+    layoutsDir: viewPath,
+    defaultLayout: false,
+    partialsDir: partialsPath,
+    express
+  },
+  viewPath: viewPath,
+  extName: '.handlebars',
+}));
 
-  console.log('mailOptions:', mailOptions)
+const sendMail = (to, subject, text, template = null) => {
+  let mailOptions = {};
+  if (template) {
+    mailOptions = {
+      from: process.env.MAIL,
+      to,
+      subject,
+      template,
+      text
+    }
+  } else {
+    mailOptions = {
+      from: process.env.MAIL,
+      to,
+      subject,
+      text
+    }
+  }
 
   transporter.sendMail(mailOptions, function (error) {
     if (error) {

@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
   try {
     // Verif received data
     const id = req.params.id
+    const canSeeAfter = req.body.canSeeAfter
 
     if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
     const { error } = validateChats(req.body)
@@ -33,23 +34,29 @@ module.exports = async (req, res) => {
 
     const chat = await Chats.findById(id)
     if (!chat || chat.length === 0) return res.status(400).json({ message: 'Invalid request' })
-    if (!chat.participants.includes(req.user._id)) return res.status(400).json({ message: 'User not in chat' })
+    if (!chat.participants.find((p) => p.user === req.user._id)) return res.status(400).json({ message: 'User not in chat' })
 
     const failedIds = []
     const alreadyInChat = []
-    for (const id of req.body.participants) {
-      const user = await Users.findById(id)
+    for (const p of req.body.participants) {
+      const user = await Users.findById(p.user)
 
       if (!user || user.length === 0) {
-        failedIds.push(id)
-      } else if (chat.participants.includes(id)) {
-        alreadyInChat.push(id)
+        failedIds.push(p)
+      } else if (chat.participants.find((p2) => p2.user === p)) {
+        alreadyInChat.push(p)
       }
     }
     if (failedIds.length !== 0) return res.status(422).json({ message: `Users not found: ${failedIds}` })
     if (alreadyInChat.length !== 0) return res.status(422).json({ message: `These users are already in chat, ids: ${alreadyInChat}` })
 
-    chat.participants.push(...req.body.participants)
+    
+    req.body.participants.forEach(participant => {
+      chat.participants.push({
+        user: participant,
+        canSeeAfter: new Date(canSeeAfter)
+      })
+    });
     await chat.save()
 
     const date = new Date(chat.date)
