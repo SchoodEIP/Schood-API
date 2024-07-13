@@ -1,8 +1,10 @@
 const nodemailer = require('nodemailer')
 const Logger = require('./logger')
-
-const viewPath =  path.resolve(__dirname, './templates/views/');
+const path = require('path');
+const hbs = require('nodemailer-express-handlebars');
+const viewPath = path.resolve(__dirname, './templates/views/');
 const partialsPath = path.resolve(__dirname, './templates/partials');
+const express = require('express');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -24,7 +26,7 @@ transporter.use('compile', hbs({
   extName: '.handlebars',
 }));
 
-const sendMail = (to, subject, text, template = null) => {
+const sendMail = (to, subject, text, template = null, context = null) => {
   let mailOptions = {};
   if (template) {
     mailOptions = {
@@ -33,6 +35,9 @@ const sendMail = (to, subject, text, template = null) => {
       subject,
       template,
       text
+    }
+    if (context) {
+      mailOptions['context'] = context;
     }
   } else {
     mailOptions = {
@@ -43,7 +48,8 @@ const sendMail = (to, subject, text, template = null) => {
     }
   }
 
-  transporter.sendMail(mailOptions, function (error) {
+  transporter.sendMail(mailOptions, function (error, info) {
+    Logger.info(info)
     if (error) {
       Logger.error(error)
     }
