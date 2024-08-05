@@ -12,6 +12,7 @@ const helpNumberCategoriesRouter = require('./helpNumbersCategory/router')
 
 const register = require('./users/register')
 const csvRegisterUser = require('./users/csvRegisterUser')
+const activateUser = require('./users/activate')
 const deleteUser = require('./users/delete')
 
 const { upload10Tmp } = require('../../utils/multer')
@@ -30,6 +31,7 @@ router.use('/helpNumbersCategory', helpNumberCategoriesRouter)
 
 router.post('/register/', upload10Tmp.single('file'), register)
 router.post('/csvRegisterUser', upload10Tmp.single('csv'), csvRegisterUser)
+router.post('/activateUser/:id', activateUser)
 router.delete('/deleteUser/:id', deleteUser)
 
 module.exports = router

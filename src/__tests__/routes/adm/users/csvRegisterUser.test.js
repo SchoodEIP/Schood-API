@@ -1,8 +1,8 @@
 const request = require('supertest')
 const mongoose = require('mongoose')
 
-const server = require('../../serverUtils/testServer')
-const dbDefault = require('../../../config/db.default')
+const server = require('../../../serverUtils/testServer')
+const dbDefault = require('../../../../config/db.default')
 
 describe('Adm route tests', () => {
   let app
