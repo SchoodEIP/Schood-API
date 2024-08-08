@@ -15,8 +15,10 @@ const { Moods } = require('../../models/moods')
 module.exports = class TestFunctions {
   token
   app
+  wrongId
   constructor (app) {
     this.app = app
+    this.wrongId = '000000a00aa00a00aa0a0000'
   }
 
   /**
