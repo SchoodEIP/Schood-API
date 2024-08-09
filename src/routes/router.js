@@ -5,7 +5,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { isUserPartOfMyClasses } = require("../models/users")
+const { isUserPartOfMyClasses } = require('../models/users')
 
 const auth = require('../middleware/auth')
 const access = require('../middleware/access')
@@ -34,8 +34,7 @@ router.get('/testAnalyze', async (req, res) => {
   return res.status(200).send()
 })
 router.get('/testtest', auth, async (req, res) => {
-  if (await isUserPartOfMyClasses(req.user, '663204c48aa01b14ae9b8777'))
-    return res.status(200).send('Yes')
+  if (await isUserPartOfMyClasses(req.user, '663204c48aa01b14ae9b8777')) { return res.status(200).send('Yes') }
   return res.status(400).send('Wtf')
 })
 
