@@ -22,7 +22,7 @@ const Logger = require('../../../services/logger')
 module.exports = async (req, res) => {
   try {
     const isTeacher = req.user.role.levelOfAccess === 1
-    const id = req.query.id;
+    const id = req.query.id
     let questionnaires
 
     if (id && req.user.role.levelOfAccess === 2) {

@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
 const buildAggregationQuestionnaires = async (fromDate, toDate, user, classFilter, id) => {
   const agg = { facility: user.facility, fromDate: {}, toDate: {} }
   if (id && user.role.levelOfAccess === 2) {
-    agg.createdBy = id;
+    agg.createdBy = id
   } else if (await isTeacher(user)) {
     agg.createdBy = user._id
   }
@@ -69,8 +69,8 @@ const buildAggregationQuestionnaires = async (fromDate, toDate, user, classFilte
     agg.classes = { $in: classFilter }
   } else {
     if (id && user.role.levelOfAccess === 2) {
-      const userTmp = await Users.findById(id);
-      agg.classes = {$in: userTMP.classes};
+      const userTmp = await Users.findById(id)
+      agg.classes = { $in: userTMP.classes }
     } else if (await isTeacher(user)) {
       agg.classes = { $in: user.classes.map((c) => c._id) }
     }

@@ -27,9 +27,9 @@ module.exports = async (req, res) => {
     const id = req.query.id
 
     if (!fromDate && !toDate) {
-      let response;
+      let response
       if (id && req.user.role.levelOfAccess === 2) {
-        response = await Questionnaires.find({createdby: id})
+        response = await Questionnaires.find({ createdby: id })
       } else {
         response = await Questionnaires.find()
       }
@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
     }
 
     if (id && req.user.role.levelOfAccess === 2) {
-      agg[0].$match.createdBy = new mongoose.Types.ObjectId(id);
+      agg[0].$match.createdBy = new mongoose.Types.ObjectId(id)
     }
 
     const response = await Questionnaires.aggregate(agg)
