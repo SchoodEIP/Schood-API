@@ -24,8 +24,8 @@ module.exports = async (req, res) => {
     const id = req.query.id
     let response = {}
 
-    if (id && req.user.role.levelOfAccess === 2) {
-      response = await Users.findById(id)
+    if (id && (req.user.role.levelOfAccess === 2 || req.user.role.levelOfAccess === 1)) {
+      response = await Users.findById(id);
     } else {
       response = JSON.parse(JSON.stringify(req.user))
     }
