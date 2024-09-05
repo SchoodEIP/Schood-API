@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     }
 
     if (id && (req.user.role.levelOfAccess === 2 || req.user.role.levelOfAccess === 1)) {
-      query.signaledBy = id;
+      query.signaledBy = id
     }
 
     if (req.user.role.levelOfAccess < 1) {
