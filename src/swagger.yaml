@@ -2450,6 +2450,48 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /shared/moods/userSeen/{id}:
+    post:
+      tags:
+        - shared
+      summary: Set a moods as seen
+      description: Set a mood as seen
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the mood
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'
+        '422':
+          description: No moods find
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoMoodsFind'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
 
 components:
   schemas:
@@ -3488,6 +3530,12 @@ components:
         '2024-02-25':
           type: number
           example: 50
+    NoMoodsFind:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "No moods found"
     ok:
       type: object
       properties:
@@ -3500,6 +3548,18 @@ components:
         message:
           type: string
           example: "Internal Server Error"
+    unauthorized:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Unauthorized"
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Forbidden"
   securitySchemes:
       x-auth-token:
         type: apiKey

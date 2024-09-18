@@ -44,6 +44,7 @@ module.exports = async (req, res) => {
     mood.mood = req.body.mood
     mood.annonymous = req.body.annonymous
     mood.comment = typeof req.body.comment === 'string' ? req.body.comment : ''
+    mood.seen = false
 
     mood.save()
 
