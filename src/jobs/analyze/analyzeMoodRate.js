@@ -27,7 +27,7 @@ module.exports = async (user) => {
     notAnonymousMoods += 1
   }
   const average = averageMood / (dailyMoods.length + notAnonymousMoods) * 20
-  if (average <= 60) createReport(user)
+  if (average <= 60) await createReport(user)
 }
 
 const createReport = async (user) => {

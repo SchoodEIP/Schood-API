@@ -34,7 +34,7 @@ const analyzeFrequency = async (user) => {
 
   if (!dailyMoods) return
   const frequency = dailyMoods.length / 7 * 100
-  if (frequency <= 50) createReport(user)
+  if (frequency <= 50) await createReport(user)
 }
 
 const createReport = async (user) => {

@@ -14,7 +14,7 @@ module.exports = async (user) => {
 
   if (!answers) return
   const frequency = analyzeAnswerFrequency(questionnaires, answers)
-  if (frequency <= 80) createReport(user)
+  if (frequency <= 80) await createReport(user)
 }
 
 const analyzeAnswerFrequency = (questionnaires, answers) => {
