@@ -70,7 +70,7 @@ const buildAggregationQuestionnaires = async (fromDate, toDate, user, classFilte
   } else {
     if (id && user.role.levelOfAccess === 2) {
       const userTmp = await Users.findById(id)
-      agg.classes = { $in: userTMP.classes }
+      agg.classes = { $in: userTmp.classes }
     } else if (await isTeacher(user)) {
       agg.classes = { $in: user.classes.map((c) => c._id) }
     }
