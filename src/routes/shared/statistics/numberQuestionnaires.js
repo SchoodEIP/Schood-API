@@ -6,6 +6,7 @@
 
 const Logger = require('../../../services/logger')
 const { Questionnaires } = require('../../../models/questionnaire')
+const { default: mongoose } = require('mongoose')
 
 /**
  * Main profile function
@@ -23,9 +24,15 @@ const { Questionnaires } = require('../../../models/questionnaire')
 module.exports = async (req, res) => {
   try {
     const { fromDate, toDate } = req.body
+    const id = req.query.id
 
     if (!fromDate && !toDate) {
-      const response = await Questionnaires.find()
+      let response
+      if (id && req.user.role.levelOfAccess === 2) {
+        response = await Questionnaires.find({ createdby: id })
+      } else {
+        response = await Questionnaires.find()
+      }
 
       if (!response) { return res.status(422).json({ message: 'Failed to get questionnaires' }) }
       return res.status(200).json({ numberOfQuestionnaires: response.length })
@@ -49,6 +56,10 @@ module.exports = async (req, res) => {
       agg[0].$match.toDate = {
         $lte: convertedToDate
       }
+    }
+
+    if (id && req.user.role.levelOfAccess === 2) {
+      agg[0].$match.createdBy = new mongoose.Types.ObjectId(id)
     }
 
     const response = await Questionnaires.aggregate(agg)

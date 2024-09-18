@@ -22,9 +22,15 @@ const Logger = require('../../../services/logger')
 module.exports = async (req, res) => {
   try {
     const isTeacher = req.user.role.levelOfAccess === 1
+    const id = req.query.id
     let questionnaires
 
-    if (isTeacher) { // If teacher we only want his questionnaires
+    if (id && req.user.role.levelOfAccess === 2) {
+      questionnaires = await Questionnaires.find({
+        facility: req.user.facility,
+        createdBy: id
+      }).sort({ date: -1 }).populate('createdBy classes')
+    } else if (isTeacher) { // If teacher we only want his questionnaires
       questionnaires = await Questionnaires.find({
         facility: req.user.facility,
         classes: { $in: req.user.classes },
