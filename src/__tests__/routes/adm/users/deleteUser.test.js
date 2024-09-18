@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
-const server = require('../../serverUtils/testServer')
-const dbDefault = require('../../../config/db.default')
-const TestFunctions = require('../../serverUtils/TestFunctions')
+const server = require('../../../serverUtils/testServer')
+const dbDefault = require('../../../../config/db.default')
+const TestFunctions = require('../../../serverUtils/TestFunctions')
 
 describe('Adm route tests', () => {
   let app
