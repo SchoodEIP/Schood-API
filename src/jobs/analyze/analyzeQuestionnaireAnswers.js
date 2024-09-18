@@ -28,7 +28,7 @@ const createReport = async (user) => {
     facility: user.facility,
     signaledBy: reporter._id,
     usersSignaled: [user._id],
-    message: 'Cet utilisateur semble avoir écris des vulgarités dans une de ses réponse à un questionnaire',
+    message: 'Cet utilisateur semble avoir écris des vulgarités dans une de ses réponse à un questionnaire.',
     seen: false
   })
   if (checkReport) return
@@ -37,7 +37,7 @@ const createReport = async (user) => {
     usersSignaled: [user._id],
     signaledBy: reporter._id,
     createdAt: new Date(),
-    message: 'Cet utilisateur semble avoir écris des vulgarités dans une de ses réponse à un questionnaire',
+    message: 'Cet utilisateur semble avoir écris des vulgarités dans une de ses réponse à un questionnaire.',
     type: Types.BADCOMPORTMENT,
     facility: user.facility
   })
