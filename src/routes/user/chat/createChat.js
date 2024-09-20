@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
         user: participant,
         canSeeAfter: date
       })
-    });
+    })
 
     const newChat = new Chats({
       facility: req.user.facility,

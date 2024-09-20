@@ -50,13 +50,12 @@ module.exports = async (req, res) => {
     if (failedIds.length !== 0) return res.status(422).json({ message: `Users not found: ${failedIds}` })
     if (alreadyInChat.length !== 0) return res.status(422).json({ message: `These users are already in chat, ids: ${alreadyInChat}` })
 
-    
     req.body.participants.forEach(participant => {
       chat.participants.push({
         user: participant,
         canSeeAfter: new Date(canSeeAfter)
       })
-    });
+    })
     await chat.save()
 
     const date = new Date(chat.date)

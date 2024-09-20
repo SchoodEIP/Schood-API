@@ -115,7 +115,7 @@ module.exports = async (req, res) => {
         /* istanbul ignore next */
         if (mail) {
           const message = 'email: ' + req.body.email + ' | password: ' + password
-          sendMail(req.body.email, 'Compte schood créé', message, "index", {
+          sendMail(req.body.email, 'Compte schood créé', message, 'index', {
             title: 'Bienvenue chez Schood !',
             body: `Votre compte Schood a été créé avec succès !\n\n
             Les identifiants suivants servent à vous connecter à Schood.\n\n

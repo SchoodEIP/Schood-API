@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
     const user = await Users.findById(req.user._id)
     if (!user) return res.status(400).json({ message: 'Invalid request' })
     const chatUser = chat.participants.find((p) => String(p.user) === String(req.user._id))
-    
+
     const messages = []
     for (const messageId of chat.messages) {
       const message = await Messages.findById(messageId)

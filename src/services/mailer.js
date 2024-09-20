@@ -1,10 +1,10 @@
 const nodemailer = require('nodemailer')
 const Logger = require('./logger')
-const path = require('path');
-const hbs = require('nodemailer-express-handlebars');
-const viewPath = path.resolve(__dirname, './templates/views/');
-const partialsPath = path.resolve(__dirname, './templates/partials');
-const express = require('express');
+const path = require('path')
+const hbs = require('nodemailer-express-handlebars')
+const viewPath = path.resolve(__dirname, './templates/views/')
+const partialsPath = path.resolve(__dirname, './templates/partials')
+const express = require('express')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -22,12 +22,12 @@ transporter.use('compile', hbs({
     partialsDir: partialsPath,
     express
   },
-  viewPath: viewPath,
-  extName: '.handlebars',
-}));
+  viewPath,
+  extName: '.handlebars'
+}))
 
 const sendMail = (to, subject, text, template = null, context = null) => {
-  let mailOptions = {};
+  let mailOptions = {}
   if (template) {
     mailOptions = {
       from: process.env.MAIL,
@@ -37,7 +37,7 @@ const sendMail = (to, subject, text, template = null, context = null) => {
       text
     }
     if (context) {
-      mailOptions['context'] = context;
+      mailOptions.context = context
     }
   } else {
     mailOptions = {

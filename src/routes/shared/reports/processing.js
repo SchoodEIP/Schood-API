@@ -4,10 +4,7 @@
  * @namespace reports
  */
 
-const { default: mongoose } = require('mongoose')
-const { Reports, validateModify } = require('../../../models/reports')
-const { Users } = require('../../../models/users')
-const { Chats } = require('../../../models/chat')
+const { Reports } = require('../../../models/reports')
 
 /**
  * Main reports function
@@ -26,15 +23,15 @@ module.exports = async (req, res) => {
   try {
     // Verif received data
     const id = req.params.id
-    
+
     const check = await Reports.findById(id)
 
     if (!check) {
-        return res.status(400).json({ message: 'Invalid request' })
+      return res.status(400).json({ message: 'Invalid request' })
     }
 
-    check.type = req.body.type;
-    check.responseMessage = req.body.responseMessage;
+    check.type = req.body.type
+    check.responseMessage = req.body.responseMessage
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
