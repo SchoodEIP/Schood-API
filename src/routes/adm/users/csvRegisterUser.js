@@ -191,7 +191,14 @@ const processImport = async (csv, mail, currentUser) => {
       /* istanbul ignore next */
       if (mail) {
         const message = 'email: ' + val.email + ' | password: ' + password
-        sendMail(val.email, 'Compte Schood créé', message)
+        sendMail(val.email, 'Compte Schood créé', message, 'index', {
+          title: 'Bienvenue chez Schood !',
+          body: `Votre compte Schood a été créé avec succès !\n\n
+          Les identifiants suivants servent à vous connecter à Schood.\n\n
+          Nom d'utilisateur: ${val.email}\n
+          Mot de passe: ${password}`,
+          connect: true
+        })
       }
     }
   } catch (e) /* istanbul ignore next */ {

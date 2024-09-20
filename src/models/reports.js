@@ -13,6 +13,12 @@ const Types = {
   SPAM: 'spam'
 }
 
+const Status = {
+  SEEN: 'seen',
+  RESPONDED: 'responded',
+  UNSEEN: 'unseen'
+}
+
 // We create the Schema for Reports, and we set up the required variables
 
 /**
@@ -56,10 +62,14 @@ const reportsSchema = new Schema({
     default: Types[0],
     required: true
   },
-  seen: {
-    type: Boolean,
-    default: false,
+  status: {
+    type: String,
+    enum: Status,
+    default: Status[2],
     required: true
+  },
+  responseMessage: {
+    type: String
   },
   facility: {
     type: mongoose.Types.ObjectId,
