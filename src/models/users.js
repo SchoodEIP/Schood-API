@@ -132,4 +132,24 @@ const aggregateUsersInClass = (facilityId, classId) => {
   ]
 }
 
-module.exports = { Users, validateUser, validateRegister, validatePassword, validateDelete, aggregateUsersInClass }
+const isUserPartOfMyClasses = async (me, userIdToIdentify) => {
+  if (me.classes.length < 1) return false
+
+  for (const c of me.classes) {
+    const users = await Users.aggregate(aggregateUsersInClass(me.facility, c._id))
+    for (const user of users) {
+      if (user._id.equals(userIdToIdentify)) return true
+    }
+  }
+  return false
+}
+
+module.exports = {
+  Users,
+  validateUser,
+  validateRegister,
+  validatePassword,
+  validateDelete,
+  aggregateUsersInClass,
+  isUserPartOfMyClasses
+}

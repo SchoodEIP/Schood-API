@@ -25,6 +25,7 @@ const modifyProfile = require('./modifyProfile')
 const tokenCheck = require('./tokenCheck')
 const downloadApk = require('./downloadApk')
 const { upload10Tmp } = require('../../utils/multer')
+const getMoodById = require('./getMoodById')
 
 /**
  * User router connection
@@ -44,10 +45,11 @@ router.patch('/changePassword', auth, changePassword)
 router.patch('/modifyProfile/:id', auth, upload10Tmp.single('file'), modifyProfile)
 router.get('/profile', auth, profile)
 router.get('/by/:position', auth, access(2, false), getUsersByPosition)
-router.get('/all', auth, access(2, false), getAllUsers)
+router.get('/all', auth, access(1, false), getAllUsers)
 router.get('/tokenCheck', auth, tokenCheck)
 router.get('/downloadApk', downloadApk)
 router.patch('/:id', auth, access(1), updateUser)
+router.get('/mood', auth, getMoodById)
 
 // helpNumbers
 router.get('/helpNumbers', auth, getAllHelpNumbers)

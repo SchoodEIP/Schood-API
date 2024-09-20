@@ -10,9 +10,15 @@ const classesRouter = require('./classes/router')
 const helpNumbersRouter = require('./helpNumber/router')
 const helpNumberCategoriesRouter = require('./helpNumbersCategory/router')
 
+const individualReport = require('./studentAnalysisIndividualReport')
+const profileReport = require('./studentProfileReport')
+
 const register = require('./users/register')
 const csvRegisterUser = require('./users/csvRegisterUser')
+const activateUser = require('./users/activate')
 const deleteUser = require('./users/delete')
+
+const studentAnalysisReport = require('./studentAnalysisReport')
 
 const { upload10Tmp } = require('../../utils/multer')
 /**
@@ -28,8 +34,13 @@ router.use('/classes', classesRouter)
 router.use('/helpNumber', helpNumbersRouter)
 router.use('/helpNumbersCategory', helpNumberCategoriesRouter)
 
+router.get('/studentAnalysisReport', studentAnalysisReport)
+router.get('/studentAnalysisReport/:id', individualReport)
+router.get('/studentProfileReport/:id', profileReport)
+
 router.post('/register/', upload10Tmp.single('file'), register)
 router.post('/csvRegisterUser', upload10Tmp.single('csv'), csvRegisterUser)
+router.post('/activateUser/:id', activateUser)
 router.delete('/deleteUser/:id', deleteUser)
 
 module.exports = router

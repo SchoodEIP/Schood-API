@@ -4,6 +4,7 @@
  * @namespace profile
  */
 
+const { Users } = require('../../models/users')
 const Logger = require('../../services/logger')
 
 /**
@@ -20,7 +21,14 @@ const Logger = require('../../services/logger')
  */
 module.exports = async (req, res) => {
   try {
-    const response = JSON.parse(JSON.stringify(req.user))
+    const id = req.query.id
+    let response = {}
+
+    if (id && (req.user.role.levelOfAccess === 2 || req.user.role.levelOfAccess === 1)) {
+      response = await Users.findById(id)
+    } else {
+      response = JSON.parse(JSON.stringify(req.user))
+    }
     delete response.password
 
     // Send profile
