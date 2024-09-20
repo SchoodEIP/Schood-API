@@ -55,7 +55,13 @@ module.exports = async (req, res) => {
         /* istanbul ignore next */
         if (mail) {
           const message = 'Your new password is: \n' + 'email: ' + req.body.email + ' | password: ' + password
-          sendMail(req.body.email, 'Retrieve Password', message)
+          sendMail(req.body.email, 'Retrieve Password', message, 'index', {
+            title: 'Mot de passe oublié',
+            body: `Vous avez fait une demande de récupération de mot de passe.\n\n
+            Votre nouveau mot de passe est le suivant:\n\n
+            Mot de passe: ${password}\n`,
+            connect: true
+          })
         }
       })
 

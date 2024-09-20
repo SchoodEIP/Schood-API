@@ -51,11 +51,20 @@ module.exports = async (req, res) => {
     }
 
     const date = new Date()
+    const participants = []
+
+    req.body.participants.forEach(participant => {
+      participants.push({
+        user: participant,
+        canSeeAfter: date
+      })
+    })
+
     const newChat = new Chats({
       facility: req.user.facility,
       date,
       createdBy: req.user._id,
-      participants: [...req.body.participants],
+      participants,
       title
     })
     await newChat.save()
