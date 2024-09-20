@@ -21,11 +21,17 @@ const { Reports } = require('../../../models/reports')
  */
 module.exports = async (req, res) => {
   try {
+    const id = req.query.id
+
     const query = {
       facility: req.user.facility
     }
 
-    if (req.user.role.levelOfAccess <= 1) {
+    if (id && (req.user.role.levelOfAccess === 2 || req.user.role.levelOfAccess === 1)) {
+      query.signaledBy = id
+    }
+
+    if (req.user.role.levelOfAccess < 1) {
       query.signaledBy = req.user._id
     }
     const reports = await Reports.find(query).populate('signaledBy').populate('usersSignaled')

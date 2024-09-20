@@ -789,12 +789,56 @@ paths:
       summary: Delete a user
       description: >
         Either deletes a user or set it inactive
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: user id
       requestBody:
         required: true
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/DeleteUser'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '422':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotFound'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/activateUser/{id}:
+    post:
+      tags:
+        - adm
+      summary: Activate a user
+      description: >
+        Sets a user active
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: user id
       responses:
         '200':
           description: Successful operation
@@ -1291,6 +1335,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NoHelpNumberCategoryForId'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
+  /adm/studentAnalysisReport:
+    get:
+      tags:
+        - adm
+      summary: Download the PDF file for the student analysis report
+      description: >
+        Download the PDF file for the student analysis report.
+      parameters:
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Date from which the report will start.
+          example: "2024-06-13T13:28:29.365Z"
+        - name: too
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Date which will define the end of the report.
+          example: "2024-06-13T13:28:29.365Z"
+      responses:
+        '200':
+          description: Successful operation
         '500':
           description: Internal Server Error
           content:
@@ -2373,6 +2450,48 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - x-auth-token: [ ]
+  /shared/moods/userSeen/{id}:
+    post:
+      tags:
+        - shared
+      summary: Set a moods as seen
+      description: Set a mood as seen
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the mood
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invalidRequest'
+        '403':
+          description: forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/forbidden'
+        '422':
+          description: No moods find
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoMoodsFind'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - x-auth-token: [ ]
 
 components:
   schemas:
@@ -3411,6 +3530,12 @@ components:
         '2024-02-25':
           type: number
           example: 50
+    NoMoodsFind:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "No moods found"
     ok:
       type: object
       properties:
@@ -3423,6 +3548,18 @@ components:
         message:
           type: string
           example: "Internal Server Error"
+    unauthorized:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Unauthorized"
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Forbidden"
   securitySchemes:
       x-auth-token:
         type: apiKey

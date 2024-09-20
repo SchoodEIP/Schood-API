@@ -45,6 +45,10 @@ const moods = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'facilities',
     required: true
+  },
+  seen: {
+    type: Boolean,
+    default: false
   }
 })
 
