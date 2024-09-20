@@ -65,8 +65,7 @@ const reportsSchema = new Schema({
   status: {
     type: String,
     enum: Status,
-    default: Status[2],
-    required: true
+    default: Status[2]
   },
   responseMessage: {
     type: String

@@ -15,14 +15,14 @@ module.exports = async (facility) => {
   const chatsToInit = [
     {
       facility: facility._id,
-      participants: [student1User._id, teacher1User._id, teacher2User._id],
+      participants: [ {user: student1User._id}, {user: teacher1User._id}, {user: teacher2User._id}],
       date: new Date('2024-02-24'),
       createdBy: student1User._id,
       title: 'Demande de soutien'
     },
     {
       facility: facility._id,
-      participants: [student2User._id, teacher2User._id],
+      participants: [{user: student2User._id}, {user: teacher2User._id}],
       date: new Date('2024-01-24'),
       createdBy: student2User._id,
       title: "Demande d'aide concernant la leçon de mathématique"
@@ -37,7 +37,7 @@ module.exports = async (facility) => {
       await chat.save()
 
       for (let index = 0; index < chatToInit.participants.length; index++) {
-        const participant = chatToInit.participants[index]
+        const participant = chatToInit.participants[index].user
         const createdBy = await Users.findById(chatToInit.createdBy)
         const date = chatToInit.date
 
