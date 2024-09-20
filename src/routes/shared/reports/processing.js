@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
     check.status = req.body.status
     check.responseMessage = req.body.responseMessage
 
-    await check.save();
+    await check.save()
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
