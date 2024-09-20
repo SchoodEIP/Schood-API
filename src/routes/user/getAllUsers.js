@@ -77,6 +77,20 @@ module.exports = async (req, res) => {
         }
       },
       {
+        $lookup: {
+          from: 'facilities',
+          localField: 'facility',
+          foreignField: '_id',
+          as: 'facility'
+        }
+      },
+      {
+        $unwind: {
+          path: '$facility',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
         $sort: {
           'role.levelOfAccess': -1
         }
