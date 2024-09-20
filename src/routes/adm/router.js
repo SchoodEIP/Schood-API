@@ -11,6 +11,7 @@ const helpNumbersRouter = require('./helpNumber/router')
 const helpNumberCategoriesRouter = require('./helpNumbersCategory/router')
 
 const individualReport = require('./studentAnalysisIndividualReport')
+const profileReport = require('./studentProfileReport')
 
 const register = require('./users/register')
 const csvRegisterUser = require('./users/csvRegisterUser')
@@ -35,6 +36,7 @@ router.use('/helpNumbersCategory', helpNumberCategoriesRouter)
 
 router.get('/studentAnalysisReport', studentAnalysisReport)
 router.get('/studentAnalysisReport/:id', individualReport)
+router.get('/studentProfileReport/:id', profileReport)
 
 router.post('/register/', upload10Tmp.single('file'), register)
 router.post('/csvRegisterUser', upload10Tmp.single('csv'), csvRegisterUser)
