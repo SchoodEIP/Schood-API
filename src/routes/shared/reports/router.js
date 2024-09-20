@@ -20,7 +20,7 @@ const processing = require('./processing')
  */
 
 router.post('/', register)
-router.post('/processing', access(2, true), processing)
+router.post('/processing/:id', access(2, true), processing)
 router.patch('/:id', modify)
 router.delete('/:id', access(2, true), delete_)
 router.get('/', get)

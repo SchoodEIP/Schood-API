@@ -30,8 +30,10 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    check.type = req.body.type
+    check.status = req.body.status
     check.responseMessage = req.body.responseMessage
+
+    await check.save();
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
