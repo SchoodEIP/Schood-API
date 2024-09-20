@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
           from: 'users',
           localField: 'participants.user',
           foreignField: '_id',
-          as: 'participants.user'
+          as: 'participants'
         }
       },
       {
@@ -57,10 +57,10 @@ module.exports = async (req, res) => {
 
     chats.forEach(chat => {
       chat.participants.sort((a, b) => {
-        if (a.user.firstname < b.user.firstname) {
+        if (a.firstname < b.firstname) {
           return -1
         }
-        if (a.user.firstname > b.user.firstname) {
+        if (a.firstname > b.firstname) {
           return 1
         }
         return 0
