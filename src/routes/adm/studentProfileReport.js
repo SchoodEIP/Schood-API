@@ -187,25 +187,24 @@ const buildAggregationDailyMood = (fromDate, toDate) => {
 }
 
 const getLastSeptemberFirst = () => {
-  const today = new Date();
-  const currentYear = today.getFullYear();
+  const today = new Date()
+  const currentYear = today.getFullYear()
 
   // Créer une date pour le 1er septembre de l'année en cours
-  const septemberFirstThisYear = new Date(currentYear, 8, 1); // Mois 8 correspond à septembre (0-indexé)
+  const septemberFirstThisYear = new Date(currentYear, 8, 1) // Mois 8 correspond à septembre (0-indexé)
 
   // Si aujourd'hui est avant le 1er septembre de cette année, retourner le 1er septembre de l'année précédente
   if (today < septemberFirstThisYear) {
-      return new Date(currentYear - 1, 8, 1);
+    return new Date(currentYear - 1, 8, 1)
   }
 
   // Sinon, retourner le 1er septembre de cette année
-  return septemberFirstThisYear;
+  return septemberFirstThisYear
 }
 
-
 const dailyMood = async (doc, id) => {
-  const fromDate = getLastSeptemberFirst();
-  const toDate = new Date();
+  const fromDate = getLastSeptemberFirst()
+  const toDate = new Date()
 
   const agg = buildAggregationDailyMood(fromDate, toDate)
   const response = {}
@@ -240,8 +239,8 @@ const dailyMood = async (doc, id) => {
 }
 
 const createdMoods = async (doc, id) => {
-  const fromDate = getLastSeptemberFirst();
-  const toDate = new Date();
+  const fromDate = getLastSeptemberFirst()
+  const toDate = new Date()
 
   const agg = { date: {} }
 
@@ -297,8 +296,8 @@ const createdMoods = async (doc, id) => {
 }
 
 const answeredQuestionnaires = async (doc, student) => {
-  const fromDate = getLastSeptemberFirst();
-  const toDate = new Date();
+  const fromDate = getLastSeptemberFirst()
+  const toDate = new Date()
 
   const agg = [
     {
@@ -339,7 +338,7 @@ const answeredQuestionnaires = async (doc, student) => {
     return doc
   }
 
-  doc.font(bold).fontSize(12).text('L\'élève depuis le début de l\'année scolaire a répondu à ' + answers.length + " sur " + questionnaires.length + ' questionnaires', {
+  doc.font(bold).fontSize(12).text('L\'élève depuis le début de l\'année scolaire a répondu à ' + answers.length + ' sur ' + questionnaires.length + ' questionnaires', {
     align: 'left'
   })
   doc.moveDown()
@@ -348,9 +347,9 @@ const answeredQuestionnaires = async (doc, student) => {
 }
 
 const createdReports = async (doc, id) => {
-  const fromDate = getLastSeptemberFirst();
-  const toDate = new Date();
-  
+  const fromDate = getLastSeptemberFirst()
+  const toDate = new Date()
+
   const agg = { createdAt: {} }
 
   const convertedFromDate = new Date(fromDate)
@@ -362,8 +361,8 @@ const createdReports = async (doc, id) => {
   if (toDate && convertedToDate !== null) {
     agg.createdAt.$lte = convertedToDate
   }
-  let reports = await Reports.find({...agg, signaledBy: id})
-  
+  const reports = await Reports.find({ ...agg, signaledBy: id })
+
   doc.font(bold).fontSize(30).text('Signalements Créés', {
     align: 'center'
   })
