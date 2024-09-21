@@ -8,7 +8,6 @@ const router = express.Router()
 const userSeen = require('./userSeen')
 const moodsList = require('./moodsList')
 
-
 /**
  * Main router connection
  * @memberof module:router~mainRouter~sharedRouter
