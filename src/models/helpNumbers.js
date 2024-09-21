@@ -57,7 +57,7 @@ const HelpNumbers = mongoose.model('helpNumbers', helpNumbersSchema)
 const validateHelpNumbers = (helpNumber) => {
   const schema = Joi.object({
     name: Joi.string().required(),
-    telephone: Joi.string().min(10).max(10).regex(/^[0-9]+$/).optional(),
+    telephone: Joi.string().max(10).regex(/^[0-9]+$/).optional(),
     timetable: Joi.string().optional(),
     email: Joi.string().optional(),
     informations: Joi.string().optional(),
