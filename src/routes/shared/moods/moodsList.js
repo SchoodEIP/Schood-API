@@ -22,7 +22,7 @@ const Logger = require('../../../services/logger')
  */
 module.exports = async (req, res) => {
   try {
-    const moods = await Moods.find({ facility: req.user.facility}).populate('user').sort({ date: -1 })
+    const moods = await Moods.find({ facility: req.user.facility }).populate('user').sort({ date: -1 })
 
     return res.status(200).json(moods.map((mood) => sanitizeMood(mood)))
   } catch (error) /* istanbul ignore next */ {
