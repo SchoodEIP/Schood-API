@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
     const { originalname, mimetype, path } = req.file
     const binaryData = fs.readFileSync(path) // Access the binary data from multer
 
-    if (!chat.participants.includes(req.user._id)) {
+    if (!chat.participants.find((user) => user.user.equals(req.user._id))) {
       return res.status(422).json({ message: 'User does not participate in this chat' })
     }
 

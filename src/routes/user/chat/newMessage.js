@@ -3,6 +3,7 @@
  * @inner
  * @namespace newMessage
  */
+const { default: mongoose } = require('mongoose')
 const { Chats } = require('../../../models/chat')
 const { Messages, validateMessages } = require('../../../models/message')
 const Logger = require('../../../services/logger')
@@ -36,7 +37,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    if (!chat.participants.includes(req.user._id)) {
+    if (!chat.participants.find((user) => user.user.equals(req.user._id))) {
       return res.status(422).json({ message: 'User does not participate in this chat' })
     }
 

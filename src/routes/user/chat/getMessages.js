@@ -31,12 +31,12 @@ module.exports = async (req, res) => {
     if (!chat || chat.length === 0) return res.status(400).json({ message: 'Invalid request' })
     const user = await Users.findById(req.user._id)
     if (!user) return res.status(400).json({ message: 'Invalid request' })
-    const chatUser = chat.participants.find((p) => String(p.user) === String(req.user._id))
+    const chatUser = chat.participants.find((p) => p.user.equals(req.user._id))
 
     const messages = []
     for (const messageId of chat.messages) {
       const message = await Messages.findById(messageId)
-      if ((new Date(message.date)).getTime() > (new Date(chatUser.canSeeAfter)).getTime()) {
+      if ((new Date(message.date)).getTime() >= (new Date(chatUser.canSeeAfter)).getTime()) {
         messages.push(message)
       }
     }

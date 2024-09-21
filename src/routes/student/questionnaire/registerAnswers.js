@@ -49,7 +49,6 @@ module.exports = async (req, res) => {
     // Check if not already answered
     const answersCheck = await Answers.findOne({ questionnaire: questionnaireId, createdBy: req.user._id })
     if (answersCheck) {
-      console.log(answersCheck)
       return res.status(400).json({ message: 'Invalid request3' })
     }
 
