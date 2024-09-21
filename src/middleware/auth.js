@@ -35,6 +35,9 @@ module.exports = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({ message: 'Invalid token' })
     }
+    if (!user.active) {
+      return res.status(403).json({ message: 'Cet utilisateur est suspendu.' })
+    }
     req.user = user
 
     next()

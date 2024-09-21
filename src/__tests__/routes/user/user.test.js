@@ -69,6 +69,20 @@ describe('User route tests', () => {
         .expect(400)
     })
 
+    it('POST /user/login => Try inactive user', async () => {
+      const user = await Users.findOne({ email: 'alice.johnson.Schood1@schood.fr' })
+
+      user.active = false
+      user.save()
+      return await request(app)
+        .post('/user/login')
+        .send({
+          email: 'alice.johnson.Schood1@schood.fr',
+          password: 'Alice_123'
+        })
+        .expect(403)
+    })
+
     it('POST /adm/register => Try bad token', async () => {
       const key = 'nope'
       return await request(app)
