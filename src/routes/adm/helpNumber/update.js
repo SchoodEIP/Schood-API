@@ -34,11 +34,12 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const helpNumberToUpdate = await HelpNumbers.findOne({ _id: id })
+    const helpNumberToUpdate = await HelpNumbers.findOne({ _id: id, facility: req.user.facility._id, })
     if (!helpNumberToUpdate) return res.status(422).json({ message: 'Class not found' })
     const tmp = await HelpNumbers.findOne({
       name: req.body.name,
-      facility: req.user.facility._id
+      facility: req.user.facility._id,
+      _id: { $nin: [id] }
     })
     if (tmp && tmp._id !== id) return res.status(422).json({ message: 'This name is already used' })
 
