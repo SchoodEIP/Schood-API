@@ -43,6 +43,10 @@ module.exports = async (req, res) => {
       return res.status(401).json({ message: 'Invalid username or password' })
     }
 
+    if (!user.active) {
+      return res.status(403).json({ message: 'Cet utilisateur est suspendu.' })
+    }
+
     // Generate AuthToken
     const token = user.generateAuthToken()
     const firstConnexion = user.firstConnexion

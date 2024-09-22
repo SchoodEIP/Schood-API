@@ -10,9 +10,9 @@ module.exports = async (clients, chatId, messageSender) => {
 
     const chat = await Chats.findById(chatId)
     for (const participant of chat.participants) {
-      if (participant.equals(messageSender)) continue
+      if (participant.user.equals(messageSender)) continue
 
-      clients[participant]?.send(JSON.stringify({
+      clients[participant.user]?.send(JSON.stringify({
         method: 'messageChat',
         data: chatId
       }))

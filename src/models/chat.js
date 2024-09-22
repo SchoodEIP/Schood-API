@@ -59,13 +59,14 @@ const Chats = mongoose.model('chats', chatsSchema)
 const validateChats = (chat) => {
   const schema = Joi.object({
     participants: Joi.array().required(),
-    title: Joi.string()
+    title: Joi.string(),
+    canSeeAfter: Joi.string()
   })
   return schema.validate(chat)
 }
 
 const removeUserFromChat = async (chat, user, res = null) => {
-  const idx = chat.participants.findIndex(u => u.equals(user._id))
+  const idx = chat.participants.findIndex(u => u.user.equals(user._id))
   if (idx === -1) return res ? res.status(422).json({ message: 'User not in chat' }) : null
 
   chat.participants.splice(idx, 1)
@@ -74,7 +75,7 @@ const removeUserFromChat = async (chat, user, res = null) => {
     await Chats.findByIdAndDelete(chat._id)
   } else {
     if (chat.createdBy.equals(user._id)) {
-      chat.createdBy = chat.participants[0]
+      chat.createdBy = chat.participants[0].user
     }
     await deleteMessageFromUserInChat(chat, user)
     await Chats.findByIdAndUpdate(chat._id, chat)

@@ -191,7 +191,6 @@ module.exports = async (req, res) => {
       Users.findOne({ facility: req.user.facility, role: analyseRole._id }),
       Users.findOne({ facility: req.user.facility, _id: id }).populate('classes')
     ])
-    console.log(student)
     if (!student || student.length === 0) return res.status(404).json({ message: `User not found: ${id}.` })
 
     const query = { signaledBy: analyseUser._id, usersSignaled: id }

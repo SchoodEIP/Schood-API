@@ -35,7 +35,6 @@ module.exports = async (req, res) => {
           use_filename: true
         }).then((result) => {
           user.picture = result.secure_url
-          console.log(result)
           resolve()
         })
       })

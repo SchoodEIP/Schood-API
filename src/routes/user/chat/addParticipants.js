@@ -34,16 +34,16 @@ module.exports = async (req, res) => {
 
     const chat = await Chats.findById(id)
     if (!chat || chat.length === 0) return res.status(400).json({ message: 'Invalid request' })
-    if (!chat.participants.find((p) => p.user === req.user._id)) return res.status(400).json({ message: 'User not in chat' })
+    if (!chat.participants.find((p) => p.user.equals(req.user._id))) return res.status(400).json({ message: 'User not in chat' })
 
     const failedIds = []
     const alreadyInChat = []
     for (const p of req.body.participants) {
-      const user = await Users.findById(p.user)
+      const user = await Users.findById(p)
 
       if (!user || user.length === 0) {
         failedIds.push(p)
-      } else if (chat.participants.find((p2) => p2.user === p)) {
+      } else if (chat.participants.find((p2) => p2.user.equals(p))) {
         alreadyInChat.push(p)
       }
     }
