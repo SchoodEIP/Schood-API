@@ -38,7 +38,8 @@ module.exports = async (req, res) => {
     if (!helpNumberToUpdate) return res.status(422).json({ message: 'Class not found' })
     const tmp = await HelpNumbers.findOne({
       name: req.body.name,
-      facility: req.user.facility._id
+      facility: req.user.facility._id,
+      _id: { $not: id }
     })
     if (tmp && tmp._id !== id) return res.status(422).json({ message: 'This name is already used' })
 
