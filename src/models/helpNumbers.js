@@ -62,7 +62,7 @@ const validateHelpNumbers = (helpNumber) => {
     email: Joi.string().optional(),
     informations: Joi.string().optional(),
     address: Joi.string().optional(),
-    helpNumbersCategory: Joi.required(),
+    helpNumbersCategory: Joi.optional(),
     description: Joi.string().optional()
   })
   return schema.validate(
