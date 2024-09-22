@@ -30,6 +30,9 @@ module.exports = async (req, res) => {
         },
         {
           role: req.user.role._id
+        },
+        {
+          createdBy: req.user._id
         }
       ],
       facility: req.user.facility
