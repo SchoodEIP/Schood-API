@@ -29,6 +29,7 @@ module.exports = async (req, res) => {
     if (!id || !mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid request' })
     const { error } = validateRegister(req.body)
     if (error) {
+      console.log(error)
       return res.status(400).json({ message: 'Invalid request' })
     }
 

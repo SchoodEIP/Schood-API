@@ -40,7 +40,8 @@ module.exports = async (req, res) => {
       name: req.body.name,
       facility: req.user.facility._id
     })
-    if (tmp && tmp._id !== id) return res.status(422).json({ message: 'This name is already used' })
+
+    if (tmp && tmp._id.toString() !== id.toString()) return res.status(422).json({ message: 'This name is already used' })
 
     if (req.body.name) helpNumberToUpdate.name = req.body.name
     if (req.body.telephone) helpNumberToUpdate.telephone = req.body.telephone
