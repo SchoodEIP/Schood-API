@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
         desanonym.createdBy.facility = undefined
         desanonym.createdBy.role = undefined
       }
-    });
+    })
 
     return res.status(200).json(desanonyms)
   } catch (error) /* istanbul ignore next */ {

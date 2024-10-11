@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
     })
     await desanonym.save()
 
-    await createNotification(req.body.user, 'Nouvelle demande de désanonymisation', 'Une nouvelle demande de désanonymisation à été créé par ' +  req.user.firstname + ' ' + req.user.lastname, 'desanonyms', desanonym._id, req.user.facility)
+    await createNotification(req.body.user, 'Nouvelle demande de désanonymisation', 'Une nouvelle demande de désanonymisation à été créé par ' + req.user.firstname + ' ' + req.user.lastname, 'desanonyms', desanonym._id, req.user.facility)
 
     return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {

@@ -125,7 +125,7 @@ const checkCsvBody = async (user, csv) => {
     if (row.firstname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.firstname)) addError("Le prénom n'est pas valide", index)
     if (row.lastname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.lastname)) addError("Le nom de famille n'est pas valide", index)
     if (row.email.length === 0 || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(row.email)) addError("L'email n'est pas valide", index)
-    if ((user.role.levelOfAccess === 3 && row.role !== 'administration' ) || (user.role.levelOfAccess === 2 && row.role === 'administration' ) || row.role.length === 0 || !['student', 'teacher', 'administration'].includes(row.role.toLowerCase())) addError("Le rôle n'est pas valide", index)
+    if ((user.role.levelOfAccess === 3 && row.role !== 'administration') || (user.role.levelOfAccess === 2 && row.role === 'administration') || row.role.length === 0 || !['student', 'teacher', 'administration'].includes(row.role.toLowerCase())) addError("Le rôle n'est pas valide", index)
     if (row.role !== 'administration' && row.classes.length === 0) addError("La classe n'est pas valide", index)
     row.classes.forEach((className) => {
       if (row.role !== 'administration' && (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className))) { addError("La classe n'est pas valide", index) }

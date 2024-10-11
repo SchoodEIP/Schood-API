@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
     if (!student || student.length === 0) {
       return res.status(422).json({ message: 'User not found' })
     }
-    const answers = await Answers.find({createdBy: student._id}).populate('questionnaire').populate({
+    const answers = await Answers.find({ createdBy: student._id }).populate('questionnaire').populate({
       path: 'questionnaire',
       populate: [
         {
@@ -60,14 +60,14 @@ module.exports = async (req, res) => {
       if (answer.questionnaire.__v) {
         answer.questionnaire.__v = undefined
       }
-    
+
       if (levelOfAccess === 2 || (levelOfAccess === 1 && String(answer.questionnaire.createdBy._id) === String(req.user._id))) {
         if (answer.questionnaire.createdBy) {
           answer.questionnaire.createdBy = undefined
         }
         questionnaires.push(answer.questionnaire)
       }
-    });
+    })
 
     // Send questionnaire
     return res.status(200).json(questionnaires)
