@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
 
     if (checkCsvHeader(csv[0])) { return res.status(422).json({ message: 'Le header du csv est invalide' }) }
 
-    const error = await checkCsvBody(csv)
+    const error = await checkCsvBody(req.user, csv)
     if (error.length !== 0) {
       return res.status(422).json(error)
     }
@@ -76,7 +76,9 @@ const convertCsv = async (filepath) => {
         .pipe(csvParser())
         .on('data', (data) => csv.push(data))
         .on('end', () => {
-          resolve(csv?.map(row => { return { ...row, classes: row.class.split(':') } }))
+          resolve(csv?.map(row => {
+            return { ...row, classes: row.class && row.class.length > 0 ? row.class.split(':') : [] }
+          }))
         })
     } catch (e) /* istanbul ignore next */ {
       resolve(null)
@@ -93,7 +95,9 @@ const checkCsvHeader = (row) => {
   const keys = ['firstname', 'lastname', 'email', 'role', 'class', 'classes', 'title', 'picture']
 
   for (const key of Object.keys(row)) {
-    if (!keys.includes(key)) { return true }
+    if (!keys.includes(key)) {
+      return true
+    }
   }
   return false
 }
@@ -103,7 +107,7 @@ const checkCsvHeader = (row) => {
  * @param {Array<Object>} csv
  * @returns {Promise<Array>} Returns an empty array if there is no errors, otherwise returns an array filled with objects containing row of error, type of error and which User the error is coming from
  */
-const checkCsvBody = async (csv) => {
+const checkCsvBody = async (user, csv) => {
   const error = []
 
   /**
@@ -121,10 +125,10 @@ const checkCsvBody = async (csv) => {
     if (row.firstname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.firstname)) addError("Le prénom n'est pas valide", index)
     if (row.lastname.length === 0 || !/^([a-zA-Z]| |-)+$/.test(row.lastname)) addError("Le nom de famille n'est pas valide", index)
     if (row.email.length === 0 || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(row.email)) addError("L'email n'est pas valide", index)
-    if (row.role.length === 0 || !['student', 'teacher', 'administration'].includes(row.role.toLowerCase())) addError("Le rôle n'est pas valide", index)
-    if (row.classes.length === 0) addError("La classe n'est pas valide", index)
+    if ((user.role.levelOfAccess === 3 && row.role !== 'administration' ) || (user.role.levelOfAccess === 2 && row.role === 'administration' ) || row.role.length === 0 || !['student', 'teacher', 'administration'].includes(row.role.toLowerCase())) addError("Le rôle n'est pas valide", index)
+    if (row.role !== 'administration' && row.classes.length === 0) addError("La classe n'est pas valide", index)
     row.classes.forEach((className) => {
-      if (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className)) { addError("La classe n'est pas valide", index) }
+      if (row.role !== 'administration' && (className === 0 || !/^([a-zA-Z0-9]| |-)+$/.test(className))) { addError("La classe n'est pas valide", index) }
     })
     if (row.role === 'student' && row.classes.length > 1) addError("Un étudiant ne peut avoir qu'une classe", index)
 
@@ -142,10 +146,12 @@ const checkCsvBody = async (csv) => {
       emails.push(row.email)
     }
 
-    for (const class_ of row.classes) {
-      const foundClass = await Classes.findOne({ name: class_ })
-      if (!foundClass) {
-        addError(`La classe ${class_} n'existe pas`, index)
+    if (row.role !== 'administration') {
+      for (const class_ of row.classes) {
+        const foundClass = await Classes.findOne({ name: class_ })
+        if (!foundClass) {
+          addError(`La classe ${class_} n'existe pas`, index)
+        }
       }
     }
   }
