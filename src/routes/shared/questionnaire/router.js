@@ -7,6 +7,7 @@ const router = express.Router()
 
 const getQuestionnaires = require('./getQuestionnaires')
 const getInformations = require('./getInformations')
+const getstudentQuestionnairesInformations = require('./getstudentQuestionnairesInformations')
 const getStatusLastTwo = require('./getStatusLastTwo')
 
 /**
@@ -19,5 +20,6 @@ const getStatusLastTwo = require('./getStatusLastTwo')
 router.get('/', getQuestionnaires)
 router.get('/statusLastTwo', getStatusLastTwo)
 router.get('/:id', getInformations)
+router.get('/studentQuestionnaires/:id', getstudentQuestionnairesInformations)
 
 module.exports = router
