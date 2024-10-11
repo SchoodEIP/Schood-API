@@ -7,7 +7,7 @@ const router = express.Router()
 
 const questionaireRouter = require('./questionnaire/router')
 const reportRouter = require('./reports/router')
-const reportRouter = require('./desanonym/router')
+const desanonymRouter = require('./desanonym/router')
 const notificationsRouter = require('./notifications/router')
 const alertSystemRouter = require('./alertSystem/router')
 const classesRouter = require('./classes/router')
