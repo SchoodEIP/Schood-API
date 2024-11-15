@@ -34,7 +34,14 @@ module.exports = async (req, res) => {
     if (req.user.role.levelOfAccess < 1) {
       query.signaledBy = req.user._id
     }
-    const reports = await Reports.find(query).populate('signaledBy').populate('usersSignaled')
+    const reports = await Reports.find(query).populate('signaledBy').populate('usersSignaled').populate('conversation').populate({
+      path: 'conversation',
+      populate: [
+        {
+          path: 'participants.user'
+        }
+      ]
+    })
 
     return res.status(200).json(reports)
   } catch (error) /* istanbul ignore next */ {

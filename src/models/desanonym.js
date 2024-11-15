@@ -60,7 +60,7 @@ const validateDesanonyms = (alert) => {
   const schema = Joi.object({
     user: Joi.string().required(),
     reason: Joi.string().optional(),
-    message: Joi.string().optional(),
+    message: Joi.string().optional()
   })
   return schema.validate(alert)
 }
@@ -69,7 +69,7 @@ const validateModify = (alert) => {
   const schema = Joi.object({
     reason: Joi.string().optional(),
     message: Joi.string().optional(),
-    status: Joi.string().optional(),
+    status: Joi.string().optional()
   })
   return schema.validate(alert)
 }
