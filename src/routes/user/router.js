@@ -26,6 +26,7 @@ const tokenCheck = require('./tokenCheck')
 const downloadApk = require('./downloadApk')
 const { upload10Tmp } = require('../../utils/multer')
 const getMoodById = require('./getMoodById')
+const getDisabled = require("./getDisabled");
 
 /**
  * User router connection
@@ -50,6 +51,7 @@ router.get('/tokenCheck', auth, tokenCheck)
 router.get('/downloadApk', downloadApk)
 router.patch('/:id', auth, access(1), updateUser)
 router.get('/mood', auth, getMoodById)
+router.get('/getDisabled', auth, access(2, false) , getDisabled)
 
 // helpNumbers
 router.get('/helpNumbers', auth, getAllHelpNumbers)
