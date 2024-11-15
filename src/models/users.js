@@ -67,8 +67,8 @@ const usersSchema = new Schema({
 usersSchema.set('timestamps', true)
 
 // We generate an auth token for user
-usersSchema.methods.generateAuthToken = function () {
-  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
+usersSchema.methods.generateAuthToken = function (rememberMe) {
+  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: rememberMe ? '7d' : '60m' })
 }
 
 // We create users collection from usersSchema
@@ -79,7 +79,8 @@ const Users = mongoose.model('users', usersSchema)
 const validateUser = (user) => {
   const schema = Joi.object({
     email: Joi.string().required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
+    rememberMe: Joi.boolean().required(),
   })
   return schema.validate(user)
 }

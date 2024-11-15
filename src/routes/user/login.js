@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
     }
 
     // Generate AuthToken
-    const token = user.generateAuthToken()
+    const token = user.generateAuthToken(req.body.rememberMe)
     const firstConnexion = user.firstConnexion
 
     // Send token
