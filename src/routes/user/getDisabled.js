@@ -14,7 +14,7 @@ const random = require('random-string-generator')
 const Logger = require('../../services/logger')
 const { Titles } = require('../../models/titles')
 const cloudinary = require('cloudinary')
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 /**
  * Main get_disabled function
@@ -33,9 +33,9 @@ module.exports = async (req, res) => {
   try {
     const isAdmin = req.user.role.levelOfAccess === 3
     const roles = (
-        isAdmin ?
-            await Roles.find({ levelOfAccess: 2 }) :
-            await Roles.find({ name: { $in: ['student', 'teacher'] } })
+      isAdmin
+        ? await Roles.find({ levelOfAccess: 2 })
+        : await Roles.find({ name: { $in: ['student', 'teacher'] } })
     ).map(o => o._id)
     if (!roles || roles.length === 0) return res.status(400).json({ message: 'Internal server error: No roles found.' })
 
