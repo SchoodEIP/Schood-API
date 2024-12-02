@@ -3,7 +3,7 @@
  * @inner
  * @namespace newMessage
  */
-const { default: mongoose } = require('mongoose')
+
 const { Chats } = require('../../../models/chat')
 const { Messages, validateMessages } = require('../../../models/message')
 const Logger = require('../../../services/logger')

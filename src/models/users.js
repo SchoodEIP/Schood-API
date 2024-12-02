@@ -80,7 +80,7 @@ const validateUser = (user) => {
   const schema = Joi.object({
     email: Joi.string().required(),
     password: Joi.string().required(),
-    rememberMe: Joi.boolean().required(),
+    rememberMe: Joi.boolean().required()
   })
   return schema.validate(user)
 }
