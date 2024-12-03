@@ -24,6 +24,10 @@ const desanonymsSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'users'
   },
+  mood: {
+    type: mongoose.Types.ObjectId,
+    ref: 'moods'
+  },
   reason: {
     type: String,
     required: false
@@ -59,6 +63,7 @@ const Desanonyms = mongoose.model('desanonyms', desanonymsSchema)
 const validateDesanonyms = (alert) => {
   const schema = Joi.object({
     user: Joi.string().required(),
+    mood: Joi.string().required(),
     reason: Joi.string().optional(),
     message: Joi.string().optional()
   })

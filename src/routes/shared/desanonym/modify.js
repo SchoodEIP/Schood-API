@@ -6,6 +6,7 @@
 
 const { default: mongoose } = require('mongoose')
 const { Desanonyms, validateModify } = require('../../../models/desanonym')
+const { Moods } = require('../../../models/moods')
 
 /**
  * Main desanonyms function
@@ -30,7 +31,7 @@ module.exports = async (req, res) => {
     }
 
     if (req.user.role.levelOfAccess === 0) {
-      if (req.body.reason || res.body.message) {
+      if (req.body.reason || req.body.message) {
         return res.status(400).json({ message: 'Invalid request' })
       }
     }
@@ -52,6 +53,14 @@ module.exports = async (req, res) => {
     desanonym.reason = req.body.reason ? req.body.reason : desanonym.reason
     desanonym.message = req.body.message ? req.body.message : desanonym.message
     desanonym.status = req.body.status ? req.body.status : desanonym.status
+
+    if (req.body.status && req.body.status === 'accepted') {
+      const mood = await Moods.findById(desanonym.mood)
+
+      mood.annonymous = false;
+
+      await mood.save();
+    }
 
     await desanonym.save()
 
