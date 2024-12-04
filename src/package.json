@@ -60,7 +60,7 @@
     "nodemailer": "^6.9.15",
     "nodemailer-express-handlebars": "6.1.2",
     "nodemon": "^3.1.7",
-    "pdfkit": "^0.15.0",
+    "pdfkit": "^0.15.1",
     "random-string-generator": "^1.0.1",
     "semver": "^7.6.3",
     "standard": "^17.1.2",
