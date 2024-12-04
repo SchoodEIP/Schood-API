@@ -57,9 +57,9 @@ module.exports = async (req, res) => {
     if (req.body.status && req.body.status === 'accepted') {
       const mood = await Moods.findById(desanonym.mood)
 
-      mood.annonymous = false;
+      mood.annonymous = false
 
-      await mood.save();
+      await mood.save()
     }
 
     await desanonym.save()
