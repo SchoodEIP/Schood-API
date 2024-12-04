@@ -33,9 +33,9 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
-    const classToUpdate = await Classes.findOne({ _id: id })
+    const classToUpdate = await Classes.findById(id)
     if (!classToUpdate) return res.status(422).json({ message: 'Class not found' })
-    const tmp = await Classes.findOne({ name: req.body.name })
+    const tmp = await Classes.findOne({ name: req.body.name, facility: req.user.facility })
     if (tmp) return res.status(422).json({ message: 'This name is already used' })
 
     classToUpdate.name = req.body.name

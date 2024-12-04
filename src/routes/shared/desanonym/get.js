@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
     if (req.user.role.levelOfAccess === 0) {
       query.user = req.user._id
     }
-    const desanonyms = await Desanonyms.find(query).populate('createdBy').populate('user')
+    const desanonyms = await Desanonyms.find(query).populate('createdBy').populate('user').populate('mood')
 
     desanonyms.forEach(desanonym => {
       if (desanonym.user) {

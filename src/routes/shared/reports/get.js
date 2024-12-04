@@ -39,8 +39,11 @@ module.exports = async (req, res) => {
       populate: [
         {
           path: 'participants.user'
+        },
+        {
+          path: 'messages'
         }
-      ]
+      ],
     })
 
     return res.status(200).json(reports)

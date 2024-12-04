@@ -8,6 +8,7 @@ const { default: mongoose } = require('mongoose')
 const { validateDesanonyms, Desanonyms } = require('../../../models/desanonym')
 const { Users } = require('../../../models/users')
 const { createNotification } = require('../../../services/notification')
+const { Moods } = require('../../../models/moods')
 
 /**
  * Main desanonyms function
@@ -36,8 +37,14 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' })
     }
 
+    const mood = await Moods.findById(req.body.mood)
+    if (!mood) {
+      return res.status(400).json({ message: 'Invalid request' })
+    }
+
     const desanonym = new Desanonyms({
       user: req.body.user,
+      mood: req.body.mood,
       createdBy: new mongoose.Types.ObjectId(req.user._id),
       message: req.body.message ? req.body.message : '',
       reason: req.body.reason ? req.body.reason : '',
