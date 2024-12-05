@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
         {
           path: 'messages'
         }
-      ],
+      ]
     })
 
     return res.status(200).json(reports)
