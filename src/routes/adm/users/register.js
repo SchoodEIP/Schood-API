@@ -94,7 +94,7 @@ module.exports = async (req, res) => {
 
     // Generating the hash for the password
     const password = random(10, 'alphanumeric')
-    await bcrypt.hash(password, 10)
+    return await bcrypt.hash(password, 10)
       .then(async (hash) => {
         // We create the user
         const user = new Users({
@@ -124,9 +124,8 @@ module.exports = async (req, res) => {
             connect: true
           })
         }
+        return res.status(200).json({id: user._id})
       })
-
-    return res.status(200).send()
   } catch (error) /* istanbul ignore next */ {
     Logger.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
