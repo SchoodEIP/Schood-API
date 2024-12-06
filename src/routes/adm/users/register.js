@@ -124,7 +124,7 @@ module.exports = async (req, res) => {
             connect: true
           })
         }
-        return res.status(200).json({id: user._id})
+        return res.status(200).json({ id: user._id })
       })
   } catch (error) /* istanbul ignore next */ {
     Logger.error(error)
